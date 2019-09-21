@@ -1,0 +1,20 @@
+{
+  "name": "franbot-reborn",
+  "version": "0.0.1",
+  "description": "Franzbot is a Discord bot for zu.",
+  "main": "app.js",
+  "dependencies": {
+    "@discordjs/uws": "^11.149.1",
+    "better-sqlite3": "^5.4.3",
+    "chalk": "^2.4.2",
+    "discord.js": "^11.5.1",
+    "enmap": "^5.1.2",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
