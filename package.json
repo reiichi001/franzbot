@@ -1,6 +1,6 @@
 {
   "name": "franbot-reborn",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Franzbot is a Discord bot for zu.",
   "main": "app.js",
   "dependencies": {
@@ -8,13 +8,21 @@
     "better-sqlite3": "^5.4.3",
     "chalk": "^2.4.2",
     "discord.js": "^11.5.1",
+    "eightball": "^1.0.1",
     "enmap": "^5.1.2",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "spliddit": "^2.1.1",
+    "stringz": "^2.0.0"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://reiichi001@bitbucket.org/reiichi001/franzbot-reborn.git"
+  },
+  "homepage": "https://bitbucket.org/reiichi001/franzbot-reborn#readme"
 }

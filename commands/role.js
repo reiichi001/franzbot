@@ -3,26 +3,26 @@ exports.run = (client, message, args) => {
 	
 	if (args.length != 1)
 	{
-		message.reply("I didn't understand what you meant by that.");
+		message.reply("\u200B" + "I didn't understand what you meant by that.");
 	}
 	else 
 	{
 		let addThisRole = message.guild.roles.find(role => role.name === args[0]);
 		if (addThisRole == null)
 		{
-			message.reply("ERROR: Cannot find the role \""+args[0]+"\" on this server.");
+			message.reply("\u200B" + "ERROR: Cannot find the role \""+args[0]+"\" on this server.");
 		}
 		else
 		{
 			if (message.member.roles.has(addThisRole.id))
 			{
 				message.member.removeRole(addThisRole).catch(console.error);
-				message.reply("Removing role " + addThisRole.name + " for you.").then(msg => {msg.delete(5000)}).then(message.delete(5000));
+				message.reply("\u200B" + "Removing role " + addThisRole.name + " for you.").then(msg => {msg.delete(5000)}).then(message.delete(5000));
 			}
 			else
 			{
 				message.member.addRole(addThisRole).catch(console.error);
-				message.reply("Adding role " + addThisRole.name + " for you.").then(msg => {msg.delete(5000)}).then(message.delete(5000));
+				message.reply("\u200B" + "Adding role " + addThisRole.name + " for you.").then(msg => {msg.delete(5000)}).then(message.delete(5000));
 			}
 			
 		}

@@ -1,6 +1,6 @@
 exports.run = (client, message, args) => {
 	
-    message.channel.send( "https://google.com/search?q=" + args.join("+") ).catch(console.error);
+    message.channel.send( "\u200B" + "https://google.com/search?q=" + args.join("+") ).catch(console.error);
 }
 
 exports.conf = {

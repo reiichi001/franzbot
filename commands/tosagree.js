@@ -4,14 +4,14 @@ exports.run = (client, message, args) => {
 	let addThisRole = message.guild.roles.find(role => role.name === "test");
 	if (addThisRole == null)
 	{
-		message.reply("ERROR: Something has gone terribly wrong.");
+		message.reply("\u200B" + "ERROR: Something has gone terribly wrong.");
 	}
 	else
 	{
 		if (!message.member.roles.has(addThisRole.id))
 		{
 			message.member.addRole(addThisRole).catch(console.error);
-			message.reply("Adding role " + addThisRole.name + " for you.").then(msg => {msg.delete(5000)}).then(message.delete(5000));
+			message.reply("\u200B" + "Adding role " + addThisRole.name + " for you.").then(msg => {msg.delete(5000)}).then(message.delete(5000));
 		}
 	}
 		
