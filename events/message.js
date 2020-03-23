@@ -36,6 +36,8 @@ module.exports = async (client, message) => {
     return message.reply(`My prefix on this guild is \`${client.config.prefix}\``);
   }
 
+  //console.log(message.member.guild.iconURL.replace(".jpg",".webp?size=1024"));
+
   // Also good practice to ignore any message that does not start with our prefix,
   // which is set in the configuration file.
   if (message.content.indexOf(client.config.prefix) !== 0) return;

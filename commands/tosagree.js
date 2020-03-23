@@ -1,7 +1,7 @@
 exports.run = (client, message, args) => {
     // toggle a role for Zu
 	
-	let addThisRole = message.guild.roles.find(role => role.name === "test");
+	let addThisRole = message.guild.roles.find(role => role.name === "Guest");
 	if (addThisRole == null)
 	{
 		message.reply("\u200B" + "ERROR: Something has gone terribly wrong.");
@@ -11,7 +11,9 @@ exports.run = (client, message, args) => {
 		if (!message.member.roles.has(addThisRole.id))
 		{
 			message.member.addRole(addThisRole).catch(console.error);
-			message.reply("\u200B" + "Adding role " + addThisRole.name + " for you.").then(msg => {msg.delete(5000)}).then(message.delete(5000));
+			message.reply("\u200B" + "Adding role " + addThisRole.name + " for you.")
+				.then(msg => {msg.delete(5000)})
+				.then(message.delete(5000));
 		}
 	}
 		

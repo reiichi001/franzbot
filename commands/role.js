@@ -10,7 +10,7 @@ exports.run = (client, message, args) => {
 		let addThisRole = message.guild.roles.find(role => role.name === args[0]);
 		if (addThisRole == null)
 		{
-			message.reply("\u200B" + "ERROR: Cannot find the role \""+args[0]+"\" on this server.");
+			message.reply("\u200B" + "ERROR: Cannot find the role \""+args[0]+"\" on this server. Please check spelling and capitalization, or ask an Officer/Admin to set the role for you.");
 		}
 		else
 		{
