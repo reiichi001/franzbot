@@ -38,6 +38,11 @@ module.exports = async (client, message) => {
 
   //console.log(message.member.guild.iconURL.replace(".jpg",".webp?size=1024"));
 
+
+  //Code for the great triggering of Franzbot-Reborn goes here
+  
+  //This is the end of the great triggering.
+
   // Also good practice to ignore any message that does not start with our prefix,
   // which is set in the configuration file.
   if (message.content.indexOf(client.config.prefix) !== 0) return;
