@@ -42,9 +42,13 @@ module.exports = async (client, message) =>
 
     //Code for the great triggering of Franzbot-Reborn goes here
     arrayofchannel = [
-        485251347852165122, //franzbot testing - general
-        216954456045125632 //Zu - general
+        "485251347852165122", //franzbot testing - general
+        "216954456045125632" //Zu - general
     ];
+    console.log("Channel: " + message.channel.id);
+    console.log("Found in array: " + arrayofchannel.includes(message.channel.id));
+    
+    
     if ( arrayofchannel.includes(message.channel.id ) )
     {
         badword1 = /(corona|virus|covid)/ig;
@@ -104,7 +108,27 @@ module.exports = async (client, message) =>
         {
             if ( !message.member.roles.some(r=>["Admin", "test"].includes(r.name)) )
             {
-                message.reply("Please move this conversation out of the general channel. There are additional opt-in channels available on the discord for this topic. (This is an automated response based on the words you used and can be triggered accidentally.)");
+                    embedobj = {
+                      "embed": {
+                        "title": "Message Alert",
+                        "description": "Please move this conversation out of the general channel. There are additional opt-in channels available on the discord for this topic.",
+                        "color": 13632027,
+                        "footer": {
+                          "text": "This is an automated response based on the words you used and can be triggered accidentally."
+                        },
+                        "fields": [
+                          {
+                            "name": "Spoilers",
+                            "value": "Please enable the Discussion role to talk about spoilers."
+                          },
+                          {
+                            "name": "IRL",
+                            "value": `Please enable the IRL role and discuss this topic in ${member.guild.channels.find(c => c.id === "690416629913223208")}`
+                          }
+                        ]
+                      }
+                    }
+                message.reply(embedobj);
             }
             return;
         }
