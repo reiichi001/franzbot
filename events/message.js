@@ -41,68 +41,76 @@ module.exports = async (client, message) =>
 
 
     //Code for the great triggering of Franzbot-Reborn goes here
-	
-	badword1 = /(corona|virus|covid)/ig;
-	//badword2 = /(torrent|pirat|free|copy|copies|download|ISO)+(?!.*\1)/ig;
-	goodwords = /(computer|beer)+/ig;
-	
-	goodwordweight = 0;
-	hadbadword1 = false;
-	hadbadword2 = 0;
-
-	wordset = new Set();
-	
-	results1 = message.content.match(badword1);
-	if (results1 != null)
-	{
-		results1.forEach( (result) =>
-		{	
-				
-				console.log("Matched a badword for client: " + result);
-				hadbadword1 = true;
-				wordset.add(result);
-		}
-		);
-	}
-
-	/*
-	results2 = message.content.match(badword2);
-	if (results2 != null)
-	{
-		results2.forEach( (result) =>
-        {
-
-			console.log("Matched a badword for obtain: " + result);
-			hadbadword2++;
-			wordset.add(result);
-        }
-        );
-	}
-	*/
-	
-	results3 = message.content.match(goodwords);
-	if (results3 != null)
-	{
-		results3.forEach( (result) =>
-		{
-			console.log("Matched a badword for client: " + result);
-			goodwordweight++;
-		}
-		);
-	}
-	
-	console.log("Bad wordset: " + wordset.size + " Goodwords: " + goodwordweight);
-
-    
-	//if ( hadbadword1 && hadbadword2 >= 2 && ( (wordset.size - goodwordweight) >= 2) )
-	if ( hadbadword1 && ( (wordset.size - goodwordweight) >= 1) )
+    arrayofchannel = [
+        485251347852165122, //franzbot testing - general
+        216954456045125632 //Zu - general
+    ];
+    if ( arrayofchannel.includes(message.channel.id ) )
     {
-		if ( !message.member.roles.some(r=>["Admin", "test"].includes(r.name)) )
-		{
-			message.reply("Please move this conversation out of the general channel. There are additional opt-in channels available on the discord for this topic. (This is an automated response based on the words you used and can be triggered accidentally.)");
-		}
-		return;
-	}
+        badword1 = /(corona|virus|covid)/ig;
+        //badword2 = /(torrent|pirat|free|copy|copies|download|ISO)+(?!.*\1)/ig;
+        goodwords = /(computer|beer)+/ig;
+        
+        goodwordweight = 0;
+        hadbadword1 = false;
+        hadbadword2 = 0;
+
+        wordset = new Set();
+        
+        results1 = message.content.match(badword1);
+        if (results1 != null)
+        {
+            results1.forEach( (result) =>
+            {    
+                    
+                    console.log("Matched a badword for client: " + result);
+                    hadbadword1 = true;
+                    wordset.add(result);
+            }
+            );
+        }
+
+        /*
+        results2 = message.content.match(badword2);
+        if (results2 != null)
+        {
+            results2.forEach( (result) =>
+            {
+
+                console.log("Matched a badword for obtain: " + result);
+                hadbadword2++;
+                wordset.add(result);
+            }
+            );
+        }
+        */
+        
+        results3 = message.content.match(goodwords);
+        if (results3 != null)
+        {
+            results3.forEach( (result) =>
+            {
+                console.log("Matched a badword for client: " + result);
+                goodwordweight++;
+            }
+            );
+        }
+        
+        console.log("Bad wordset: " + wordset.size + " Goodwords: " + goodwordweight);
+
+        
+        //if ( hadbadword1 && hadbadword2 >= 2 && ( (wordset.size - goodwordweight) >= 2) )
+        if ( hadbadword1 && ( (wordset.size - goodwordweight) >= 1) )
+        {
+            if ( !message.member.roles.some(r=>["Admin", "test"].includes(r.name)) )
+            {
+                message.reply("Please move this conversation out of the general channel. There are additional opt-in channels available on the discord for this topic. (This is an automated response based on the words you used and can be triggered accidentally.)");
+            }
+            return;
+        }
+    }
+    
+    
     //This is the end of the great triggering.
 
     // Also good practice to ignore any message that does not start with our prefix,
