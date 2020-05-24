@@ -8,28 +8,34 @@ exports.run = (client, message, args) =>
     }
     else
     {
-        let addThisRole = message.guild.roles.find(role => role.name === args[0]);
-        if (addThisRole == null)
+        let addThisRole = message.guild.roles.cache.find(role => role.name === args[0]);
+		console.log("the role is: " + addThisRole);
+		
+		
+        if (addThisRole == null || addThisRole == undefined)
         {
             message.reply("\u200B" + "ERROR: Cannot find the role \"" + args[0] + "\" on this server. Please check spelling and capitalization, or ask an Officer/Admin to set the role for you.");
         }
         else
         {
-            if (message.member.roles.has(addThisRole.id))
+			
+			
+            if (message.member.roles.cache.get(addThisRole.id))
             {
-                message.member.removeRole(addThisRole).catch(console.error);
+                message.member.roles.remove(addThisRole).catch(console.error);
                 message.reply("\u200B" + "Removing role " + addThisRole.name + " for you.").then(msg =>
                 {
-                    msg.delete(5000)
-                }).then(message.delete(5000));
+                    msg.delete({ timeout: 5000, reason: 'Cleaning up uneeded message' })
+                }).then(message.delete({ timeout: 5000, reason: 'Cleaning up uneeded message' }));
             }
             else
             {
-                message.member.addRole(addThisRole).catch(console.error);
+                message.member.roles.add(addThisRole).catch(console.error);
                 message.reply("\u200B" + "Adding role " + addThisRole.name + " for you.").then(msg =>
                 {
-                    msg.delete(5000)
-                }).then(message.delete(5000));
+                    msg.delete({ timeout: 5000, reason: 'Cleaning up uneeded message' })
+                }).then(message.delete({ timeout: 5000, reason: 'Cleaning up uneeded message' }));
+				
             }
 
         }

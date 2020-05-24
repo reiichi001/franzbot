@@ -7,6 +7,35 @@ help command, its extended help is shown.
 */
 exports.run = (client, message, args, level) =>
 {
+	
+	//Channel-specific markers
+	GoatTriggers = [
+		client.config.GUILDID_TESTING, //franzbot testing - general
+		client.config.GUILDID_GOAT //Goatplace - general
+	];
+	MeteorTriggers = [
+		client.config.GUILDID_TESTING, //franzbot testing - general
+		client.config.GUILDID_METEOR //Meteor - general
+	];
+	ZuTriggers = [
+		client.config.GUILDID_TESTING, //franzbot testing - general
+		client.config.GUILDID_ZU //Zu - general
+	];
+	
+	
+	if ( message.guild.id === client.config.GUILDID_GOAT )
+	{
+		message.reply("\u200B" + `Did you mean ${client.config.prefix}faq?`)
+			.then(message.delete({ timeout: 5000, reason: 'Cleaning up uneeded message' }));
+		return; //this command
+	}
+	if ( message.guild.id === client.config.GUILDID_METEOR )
+	{
+		message.reply("\u200B" + `Did you mean ${client.config.prefix}faq?`)
+			.then(message.delete({ timeout: 5000, reason: 'Cleaning up uneeded message' }));
+		return; //this command
+	}
+	
     // If no specific command is called, show all filtered commands.
     if (!args[0])
     {

@@ -1,6 +1,17 @@
 exports.run = async (client, message, args) =>
 { // eslint-disable-line no-unused-vars
 
+		ZuTriggers = [
+			client.config.GUILDID_TESTING, //franzbot testing - general
+			client.config.GUILDID_ZU //Zu - general
+		];
+		if ( !ZuTriggers.includes(message.guild.id ) )
+		{
+			message.reply("\u200B" + `this command doesn't work here.`)
+				.then(message.delete({ timeout: 5000, reason: 'Cleaning up uneeded message' }));
+			return; //this command
+		}
+
     var runes = require('stringz');
     let output = "\u200B(╯°□°）╯︵ ";
     let joinedargs = args.join(" ");
@@ -11,14 +22,22 @@ exports.run = async (client, message, args) =>
 
         useridstring = `<@${user.id}>`;
         usernickidstring = `<@!${user.id}>`;
+		
+		usernamestring = user.username;
+		usernickstring = message.guild.members.cache.get(user.id).nickname;
+		
+		if (usernickstring == undefined)
+		{
+			usernickstring = usernamestring;
+		}
+		
 
         console.log("User: " + user.id + "\n" +
-            "Nick: " + message.guild.member(user.id).nickname + "\n" +
-            "Name: " + user.username);
+            "Nick: " + usernickstring + "\n" +
+            "Name: " + usernamestring);
 
-        usernickname = message.guild.member(user.id).nickname;
-        joinedargs = joinedargs.replace(useridstring, user.username);
-        joinedargs = joinedargs.replace(usernickidstring, usernickname);
+        joinedargs = joinedargs.replace(useridstring, usernamestring);
+        joinedargs = joinedargs.replace(usernickidstring, usernickstring);
 
     });
 
@@ -41,7 +60,7 @@ exports.run = async (client, message, args) =>
     for (; c >= 0; --c)
     {
         ch = runifiedoutput[c];
-        console.log(ch);
+        //console.log(ch);
         result += chars[ch] || ch || "";
     }
 

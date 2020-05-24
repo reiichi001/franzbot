@@ -29,30 +29,160 @@ module.exports = async (client, message) =>
     // It's good practice to ignore other bots. This also makes your bot ignore itself
     // and not get into a spam loop (we call that "botception").
     if (message.author.bot) return;
+	
+	//Channel-specific markers
+	GoatTriggers = [
+		client.config.GUILDID_TESTING, //franzbot testing - general
+		client.config.GUILDID_GOAT //Goatplace - general
+	];
+	MeteorTriggers = [
+		client.config.GUILDID_TESTING, //franzbot testing - general
+		client.config.GUILDID_METEOR //Meteor - general
+	];
+	ZuTriggers = [
+		client.config.GUILDID_TESTING, //franzbot testing - general
+		client.config.GUILDID_ZU //Zu - general
+	];
+	console.log(`GUILD: ${message.guild.id}, CHANNEL: ${message.channel.id}`);
 
     // Checks if the bot was mentioned, with no message after it, returns the prefix.
     const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);
     if (message.content.match(prefixMention))
     {
-        return message.reply(`My prefix on this guild is \`${client.config.prefix}\``);
+        message.channel.send(`My prefix on this guild is \`${client.config.prefix}\``);
+		
+		
+		
+		if ( MeteorTriggers.includes(message.guild.id ) )
+		{
+			embedobj = {
+			  "embed": {
+				"title": "Franzbot FAQ",
+				"description": `Supported FAQ commands listed below. Type \`${client.config.prefix}faq <topic>\` to display the content.`,
+				"color": client.config.EMBED_NORMAL_COLOR,
+				"footer": {
+				  "text": client.config.FRANZBOT_VERSION
+				},
+				"fields": [
+				  {
+					"name": "Information",
+					"value": "wiki status paru md5"
+				  },
+				  {
+					"name": "Guides",
+					"value": "compile config client"
+				  },
+				  {
+					"name": "Tools",
+					"value": "vs wamp"
+				  },
+				]
+			  }
+			};
+			message.channel.send(embedobj);
+		}
+		return
     }
 
     //console.log(message.member.guild.iconURL.replace(".jpg",".webp?size=1024"));
-
-
-    //Code for the great triggering of Franzbot-Reborn goes here
-    arrayofchannel = [
-        "485251347852165122", //franzbot testing - general
-        "216954456045125632" //Zu - general
-    ];
-    console.log("Channel: " + message.channel.id);
-    console.log("Found in array: " + arrayofchannel.includes(message.channel.id));
-    
-    
-    if ( arrayofchannel.includes(message.channel.id ) )
+ 
+	
+	// Triggers for Goatplace
+	if ( GoatTriggers.includes(message.guild.id ) )
     {
+		console.log("Found in GoatTriggers: " + message.channel.name);
+		
+	}
+	
+	// Triggers for Project Meteor
+	if ( MeteorTriggers.includes(message.guild.id ) )
+    {
+		console.log("Found in MeteorTriggers: " + message.channel.name);
+		
+		const badword1 = /(ffxiv|ff14|1\.[0-9]{0,2}[a|b|c]?)+(?!.*\1)/ig;
+		const badword2 = /(torrent|pirat|free|copy|copies|download|ISO)+(?!.*\1)/ig;
+		const goodwords = /(can't|don't|cannot|ARR|HW|SB|SHB|trial|[2-9]\.[0-9]{0,2})+/ig;
+		
+		goodwordweight = 0;
+		hadbadword1 = false;
+		hadbadword2 = 0;
+
+		wordset = new Set();
+		
+		results1 = message.content.match(badword1);
+		if (results1 != null)
+		{
+			results1.forEach( (result) =>
+			{	
+					
+					console.log("Matched a badword for client: " + result);
+					hadbadword1 = true;
+					wordset.add(result);
+			}
+			);
+		}
+
+		results2 = message.content.match(badword2);
+		if (results2 != null)
+		{
+			results2.forEach( (result) =>
+			{
+
+				console.log("Matched a badword for obtain: " + result);
+				hadbadword2++;
+				wordset.add(result);
+			}
+			);
+		}
+		
+		results3 = message.content.match(goodwords);
+		if (results3 != null)
+		{
+			results3.forEach( (result) =>
+			{
+				console.log("Matched a good word for client: " + result);
+				goodwordweight++;
+			}
+			);
+		}
+		
+		console.log("Bad wordset: " + wordset.size + " Goodwords: " + goodwordweight);
+		
+		if ( hadbadword1 && hadbadword2 >= 2 && ( (wordset.size - goodwordweight) >= 2) )
+		{
+			if ( !message.member.roles.cache.some(r=>["Developer", "Moderator", "Operator", "test"].includes(r.name)) )
+			{
+				// old plain message reply
+				//message.reply("Any discussion of torrenting, piracy, or other illegitimate means of obtaining software is not allowed on this server. (This is an automated response based on the words you used and can be triggered accidentally.)");
+				
+				// fancy new embed reply
+				embedobj = {
+				  "embed": {
+					"title": "Message Alert",
+					"description": "Any discussion of torrenting, piracy, or other illegitimate means of obtaining software is not allowed on this server.",
+					"color": client.config.EMBED_ERROR_COLOR,
+					"footer": {
+					  "text": "This is an automated response based on the words you used and can be triggered accidentally."
+					}
+				  }
+				}
+                message.reply(embedobj);
+				
+				
+			}
+			return;
+		}
+		
+		
+	}
+	
+    // Triggers for Zu
+    if ( ZuTriggers.includes(message.guild.id ) )
+    {
+		console.log("Found in ZuTriggers: " + message.channel.name);
+		
+		
         badword1 = /(corona|virus|covid)/ig;
-        //badword2 = /(torrent|pirat|free|copy|copies|download|ISO)+(?!.*\1)/ig;
         goodwords = /(computer|beer)+/ig;
         
         goodwordweight = 0;
@@ -94,7 +224,7 @@ module.exports = async (client, message) =>
         {
             results3.forEach( (result) =>
             {
-                console.log("Matched a badword for client: " + result);
+                console.log("Matched a good word for client: " + result);
                 goodwordweight++;
             }
             );
@@ -106,8 +236,9 @@ module.exports = async (client, message) =>
         //if ( hadbadword1 && hadbadword2 >= 2 && ( (wordset.size - goodwordweight) >= 2) )
         if ( hadbadword1 && ( (wordset.size - goodwordweight) >= 1) )
         {
-            if ( !message.member.roles.some(r=>["Admin", "test"].includes(r.name)) )
+            if ( !message.member.roles.cache.some(r=>["Admin", "test"].includes(r.name)) )
             {
+<<<<<<< Updated upstream
                     embedobj = {
                       "embed": {
                         "title": "Message Alert",
@@ -128,6 +259,28 @@ module.exports = async (client, message) =>
                         ]
                       }
                     }
+=======
+				embedobj = {
+				  "embed": {
+					"title": "Message Alert",
+					"description": "Please move this conversation out of the general channel. There are additional opt-in channels available on the discord for this topic.",
+					"color": client.config.EMBED_ERROR_COLOR,
+					"footer": {
+					  "text": "This is an automated response based on the words you used and can be triggered accidentally."
+					},
+					"fields": [
+					  {
+						"name": "Spoilers",
+						"value": "Please enable the Discussion role to talk about spoilers."
+					  },
+					  {
+						"name": "IRL",
+						"value": `Please enable the IRL role and discuss this topic in <#690416629913223208>`
+					  }
+					]
+				  }
+				}
+>>>>>>> Stashed changes
                 message.reply(embedobj);
             }
             return;
@@ -139,6 +292,7 @@ module.exports = async (client, message) =>
 
     // Also good practice to ignore any message that does not start with our prefix,
     // which is set in the configuration file.
+	if (message.content[0] == client.config.prefix_old) message.reply(`Franzbot now uses ${client.config.prefix} as a prefix.`);
     if (message.content.indexOf(client.config.prefix) !== 0) return;
 
     // Here we separate our "command" name, and our "arguments" for the command.
