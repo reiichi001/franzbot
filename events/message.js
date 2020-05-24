@@ -238,28 +238,6 @@ module.exports = async (client, message) =>
         {
             if ( !message.member.roles.cache.some(r=>["Admin", "test"].includes(r.name)) )
             {
-<<<<<<< Updated upstream
-                    embedobj = {
-                      "embed": {
-                        "title": "Message Alert",
-                        "description": "Please move this conversation out of the general channel. There are additional opt-in channels available on the discord for this topic.",
-                        "color": 13632027,
-                        "footer": {
-                          "text": "This is an automated response based on the words you used and can be triggered accidentally."
-                        },
-                        "fields": [
-                          {
-                            "name": "Spoilers",
-                            "value": "Please enable the Discussion role to talk about spoilers."
-                          },
-                          {
-                            "name": "IRL",
-                            "value": `Please enable the IRL role and discuss this topic in ${message.member.guild.channels.find(c => c.id === "690416629913223208")}`
-                          }
-                        ]
-                      }
-                    }
-=======
 				embedobj = {
 				  "embed": {
 					"title": "Message Alert",
@@ -280,7 +258,6 @@ module.exports = async (client, message) =>
 					]
 				  }
 				}
->>>>>>> Stashed changes
                 message.reply(embedobj);
             }
             return;
