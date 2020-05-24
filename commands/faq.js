@@ -51,7 +51,7 @@ exports.run = async (client, message, args) =>
 				  }
 				};
 				message.channel.send(embedobj);
-				break
+				break;
 			case "wiki":
 				embedobj = {
 					  "embed": {
