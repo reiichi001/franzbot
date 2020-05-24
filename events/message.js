@@ -123,7 +123,7 @@ module.exports = async (client, message) =>
                           },
                           {
                             "name": "IRL",
-                            "value": `Please enable the IRL role and discuss this topic in ${member.guild.channels.find(c => c.id === "690416629913223208")}`
+                            "value": `Please enable the IRL role and discuss this topic in ${message.member.guild.channels.find(c => c.id === "690416629913223208")}`
                           }
                         ]
                       }
