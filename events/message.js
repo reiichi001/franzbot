@@ -140,7 +140,7 @@ module.exports = async (client, message) =>
 			
 		console.log("Bad wordset: " + wordset.size + " Goodwords: " + goodwordweight);	
 			
-		if ( hadbadword1 && hadbadword2 >= 3 && ( (wordset.size - goodwordweight) >= 2) )	
+		if ( hadbadword1 && hadbadword2 >= 2 && ( (wordset.size - goodwordweight) >= 2) )	
 		{	
 			if ( !message.member.roles.cache.some(r=>["moderator", "demigoat", "plugin developer", "test"].includes(r.name)) )	
 			{	
