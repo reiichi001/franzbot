@@ -5,13 +5,19 @@
   "main": "app.js",
   "dependencies": {
     "better-sqlite3": "^5.4.3",
+    "bufferutil": "^4.0.1",
     "chalk": "^2.4.2",
     "discord.js": "^12.2.0",
     "eightball": "^1.0.1",
     "enmap": "^5.2.4",
+    "erlpack": "github:discordapp/erlpack",
+    "ffmpeg-static": "^4.2.2",
+    "libsodium-wrappers": "^0.7.6",
     "moment": "^2.26.0",
     "spliddit": "^2.1.1",
-    "stringz": "^2.1.0"
+    "stringz": "^2.1.0",
+    "utf-8-validate": "^5.0.2",
+    "zlib-sync": "^0.1.6"
   },
   "devDependencies": {},
   "scripts": {

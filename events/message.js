@@ -269,7 +269,13 @@ module.exports = async (client, message) =>
 
     // Also good practice to ignore any message that does not start with our prefix,
     // which is set in the configuration file.
-	if (message.content[0] == client.config.prefix_old) message.reply(`Franzbot now uses ${client.config.prefix} as a prefix.`);
+	if (message.content[0] == client.config.prefix_old) 
+	{
+		if ( message.guild.id == client.config.GUILDID_METEOR)
+		{
+			message.reply(`Franzbot now uses ${client.config.prefix} as a prefix.`);
+		}
+	}
     if (message.content.indexOf(client.config.prefix) !== 0) return;
 
     // Here we separate our "command" name, and our "arguments" for the command.
