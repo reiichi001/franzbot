@@ -97,7 +97,7 @@ module.exports = async (client, message) =>
 		//const goodwords = /(can't|don't|cannot|ARR|HW|SB|SHB|trial|[2-9]\.[0-9]{0,2})+/ig;	
 			
 		goodwordweight = 0;	
-		hadbadword1 = 0;	
+		hadbadword1 = true;	
 		hadbadword2 = 0;	
 		wordset = new Set();	
 			
