@@ -92,6 +92,80 @@ module.exports = async (client, message) =>
     {
 		console.log("Found in GoatTriggers: " + message.channel.name);
 		
+		const badword1 = /(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher)/ig;	
+		const badword2 = /(update|(not|n't) (work|exit|use)|when|eta|why)+(?!.*\1)/ig;	
+		//const goodwords = /(can't|don't|cannot|ARR|HW|SB|SHB|trial|[2-9]\.[0-9]{0,2})+/ig;	
+			
+		goodwordweight = 0;	
+		hadbadword1 = 0;	
+		hadbadword2 = 0;	
+		wordset = new Set();	
+			
+		results1 = message.content.match(badword1);	
+		if (results1 != null)	
+		{	
+			results1.forEach( (result) =>	
+			{		
+						
+					console.log("Matched a badword for client: " + result);	
+					hadbadword1 = true;	
+					wordset.add(result);	
+			}	
+			);	
+		}	
+		results2 = message.content.match(badword2);	
+		if (results2 != null)	
+		{	
+			results2.forEach( (result) =>	
+			{	
+				console.log("Matched a badword for obtain: " + result);	
+				hadbadword2++;	
+				wordset.add(result);	
+			}	
+			);	
+		}	
+			
+		/*	
+		results3 = message.content.match(goodwords);	
+		if (results3 != null)	
+		{	
+			results3.forEach( (result) =>	
+			{	
+				console.log("Matched a good word for client: " + result);	
+				goodwordweight++;	
+			}	
+			);	
+		}	
+		*/	
+			
+		console.log("Bad wordset: " + wordset.size + " Goodwords: " + goodwordweight);	
+			
+		if ( hadbadword1 && hadbadword2 >= 3 && ( (wordset.size - goodwordweight) >= 2) )	
+		{	
+			if ( !message.member.roles.cache.some(r=>["moderator", "demigoat", "plugin developer", "test"].includes(r.name)) )	
+			{	
+				// old plain message reply	
+				//message.reply("Any discussion of torrenting, piracy, or other illegitimate means of obtaining software is not allowed on this server. (This is an automated response based on the words you used and can be triggered accidentally.)");	
+					
+				// fancy new embed reply	
+				embedobj = {	
+				  "embed": {	
+					"title": "Message Alert",	
+					"description": "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",	
+					"color": client.config.EMBED_ERROR_COLOR,	
+					"footer": {	
+					  "text": "This is an automated response based on the words you used and can be triggered accidentally."	
+					}	
+				  }	
+				}	
+                message.reply(embedobj);	
+					
+					
+			}	
+			return;	
+		}	
+			
+		
 	}
 	
 	// Triggers for Project Meteor
