@@ -93,7 +93,7 @@ module.exports = async (client, message) =>
 		console.log("Found in GoatTriggers: " + message.channel.name);
 		
 		const badword1 = /(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher)/ig;	
-		const badword2 = /(update|(not|n't) (work|exit|use)|when|eta|why)+(?!.*\1)/ig;	
+		const badword2 = /(update|(not|n't)|(work|exist|use)|when|eta|why|yet)+(?!.*\1)/ig;	
 		//const goodwords = /(can't|don't|cannot|ARR|HW|SB|SHB|trial|[2-9]\.[0-9]{0,2})+/ig;	
 			
 		goodwordweight = 0;	
