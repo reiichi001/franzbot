@@ -10,7 +10,6 @@
     "discord.js": "^12.2.0",
     "eightball": "^1.0.1",
     "enmap": "^5.6.1",
-    "erlpack": "github:discordapp/erlpack",
     "eslint": "^7.6.0",
     "eslint-plugin-sonarjs": "^0.5.0",
     "ffmpeg-static": "^4.2.6",
