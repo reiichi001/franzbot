@@ -118,6 +118,13 @@ module.exports = async (client, message) => {
 			},
 		};
 	}
+	
+	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
+	
+	//bandaid, clear all the important variables
+	forbidAny = [];
+	forbidCount = [];
+	negateBadWords = [];
 
 	// Triggers for Project Meteor
 	if (MeteorTriggers.includes(message.guild.id)) {
@@ -144,6 +151,13 @@ module.exports = async (client, message) => {
 			},
 		};
 	}
+	
+	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
+	
+	//bandaid, clear all the important variables
+	forbidAny = [];
+	forbidCount = [];
+	negateBadWords = [];
 
 	// Triggers for Zu
 	if (ZuTriggers.includes(message.guild.id)) {
@@ -178,7 +192,68 @@ module.exports = async (client, message) => {
 			},
 		};
 	}
+	
+	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
+	
+	//bandaid, clear all the important variables
+	forbidAny = [];
+	forbidCount = [];
+	negateBadWords = [];
 
+	
+
+	// End of PrincessRTFM's rewrite
+
+	// Also good practice to ignore any message that does not start with our prefix,
+	// which is set in the configuration file.
+	if (message.content[0] == client.config.prefix_old) {
+		if (message.guild.id == client.config.GUILDID_METEOR) {
+			message.reply(`Franzbot now uses ${client.config.prefix} as a prefix.`);
+		}
+	}
+	if (message.content.indexOf(client.config.prefix) !== 0) {
+		return;
+	}
+
+	// Here we separate our "command" name, and our "arguments" for the command.
+	// e.g. if we have the message "+say Is this the real life?" , we'll get the following:
+	// command = say
+	// args = ["Is", "this", "the", "real", "life?"]
+	const args = message
+		.content
+		.slice(client.config.prefix.length)
+		.trim()
+		.split(/\s+/gu);
+	const command = args.shift().toLowerCase();
+
+	// If the member on a guild is invisible or not cached, fetch them.
+	if (message.guild && !message.member) {
+		await message.guild.fetchMember(message.author);
+	}
+
+
+	// Check whether the command, or alias, exist in the collections defined
+	// in app.js.
+	const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
+	if (!cmd) {
+		return;
+	}
+
+	// Some commands may not be useable in DMs. This check prevents those commands from running
+	// and return a friendly error message.
+	if (cmd && !message.guild && cmd.conf.guildOnly) {
+		message.channel.send("This command is unavailable via private message. Please run this command in a guild.");
+		return;
+	}
+
+	message.flags = [];
+	while (args[0] && args[0][0] === "-") {
+		message.flags.push(args.shift().slice(1));
+	}
+	cmd.run(client, message, args);
+};
+
+function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage) {
 	if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
 		return;
 	}
@@ -249,54 +324,5 @@ module.exports = async (client, message) => {
 	) {
 		message.reply(replyMessage);
 	}
-
-	// End of PrincessRTFM's rewrite
-
-	// Also good practice to ignore any message that does not start with our prefix,
-	// which is set in the configuration file.
-	if (message.content[0] == client.config.prefix_old) {
-		if (message.guild.id == client.config.GUILDID_METEOR) {
-			message.reply(`Franzbot now uses ${client.config.prefix} as a prefix.`);
-		}
-	}
-	if (message.content.indexOf(client.config.prefix) !== 0) {
-		return;
-	}
-
-	// Here we separate our "command" name, and our "arguments" for the command.
-	// e.g. if we have the message "+say Is this the real life?" , we'll get the following:
-	// command = say
-	// args = ["Is", "this", "the", "real", "life?"]
-	const args = message
-		.content
-		.slice(client.config.prefix.length)
-		.trim()
-		.split(/\s+/gu);
-	const command = args.shift().toLowerCase();
-
-	// If the member on a guild is invisible or not cached, fetch them.
-	if (message.guild && !message.member) {
-		await message.guild.fetchMember(message.author);
-	}
-
-
-	// Check whether the command, or alias, exist in the collections defined
-	// in app.js.
-	const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
-	if (!cmd) {
-		return;
-	}
-
-	// Some commands may not be useable in DMs. This check prevents those commands from running
-	// and return a friendly error message.
-	if (cmd && !message.guild && cmd.conf.guildOnly) {
-		message.channel.send("This command is unavailable via private message. Please run this command in a guild.");
-		return;
-	}
-
-	message.flags = [];
-	while (args[0] && args[0][0] === "-") {
-		message.flags.push(args.shift().slice(1));
-	}
-	cmd.run(client, message, args);
-};
+		
+}
