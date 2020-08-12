@@ -1,49 +1,52 @@
-exports.run = (client, message, args) =>
-{
+exports.run = (client, message, args) => {
+	const ZuTriggers = [
+		client.config.GUILDID_TESTING, // franzbot testing - general
+		client.config.GUILDID_ZU, // Zu - general
+	];
+	if (!ZuTriggers.includes(message.guild.id)) {
+		return message.reply("\u200Bthis command doesn't work here.")
+			.then(message.delete({
+				timeout: 5000,
+				reason: 'Cleaning up uneeded message',
+			}));
+	}
 
-	ZuTriggers = [
-			client.config.GUILDID_TESTING, //franzbot testing - general
-			client.config.GUILDID_ZU //Zu - general
-		];
-		if ( !ZuTriggers.includes(message.guild.id ) )
+	const [
+		atype,
+		...messages
+	] = args;
+	let acttype = "PLAYING";
+
+	switch (atype.toLowerCase()) {
+		case "listening":
+			acttype = "LISTENING";
+			break;
+		case "watching":
+			acttype = "WATCHING";
+			break;
+		default:
+			acttype = "PLAYING";
+			break;
+	}
+
+
+	return client.user.setActivity(
+		messages.join(" "),
 		{
-			message.reply("\u200B" + `this command doesn't work here.`)
-				.then(message.delete({ timeout: 5000, reason: 'Cleaning up uneeded message' }));
-			return; //this command
+			type: acttype,
 		}
-	
-    const [atype, ...messages] = args;
-    var acttype = "PLAYING";
-
-    switch (atype.toLowerCase())
-    {
-        case "listening":
-            acttype = "LISTENING";
-            break;
-        case "watching":
-            acttype = "WATCHING";
-            break;
-        default:
-            acttype = "PLAYING";
-            break;
-    }
-
-
-    client.user.setActivity(messages.join(" "),
-    {
-        type: acttype
-    });
-}
+	);
+};
 
 exports.conf = {
-    enabled: true,
-    guildOnly: false,
-    aliases: []
+	enabled: true,
+	guildOnly: false,
+	aliases: [],
 };
 
 exports.help = {
-    name: "setactivity",
-    category: "Admin",
-    description: "Modifies Franzbot's activity presence. Will eventually be locked down.",
-    usage: "setactivity watching/playing action text"
+	name: "setactivity",
+	category: "Admin",
+	description: "Modifies Franzbot's activity presence. Will eventually be locked down.",
+	usage: "setactivity watching/playing action text",
 };
