@@ -86,28 +86,27 @@ module.exports = async (client, message) => {
 
 	// PrincessRTFM's rewrite starts here
 
-	let forbidAny; // set to a regex or an array of regex - at least one must match to complain
-	let forbidCount; // same value types, a minimum number must match
-	let negateBadWords; // same type again, these matches count against the bad word matches
+	let forbidAny = []; // an array of regex, at least one must match to complain
+	let forbidCount = []; // same value type, a minimum number must match
+	let negateBadWords = []; // same type again, these matches count against the bad word matches
 	let forbiddenMinCount; // the number of forbidCount match results to complain
 	let adjustedMinCount; // the number of ADJUSTED bad word match results to complain
-	let ignoredRoles; // set to an array of roles to ignore messages from
+	let ignoredRoles = []; // an array of roles to ignore messages from
 	let replyMessage; // whatever this is, it gets sent via `message.reply()` unless it's falsey
 
 	// Triggers for Goatplace
 	if (GoatTriggers.includes(message.guild.id)) {
 		console.log(`Found in GoatTriggers: ${message.channel.name}`);
-		forbidAny = /(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher)/igu;
-		forbidCount = /(update|(not|n't)|(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu;
-		negateBadWords = /(can't|don't|cannot|ARR|HW|SB|SHB|trial|[2-9]\.[0-9]{0,2})+/igu;
+		forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher)/igu);
+		forbidCount.push(/(update|(not|n't)|(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
 		forbiddenMinCount = 2;
 		adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
-		ignoredRoles = [
+		ignoredRoles = ignoredRoles.concat([
 			"moderator",
 			"demigoat",
 			"plugin developer",
 			"test",
-		];
+		]);
 		replyMessage = {
 		  "embed": {
 				"title": "Message Alert",
@@ -123,17 +122,17 @@ module.exports = async (client, message) => {
 	// Triggers for Project Meteor
 	if (MeteorTriggers.includes(message.guild.id)) {
 		console.log(`Found in MeteorTriggers: ${message.channel.name}`);
-		forbidAny = /(ffxiv|ff14|1\.[0-9]{0,2}[a|b|c]?)+(?!.*\1)/igu;
-		forbidCount = /(torrent|pirat|free|copy|copies|download|ISO)+(?!.*\1)/igu;
-		negateBadWords = /(can't|don't|cannot|ARR|HW|SB|SHB|trial|[2-9]\.[0-9]{0,2})+/igu;
+		forbidAny.push(/(ffxiv|ff14|1\.[0-9]{0,2}[a|b|c]?)+(?!.*\1)/igu);
+		forbidCount.push(/(torrent|pirat|free|copy|copies|download|ISO)+(?!.*\1)/igu);
+		negateBadWords.push(/(can't|don't|cannot|ARR|HW|SB|SHB|trial|[2-9]\.[0-9]{0,2})+/igu);
 		forbiddenMinCount = 2;
 		adjustedMinCount = 2;
-		ignoredRoles = [
+		ignoredRoles = ignoredRoles.concat([
 			"Developer",
 			"Moderator",
 			"Operator",
 			"test",
-		];
+		]);
 		replyMessage = {
 			"embed": {
 				"title": "Message Alert",
@@ -149,15 +148,15 @@ module.exports = async (client, message) => {
 	// Triggers for Zu
 	if (ZuTriggers.includes(message.guild.id)) {
 		console.log(`Found in ZuTriggers: ${message.channel.name}`);
-		forbidAny = /(corona|virus|covid)/igu;
-		forbidAny = [];
-		negateBadWords = /(computer|beer)+/igu;
+		forbidAny.push(/(corona|virus|covid)/igu);
+		forbidCount = [];
+		negateBadWords.push(/(computer|beer)+/igu);
 		forbiddenMinCount = 0;
 		adjustedMinCount = 1;
-		ignoredRoles = [
+		ignoredRoles = ignoredRoles.concat([
 			"Admin",
 			"test",
-		];
+		]);
 		replyMessage = {
 			"embed": {
 				"title": "Message Alert",
@@ -192,19 +191,19 @@ module.exports = async (client, message) => {
 	if (!forbidAny) {
 		forbidAny = [];
 	}
-	if (!Array.is(forbidAny)) {
+	if (!Array.isArray(forbidAny)) {
 		forbidAny = [forbidAny];
 	}
 	if (!forbidCount) {
 		forbidCount = [];
 	}
-	if (!Array.is(forbidCount)) {
+	if (!Array.isArray(forbidCount)) {
 		forbidCount = [forbidCount];
 	}
 	if (!negateBadWords) {
 		negateBadWords = [];
 	}
-	if (!Array.is(negateBadWords)) {
+	if (!Array.isArray(negateBadWords)) {
 		negateBadWords = [negateBadWords];
 	}
 
@@ -243,7 +242,11 @@ module.exports = async (client, message) => {
 	console.log(`Bad wordset: ${forbidden.size} Goodwords: ${offsetWeight}`);
 
 	const adjustedWordWeight = forbidden.size - offsetWeight;
-	if (hasForbidAny && forbidCountQuantity >= forbiddenMinCount && adjustedWordWeight >= adjustedMinCount) {
+	if (replyMessage
+		&& hasForbidAny
+		&& forbidCountQuantity >= forbiddenMinCount
+		&& adjustedWordWeight >= adjustedMinCount
+	) {
 		message.reply(replyMessage);
 	}
 
