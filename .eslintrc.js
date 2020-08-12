@@ -484,7 +484,7 @@ const config = {
 		"sonarjs/no-collection-size-mischeck": "error",
 		"sonarjs/no-duplicate-string": "warn",
 		"sonarjs/no-duplicated-branches": "error",
-		"sonarjs/no-identical-functions": "error",
+		"sonarjs/no-identical-functions": "warn",
 		"sonarjs/no-inverted-boolean-check": "error",
 		"sonarjs/no-redundant-boolean": "error",
 		"sonarjs/no-redundant-jump": "error",

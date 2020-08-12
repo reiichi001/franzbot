@@ -5,7 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
     - name: Install modules
-      run: npm install package.json
+      run: npm install
     - name: Run ESLint
-      run: node node_modules/eslint/bin/eslint.js . --ext .js,.jsx,.ts,.tsx
+      run: eslint . --ext .js,.jsx,.ts,.tsx

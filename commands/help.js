@@ -12,14 +12,14 @@ exports.run = (client, message, args) => {
 		return message.reply(`\u200BDid you mean ${client.config.prefix}faq?`)
 			.then(message.delete({
 				timeout: 5000,
-				reason: 'Cleaning up uneeded message',
+				reason: client.config.AUDITLOG_COMMON,
 			}));
 	}
 	if (message.guild.id === client.config.GUILDID_METEOR) {
 		return message.reply(`\u200BDid you mean ${client.config.prefix}faq?`)
 			.then(message.delete({
 				timeout: 5000,
-				reason: 'Cleaning up uneeded message',
+				reason: client.config.AUDITLOG_COMMON,
 			}));
 	}
 

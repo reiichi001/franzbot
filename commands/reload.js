@@ -7,7 +7,7 @@ exports.run = (client, message, args) => {
 		return message.reply("\u200Bthis command doesn't work here.")
 			.then(message.delete({
 				timeout: 5000,
-				reason: 'Cleaning up uneeded message',
+				reason: client.config.AUDITLOG_COMMON,
 			}));
 	}
 
@@ -30,12 +30,12 @@ exports.run = (client, message, args) => {
 		.then(msg => {
 			msg.delete({
 				timeout: 5000,
-				reason: 'Cleaning up uneeded message',
+				reason: client.config.AUDITLOG_COMMON,
 			});
 		})
 		.then(message.delete({
 			timeout: 5000,
-			reason: 'Cleaning up uneeded message',
+			reason: client.config.AUDITLOG_COMMON,
 		}));
 };
 

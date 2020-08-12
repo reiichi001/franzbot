@@ -159,11 +159,11 @@ module.exports = async (client, message) => {
 		]);
 		replyMessage = {
 		  "embed": {
-				"title": "Message Alert",
+				"title": client.config.TRIGGER_TITLE,
 				"description": "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",
 				"color": client.config.EMBED_ERROR_COLOR,
 				"footer": {
-					"text": "This is an automated response based on the words you used and can be triggered accidentally.",
+					"text": client.config.TRIGGER_FOOTER,
 				},
 			},
 		};
@@ -192,11 +192,11 @@ module.exports = async (client, message) => {
 		]);
 		replyMessage = {
 			"embed": {
-				"title": "Message Alert",
+				"title": client.config.TRIGGER_TITLE,
 				"description": "Any discussion of torrenting, piracy, or other illegitimate means of obtaining software is not allowed on this server.",
 				"color": client.config.EMBED_ERROR_COLOR,
 				"footer": {
-					"text": "This is an automated response based on the words you used and can be triggered accidentally.",
+					"text": client.config.TRIGGER_FOOTER,
 				},
 			},
 		};
@@ -223,11 +223,11 @@ module.exports = async (client, message) => {
 		]);
 		replyMessage = {
 			"embed": {
-				"title": "Message Alert",
+				"title": client.config.TRIGGER_TITLE,
 				"description": "Please move this conversation out of the general channel. There are additional opt-in channels available on the discord for this topic.",
 				"color": client.config.EMBED_ERROR_COLOR,
 				"footer": {
-					"text": "This is an automated response based on the words you used and can be triggered accidentally.",
+					"text": client.config.TRIGGER_FOOTER,
 				},
 				"fields": [
 					{
@@ -255,10 +255,8 @@ module.exports = async (client, message) => {
 
 	// Also good practice to ignore any message that does not start with our prefix,
 	// which is set in the configuration file.
-	if (message.content[0] == client.config.prefix_old) {
-		if (message.guild.id == client.config.GUILDID_METEOR) {
-			message.reply(`Franzbot now uses ${client.config.prefix} as a prefix.`);
-		}
+	if (message.content[0] == client.config.prefix_old && message.guild.id == client.config.GUILDID_METEOR) {
+		message.reply(`Franzbot now uses ${client.config.prefix} as a prefix.`);
 	}
 	if (message.content.indexOf(client.config.prefix) !== 0) {
 		return;
