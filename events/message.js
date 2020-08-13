@@ -68,6 +68,7 @@ function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbid
 		&& hasForbidAny
 		&& forbidCountQuantity >= forbiddenMinCount
 		&& adjustedWordWeight >= adjustedMinCount
+		&& message.content.length <= 220 // if it's longer than a tweet, it's probably a false positive
 	) {
 		message.reply(replyMessage);
 	}
@@ -204,7 +205,7 @@ module.exports = async (client, message) => {
 		}
 		// process triggers
 		forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher)/igu);
-		forbidCount.push(/(update|(not|n't)|(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
+		forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
 		forbiddenMinCount = 2;
 		adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 		ignoredRoles = ignoredRoles.concat([
