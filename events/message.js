@@ -1,3 +1,5 @@
+const got = require('got');
+
 function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage) {
 	if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
 		return;
@@ -147,6 +149,60 @@ module.exports = async (client, message) => {
 	// Triggers for Goatplace
 	if (GoatTriggers.includes(message.guild.id)) {
 		console.log(`Found in GoatTriggers: ${message.channel.name}`);
+
+		// check if it's a dalamud log
+		if (message.attachments.size > 0) {
+			console.log("Found an attachment in this message");
+
+			message.attachments.forEach(async attachment => {
+				console.log(attachment.name);
+				if (attachment.name === "dalamud.txt") {
+					// read the data
+					console.log(attachment.attachment);
+					try {
+						const response = await got(attachment.attachment);
+						// console.log(response.body);
+						const logdata = response.body;
+						const results = logdata.match(/TROUBLESHOOTING:(.*)/gu);
+						if (results.length > 0) {
+							let data = results[results.length - 1];
+							data = data.slice(16);
+							console.log(data);
+
+							// decrypt from base64
+							const buffer = new Buffer.from(data, 'base64');
+							data = buffer.toString('ascii');
+							console.log(data);
+							data = JSON.parse(data);
+
+							// make fancy embed and return
+							replyMessage = {
+								"embed": {
+									"title": "Dalamud.txt parse results",
+									"description": "Franzbot has parsed your logfile."
+										+ "Here's some information about the plugins that were loaded.",
+									"color": client.config.EMBED_NORMAL_COLOR,
+									"footer": {
+										"text": `DalamudVersion: ${data.DalamudVersion}`,
+									},
+									"fields": data.LoadedPlugins.map(item => ({
+										name: item.Name,
+										value: item.AssemblyVersion,
+									})),
+								},
+							};
+
+							message.reply(replyMessage);
+						}
+					}
+					catch (error) {
+						console.log(error.response.body);
+					}
+				}
+			});
+			//
+		}
+		// process triggers
 		forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher)/igu);
 		forbidCount.push(/(update|(not|n't)|(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
 		forbiddenMinCount = 2;
