@@ -177,6 +177,23 @@ module.exports = async (client, message) => {
 							data = JSON.parse(data);
 
 							// make fancy embed and return
+
+							const embedfields = data.LoadedPlugins.map(item => ({
+								name: item.Name,
+								value: item.AssemblyVersion,
+							}));
+							embedfields.push({
+								name: "Dalamud Testing",
+								value: data.DoDalamudTest,
+								inline: true,
+							});
+							embedfields.push({
+								name: "Plugin Testing",
+								value: data.DoPluginTest,
+								inline: true,
+							});
+
+
 							replyMessage = {
 								"embed": {
 									"title": "Dalamud.txt parse results",
@@ -186,10 +203,7 @@ module.exports = async (client, message) => {
 									"footer": {
 										"text": `DalamudVersion: ${data.DalamudVersion}`,
 									},
-									"fields": data.LoadedPlugins.map(item => ({
-										name: item.Name,
-										value: item.AssemblyVersion,
-									})),
+									"fields": embedfields,
 								},
 							};
 
