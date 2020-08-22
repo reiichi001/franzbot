@@ -240,7 +240,8 @@ module.exports = async (client, message) => {
 		};
 	}
 
-	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
+	// disabled as no new patches
+	// checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
 
 	// bandaid, clear all the important variables
 	forbidAny = [];
