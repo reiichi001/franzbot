@@ -192,6 +192,11 @@ module.exports = async (client, message) => {
 								value: data.DoPluginTest,
 								inline: true,
 							});
+							embedfields.push({
+								name: "InterfaceLoaded ",
+								value: data.InterfaceLoaded,
+								inline: true,
+							});
 
 
 							replyMessage = {
