@@ -6,7 +6,7 @@ const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
 
 // set up intents
-consts myIntents = new Discord.Intents();
+const myIntents = new Discord.Intents();
 myIntents.add('GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS');
 
 const client = new Discord.Client({ ws: { intents: myIntents } });
