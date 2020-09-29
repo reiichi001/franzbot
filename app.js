@@ -5,7 +5,7 @@ const {
 const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
 
-const client = new Discord.Client();
+const client = new Discord.Client( ws: { intents:['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS' ] } );
 const config = require("./config.json");
 // We also need to make sure we're attaching the config to the CLIENT so it's accessible everywhere!
 client.config = config;
