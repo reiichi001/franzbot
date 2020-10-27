@@ -18,7 +18,7 @@ module.exports = (client, member) => {
 		console.log(`New member found in ZuTriggers: ${member.user}`);
 		console.log(`New member found in ZuTriggers: ${member}`);
 
-		if (member.partial){
+		if (member.partial) {
 			console.log("This was a partial member. Fetching the rest.");
 			member = member.fetch(member.id);
 		}
