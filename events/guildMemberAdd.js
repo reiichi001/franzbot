@@ -15,11 +15,19 @@ module.exports = (client, member) => {
 	// if (member.guild.id == client.config.GUILDID_ZU)
 	if (ZuTriggers.includes(member.guild.id)) {
 		console.log(`New member found in ZuTriggers: ${member.user.tag}`);
+		console.log(`New member found in ZuTriggers: ${member.user}`);
+		console.log(`New member found in ZuTriggers: ${member}`);
+
+		if (member.partial){
+			console.log("This was a partial member. Fetching the rest.");
+			member = member.fetch(member.id);
+		}
 
 		const embedobj = {
+			"content": `${member}`,
 			"embed": {
 				"title": `Welcome to ${member.guild.name}!`,
-				"description": `Welcome to **Zu**, ${member.user} \n\nPlease check the ${member.guild.channels.cache.find(c => c.name === "server-rules")} channel for more details and get yourself the basic user assigned to see channels.`,
+				"description": `Welcome to **Zu**, ${member} \n\nPlease check the ${member.guild.channels.cache.find(c => c.name === "server-rules")} channel for more details and get yourself the basic user assigned to see channels.`,
 				"color": client.config.EMBED_NORMAL_COLOR,
 				"timestamp": new Date(),
 				"thumbnail": {

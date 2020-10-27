@@ -223,7 +223,7 @@ module.exports = async (client, message) => {
 			//
 		}
 		// process triggers
-		forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher)/igu);
+		forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
 		forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
 		forbiddenMinCount = 2;
 		adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
@@ -246,7 +246,9 @@ module.exports = async (client, message) => {
 	}
 
 	// disabled as no new patches
-	// checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
+	if (client.config.NEWFFXIVPATCH) {
+		checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
+	}
 
 	// bandaid, clear all the important variables
 	forbidAny = [];
