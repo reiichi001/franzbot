@@ -101,7 +101,7 @@ exports.run = async (client, message, args) => {
 		case "opcode":
 			responses.push({
 				"embed": {
-					"title": `OpCodes haven't been updated yet`,
+					"title": `OpCodes need to be manually updated.`,
 					"description": `You can find the post on DalamudAssets OpCodes [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/766340668406497341)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
