@@ -7,6 +7,46 @@ exports.run = async (client, message, args) => {
 	}
 	console.log(`FAQ command found in TestTriggers: ${message.channel.name}`);
 	const responses = [];
+
+	switch (args[0]) {
+		// aliases
+		case "patch": args[0] = "update"; break;
+		case "patches": args[0] = "update"; break;
+		case "new patch": args[0] = "update"; break;
+		case "maint": args[0] = "maintenance"; break;
+		case "xlplugins": args[0] = "plugins"; break;
+		case "installplugins": args[0] = "plugins"; break;
+		case "integritycheck": args[0] = "integrity"; break;
+		case "runtime": args[0] = "redist"; break;
+		case "runtimes": args[0] = "redist"; break;
+		case "redistributable": args[0] = "redist"; break;
+		case "redistributables": args[0] = "redist"; break;
+		case "vcredist": args[0] = "redist"; break;
+		case "dotnet": args[0] = "redist"; break;
+		case "dotnet48": args[0] = "redist"; break;
+		case "net48": args[0] = "redist"; break;
+		case "net4.8": args[0] = "redist"; break;
+		case ".net4.8": args[0] = "redist"; break;
+		case "dalamudtesting": args[0] = "dalamudsettings"; break;
+		case "dalamudstaging": args[0] = "dalamudsettings"; break;
+		case "testplugins": args[0] = "dalamudsettings"; break;
+		case "plugintesting": args[0] = "dalamudsettings"; break;
+		case "xlsettings": args[0] = "dalamudsettings"; break;
+		case "BSOD": args[0] = "bsod"; break;
+		case "bluescreen": args[0] = "bsod"; break;
+		case "antivirus": args[0] = "av"; break;
+		case "anti-virus": args[0] = "av"; break;
+		case "defender": args[0] = "av"; break;
+		case "bitdefender": args[0] = "av"; break;
+		case "removexl": args[0] = "uninstall"; break;
+		case "rivatuner": args[0] = "rtss"; break;
+		case "msiafterburner": args[0] = "rtss"; break;
+		case "afterburner": args[0] = "rtss"; break;
+		case "mactype": args[0] = "rtss"; break;
+		case "hookfail": args[0] = "rtss"; break;
+		default: args[0] = "help"; break;
+	}
+
 	switch (args[0]) {
 		case "help":
 			responses.push({
@@ -45,46 +85,6 @@ exports.run = async (client, message, args) => {
 			});
 			break;
 		*/
-		// implemented
-		// aliases
-		case "patch": args[0] = "update";
-		case "patches": args[0] = "update";
-		case "new patch": args[0] = "update";
-		case "maint": args[0] = "maintenance";
-		case "xlplugins": args[0] = "plugins";
-		case "installplugins": args[0] = "plugins";
-		case "integritycheck": args[0] = "integrity";
-		case "runtime": args[0] = "redist";
-		case "runtimes": args[0] = "redist";
-		case "redistributable": args[0] = "redist";
-		case "redistributables": args[0] = "redist";
-		case "vcredist": args[0] = "redist";
-		case "dotnet": args[0] = "redist";
-		case "dotnet48": args[0] = "redist";
-		case "net48": args[0] = "redist";
-		case "net4.8": args[0] = "redist";
-		case ".net4.8": args[0] = "redist";
-		case "dalamudtesting": args[0] = "dalamudsettings";
-		case "dalamudstaging": args[0] = "dalamudsettings";
-		case "testplugins": args[0] = "dalamudsettings";
-		case "plugintesting": args[0] = "dalamudsettings";
-		case "xlsettings": args[0] = "dalamudsettings";
-		case "BSOD": args[0] = "bsod";
-		case "bluescreen": args[0] = "bsod";
-		case "antivirus": args[0] = "av";
-		case "anti-virus": args[0] = "av";
-		case "defender": args[0] = "av";
-		case "bitdefender": args[0] = "av";
-		case "removexl": args[0] = "uninstall";
-		case "rivatuner": args[0] = "rtss";
-		case "msiafterburner": args[0] = "rtss";
-		case "afterburner": args[0] = "rtss";
-		case "mactype": args[0] = "rtss";
-		case "hookfail": args[0] = "rtss";
-
-			// GENERAL STUFF
-
-
 		// KNOWN ISSUES
 		case "integrity":
 			responses.push({
