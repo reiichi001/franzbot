@@ -44,7 +44,7 @@ exports.run = async (client, message, args) => {
 		case "afterburner": args[0] = "rtss"; break;
 		case "mactype": args[0] = "rtss"; break;
 		case "hookfail": args[0] = "rtss"; break;
-		default: args[0] = "help"; break;
+		default: break;
 	}
 
 	switch (args[0]) {
@@ -292,6 +292,32 @@ exports.run = async (client, message, args) => {
 				},
 			});
 			break;
+		case "logd":
+			responses.push({
+				"embed": {
+					"title": `Please send us your dalamud.txt log`,
+					"description": `You can find it in \`%appdata%\\XIVLauncher\\addon\\Hooks\``,
+					"color": client.config.EMBED_NORMAL_COLOR,
+                                        "footer": {
+                                                "text": client.config.FRANZBOT_VERSION,
+                                        },
+                                },
+                        });
+                        break;
+		case "logxl":
+                        responses.push({
+                                "embed": {
+                                        "title": `Please send us your output.log file`,
+                                        "description": `You can find it in \`%appdata%\\XIVLauncher\\`,
+                                        "color": client.config.EMBED_NORMAL_COLOR,
+                                        "footer": {
+                                                "text": client.config.FRANZBOT_VERSION,
+                                        },
+                                },
+                        });
+                        break;
+
+
 
 
 		default:
