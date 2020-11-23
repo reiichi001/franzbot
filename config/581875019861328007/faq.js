@@ -44,6 +44,9 @@ exports.run = async (client, message, args) => {
 		case "afterburner": args[0] = "rtss"; break;
 		case "mactype": args[0] = "rtss"; break;
 		case "hookfail": args[0] = "rtss"; break;
+		case "dns": args[0] = "vpn"; break;
+		case "testdalamud": args[0] = "dalamudtesting"; break;
+		case "dt": args[0] = "dalamudtesting"; break;
 		default: break;
 	}
 
@@ -292,32 +295,56 @@ exports.run = async (client, message, args) => {
 				},
 			});
 			break;
+		case "dalamudtesting":
+			responses.push({
+				"embed": {
+					"title": `Only use Dalamud Testing when required`,
+					"description": `Please only enable Dalamud test builds when absolutely needed.`
+						+ `[More info](https://discord.com/channels/581875019861328007/586590269063954432/780471778152546314)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "vpn":
+			responses.push({
+				"embed": {
+					"title": `SE's routing is shit. Use a VPN`,
+					"description": `If the auth fails for XL and the Official Launcher, it's likely a bad route from your connecto to Japan. A VPN may help.`
+						+ `[More info](https://discord.com/channels/581875019861328007/586590269063954432/778784841201221632)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
 		case "logd":
 			responses.push({
 				"embed": {
 					"title": `Please send us your dalamud.txt log`,
 					"description": `You can find it in \`%appdata%\\XIVLauncher\\addon\\Hooks\``,
 					"color": client.config.EMBED_NORMAL_COLOR,
-                                        "footer": {
-                                                "text": client.config.FRANZBOT_VERSION,
-                                        },
-                                },
-                        });
-                        break;
+					 "footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
 		case "logxl":
-                        responses.push({
-                                "embed": {
-                                        "title": `Please send us your output.log file`,
-                                        "description": `You can find it in \`%appdata%\\XIVLauncher\\`,
-                                        "color": client.config.EMBED_NORMAL_COLOR,
-                                        "footer": {
-                                                "text": client.config.FRANZBOT_VERSION,
-                                        },
-                                },
-                        });
-                        break;
-
-
+			responses.push({
+				"embed": {
+					"title": `Please send us your output.log file`,
+					"description": `You can find it in \`%appdata%\\XIVLauncher\\`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
 
 
 		default:
