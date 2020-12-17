@@ -47,6 +47,11 @@ exports.run = async (client, message, args) => {
 		case "dns": args[0] = "vpn"; break;
 		case "testdalamud": args[0] = "dalamudtesting"; break;
 		case "dt": args[0] = "dalamudtesting"; break;
+		case "badplugin": args[0] = "removeplugin"; break;
+		case "deleteplugin": args[0] = "removeplugin"; break;
+		case "deletedalamud": args[0] = "removedalamud"; break;
+		case "baddalamud": args[0] = "removedalamud"; break;
+		case "reinstalldalamud": args[0] = "removedalamud"; break;
 		default: break;
 	}
 
@@ -63,11 +68,13 @@ exports.run = async (client, message, args) => {
 					"fields": [
 						{
 							"name": "Known Issues posts",
-							"value": "dotnet dotnet48 integrity mactype opcode redist rivatuner rtss runtimes titleedit vcredist",
+							"value": "dotnet dotnet48 hookfail integrity mactype opcode redist rivatuner rtss runtimes titleedit vcredist",
 						},
 						{
 							"name": "FAQs and Help posts",
-							"value": "account av antivirus bsod dalamudtesting dalamudsettings env maintenance patch plugins reshade steam testplugins uninstall update xlhelp",
+							"value": "account av antivirus badplugin bsod dalamudtesting dalamudsettings deletedalamud deleteplugin dns "
+								+ "env maintenance patch plugins reinstalldalamud removedalamud reshade removeplugin "
+								+ "steam testplugins uninstall update xlhelp",
 						},
 					],
 				},
@@ -338,6 +345,40 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `Please send us your output.log file`,
 					"description": `You can find it in \`%appdata%\\XIVLauncher\\`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "removeplugin":
+			responses.push({
+				"embed": {
+					"title": `Generic steps to remove plugins manually`,
+					"description": `General "how to delete a plugin" steps:\n`
+						+ `1. Close the game\n`
+						+ `2. Go to \`%AppData%\XIVLauncher\installedPlugins\`\n`
+						+ `3. Remove the folder[s] for the plugin[s]\n`
+						+ `4. Start the game now\n`
+						+ `5. Let us know if the issue persists`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "remodedalamud":
+			responses.push({
+				"embed": {
+					"title": `Generic steps to remove/reinstall Dalamud`,
+					"description": `General "how to delete a plugin" steps:\n`
+						+ `1. Close the game\n`
+						+ `2. Go to \`%AppData%\XIVLauncher\`\n`
+						+ `3. Remove the Addon\Hooks folder\n`
+						+ `4. Start the game now\n`
+						+ `5. Let us know if the issue persists`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,

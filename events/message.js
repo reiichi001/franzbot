@@ -182,6 +182,14 @@ module.exports = async (client, message) => {
 								name: item.Name,
 								value: item.AssemblyVersion,
 							}));
+							if (data.ThirdRepo.length > 0) {
+								embedfields.push({
+									name: "Third party repos",
+									value: data.ThirdRepo.map(
+										repo => `${repo.Url} - ${repo.IsEnabled ? "enabled" : "disabled"}`
+									),
+								});
+							}
 							embedfields.push({
 								name: "Dalamud Testing",
 								value: data.DoDalamudTest,
