@@ -346,7 +346,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Please send us your output.log file`,
-					"description": `You can find it in \`%appdata%\\XIVLauncher\\`,
+					"description": `You can find it in \`%appdata%\\XIVLauncher\\\``,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
