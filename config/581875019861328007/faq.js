@@ -260,7 +260,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Reshade/Gshade/Stormshade/etc not working?`,
-					"description": `Please check the faq post [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/765422769282220042)`,
+					"description": `Please check the faq post [HERE](https://discord.com/channels/581875019861328007/586590269063954432/757395514936393795)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
