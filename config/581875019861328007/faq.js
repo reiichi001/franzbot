@@ -52,6 +52,8 @@ exports.run = async (client, message, args) => {
 		case "deletedalamud": args[0] = "removedalamud"; break;
 		case "baddalamud": args[0] = "removedalamud"; break;
 		case "reinstalldalamud": args[0] = "removedalamud"; break;
+		case "log": args[0] = "logxl"; break;
+		case "logdalamud": args[0] = "logd"; break;
 		default: break;
 	}
 
@@ -73,7 +75,7 @@ exports.run = async (client, message, args) => {
 						{
 							"name": "FAQs and Help posts",
 							"value": "account av antivirus badplugin bsod dalamudtesting dalamudsettings deletedalamud deleteplugin dns "
-								+ "env maintenance patch plugins reinstalldalamud removedalamud reshade removeplugin "
+								+ "env log logd logdalamud logxl maintenance patch plugins reinstalldalamud removedalamud reshade removeplugin "
 								+ "steam testplugins uninstall update xlhelp",
 						},
 					],
@@ -358,7 +360,7 @@ exports.run = async (client, message, args) => {
 					"title": `Generic steps to remove plugins manually`,
 					"description": `General "how to delete a plugin" steps:\n`
 						+ `1. Close the game\n`
-						+ `2. Go to \`%AppData%\XIVLauncher\installedPlugins\`\n`
+						+ `2. Go to \`%AppData%\\XIVLauncher\\installedPlugins\`\n`
 						+ `3. Remove the folder[s] for the plugin[s]\n`
 						+ `4. Start the game now\n`
 						+ `5. Let us know if the issue persists`,
@@ -369,13 +371,13 @@ exports.run = async (client, message, args) => {
 				},
 			});
 			break;
-		case "remodedalamud":
+		case "removedalamud":
 			responses.push({
 				"embed": {
 					"title": `Generic steps to remove/reinstall Dalamud`,
 					"description": `General "how to delete a plugin" steps:\n`
 						+ `1. Close the game\n`
-						+ `2. Go to \`%AppData%\XIVLauncher\`\n`
+						+ `2. Go to \`%AppData%\\XIVLauncher\`\n`
 						+ `3. Remove the Addon\Hooks folder\n`
 						+ `4. Start the game now\n`
 						+ `5. Let us know if the issue persists`,
