@@ -157,7 +157,7 @@ module.exports = async (client, message) => {
 
 			message.attachments.forEach(async attachment => {
 				console.log(attachment.name);
-				if (attachment.name.match(/dalamud.*\.txt/gui)) {
+				if (attachment.name.match(/(dalamud|message).*\.txt/gui)) {
 					// read the data
 					console.log(attachment.attachment);
 					try {
