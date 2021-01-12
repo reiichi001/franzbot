@@ -45,6 +45,10 @@ exports.run = async (client, message, args) => {
 		case "mactype": args[0] = "rtss"; break;
 		case "hookfail": args[0] = "rtss"; break;
 		case "dns": args[0] = "vpn"; break;
+		case "oldplugin": args[0] = "oldplugins"; break;
+		case "jobicon": args[0] = "oldplugins"; break;
+		case "job icons": args[0] = "oldplugins"; break;
+		case "chatextender": args[0] = "oldplugins"; break;
 		case "testdalamud": args[0] = "dalamudtesting"; break;
 		case "dt": args[0] = "dalamudtesting"; break;
 		case "badplugin": args[0] = "removeplugin"; break;
@@ -53,7 +57,10 @@ exports.run = async (client, message, args) => {
 		case "baddalamud": args[0] = "removedalamud"; break;
 		case "reinstalldalamud": args[0] = "removedalamud"; break;
 		case "log": args[0] = "logxl"; break;
+		case "logs": args[0] = "logxl"; break;
+		case "xllog": args[0] = "logxl"; break;
 		case "logdalamud": args[0] = "logd"; break;
+		case "dlog": args[0] = "logd"; break;
 		default: break;
 	}
 
@@ -70,7 +77,7 @@ exports.run = async (client, message, args) => {
 					"fields": [
 						{
 							"name": "Known Issues posts",
-							"value": "dotnet dotnet48 hookfail integrity mactype opcode redist rivatuner rtss runtimes titleedit vcredist",
+							"value": "dotnet dotnet48 hookfail integrity mactype opcode redist rivatuner rtss runtimes vcredist",
 						},
 						{
 							"name": "FAQs and Help posts",
@@ -146,11 +153,11 @@ exports.run = async (client, message, args) => {
 				},
 			});
 			break;
-		case "titleedit":
+		case "oldplugins":
 			responses.push({
 				"embed": {
-					"title": `TitleEdit is dead as of 5.3`,
-					"description": `Pending rewrite. See [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/748671425774092288)`,
+					"title": `This plugin needs to be updated for the current client`,
+					"description": `ChatExtender and JobIcons are pending rewrites by the developer. Asking them constantly will only result in demotivation.`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -334,7 +341,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Please send us your dalamud.txt log`,
-					"description": `You can find it in \`%appdata%\\XIVLauncher\\addon\\Hooks\``,
+					"description": `Please send us the log file \`%appdata%\\XIVLauncher\\addon\\Hooks\\dalamud.txt\` in this channel, so we can look into the problem!`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					 "footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -346,7 +353,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Please send us your output.log file`,
-					"description": `You can find it in \`%appdata%\\XIVLauncher\\\``,
+					"description": `Please send us the log file \`%appdata%\\XIVLauncher\\output.log\` in this channel, so we can look into the problem!`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
