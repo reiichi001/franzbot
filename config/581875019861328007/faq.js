@@ -341,7 +341,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Please send us your dalamud.txt log`,
-					"description": `Please send us the log file \`%appdata%\\XIVLauncher\\addon\\Hooks\\dalamud.txt\` in this channel, so we can look into the problem!`,
+					"description": `Please send us your **dalamud.txt** log file from \`%appdata%\\XIVLauncher\\addon\\Hooks\\\` in this channel, so we can look into the problem!\n\nIt's best to just upload/attach the file if you can!`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					 "footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -353,7 +353,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Please send us your output.log file`,
-					"description": `Please send us the log file \`%appdata%\\XIVLauncher\\output.log\` in this channel, so we can look into the problem!`,
+					"description": `Please send us you **output.log** log file from \`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!\n\nIt's best to just upload/attach the file if you can!`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
