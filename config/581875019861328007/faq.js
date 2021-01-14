@@ -341,7 +341,12 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Please send us your dalamud.txt log`,
-					"description": `Please send us your **dalamud.txt** log file from \`%appdata%\\XIVLauncher\\addon\\Hooks\\\` in this channel, so we can look into the problem!\n\nIt's best to just upload/attach the file if you can!`,
+					"description": `Please send us your **dalamud.txt** log file from `
+						+ `\`%appdata%\\XIVLauncher\\addon\\Hooks\\\` in this channel, so we can look into the problem!`
+						+ `\n\nIt's best to just upload/attach the file if you can!`
+						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
+						+ `If you're not comfortable posting that here, you can DM to a trusted dev/mod or open `
+						+ `the file in a text editor to redact that information first.`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					 "footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -353,7 +358,12 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Please send us your output.log file`,
-					"description": `Please send us you **output.log** log file from \`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!\n\nIt's best to just upload/attach the file if you can!`,
+					"description": `Please send us you **output.log** log file from `
+						+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
+						+ `\n\nIt's best to just upload/attach the file if you can!`
+						+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
+						+ `If you're not comfortable posting that here, you can DM to a trusted dev/mod or open `
+						+ `the file in a text editor to redact that information first.`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
