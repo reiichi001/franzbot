@@ -337,6 +337,32 @@ exports.run = async (client, message, args) => {
 				},
 			});
 			break;
+		case "wtfast":
+			responses.push({
+				"embed": {
+					"title": `WTFast Configuration for XIVLauncher`,
+					"description": `You can find details on how to configure WTFast to work with xivlauncher `
+						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/795090328306188308)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "rtssdelay":
+			responses.push({
+				"embed": {
+					"title": `Injection delay for RivaTuner/RTSS`,
+					"description": `Please follow steps listed in the FAQ `
+						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/799735514517209149)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
 		case "logd":
 			responses.push({
 				"embed": {
@@ -395,7 +421,7 @@ exports.run = async (client, message, args) => {
 					"description": `General "how to delete a plugin" steps:\n`
 						+ `1. Close the game\n`
 						+ `2. Go to \`%AppData%\\XIVLauncher\`\n`
-						+ `3. Remove the Addon\Hooks folder\n`
+						+ `3. Remove the Addon\\Hooks folder\n`
 						+ `4. Start the game now\n`
 						+ `5. Let us know if the issue persists`,
 					"color": client.config.EMBED_NORMAL_COLOR,
