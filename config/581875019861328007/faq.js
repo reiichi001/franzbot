@@ -314,7 +314,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Only use Dalamud Testing when required`,
-					"description": `Please only enable Dalamud test builds when absolutely needed. It's not secret hidden features. Expect crashes and failed launches and for it to ruin yoiur raid night. More Info `
+					"description": `Please only enable Dalamud test builds when absolutely needed. It's not secret hidden features. Expect crashes and failed launches and for it to ruin your raid night. More Info `
 						+ `[HERE](https://discord.com/channels/581875019861328007/586590269063954432/780471778152546314)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
