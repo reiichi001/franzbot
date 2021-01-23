@@ -93,7 +93,7 @@ exports.run = async (client, message, args) => {
 						},
 						{
 							"name": "Backup Wiki (has screenshots)",
-							"value": "[WAMP Setup with HeidiSQL](https://wiki.ffxivrp.org/pages/ServerSetup",
+							"value": "[WAMP Setup with HeidiSQL](https://wiki.ffxivrp.org/pages/ServerSetup)",
 						},
 					],
 				},

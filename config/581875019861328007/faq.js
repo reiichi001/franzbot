@@ -27,8 +27,6 @@ exports.run = async (client, message, args) => {
 		case "net48": args[0] = "redist"; break;
 		case "net4.8": args[0] = "redist"; break;
 		case ".net4.8": args[0] = "redist"; break;
-		case "dalamudtesting": args[0] = "dalamudsettings"; break;
-		case "dalamudstaging": args[0] = "dalamudsettings"; break;
 		case "testplugins": args[0] = "dalamudsettings"; break;
 		case "plugintesting": args[0] = "dalamudsettings"; break;
 		case "xlsettings": args[0] = "dalamudsettings"; break;
@@ -49,6 +47,7 @@ exports.run = async (client, message, args) => {
 		case "jobicon": args[0] = "oldplugins"; break;
 		case "job icons": args[0] = "oldplugins"; break;
 		case "chatextender": args[0] = "oldplugins"; break;
+		case "dalamudstaging": args[0] = "dalamudtesting"; break;
 		case "testdalamud": args[0] = "dalamudtesting"; break;
 		case "dt": args[0] = "dalamudtesting"; break;
 		case "badplugin": args[0] = "removeplugin"; break;
@@ -315,8 +314,8 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Only use Dalamud Testing when required`,
-					"description": `Please only enable Dalamud test builds when absolutely needed.`
-						+ `[More info](https://discord.com/channels/581875019861328007/586590269063954432/780471778152546314)`,
+					"description": `Please only enable Dalamud test builds when absolutely needed. It's not secret hidden features. Expect crashes and failed launches and for it to ruin yoiur raid night. More Info `
+						+ `[HERE](https://discord.com/channels/581875019861328007/586590269063954432/780471778152546314)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
