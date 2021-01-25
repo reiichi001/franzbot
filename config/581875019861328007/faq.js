@@ -45,6 +45,7 @@ exports.run = async (client, message, args) => {
 		case "dns": args[0] = "vpn"; break;
 		case "oldplugin": args[0] = "oldplugins"; break;
 		case "jobicon": args[0] = "oldplugins"; break;
+		case "jobicons": args[0] = "oldplugins"; break;
 		case "job icons": args[0] = "oldplugins"; break;
 		case "chatextender": args[0] = "oldplugins"; break;
 		case "dalamudstaging": args[0] = "dalamudtesting"; break;
@@ -156,7 +157,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `This plugin needs to be updated for the current client`,
-					"description": `ChatExtender and JobIcons are pending rewrites by the developer. Asking them constantly will only result in demotivation.`,
+					"description": `You can find a list of popular, but not updated plugins and their status [Here]9https://discord.com/channels/581875019861328007/586590269063954432/773367448359403550)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -383,7 +384,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Please send us your output.log file`,
-					"description": `Please send us you **output.log** log file from `
+					"description": `Please send us your **output.log** log file from `
 						+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
 						+ `\n\nIt's best to just upload/attach the file if you can!`
 						+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
