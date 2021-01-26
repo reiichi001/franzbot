@@ -87,8 +87,9 @@ exports.run = async (client, message, args) => {
 						{
 							"name": "FAQs and Help posts",
 							"value": "account av antivirus badplugin bsod dalamudtesting dalamudsettings deletedalamud deleteplugin dns "
-								+ "env log logd logdalamud logxl maintenance patch plugins reinstalldalamud removedalamud reshade removeplugin "
-								+ "steam testplugins uninstall update xlhelp",
+								+ "env ffxivpath ffxivinstall log logd logdalamud gamepath gameinstall"
+								+ "logxl maintenance patch plugins reinstalldalamud removedalamud reshade removeplugin "
+								+ "steam steampath steaminstall testplugins uninstall update xlhelp",
 						},
 					],
 				},
