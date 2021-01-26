@@ -55,6 +55,12 @@ exports.run = async (client, message, args) => {
 		case "deletedalamud": args[0] = "removedalamud"; break;
 		case "baddalamud": args[0] = "removedalamud"; break;
 		case "reinstalldalamud": args[0] = "removedalamud"; break;
+		case "gameinstall": args[0] = "gamepath"; break;
+		case "steampath": args[0] = "gamepath"; break;
+		case "steaminstall": args[0] = "gamepath"; break;
+		case "path": args[0] = "gamepath"; break;
+		case "ffxivpath": args[0] = "gamepath"; break;
+		case "ffxivinstall": args[0] = "gamepath"; break;
 		case "log": args[0] = "logxl"; break;
 		case "logs": args[0] = "logxl"; break;
 		case "xllog": args[0] = "logxl"; break;
@@ -355,6 +361,21 @@ exports.run = async (client, message, args) => {
 					"title": `Injection delay for RivaTuner/RTSS`,
 					"description": `Please follow steps listed in the FAQ `
 						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/799735514517209149)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "gamepath":
+			responses.push({
+				"embed": {
+					"title": `Please check your gamepath in xivlauncher`,
+					"description": `XIVLauncher requires a working installation of the FFXIV game client, or it will install one for you. `
+						+ `On first install, XIVLauncher will try to autoselect your FFXIV install for you, based on the default `
+						+ `launcher's installation location and common Steam locations.\n\nFor more information, see `
+						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/803745635231596544)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
