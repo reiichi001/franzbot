@@ -55,12 +55,16 @@ exports.run = async (client, message, args) => {
 		case "deletedalamud": args[0] = "removedalamud"; break;
 		case "baddalamud": args[0] = "removedalamud"; break;
 		case "reinstalldalamud": args[0] = "removedalamud"; break;
+		case "badconfig": args[0] = "removeconfig"; break;
+		case "deleteconfig": args[0] = "removeconfig"; break;
+		case "pluginconfig": args[0] = "removeconfig"; break;
 		case "gameinstall": args[0] = "gamepath"; break;
 		case "steampath": args[0] = "gamepath"; break;
 		case "steaminstall": args[0] = "gamepath"; break;
 		case "path": args[0] = "gamepath"; break;
 		case "ffxivpath": args[0] = "gamepath"; break;
 		case "ffxivinstall": args[0] = "gamepath"; break;
+		case "exploits": args[0] = "exploit"; break;
 		case "log": args[0] = "logxl"; break;
 		case "logs": args[0] = "logxl"; break;
 		case "xllog": args[0] = "logxl"; break;
@@ -86,9 +90,9 @@ exports.run = async (client, message, args) => {
 						},
 						{
 							"name": "FAQs and Help posts",
-							"value": "account av antivirus badplugin bsod dalamudtesting dalamudsettings deletedalamud deleteplugin dns "
-								+ "env ffxivpath ffxivinstall log logd logdalamud gamepath gameinstall"
-								+ "logxl maintenance patch plugins reinstalldalamud removedalamud reshade removeplugin "
+							"value": "account av antivirus badconfig badplugin bsod dalamudtesting dalamudsettings deleteconfig deletedalamud deleteplugin dns "
+								+ "env exploit ffxivpath ffxivinstall log logd logdalamud gamepath gameinstall"
+								+ "logxl maintenance patch plugins reinstalldalamud removeconfig removedalamud reshade removeplugin "
 								+ "steam steampath steaminstall testplugins uninstall update xlhelp",
 						},
 					],
@@ -384,6 +388,21 @@ exports.run = async (client, message, args) => {
 				},
 			});
 			break;
+		case "exploit":
+			responses.push({
+				"embed": {
+					"title": `Please do not discuss exploits here`,
+					"description": `Per the [Server Rules](https://discord.com/channels/581875019861328007/585958820061249537/586214664954707968), `
+						+ `This server **is *not* intended for exploit development of discussion** or finding bugs in the game that could be abused, be they `
+						+ `visual or gameplay-relevant. Especially if the bug is something that is visible to other players. `
+						+ `Please refrain from discussing these topics here, no matter how inconsequential the bug may be.`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
 		case "logd":
 			responses.push({
 				"embed": {
@@ -443,6 +462,23 @@ exports.run = async (client, message, args) => {
 						+ `1. Close the game\n`
 						+ `2. Go to \`%AppData%\\XIVLauncher\`\n`
 						+ `3. Remove the Addon\\Hooks folder\n`
+						+ `4. Start the game now\n`
+						+ `5. Let us know if the issue persists`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "removeconfig":
+			responses.push({
+				"embed": {
+					"title": `Generic steps to remove a plugin's config`,
+					"description": `General "how to delete a plugin's config" steps:\n`
+						+ `1. Close the game\n`
+						+ `2. Go to \`%AppData%\\XIVLauncher\\pluginConfigs\`\n`
+						+ `3. Remove the offending config files\n`
 						+ `4. Start the game now\n`
 						+ `5. Let us know if the issue persists`,
 					"color": client.config.EMBED_NORMAL_COLOR,
