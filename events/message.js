@@ -257,7 +257,6 @@ module.exports = async (client, message) => {
 					},
 				},
 			};
-			break;
 		}
 
 		forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
