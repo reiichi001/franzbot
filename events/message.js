@@ -236,7 +236,7 @@ module.exports = async (client, message) => {
 			"demogoat",
 			"plugin developer",
 			"test",
-			"botters"
+			"botters",
 		]);
 
 
@@ -246,9 +246,9 @@ module.exports = async (client, message) => {
 			forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
 			forbiddenMinCount = 2;
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
-			
+
 			replyMessage = {
-			"embed": {
+				"embed": {
 					"title": client.config.TRIGGER_TITLE,
 					"description": "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",
 					"color": client.config.EMBED_ERROR_COLOR,
@@ -277,7 +277,7 @@ module.exports = async (client, message) => {
 	}
 
 	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
-	
+
 
 	// bandaid, clear all the important variables
 	forbidAny = [];
