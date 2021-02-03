@@ -260,7 +260,7 @@ module.exports = async (client, message) => {
 		}
 
 		forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
-		forbidCount.push(/(install|help|support|download|update)/gui);
+		forbidCount.push(/(install|help|support|download|update|use|using|where|find)/gui);
 		negateBadWords = [];
 		forbiddenMinCount = 1;
 		adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
