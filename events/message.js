@@ -147,9 +147,6 @@ module.exports = async (client, message) => {
 	let ignoredRoles = []; // an array of roles to ignore messages from
 	let replyMessage; // whatever this is, it gets sent via `message.reply()` unless it's falsey
 
-	// add some additional arrays for triggers for special exceptions
-	let thirdPartyForbidAny= [], thirdPartyForbidCount=[], thirdPartyNegateBadWords=[];
-
 	// Triggers for Goatplace
 	if (GoatTriggers.includes(message.guild.id)) {
 		console.log(`Found in GoatTriggers: ${message.channel.name}`);
@@ -234,10 +231,6 @@ module.exports = async (client, message) => {
 			//
 		}
 		// process triggers
-		forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
-		forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
-		forbiddenMinCount = 2;
-		adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 		ignoredRoles = ignoredRoles.concat([
 			"moderator",
 			"demogoat",
@@ -245,21 +238,34 @@ module.exports = async (client, message) => {
 			"test",
 			"botters"
 		]);
-		replyMessage = {
-		  "embed": {
-				"title": client.config.TRIGGER_TITLE,
-				"description": "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",
-				"color": client.config.EMBED_ERROR_COLOR,
-				"footer": {
-					"text": client.config.TRIGGER_FOOTER,
-				},
-			},
-		};
 
-		thirdPartyForbidAny.push(/(bdth|burn[ing]* down the house)/gui);
-		thirdPartyForbidCount.push(/(install|help|support|download|update)/gui);
-		thirdPartyNegateBadWords = [];
-		thirdPartyReplyMessage = {
+
+		// disabled as no new patches
+		if (client.config.NEWFFXIVPATCH) {
+			forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
+			forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
+			forbiddenMinCount = 2;
+			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
+			
+			replyMessage = {
+			"embed": {
+					"title": client.config.TRIGGER_TITLE,
+					"description": "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",
+					"color": client.config.EMBED_ERROR_COLOR,
+					"footer": {
+						"text": client.config.TRIGGER_FOOTER,
+					},
+				},
+			};
+			break;
+		}
+
+		forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
+		forbidCount.push(/(install|help|support|download|update)/gui);
+		negateBadWords = [];
+		forbiddenMinCount = 1;
+		adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
+		replyMessage = {
 		  "embed": {
 				"title": "We are unable to provide support for plugins installed via third-party repo. Please contact the plugin creator directly or ask in their support discords.",
 				"description": "",
@@ -271,13 +277,8 @@ module.exports = async (client, message) => {
 		};
 	}
 
-	// disabled as no new patches
-	if (client.config.NEWFFXIVPATCH) {
-		checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
-	}
-
-	// run check for unsupported plugins
-	checkTheMessage(message, thirdPartyForbidAny, thirdPartyForbidCount, thirdPartyNegateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, thirdPartyReplyMessage);
+	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
+	
 
 	// bandaid, clear all the important variables
 	forbidAny = [];
