@@ -266,8 +266,8 @@ module.exports = async (client, message) => {
 		adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 		replyMessage = {
 		  "embed": {
-				"title": "We are unable to provide support for plugins installed via third-party repo. Please contact the plugin creator directly or ask in their support discords.",
-				"description": "",
+				"title": "Automated message alert",
+				"description": "We are unable to provide support for plugins installed via third-party repo. Please contact the plugin creator directly or ask in their support discords.",
 				"color": client.config.EMBED_ERROR_COLOR,
 				"footer": {
 					"text": client.config.TRIGGER_FOOTER,
