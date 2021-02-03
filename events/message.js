@@ -147,6 +147,9 @@ module.exports = async (client, message) => {
 	let ignoredRoles = []; // an array of roles to ignore messages from
 	let replyMessage; // whatever this is, it gets sent via `message.reply()` unless it's falsey
 
+	// add some additional arrays for triggers for special exceptions
+	let thirdPartyForbidAny= [], thirdPartyForbidCount=[], thirdPartyNegateBadWords=[];
+
 	// Triggers for Goatplace
 	if (GoatTriggers.includes(message.guild.id)) {
 		console.log(`Found in GoatTriggers: ${message.channel.name}`);
