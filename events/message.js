@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const got = require('got');
 
 function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage) {
@@ -260,7 +261,7 @@ module.exports = async (client, message) => {
 		}
 
 		forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
-		forbidCount.push(/(install|help|support|download|update|use|using|where|find)/gui);
+		forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
 		negateBadWords = [];
 		forbiddenMinCount = 1;
 		adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
