@@ -408,8 +408,7 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `Please send us your dalamud.txt log`,
 					"description": `Please send us your **dalamud.txt** log file from `
-						+ `\`%appdata%\\XIVLauncher\\addon\\Hooks\\\` in this channel, so we can look into the problem!`
-						+ `\n**NOTE**: If you have versioned Dalamud folders, please get it from the latest one there.`
+						+ `\`%appdata%\\XIVLauncher\\addon\\\` in this channel, so we can look into the problem!`
 						+ `\n\nIt's best to just upload/attach the file if you can!`
 						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
 						+ `If you're not comfortable posting that here, you can DM to a trusted dev/mod or open `
@@ -443,11 +442,13 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `Generic steps to remove plugins manually`,
 					"description": `General "how to delete a plugin" steps:\n`
-						+ `1. Close the game\n`
+						+ `1. Close the game and xivlauncher\n`
 						+ `2. Go to \`%AppData%\\XIVLauncher\\installedPlugins\`\n`
 						+ `3. Remove the folder[s] for the plugin[s]\n`
 						+ `4. Start the game now\n`
-						+ `5. Let us know if the issue persists`,
+						+ `5. Let us know if the issue persists`
+						+ `\n\nEXPERIMENTAL: You can also now delete a plugin from xivlauncher before`
+						+ ` logging in. While this should work, it hasn't been tested extensively yet.`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -460,7 +461,7 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `Generic steps to remove/reinstall Dalamud`,
 					"description": `General "how to delete a plugin" steps:\n`
-						+ `1. Close the game\n`
+						+ `1. Close the game and xivlauncher\n`
 						+ `2. Go to \`%AppData%\\XIVLauncher\`\n`
 						+ `3. Remove the Addon\\Hooks folder\n`
 						+ `4. Start the game now\n`
@@ -477,7 +478,7 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `Generic steps to remove a plugin's config`,
 					"description": `General "how to delete a plugin's config" steps:\n`
-						+ `1. Close the game\n`
+						+ `1. Close the game and xivlauncher\n`
 						+ `2. Go to \`%AppData%\\XIVLauncher\\pluginConfigs\`\n`
 						+ `3. Remove the offending config files\n`
 						+ `4. Start the game now\n`
