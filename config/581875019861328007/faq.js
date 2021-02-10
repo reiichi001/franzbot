@@ -409,7 +409,7 @@ exports.run = async (client, message, args) => {
 					"title": `Please send us your dalamud.txt log`,
 					"description": `Please send us your **dalamud.txt** log file from `
 						+ `\`%appdata%\\XIVLauncher\\addon\\Hooks\\\` in this channel, so we can look into the problem!`
-						+ `**NOTE**: If you have versioned Dalamud folders, please get it from the latest one there.`
+						+ `\n**NOTE**: If you have versioned Dalamud folders, please get it from the latest one there.`
 						+ `\n\nIt's best to just upload/attach the file if you can!`
 						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
 						+ `If you're not comfortable posting that here, you can DM to a trusted dev/mod or open `
