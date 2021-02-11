@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 const got = require('got');
 
-function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage) {
+function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, ignorelength, replyMessage) {
 	if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
 		return;
 	}
@@ -69,7 +69,7 @@ function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbid
 		&& hasForbidAny
 		&& forbidCountQuantity >= forbiddenMinCount
 		&& adjustedWordWeight >= adjustedMinCount
-		&& message.content.length <= 220 // if it's longer than a tweet, it's probably a false positive
+		&& (message.content.length <= 220 || ignorelength === true) // if it's longer than a tweet, it's probably a false positive
 	) {
 		message.reply(replyMessage);
 	}
@@ -258,6 +258,14 @@ module.exports = async (client, message) => {
 					},
 				},
 			};
+
+			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
+
+
+			// bandaid, clear all the important variables
+			forbidAny = [];
+			forbidCount = [];
+			negateBadWords = [];
 		}
 
 		forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
@@ -277,7 +285,7 @@ module.exports = async (client, message) => {
 		};
 	}
 
-	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
+	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
 
 
 	// bandaid, clear all the important variables
@@ -311,7 +319,7 @@ module.exports = async (client, message) => {
 		};
 	}
 
-	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
+	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
 
 	// bandaid, clear all the important variables
 	forbidAny = [];
@@ -352,7 +360,7 @@ module.exports = async (client, message) => {
 		};
 	}
 
-	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, replyMessage);
+	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
 
 	// bandaid, clear all the important variables
 	forbidAny = [];
