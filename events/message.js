@@ -63,6 +63,7 @@ function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbid
 	}
 
 	console.log(`Bad wordset: ${forbidden.size} Goodwords: ${offsetWeight}`);
+	console.log(`Ignoring message length: ${ignorelength}`);
 
 	const adjustedWordWeight = forbidden.size - offsetWeight;
 	if (replyMessage
@@ -178,11 +179,47 @@ module.exports = async (client, message) => {
 							data = JSON.parse(data);
 
 							// make fancy embed and return
+							let  embedfields = [];
+							let plugintext = ">>> ";
+							let overflowed = false;
 
+							data.LoadedPlugins
+								.sort((a, b) => (a.Name.toLowerCase() > b.Name.toLowerCase() ? 1 : -1))
+								.forEach(plugin => {
+									plugintext += `**${plugin.Name}**`
+										+ ` - ${plugin.AssemblyVersion}\n`;
+									if (plugintext.length > 900) {
+										embedfields.push({
+											name: "Loaded plugins",
+											value: plugintext,
+										});
+										plugintext = ">>> ";
+										overflowed = true;
+									}
+								});
+
+							if (overflowed)
+							{
+								embedfields.push({
+									name: "Plugins Continued...",
+									value: plugintext,
+								});
+							}
+							else {
+								embedfields = [
+									{
+										name: "Loaded plugins as of last troubleshoot blob",
+										value: plugintext,
+									},
+								];
+							}
+
+							/*
 							const embedfields = data.LoadedPlugins.map(item => ({
 								name: item.Name,
 								value: item.AssemblyVersion,
 							}));
+							*/
 							if (data.ThirdRepo.length > 0) {
 								embedfields.push({
 									name: "Third party repos",
