@@ -198,8 +198,7 @@ module.exports = async (client, message) => {
 									}
 								});
 
-							if (overflowed)
-							{
+							if (overflowed) {
 								embedfields.push({
 									name: "Plugins Continued...",
 									value: plugintext,
@@ -248,7 +247,7 @@ module.exports = async (client, message) => {
 							replyMessage = {
 								"embed": {
 									"title": "Dalamud.txt parse results",
-									"description": "Franzbot has parsed your logfile."
+									"description": "Franzbot has parsed your logfile. "
 										+ "Here's some information about the plugins that were loaded.",
 									"color": client.config.EMBED_NORMAL_COLOR,
 									"footer": {
