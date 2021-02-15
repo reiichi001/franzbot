@@ -338,7 +338,8 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `SE's routing is shit. Use a VPN`,
-					"description": `If the auth fails for XL and the Official Launcher, it's likely a bad route from your connecto to Japan. A VPN may help.`
+					"description": `If you're getting consistent login or patch fail downloads on both XL and the Official Launcher,`
+						+ ` it's likely a bad route from your connection. A VPN may help you bypass the issue.`
 						+ `[More info](https://discord.com/channels/581875019861328007/586590269063954432/778784841201221632)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
