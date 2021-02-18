@@ -95,10 +95,12 @@ module.exports = async (client, message) => {
 		client.config.GUILDID_TESTING, // franzbot testing - general
 		client.config.GUILDID_METEOR, // Meteor - general
 	];
+	/*
 	const ZuTriggers = [
 		client.config.GUILDID_TESTING, // franzbot testing - general
 		client.config.GUILDID_ZU, // Zu - general
 	];
+	*/
 	console.log(`GUILD: ${message.guild.id}, CHANNEL: ${message.channel.id}`);
 
 	// Checks if the bot was mentioned, with no message after it, returns the prefix.
@@ -362,6 +364,7 @@ module.exports = async (client, message) => {
 	forbidCount = [];
 	negateBadWords = [];
 
+	/*
 	// Triggers for Zu
 	if (ZuTriggers.includes(message.guild.id)) {
 		console.log(`Found in ZuTriggers: ${message.channel.name}`);
@@ -402,7 +405,7 @@ module.exports = async (client, message) => {
 	forbidAny = [];
 	forbidCount = [];
 	negateBadWords = [];
-
+	*/
 
 	// End of PrincessRTFM's rewrite
 
