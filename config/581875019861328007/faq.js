@@ -70,7 +70,7 @@ exports.run = async (client, message, args) => {
 		case "xllog": args[0] = "logxl"; break;
 		case "logdalamud": args[0] = "logd"; break;
 		case "dlog": args[0] = "logd"; break;
-		case "logdl": args[0] = "logd"; break; //just for Aireil
+		case "logdl": args[0] = "logd"; break; // just for Aireil
 		default: break;
 	}
 

@@ -269,7 +269,18 @@ module.exports = async (client, message) => {
 			});
 			//
 		}
-		// process triggers
+
+		// START custom triggers that I probably shouldn't do.
+
+		// just for Attick
+		if (message.author.id == "131195749017976833"
+			&& message.content.match(/(glad|happy) to help/gui)) {
+			message.channel.send("https://cdn.discordapp.com/attachments/684745859497590843/812389944013881394/unknown.png");
+		}
+
+		// END custom triggers that I probably shouldn't do.
+
+		// process actual triggers
 		ignoredRoles = ignoredRoles.concat([
 			"moderator",
 			"demogoat",
@@ -321,15 +332,13 @@ module.exports = async (client, message) => {
 				},
 			},
 		};
+
+		checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
+		// bandaid, clear all the important variables
+		forbidAny = [];
+		forbidCount = [];
+		negateBadWords = [];
 	}
-
-	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
-
-
-	// bandaid, clear all the important variables
-	forbidAny = [];
-	forbidCount = [];
-	negateBadWords = [];
 
 	// Triggers for Project Meteor
 	if (MeteorTriggers.includes(message.guild.id)) {
@@ -355,14 +364,14 @@ module.exports = async (client, message) => {
 				},
 			},
 		};
+
+		checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
+
+		// bandaid, clear all the important variables
+		forbidAny = [];
+		forbidCount = [];
+		negateBadWords = [];
 	}
-
-	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
-
-	// bandaid, clear all the important variables
-	forbidAny = [];
-	forbidCount = [];
-	negateBadWords = [];
 
 	/*
 	// Triggers for Zu
@@ -397,14 +406,13 @@ module.exports = async (client, message) => {
 				],
 			},
 		};
+		checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
+
+		// bandaid, clear all the important variables
+		forbidAny = [];
+		forbidCount = [];
+		negateBadWords = [];
 	}
-
-	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
-
-	// bandaid, clear all the important variables
-	forbidAny = [];
-	forbidCount = [];
-	negateBadWords = [];
 	*/
 
 	// End of PrincessRTFM's rewrite
