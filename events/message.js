@@ -174,9 +174,17 @@ module.exports = async (client, message) => {
 
 			message.attachments.forEach(async attachment => {
 				console.log(attachment.name);
+				if (attachment.size > (5 * 1024 * 1024)) {
+					console.log("Big chonker file. That's a lot of text...");
+					message.channel.send("This file is pretty big and has not be relayed.\n"
+						+ "Perhaps you'd like to generate a fresh log that's smaller?\n\n"
+						+ "To do that, just delete your log file and try to relaunch with xivlauncher. "
+						+ "Then upload the new log, which should be much smaller!");
+					return;
+				}
 				// relay the ouput.log to a private channel
 				if (isDirectMessage && attachment.name.match(/(output|dalamud|message).*\.(log|txt)/gui)) {
-					console.log(`Launcher or Dalamud log upload: ${attachment}`);
+					console.log(`Launcher or Dalamud log upload: ${attachment.attachment}`);
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
 					await customChannel.send(`${message.author.username} uploaded an attachment in DMs`, attachment);
