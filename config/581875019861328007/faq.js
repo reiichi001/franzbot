@@ -413,8 +413,10 @@ exports.run = async (client, message, args) => {
 						+ `\`%appdata%\\XIVLauncher\\addon\\\` in this channel, so we can look into the problem!`
 						+ `\n\nIt's best to just upload/attach the file if you can!`
 						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
-						+ `If you're not comfortable posting that here, you can DM to a trusted dev/mod or open `
-						+ `the file in a text editor to redact that information first.`,
+						+ `If you're not comfortable posting that here, you can `
+						+ `open the file in a text editor to redact that information first or `
+						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+						+ `__Please upload the file directly. If you have Nitro, please make sure it's under 8.0 MB.__`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"image": {
 						"url": "https://cdn.discordapp.com/attachments/687530726756712478/810897701864210472/explorer_2021-02-08_19-20-41.png",
@@ -433,8 +435,10 @@ exports.run = async (client, message, args) => {
 						+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
 						+ `\n\nIt's best to just upload/attach the file if you can!`
 						+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
-						+ `If you're not comfortable posting that here, you can DM to a trusted dev/mod or open `
-						+ `the file in a text editor to redact that information first.`,
+						+ `If you're not comfortable posting that here, you can `
+						+ `open the file in a text editor to redact that information first or `
+						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+						+ `__Please upload the file directly. If you have Nitro, please make sure it's under 8.0 MB.__`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"image": {
 						"url": "https://cdn.discordapp.com/attachments/687530726756712478/810897701864210472/explorer_2021-02-08_19-20-41.png",

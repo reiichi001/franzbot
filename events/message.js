@@ -86,6 +86,8 @@ module.exports = async (client, message) => {
 		return;
 	}
 
+	const isDirectMessage = message.channel.type == "dm";
+
 	// Channel-specific markers
 	const GoatTriggers = [
 		client.config.GUILDID_TESTING, // franzbot testing - general
@@ -101,7 +103,12 @@ module.exports = async (client, message) => {
 		client.config.GUILDID_ZU, // Zu - general
 	];
 	*/
-	console.log(`GUILD: ${message.guild.id}, CHANNEL: ${message.channel.id}`);
+	if (isDirectMessage) {
+		console.log(`Received a DM from ${message.author.username}.`);
+	}
+	else {
+		console.log(`GUILD: ${message.guild.id}, CHANNEL: ${message.channel.id}`);
+	}
 
 	// Checks if the bot was mentioned, with no message after it, returns the prefix.
 	const prefixMention = new RegExp(`^\\s*<@!?${client.user.id}>\\s*$`, 'u');
@@ -152,16 +159,31 @@ module.exports = async (client, message) => {
 	let replyMessage; // whatever this is, it gets sent via `message.reply()` unless it's falsey
 
 	// Triggers for Goatplace
-	if (GoatTriggers.includes(message.guild.id)) {
-		console.log(`Found in GoatTriggers: ${message.channel.name}`);
+	if (isDirectMessage || GoatTriggers.includes(message.guild.id)) {
+		console.log(`Found in GoatTriggers: ${isDirectMessage ? "direct message" : message.channel.name}`);
+
+		// some debugging
+		let customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_GOAT);
+		if (client.config.DEBUGMODE) {
+			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_TEST);
+		}
 
 		// check if it's a dalamud log
-		if (message.attachments.size > 0) {
+		if (message.attachments.size > 0)  {
 			console.log("Found an attachment in this message");
 
 			message.attachments.forEach(async attachment => {
 				console.log(attachment.name);
-				if (attachment.name.match(/(dalamud|message).*\.txt/gui)) {
+				// relay the ouput.log to a private channel
+				if (isDirectMessage && attachment.name.match(/(output|dalamud|message).*\.(log|txt)/gui)) {
+					console.log(`Launcher or Dalamud log upload: ${attachment}`);
+					// const response = await got(attachment.attachment);
+					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
+					await customChannel.send(`${message.author.username} uploaded an attachment in DMs`, attachment);
+				}
+
+				// handle the dalamud.txt file
+				if (attachment.name.match(/(dalamud|message).*\.(log|txt)/gui)) {
 					// read the data
 					console.log(attachment.attachment);
 					try {
@@ -172,12 +194,12 @@ module.exports = async (client, message) => {
 						if (results.length > 0) {
 							let data = results[results.length - 1];
 							data = data.slice(16);
-							console.log(data);
+							// console.log(data);
 
 							// decrypt from base64
 							const buffer = new Buffer.from(data, 'base64');
 							data = buffer.toString('ascii');
-							console.log(data);
+							// console.log(data);
 							data = JSON.parse(data);
 
 							// make fancy embed and return
@@ -258,8 +280,12 @@ module.exports = async (client, message) => {
 									"fields": embedfields,
 								},
 							};
-
-							message.reply(replyMessage);
+							if (isDirectMessage) {
+								customChannel.send(replyMessage);
+							}
+							else {
+								message.reply(replyMessage);
+							}
 						}
 					}
 					catch (error) {
@@ -267,7 +293,11 @@ module.exports = async (client, message) => {
 					}
 				}
 			});
-			//
+		}
+
+		// we don't want to deal with any other DMs.
+		if (isDirectMessage) {
+			return;
 		}
 
 		// START custom triggers that I probably shouldn't do.
