@@ -174,7 +174,8 @@ module.exports = async (client, message) => {
 
 			message.attachments.forEach(async attachment => {
 				console.log(attachment.name);
-				if (isDirectMessage) {
+				if (isDirectMessage && attachment.name.match(/(output|dalamud|message).*\.(log|txt)/gui)) {
+					// sane filesizes only
 					if (attachment.size > (5 * 1024 * 1024)) {
 						console.log("Big chonker file. That's a lot of text...");
 						message.channel.send("This file is pretty big and has not be relayed.\n"
@@ -183,13 +184,11 @@ module.exports = async (client, message) => {
 							+ "Then upload the new log, which should be much smaller!");
 						return;
 					}
-					// relay the ouput.log to a private channel
-					if (attachment.name.match(/(output|dalamud|message).*\.(log|txt)/gui)) {
-						console.log(`Launcher or Dalamud log upload: ${attachment.attachment}`);
-						// const response = await got(attachment.attachment);
-						console.log(`Fetched custom channel to relay: ${customChannel.name}`);
-						await customChannel.send(`${message.author.username} uploaded an attachment in DMs`, attachment);
-					}
+
+					console.log(`Launcher or Dalamud log upload: ${attachment.attachment}`);
+					// const response = await got(attachment.attachment);
+					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
+					await customChannel.send(`${message.author.username} uploaded an attachment in DMs`, attachment);
 				}
 
 				// handle the dalamud.txt file
