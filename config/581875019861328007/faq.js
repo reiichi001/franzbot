@@ -5,7 +5,7 @@ exports.run = async (client, message, args) => {
 	if (args.length < 1) {
 		args = ["help"];
 	}
-	else if (args.length > 2) {
+	else if (args.length >= 2) {
 		args = [args.join("")]; // watch this magic shite
 	}
 	console.log(`FAQ command found in TestTriggers: ${message.channel.name}`);
