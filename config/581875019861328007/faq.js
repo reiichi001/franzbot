@@ -5,11 +5,20 @@ exports.run = async (client, message, args) => {
 	if (args.length < 1) {
 		args = ["help"];
 	}
+	else if (args.length > 2) {
+		args = [args.join("")]; // watch this magic shite
+	}
 	console.log(`FAQ command found in TestTriggers: ${message.channel.name}`);
 	const responses = [];
 
 	switch (args[0]) {
 		// aliases
+		case "accountcreds": args[0] = "account"; break;
+		case "accountcredentials": args[0] = "account"; break;
+		case "creds": args[0] = "account"; break;
+		case "credentials": args[0] = "account"; break;
+		case "savedcreds": args[0] = "account"; break;
+		case "savedcredentials": args[0] = "account"; break;
 		case "patch": args[0] = "update"; break;
 		case "patches": args[0] = "update"; break;
 		case "new patch": args[0] = "update"; break;
@@ -66,9 +75,12 @@ exports.run = async (client, message, args) => {
 		case "ffxivinstall": args[0] = "gamepath"; break;
 		case "exploits": args[0] = "exploit"; break;
 		case "log": args[0] = "logxl"; break;
+		case "launcherlog": args[0] = "logxl"; break;
+		case "xivlauncherlog": args[0] = "logxl"; break;
 		case "logs": args[0] = "logxl"; break;
 		case "xllog": args[0] = "logxl"; break;
 		case "logdalamud": args[0] = "logd"; break;
+		case "dalamudlog": args[0] = "logd"; break;
 		case "dlog": args[0] = "logd"; break;
 		case "logdl": args[0] = "logd"; break; // just for Aireil
 		default: break;
@@ -91,10 +103,10 @@ exports.run = async (client, message, args) => {
 						},
 						{
 							"name": "FAQs and Help posts",
-							"value": "account av antivirus badconfig badplugin bsod dalamudtesting dalamudsettings deleteconfig deletedalamud deleteplugin dns "
-								+ "env exploit ffxivpath ffxivinstall log logd logdalamud gamepath gameinstall"
-								+ "logxl maintenance patch plugins reinstalldalamud removeconfig removedalamud reshade removeplugin "
-								+ "steam steampath steaminstall testplugins uninstall update xlhelp",
+							"value": "account av antivirus badconfig badplugin bsod credes credentials dalamudtesting dalamudsettings "
+								+ "deleteconfig deletedalamud deleteplugin dns env exploit ffxivpath ffxivinstall log logd logdalamud "
+								+ "gamepath gameinstall logxl maintenance migrate patch plugins reinstalldalamud removeconfig removedalamud "
+								+ "reshade removeplugin steam steampath steaminstall testplugins uninstall update xlhelp",
 						},
 					],
 				},
@@ -368,6 +380,26 @@ exports.run = async (client, message, args) => {
 					"title": `Injection delay for RivaTuner/RTSS`,
 					"description": `Please follow steps listed in the FAQ `
 						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/799735514517209149)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "migrate":
+			responses.push({
+				"embed": {
+					"title": `Migrating FFXIV or XIVLauncher?`,
+					"description": `The main FFXIV installation folder is entirely portable. You can freely move/copy it `
+						+ `between different locations as long as your computer has all redistributables needed to run it.\n\n`
+						+ `XIVLauncher on the other hand is *technically* portable, but we recommend only copying plugin configuration `
+						+ `accross different computers as the launcher/dalamud settings should stay machine-specific and you should `
+						+ `**NEVER** copy your installed plugins. (Users who know enough should know better)\n\n`
+						+ `The Linux FAQ post for this can be found `
+						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/810235090261114910)`
+						+ `The Windows FAQ post for this can be found `
+						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/810237271462772776)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
