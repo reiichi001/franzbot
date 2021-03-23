@@ -83,6 +83,15 @@ exports.run = async (client, message, args) => {
 		case "dalamudlog": args[0] = "logd"; break;
 		case "dlog": args[0] = "logd"; break;
 		case "logdl": args[0] = "logd"; break; // just for Aireil
+		case "xldev": args[0] = "dev"; break;
+		case "xivlauncherdev": args[0] = "dev"; break;
+		case "dalamuddev": args[0] = "dev"; break;
+		case "plugindev": args[0] = "dev"; break;
+		case "development": args[0] = "dev"; break;
+		case "xldevelopment": args[0] = "dev"; break;
+		case "xivlauncherdevelopment": args[0] = "dev"; break;
+		case "dalamuddevelopment": args[0] = "dev"; break;
+		case "plugindevelopment": args[0] = "dev"; break;
 		default: break;
 	}
 
@@ -430,6 +439,35 @@ exports.run = async (client, message, args) => {
 						+ `This server **is *not* intended for exploit development of discussion** or finding bugs in the game that could be abused, be they `
 						+ `visual or gameplay-relevant. Especially if the bug is something that is visible to other players. `
 						+ `Please refrain from discussing these topics here, no matter how inconsequential the bug may be.`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "dssenh":
+			responses.push({
+				"embed": {
+					"title": `SSL/TLS issues on wine?`,
+					"description": `If you're running into SSL/TLS issues while using Wine/Lutris, this may `
+						+ `be part of recent changes to your distro's SSL configuration. Especially on newer `
+						+ `distributions. \n\nSee the FAQ for more details `
+						+ `[HERE](https://discord.com/channels/581875019861328007/586590269063954432/820419977001697320)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "dev":
+			responses.push({
+				"embed": {
+					"title": `Developer Resources`,
+					"description": `The primary developer resources should all be on their relevant GitHub pages `
+						+ `but for some quick links to a few common resources, see our FAQ post `
+						+ `[HERE](https://discord.com/channels/581875019861328007/586590269063954432/824039234100658197)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
