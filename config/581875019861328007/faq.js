@@ -478,9 +478,9 @@ exports.run = async (client, message, args) => {
 		case "logd":
 			responses.push({
 				"embed": {
-					"title": `Please send us your dalamud.txt log`,
-					"description": `Please send us your **dalamud.txt** log file from `
-						+ `\`%appdata%\\XIVLauncher\\addon\\\` in this channel, so we can look into the problem!`
+					"title": `Please send us your dalamud.log file`,
+					"description": `Please send us your **dalamud.log** log file from `
+						+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
 						+ `\n\nIt's best to just upload/attach the file if you can!`
 						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
 						+ `If you're not comfortable posting that here, you can `
