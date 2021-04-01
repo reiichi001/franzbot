@@ -137,6 +137,22 @@ exports.run = async (client, message, args) => {
 			break;
 		*/
 		// KNOWN ISSUES
+		case "tippy":
+			responses.push({
+				"embed": {
+					"title": `Happy April Fools Day`,
+					"description": `Tippy would never lie to you.\n\n`
+					+ `In fact, Tippy's AI-powered knowledge base is compiled from only the finest community feedback.\n\n`
+					+ `It's also a joke. 🎊\n\n`
+					+ `If you don't see the "Go Away" button, you can get it by relaunching. Or if you're impatient, `
+					+ `you can also use \`/dontfoolme\` to kill Tippy forever. You monster.`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
 		case "integrity":
 			responses.push({
 				"embed": {
