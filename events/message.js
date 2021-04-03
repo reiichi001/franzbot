@@ -1,6 +1,19 @@
 /* eslint-disable max-len */
 const got = require('got');
 
+const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+
+const lastResponseTimes = new Map(); // Map<string, number>
+
+function timeoutEnded(identifier, timeoutMs) {
+	return lastResponseTimes.get(identifier) == null || Date.now() - lastResponseTimes.get(identifier) > timeoutMs;
+}
+
+function resetTimeout(identifier) {
+	lastResponseTimes.set(identifier, Date.now());
+}
+
 function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, ignorelength, replyMessage) {
 	if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
 		return;
@@ -330,7 +343,8 @@ module.exports = async (client, message) => {
 
 
 		// disabled as no new patches
-		if (client.config.NEWFFXIVPATCH) {
+		let sectionIdentifier = "newpatch";
+		if (client.config.NEWFFXIVPATCH && timeoutEnded(sectionIdentifier, 5 * SECOND)) {
 			forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
 			forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
 			forbiddenMinCount = 2;
@@ -349,6 +363,7 @@ module.exports = async (client, message) => {
 
 			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
 
+			resetTimeout(sectionIdentifier);
 
 			// bandaid, clear all the important variables
 			forbidAny = [];
@@ -356,27 +371,33 @@ module.exports = async (client, message) => {
 			negateBadWords = [];
 		}
 
-		forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
-		forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
-		negateBadWords = [];
-		forbiddenMinCount = 1;
-		adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
-		replyMessage = {
-		  "embed": {
-				"title": "Automated message alert",
-				"description": "We are unable to provide support for plugins installed via third-party repo. Please contact the plugin creator directly or ask in their support discords.",
-				"color": client.config.EMBED_ERROR_COLOR,
-				"footer": {
-					"text": client.config.TRIGGER_FOOTER,
+		sectionIdentifier = "bdth";
+		if (timeoutEnded(sectionIdentifier, 5 * SECOND)) {
+			forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
+			forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
+			negateBadWords = [];
+			forbiddenMinCount = 1;
+			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
+			replyMessage = {
+			"embed": {
+					"title": "Automated message alert",
+					"description": "We are unable to provide support for plugins installed via third-party repo. Please contact the plugin creator directly or ask in their support discords.",
+					"color": client.config.EMBED_ERROR_COLOR,
+					"footer": {
+						"text": client.config.TRIGGER_FOOTER,
+					},
 				},
-			},
-		};
+			};
 
-		checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
-		// bandaid, clear all the important variables
-		forbidAny = [];
-		forbidCount = [];
-		negateBadWords = [];
+			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
+
+			resetTimeout(sectionIdentifier);
+
+			// bandaid, clear all the important variables
+			forbidAny = [];
+			forbidCount = [];
+			negateBadWords = [];
+		}
 	}
 
 	// Triggers for Project Meteor
