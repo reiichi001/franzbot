@@ -6,8 +6,12 @@ const MINUTE = 60 * SECOND;
 
 const lastResponseTimes = new Map(); // Map<string, number>
 
+function timeoutSet(identifier) {
+	return lastResponseTimes.get(identifier) != null;
+}
+
 function timeoutEnded(identifier, timeoutMs) {
-	return lastResponseTimes.get(identifier) == null || Date.now() - lastResponseTimes.get(identifier) > timeoutMs;
+	return !timeoutSet(identifier) || Date.now() - lastResponseTimes.get(identifier) > timeoutMs;
 }
 
 function resetTimeout(identifier) {
@@ -344,31 +348,35 @@ module.exports = async (client, message) => {
 
 		// disabled as no new patches
 		let sectionIdentifier = "newpatch";
-		if (client.config.NEWFFXIVPATCH && timeoutEnded(sectionIdentifier, 3 * SECOND)) {
-			forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
-			forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
-			forbiddenMinCount = 2;
-			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
+		if (client.config.NEWFFXIVPATCH) {
+			if (timeoutEnded(sectionIdentifier, 3 * SECOND)) {
+				forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
+				forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
+				forbiddenMinCount = 2;
+				adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 
-			replyMessage = {
-				"embed": {
-					"title": client.config.TRIGGER_TITLE,
-					"description": "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",
-					"color": client.config.EMBED_ERROR_COLOR,
-					"footer": {
-						"text": client.config.TRIGGER_FOOTER,
+				replyMessage = {
+					"embed": {
+						"title": client.config.TRIGGER_TITLE,
+						"description": "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",
+						"color": client.config.EMBED_ERROR_COLOR,
+						"footer": {
+							"text": client.config.TRIGGER_FOOTER,
+						},
 					},
-				},
-			};
+				};
 
-			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
+				checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
 
-			resetTimeout(sectionIdentifier);
+				resetTimeout(sectionIdentifier);
 
-			// bandaid, clear all the important variables
-			forbidAny = [];
-			forbidCount = [];
-			negateBadWords = [];
+				// bandaid, clear all the important variables
+				forbidAny = [];
+				forbidCount = [];
+				negateBadWords = [];
+			} else if (timeoutSet(sectionIdentifier)) {
+				console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+			}
 		}
 
 		sectionIdentifier = "bdth";
@@ -397,6 +405,8 @@ module.exports = async (client, message) => {
 			forbidAny = [];
 			forbidCount = [];
 			negateBadWords = [];
+		} else if (timeoutSet(sectionIdentifier)) {
+			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 
 		sectionIdentifier = "suggestions";
@@ -404,7 +414,7 @@ module.exports = async (client, message) => {
 			// These need to be set to things about suggestions
 			//forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
 			//forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
-			//negateBadWords = [];
+			negateBadWords = [];
 			forbiddenMinCount = 1;
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 			replyMessage = {
@@ -426,6 +436,8 @@ module.exports = async (client, message) => {
 			forbidAny = [];
 			forbidCount = [];
 			negateBadWords = [];
+		} else if (timeoutSet(sectionIdentifier)) {
+			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 	}
 
