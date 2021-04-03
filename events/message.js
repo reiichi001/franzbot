@@ -11,11 +11,11 @@ function makeTimeoutManager() {
 		const currentTimeout = lastResponseTimes.get(identifier);
 		return currentTimeout !== null && typeof currentTimeout !== "undefined";
 	}
-	
+
 	function timeoutEnded(identifier, timeoutMs) {
 		return !timeoutSet(identifier) || Date.now() - lastResponseTimes.get(identifier) > timeoutMs;
 	}
-	
+
 	function resetTimeout(identifier) {
 		lastResponseTimes.set(identifier, Date.now());
 	}
@@ -24,10 +24,10 @@ function makeTimeoutManager() {
 		timeoutSet,
 		timeoutEnded,
 		resetTimeout,
-	}
+	};
 }
 
-const timeoutManager = makeTimeoutManager()
+const timeoutManager = makeTimeoutManager();
 
 function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, ignorelength, replyMessage) {
 	if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
