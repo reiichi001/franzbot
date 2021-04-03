@@ -8,7 +8,7 @@ const lastResponseTimes = new Map(); // Map<string, number>
 
 function timeoutSet(identifier) {
 	const currentTimeout = lastResponseTimes.get(identifier);
-	return currentTimeout !== null && currentTimeout !== undefined;
+	return currentTimeout !== null && typeof currentTimeout !== "undefined";
 }
 
 function timeoutEnded(identifier, timeoutMs) {
@@ -389,7 +389,7 @@ module.exports = async (client, message) => {
 			forbiddenMinCount = 1;
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 			replyMessage = {
-			"embed": {
+				"embed": {
 					"title": "Automated message alert",
 					"description": "We are unable to provide support for plugins installed via third-party repo. Please contact the plugin creator directly or ask in their support discords.",
 					"color": client.config.EMBED_ERROR_COLOR,
