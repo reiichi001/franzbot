@@ -7,7 +7,8 @@ const MINUTE = 60 * SECOND;
 const lastResponseTimes = new Map(); // Map<string, number>
 
 function timeoutSet(identifier) {
-	return lastResponseTimes.get(identifier) != null;
+	const currentTimeout = lastResponseTimes.get(identifier);
+	return currentTimeout !== null && currentTimeout !== undefined;
 }
 
 function timeoutEnded(identifier, timeoutMs) {
@@ -374,7 +375,8 @@ module.exports = async (client, message) => {
 				forbidAny = [];
 				forbidCount = [];
 				negateBadWords = [];
-			} else if (timeoutSet(sectionIdentifier)) {
+			}
+			else if (timeoutSet(sectionIdentifier)) {
 				console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 			}
 		}
@@ -405,20 +407,21 @@ module.exports = async (client, message) => {
 			forbidAny = [];
 			forbidCount = [];
 			negateBadWords = [];
-		} else if (timeoutSet(sectionIdentifier)) {
+		}
+		else if (timeoutSet(sectionIdentifier)) {
 			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 
 		sectionIdentifier = "suggestions";
 		if (timeoutEnded(sectionIdentifier, 15 * MINUTE)) {
 			// These need to be set to things about suggestions
-			//forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
-			//forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
+			// forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
+			// forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
 			negateBadWords = [];
 			forbiddenMinCount = 1;
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 			replyMessage = {
-			"embed": {
+				"embed": {
 					"title": "Automated message alert",
 					"description": "If you are proposing a new plugin and have a GitHub account, please consider opening an issue on the [suggestions repository](https://github.com/goatcorp/suggestions/issues/new?assignees=&labels=discussion+requested&template=plugin_request.md&title=).",
 					"color": client.config.EMBED_ERROR_COLOR,
@@ -436,7 +439,8 @@ module.exports = async (client, message) => {
 			forbidAny = [];
 			forbidCount = [];
 			negateBadWords = [];
-		} else if (timeoutSet(sectionIdentifier)) {
+		}
+		else if (timeoutSet(sectionIdentifier)) {
 			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 	}
