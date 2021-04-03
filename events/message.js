@@ -1,6 +1,34 @@
 /* eslint-disable max-len */
 const got = require('got');
 
+const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+
+function makeTimeoutManager() {
+	const lastResponseTimes = new Map(); // Map<string, number>
+
+	function timeoutSet(identifier) {
+		const currentTimeout = lastResponseTimes.get(identifier);
+		return currentTimeout !== null && typeof currentTimeout !== "undefined";
+	}
+
+	function timeoutEnded(identifier, timeoutMs) {
+		return !timeoutSet(identifier) || Date.now() - lastResponseTimes.get(identifier) > timeoutMs;
+	}
+
+	function resetTimeout(identifier) {
+		lastResponseTimes.set(identifier, Date.now());
+	}
+
+	return {
+		timeoutSet,
+		timeoutEnded,
+		resetTimeout,
+	};
+}
+
+const timeoutManager = makeTimeoutManager();
+
 function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, ignorelength, replyMessage) {
 	if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
 		return;
@@ -330,16 +358,50 @@ module.exports = async (client, message) => {
 
 
 		// disabled as no new patches
+		let sectionIdentifier = "newpatch";
 		if (client.config.NEWFFXIVPATCH) {
-			forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
-			forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
-			forbiddenMinCount = 2;
-			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
+			if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
+				forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
+				forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
+				forbiddenMinCount = 2;
+				adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 
+				replyMessage = {
+					"embed": {
+						"title": client.config.TRIGGER_TITLE,
+						"description": "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",
+						"color": client.config.EMBED_ERROR_COLOR,
+						"footer": {
+							"text": client.config.TRIGGER_FOOTER,
+						},
+					},
+				};
+
+				checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
+
+				timeoutManager.resetTimeout(sectionIdentifier);
+
+				// bandaid, clear all the important variables
+				forbidAny = [];
+				forbidCount = [];
+				negateBadWords = [];
+			}
+			else if (timeoutManager.timeoutSet(sectionIdentifier)) {
+				console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+			}
+		}
+
+		sectionIdentifier = "bdth";
+		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
+			forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
+			forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
+			negateBadWords = [];
+			forbiddenMinCount = 1;
+			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 			replyMessage = {
 				"embed": {
-					"title": client.config.TRIGGER_TITLE,
-					"description": "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",
+					"title": "Automated message alert",
+					"description": "We are unable to provide support for plugins installed via third-party repo. Please contact the plugin creator directly or ask in their support discords.",
 					"color": client.config.EMBED_ERROR_COLOR,
 					"footer": {
 						"text": client.config.TRIGGER_FOOTER,
@@ -347,36 +409,50 @@ module.exports = async (client, message) => {
 				},
 			};
 
-			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
+			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
 
+			timeoutManager.resetTimeout(sectionIdentifier);
 
 			// bandaid, clear all the important variables
 			forbidAny = [];
 			forbidCount = [];
 			negateBadWords = [];
 		}
+		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
+			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+		}
 
-		forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
-		forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
-		negateBadWords = [];
-		forbiddenMinCount = 1;
-		adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
-		replyMessage = {
-		  "embed": {
-				"title": "Automated message alert",
-				"description": "We are unable to provide support for plugins installed via third-party repo. Please contact the plugin creator directly or ask in their support discords.",
-				"color": client.config.EMBED_ERROR_COLOR,
-				"footer": {
-					"text": client.config.TRIGGER_FOOTER,
+		sectionIdentifier = "suggestions";
+		if (timeoutManager.timeoutEnded(sectionIdentifier, 15 * MINUTE)) {
+			// These need to be set to things about suggestions
+			// forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
+			// forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
+			negateBadWords = [];
+			forbiddenMinCount = 1;
+			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
+			replyMessage = {
+				"embed": {
+					"title": "Automated message alert",
+					"description": "If you are proposing a new plugin and have a GitHub account, please consider opening an issue on the [suggestions repository](https://github.com/goatcorp/suggestions/issues/new?assignees=&labels=discussion+requested&template=plugin_request.md&title=).",
+					"color": client.config.EMBED_ERROR_COLOR,
+					"footer": {
+						"text": client.config.TRIGGER_FOOTER,
+					},
 				},
-			},
-		};
+			};
 
-		checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
-		// bandaid, clear all the important variables
-		forbidAny = [];
-		forbidCount = [];
-		negateBadWords = [];
+			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
+
+			timeoutManager.resetTimeout(sectionIdentifier);
+
+			// bandaid, clear all the important variables
+			forbidAny = [];
+			forbidCount = [];
+			negateBadWords = [];
+		}
+		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
+			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+		}
 	}
 
 	// Triggers for Project Meteor
