@@ -4,20 +4,30 @@ const got = require('got');
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 
-const lastResponseTimes = new Map(); // Map<string, number>
+function makeTimeoutManager() {
+	const lastResponseTimes = new Map(); // Map<string, number>
 
-function timeoutSet(identifier) {
-	const currentTimeout = lastResponseTimes.get(identifier);
-	return currentTimeout !== null && typeof currentTimeout !== "undefined";
+	function timeoutSet(identifier) {
+		const currentTimeout = lastResponseTimes.get(identifier);
+		return currentTimeout !== null && typeof currentTimeout !== "undefined";
+	}
+	
+	function timeoutEnded(identifier, timeoutMs) {
+		return !timeoutSet(identifier) || Date.now() - lastResponseTimes.get(identifier) > timeoutMs;
+	}
+	
+	function resetTimeout(identifier) {
+		lastResponseTimes.set(identifier, Date.now());
+	}
+
+	return {
+		timeoutSet,
+		timeoutEnded,
+		resetTimeout,
+	}
 }
 
-function timeoutEnded(identifier, timeoutMs) {
-	return !timeoutSet(identifier) || Date.now() - lastResponseTimes.get(identifier) > timeoutMs;
-}
-
-function resetTimeout(identifier) {
-	lastResponseTimes.set(identifier, Date.now());
-}
+const timeoutManager = makeTimeoutManager()
 
 function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, ignorelength, replyMessage) {
 	if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
@@ -350,7 +360,7 @@ module.exports = async (client, message) => {
 		// disabled as no new patches
 		let sectionIdentifier = "newpatch";
 		if (client.config.NEWFFXIVPATCH) {
-			if (timeoutEnded(sectionIdentifier, 3 * SECOND)) {
+			if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
 				forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
 				forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
 				forbiddenMinCount = 2;
@@ -369,20 +379,20 @@ module.exports = async (client, message) => {
 
 				checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
 
-				resetTimeout(sectionIdentifier);
+				timeoutManager.resetTimeout(sectionIdentifier);
 
 				// bandaid, clear all the important variables
 				forbidAny = [];
 				forbidCount = [];
 				negateBadWords = [];
 			}
-			else if (timeoutSet(sectionIdentifier)) {
+			else if (timeoutManager.timeoutSet(sectionIdentifier)) {
 				console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 			}
 		}
 
 		sectionIdentifier = "bdth";
-		if (timeoutEnded(sectionIdentifier, 3 * SECOND)) {
+		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
 			forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
 			forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
 			negateBadWords = [];
@@ -401,19 +411,19 @@ module.exports = async (client, message) => {
 
 			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
 
-			resetTimeout(sectionIdentifier);
+			timeoutManager.resetTimeout(sectionIdentifier);
 
 			// bandaid, clear all the important variables
 			forbidAny = [];
 			forbidCount = [];
 			negateBadWords = [];
 		}
-		else if (timeoutSet(sectionIdentifier)) {
+		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
 			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 
 		sectionIdentifier = "suggestions";
-		if (timeoutEnded(sectionIdentifier, 15 * MINUTE)) {
+		if (timeoutManager.timeoutEnded(sectionIdentifier, 15 * MINUTE)) {
 			// These need to be set to things about suggestions
 			// forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
 			// forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
@@ -433,14 +443,14 @@ module.exports = async (client, message) => {
 
 			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
 
-			resetTimeout(sectionIdentifier);
+			timeoutManager.resetTimeout(sectionIdentifier);
 
 			// bandaid, clear all the important variables
 			forbidAny = [];
 			forbidCount = [];
 			negateBadWords = [];
 		}
-		else if (timeoutSet(sectionIdentifier)) {
+		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
 			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 	}
