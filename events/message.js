@@ -344,7 +344,7 @@ module.exports = async (client, message) => {
 
 		// disabled as no new patches
 		let sectionIdentifier = "newpatch";
-		if (client.config.NEWFFXIVPATCH && timeoutEnded(sectionIdentifier, 5 * SECOND)) {
+		if (client.config.NEWFFXIVPATCH && timeoutEnded(sectionIdentifier, 3 * SECOND)) {
 			forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
 			forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
 			forbiddenMinCount = 2;
@@ -372,7 +372,7 @@ module.exports = async (client, message) => {
 		}
 
 		sectionIdentifier = "bdth";
-		if (timeoutEnded(sectionIdentifier, 5 * SECOND)) {
+		if (timeoutEnded(sectionIdentifier, 3 * SECOND)) {
 			forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
 			forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
 			negateBadWords = [];
