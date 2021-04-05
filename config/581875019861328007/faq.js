@@ -153,12 +153,12 @@ exports.run = async (client, message, args) => {
 				},
 			});
 			break;
-			//should this be removed/disabled for now?
+			//should this be removed/disabled for now? i also added a modded install disclaimer justin case
 		case "integrity":
 			responses.push({
 				"embed": {
 					"title": `Integrity check does not work with modded installs`,
-					"description": `Integrity check is current for hotfix 5.45.`
+					"description": `The integrity check feature supports up to patch 5.45 Hotfix.`
 					+ `If your client has been modded via TexTools, integrity check will not work`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
@@ -170,8 +170,10 @@ exports.run = async (client, message, args) => {
 		case "opcode":
 			responses.push({
 				"embed": {
-					"title": `OpCodes need to be manually updated.`,
-					"description": `You can find the post on DalamudAssets OpCodes [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-fix-plugins-that-rely-on-dalamud-provided-opcodes)`,
+					"title": `OpCodes need to be manually updated each patch.`,
+					"description": `OpCode information is updated separately from Dalamud. Chances are you just need to relaunch if `
+					+ `they've been updated since your last launch. \n\n More Info `
+					+ ` [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#how-do-i-fix-plugins-that-rely-on-dalamud-provided-opcodes)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,

@@ -114,6 +114,11 @@ module.exports = async (client, message) => {
 		return;
 	}
 
+	// Franzbot should ignore webhooks too
+	if (message.webhookID) {
+		return;
+	}
+
 	const isDirectMessage = message.channel.type == "dm";
 
 	// Channel-specific markers
@@ -400,7 +405,7 @@ module.exports = async (client, message) => {
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 			replyMessage = {
 				"embed": {
-					"title": "Automated message alert",
+					"title": client.config.TRIGGER_TITLE,
 					"description": "We are unable to provide support for plugins installed via third-party repo. Please contact the plugin creator directly or ask in their support discords.",
 					"color": client.config.EMBED_ERROR_COLOR,
 					"footer": {
@@ -432,7 +437,7 @@ module.exports = async (client, message) => {
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 			replyMessage = {
 				"embed": {
-					"title": "Automated message alert",
+					"title": client.config.TRIGGER_TITLE,
 					"description": "If you are proposing a new plugin and have a GitHub account, please consider opening an issue on the [suggestions repository](https://github.com/goatcorp/suggestions/issues/new?assignees=&labels=discussion+requested&template=plugin_request.md&title=).",
 					"color": client.config.EMBED_ERROR_COLOR,
 					"footer": {
