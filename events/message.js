@@ -127,7 +127,7 @@ module.exports = async (client, message) => {
 		client.config.GUILDID_GOAT, // Goatplace - general
 	];
 	const MeteorTriggers = [
-		client.config.GUILDID_TESTING, // franzbot testing - general
+		// client.config.GUILDID_TESTING, // franzbot testing - general
 		client.config.GUILDID_METEOR, // Meteor - general
 	];
 	/*
@@ -428,13 +428,21 @@ module.exports = async (client, message) => {
 		}
 
 		sectionIdentifier = "suggestions";
-		if (timeoutManager.timeoutEnded(sectionIdentifier, 15 * MINUTE)) {
+		const watchChannels = client.config.SUGGESTION_WATCH_CHANNELS;
+		if (watchChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 15 * MINUTE)) {
 			// These need to be set to things about suggestions
 			// forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
 			// forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
-			negateBadWords = [];
-			forbiddenMinCount = 1;
-			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
+			// negateBadWords = [];
+			// forbiddenMinCount = 1;
+			// adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
+			if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
+				return;
+			}
+
+			console.log("Suggestion watch channel detected.");
+
+			// send a reply
 			replyMessage = {
 				"embed": {
 					"title": client.config.TRIGGER_TITLE,
@@ -446,7 +454,9 @@ module.exports = async (client, message) => {
 				},
 			};
 
-			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
+			message.reply(replyMessage);
+
+			// checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
 
 			timeoutManager.resetTimeout(sectionIdentifier);
 
@@ -456,7 +466,7 @@ module.exports = async (client, message) => {
 			negateBadWords = [];
 		}
 		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
-			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+			console.log(`${sectionIdentifier} timeout not exceeded or not a watched channel for ${sectionIdentifier}; ignoring message`);
 		}
 	}
 
