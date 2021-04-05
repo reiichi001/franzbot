@@ -137,7 +137,7 @@ exports.run = async (client, message, args) => {
 			break;
 		*/
 		// KNOWN ISSUES
-			//should this be removed/disabled for now? i also added a modded install disclaimer justin case
+			// should this be removed/disabled for now? i also added a modded install disclaimer justin case
 		case "integrity":
 			responses.push({
 				"embed": {
