@@ -153,11 +153,13 @@ exports.run = async (client, message, args) => {
 				},
 			});
 			break;
+			//should this be removed/disabled for now?
 		case "integrity":
 			responses.push({
 				"embed": {
-					"title": `Integrity check does not work`,
-					"description": `More details [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/749247804051816498)`,
+					"title": `Integrity check does not work with modded installs`,
+					"description": `Integrity check is current for hotfix 5.45.`
+					+ `If your client has been modded via TexTools, integrity check will not work`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -169,7 +171,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `OpCodes need to be manually updated.`,
-					"description": `You can find the post on DalamudAssets OpCodes [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/766340668406497341)`,
+					"description": `You can find the post on DalamudAssets OpCodes [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-fix-plugins-that-rely-on-dalamud-provided-opcodes)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -181,7 +183,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `XL Requires these redistributables`,
-					"description": `Please make sure you've installed DirectX, .Net 4.8, and VS2015-2019 packages. More info [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/740149543466696734)`,
+					"description": `Please make sure you've installed DirectX, .Net 4.8, and VS2015-2019 packages. More info [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-can-i-fix-crashes-on-startup)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -193,7 +195,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Plugin GUI does not load`,
-					"description": `Please check if you have other programs modifying FFXIV. More details [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/689136371364790293)`,
+					"description": `Please check if you have other programs modifying FFXIV. More details [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-come-the-in-game-addon-dalamud-doesnt-work-andor-plugins-dont-display)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -205,7 +207,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `This plugin needs to be updated for the current client`,
-					"description": `You can find a list of popular, but not updated plugins and their status [Here](https://discord.com/channels/581875019861328007/586590269063954432/773367448359403550)`,
+					"description": `You can find a list of popular, but not updated plugins and their status [Here](https://github.com/goatcorp/faq/blob/main/dalamud_troubleshooting.md#q-outdated-plugins-list)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -219,7 +221,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `XL Saved Credentials`,
-					"description": `Having an issue with saved credentials or your FFXIV Account? See [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/698305374855495731)`,
+					"description": `Having an issue with saved credentials or your FFXIV Account? See [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-xiv-isnt-saving-my-new-password--how-do-i-clear-my-saved-password)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -231,7 +233,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Please whitelist or make AV exceptions for XIV Launcher`,
-					"description": `Details can be found [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/695694479923085474)`,
+					"description": `Details can be found [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-whitelist-xivlauncher-and-dalamud-so-my-antivirus-leaves-them-alone)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -243,7 +245,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `I think XIV Launcher is giving me a Blue Screen of Death`,
-					"description": `It's probably not XL's fault. But if you really think it is, please answer the questions [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/705169229539967037)`,
+					"description": `It's probably not XL's fault. But if you really think it is, please answer the questions [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-i-think-xivlauncher-is-giving-me-a-blue-screen-of-death-what-information-would-help-narrow-this-down)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -255,7 +257,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `How do I enable/disable Dalamud Testing or Plugin Testing?`,
-					"description": `See [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/737080343445897337)`,
+					"description": `See [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-enabledisable-dalamud-testing-or-plugin-testing)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -267,7 +269,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `XL Environment Variables`,
-					"description": `You can find the post on XL environment variables [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/770342806727950406)`,
+					"description": `You can find the post on XL environment variables [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-xl-environment-variables)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -279,7 +281,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": ` What is the command for <insert plugin here>? `,
-					"description": `Please type \`xlhelp\` in game`,
+					"description": `Please type \`xlhelp\` in game, more information [here](https://github.com/goatcorp/faq/blob/main/dalamud_troubleshooting.md#q-what-is-the-command-for-insert-plugin-here)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -303,7 +305,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `I get an error message when trying to install/update/disable a plugin`,
-					"description": `See [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/751955960356143144)`,
+					"description": `See [HERE](https://github.com/goatcorp/faq/blob/main/dalamud_troubleshooting.md#q-i-get-an-error-message-when-trying-to-installupdatedisable-a-plugin)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -315,7 +317,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Reshade/Gshade/Stormshade/etc not working?`,
-					"description": `Please check the faq post [HERE](https://discord.com/channels/581875019861328007/586590269063954432/757395514936393795)`,
+					"description": `Please check the faq post [HERE](https://github.com/goatcorp/faq/blob/main/dalamud_troubleshooting.md#q-reshade-and-its-variants-dont-work-or-dalamud-ui-fails)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -327,7 +329,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `What are the Steam options for?`,
-					"description": `For detail on Steam Integration and Steam Service Account, see [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/753307018135208029)`,
+					"description": `For detail on Steam Integration and Steam Service Account, see [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-why-do-people-keep-asking-about-steam-so-much)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -339,7 +341,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `How do I uninstall XIV Launcher?`,
-					"description": `Instructions can be found [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/695677579574640642)`,
+					"description": `Instructions can be found [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-uninstall-xiv-launcher)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -351,7 +353,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Please wait for Dalamud and Plugin updates after a patch`,
-					"description": `[Again, please see the faq](https://discordapp.com/channels/581875019861328007/586590269063954432/742835941319901235)`,
+					"description": `[Again, please see the faq](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-do-not-expect-xldalamudplugin-updates-on-patch-day-releases)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -364,7 +366,7 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `Only use Dalamud Testing when required`,
 					"description": `Please only enable Dalamud test builds when absolutely needed. It's not secret hidden features. Expect crashes and failed launches and for it to ruin your raid night. More Info `
-						+ `[HERE](https://discord.com/channels/581875019861328007/586590269063954432/780471778152546314)`,
+						+ `[HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-enabledisable-dalamud-testing-or-plugin-testing)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -378,7 +380,7 @@ exports.run = async (client, message, args) => {
 					"title": `SE's routing is shit. Use a VPN`,
 					"description": `If you're getting consistent login or patch fail downloads on both XL and the Official Launcher,`
 						+ ` it's likely a bad route from your connection. A VPN may help you bypass the issue.`
-						+ `[More info](https://discord.com/channels/581875019861328007/586590269063954432/778784841201221632)`,
+						+ `[More info](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-the-launcher-shows-a-red-world-icon-and-an-error-message-when-trying-to-log-in-and-the-official-launcher-doesnt-open)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -391,7 +393,7 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `WTFast Configuration for XIVLauncher`,
 					"description": `You can find details on how to configure WTFast to work with xivlauncher `
-						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/795090328306188308)`,
+						+ `[here](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-wtfast-config)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -404,7 +406,7 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `Injection delay for RivaTuner/RTSS`,
 					"description": `Please follow steps listed in the FAQ `
-						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/799735514517209149)`,
+						+ `[here](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-to-set-an-an-injection-delay-in-rivatunerrtss)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -422,9 +424,9 @@ exports.run = async (client, message, args) => {
 						+ `accross different computers as the launcher/dalamud settings should stay machine-specific and you should `
 						+ `**NEVER** copy your installed plugins. (Users who know enough should know better)\n\n`
 						+ `The Linux FAQ post for this can be found `
-						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/810235090261114910)`
+						+ `[here](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-migrate-ffxiv-andor-xivlauncher-files-from-an-old-wine-prefix-to-a-new-one-linux)`
 						+ `The Windows FAQ post for this can be found `
-						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/810237271462772776)`,
+						+ `[here](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-migrate-ffxiv-andor-xivlauncher-files-from-an-old-installation-to-a-new-one-windows)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -439,7 +441,7 @@ exports.run = async (client, message, args) => {
 					"description": `XIVLauncher requires a working installation of the FFXIV game client, or it will install one for you. `
 						+ `On first install, XIVLauncher will try to autoselect your FFXIV install for you, based on the default `
 						+ `launcher's installation location and common Steam locations.\n\nFor more information, see `
-						+ `[here](https://discord.com/channels/581875019861328007/586590269063954432/803745635231596544)`,
+						+ `[here](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-where-can-i-find-my-ffxiv-installation)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -469,7 +471,7 @@ exports.run = async (client, message, args) => {
 					"description": `If you're running into SSL/TLS issues while using Wine/Lutris, this may `
 						+ `be part of recent changes to your distro's SSL configuration. Especially on newer `
 						+ `distributions. \n\nSee the FAQ for more details `
-						+ `[HERE](https://discord.com/channels/581875019861328007/586590269063954432/820419977001697320)`,
+						+ `[HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-im-on-linux-and-i-keep-getting-xivlauncher-failed-to-update-errors)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -483,7 +485,7 @@ exports.run = async (client, message, args) => {
 					"title": `Developer Resources`,
 					"description": `The primary developer resources should all be on their relevant GitHub pages `
 						+ `but for some quick links to a few common resources, see our FAQ post `
-						+ `[HERE](https://discord.com/channels/581875019861328007/586590269063954432/824039234100658197)`,
+						+ `[HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-get-started-with-development)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
