@@ -137,27 +137,11 @@ exports.run = async (client, message, args) => {
 			break;
 		*/
 		// KNOWN ISSUES
-		case "tippy":
-			responses.push({
-				"embed": {
-					"title": `Happy April Fools Day`,
-					"description": `Tippy would never lie to you.\n\n`
-					+ `In fact, Tippy's AI-powered knowledge base is compiled from only the finest community feedback.\n\n`
-					+ `It's also a joke. 🎊\n\n`
-					+ `If you don't see the "Go Away" button, you can get it by relaunching. Or if you're impatient, `
-					+ `you can also use \`/dontfoolme\` to kill Tippy forever. You monster.`,
-					"color": client.config.EMBED_NORMAL_COLOR,
-					"footer": {
-						"text": client.config.FRANZBOT_VERSION,
-					},
-				},
-			});
-			break;
 		case "integrity":
 			responses.push({
 				"embed": {
 					"title": `Integrity check does not work`,
-					"description": `More details [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/749247804051816498)`,
+					"description": `The integrity check feature supports up to patch 5.45 Hotfix.`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -168,8 +152,10 @@ exports.run = async (client, message, args) => {
 		case "opcode":
 			responses.push({
 				"embed": {
-					"title": `OpCodes need to be manually updated.`,
-					"description": `You can find the post on DalamudAssets OpCodes [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/766340668406497341)`,
+					"title": `OpCodes need to be manually updated each patch.`,
+					"description": `OpCode information is updated separately from Dalamud. Chances are you just need to relaunch if `
+					+ `they've been updated since your last launch. \n\n More Info ` 
+					+ ` [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#how-do-i-fix-plugins-that-rely-on-dalamud-provided-opcodes)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -193,7 +179,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Plugin GUI does not load`,
-					"description": `Please check if you have other programs modifying FFXIV. More details [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/689136371364790293)`,
+					"description": `Please check if you have other programs modifying FFXIV. More details [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-come-the-in-game-addon-dalamud-doesnt-work-andor-plugins-dont-display)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -339,7 +325,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `How do I uninstall XIV Launcher?`,
-					"description": `Instructions can be found [HERE](https://discordapp.com/channels/581875019861328007/586590269063954432/695677579574640642)`,
+					"description": `Instructions can be found [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-uninstall-xiv-launcher)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
