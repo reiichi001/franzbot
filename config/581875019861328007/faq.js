@@ -137,6 +137,7 @@ exports.run = async (client, message, args) => {
 			break;
 		*/
 		// KNOWN ISSUES
+<<<<<<< HEAD
 		case "tippy":
 			responses.push({
 				"embed": {
@@ -160,6 +161,13 @@ exports.run = async (client, message, args) => {
 					"title": `Integrity check does not work with modded installs`,
 					"description": `The integrity check feature supports up to patch 5.45 Hotfix.`
 					+ `If your client has been modded via TexTools, integrity check will not work`,
+=======
+		case "integrity":
+			responses.push({
+				"embed": {
+					"title": `Integrity check does not work`,
+					"description": `The integrity check feature supports up to patch 5.45 Hotfix.`,
+>>>>>>> ae1ffeb574074ccf85a46c1833347dafdc5aef7c
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -172,7 +180,11 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `OpCodes need to be manually updated each patch.`,
 					"description": `OpCode information is updated separately from Dalamud. Chances are you just need to relaunch if `
+<<<<<<< HEAD
 					+ `they've been updated since your last launch. \n\n More Info `
+=======
+					+ `they've been updated since your last launch. \n\n More Info ` 
+>>>>>>> ae1ffeb574074ccf85a46c1833347dafdc5aef7c
 					+ ` [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#how-do-i-fix-plugins-that-rely-on-dalamud-provided-opcodes)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
