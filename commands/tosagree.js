@@ -43,6 +43,7 @@ exports.conf = {
 exports.help = {
 	name: "tosagree",
 	category: "Management",
-	description: "Grants you the guest user so you can see things. You only need to do this once. Ask an Officer or Admin to switch you to member later.",
+	description: `Grants you the guest user so you can see things. `
+	+ `You only need to do this once. Ask an Officer or Admin to switch you to member later.`,
 	usage: "tosagree",
 };

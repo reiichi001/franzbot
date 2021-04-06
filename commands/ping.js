@@ -1,6 +1,7 @@
 exports.run = async (client, message, args) => { // eslint-disable-line no-unused-vars
 	const msg = await message.channel.send("\u200BPing?");
-	msg.edit(`\u200BPong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
+	msg.edit(`\u200BPong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms. `
+	+ `API Latency is ${Math.round(client.ws.ping)}ms`);
 	return msg;
 };
 

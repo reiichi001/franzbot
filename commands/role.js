@@ -9,7 +9,8 @@ exports.run = (client, message, args) => {
 		let textresponse = "";
 
 		if (!addThisRole) {
-			message.reply(`\u200BERROR: Cannot find the role "${args[0]}" on this server. Please check spelling and capitalization, or ask an Officer/Admin to set the role for you.`);
+			message.reply(`\u200BERROR: Cannot find the role "${args[0]}" on this server. `
+			+ `Please check spelling and capitalization, or ask an Officer/Admin to set the role for you.`);
 		}
 		else if (message.member.roles.cache.get(addThisRole.id)) {
 			message.member.roles.remove(addThisRole).catch(console.error);

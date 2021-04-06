@@ -95,6 +95,9 @@ exports.run = async (client, message, args) => {
 		default: break;
 	}
 
+	// make ESLint happy
+	const windowsExplorerScreenshot = "https://cdn.discordapp.com/attachments/687530726756712478/810897701864210472/explorer_2021-02-08_19-20-41.png";
+
 	switch (args[0]) {
 		case "help":
 			responses.push({
@@ -506,7 +509,7 @@ exports.run = async (client, message, args) => {
 						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"image": {
-						"url": "https://cdn.discordapp.com/attachments/687530726756712478/810897701864210472/explorer_2021-02-08_19-20-41.png",
+						"url": windowsExplorerScreenshot,
 					},
 					 "footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -528,7 +531,7 @@ exports.run = async (client, message, args) => {
 						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"image": {
-						"url": "https://cdn.discordapp.com/attachments/687530726756712478/810897701864210472/explorer_2021-02-08_19-20-41.png",
+						"url": windowsExplorerScreenshot,
 					},
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -550,7 +553,7 @@ exports.run = async (client, message, args) => {
 						+ ` logging in. While this should work, it hasn't been tested extensively yet.`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"image": {
-						"url": "https://cdn.discordapp.com/attachments/687530726756712478/810897701864210472/explorer_2021-02-08_19-20-41.png",
+						"url": windowsExplorerScreenshot,
 					},
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -570,7 +573,7 @@ exports.run = async (client, message, args) => {
 						+ `5. Let us know if the issue persists`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"image": {
-						"url": "https://cdn.discordapp.com/attachments/687530726756712478/810897701864210472/explorer_2021-02-08_19-20-41.png",
+						"url": windowsExplorerScreenshot,
 					},
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -590,7 +593,7 @@ exports.run = async (client, message, args) => {
 						+ `5. Let us know if the issue persists`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"image": {
-						"url": "https://cdn.discordapp.com/attachments/687530726756712478/810897701864210472/explorer_2021-02-08_19-20-41.png",
+						"url": windowsExplorerScreenshot,
 					},
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,

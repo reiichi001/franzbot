@@ -27,7 +27,9 @@ module.exports = (client, member) => {
 			"content": `${member}`,
 			"embed": {
 				"title": `Welcome to ${member.guild.name}!`,
-				"description": `Welcome to **Zu**, ${member} \n\nPlease check the ${member.guild.channels.cache.find(c => c.name === "server-rules")} channel for more details and get yourself the basic user assigned to see channels.`,
+				"description": `Welcome to **Zu**, ${member} \n\n`
+				+ `Please check the ${member.guild.channels.cache.find(c => c.name === "server-rules")} `
+				+ `channel for more details and get yourself the basic user assigned to see channels.`,
 				"color": client.config.EMBED_NORMAL_COLOR,
 				"timestamp": new Date(),
 				"thumbnail": {

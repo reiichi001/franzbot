@@ -1,4 +1,6 @@
-exports.run = (client, message, args) => message.channel.send(`\u200Bhttps://google.com/search?q=${args.join("+")}`).catch(console.error);
+exports.run = (client, message, args) => message.channel
+	.send(`\u200Bhttps://google.com/search?q=${args.join("+")}`)
+	.catch(console.error);
 
 exports.conf = {
 	enabled: true,

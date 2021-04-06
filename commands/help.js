@@ -30,7 +30,9 @@ exports.run = (client, message, args) => {
 		if (client.commands.has(command)) {
 			command = client.commands.get(command);
 			return message.channel.send(
-				`= ${command.help.name} = \n${command.help.description}\nusage:: ${command.help.usage}\naliases:: ${command.conf.aliases.join(", ")}\n= ${command.help.name} =`,
+				`= ${command.help.name} = \n${command.help.description}\n`
+				+ `usage:: ${command.help.usage}\n`
+				+ `aliases:: ${command.conf.aliases.join(", ")}\n= ${command.help.name} =`,
 				{
 					code: "asciidoc",
 				}
@@ -49,6 +51,7 @@ exports.run = (client, message, args) => {
 
 	let currentCategory = "";
 	let output = `\u200B= Command List =\n\n[Use ${client.config.prefix}help <commandname> for details]\n`;
+	// eslint-disable-next-line max-len
 	const sorted = myCommands.array().sort((p, c) => (p.help.category > c.help.category ? 1 : p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1));
 	sorted.forEach(c => {
 		const cat = c.help.category.toProperCase();
@@ -56,7 +59,8 @@ exports.run = (client, message, args) => {
 			output += `\u200b\n== ${cat} ==\n`;
 			currentCategory = cat;
 		}
-		output += `${client.config.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
+		output += `${client.config.prefix}${c.help.name}`
+		+ `${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
 	});
 	return message.channel.send(
 		output,
