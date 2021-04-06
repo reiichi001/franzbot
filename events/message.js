@@ -446,12 +446,26 @@ module.exports = async (client, message) => {
 			replyMessage = {
 				"embed": {
 					"title": client.config.TRIGGER_TITLE,
-					"description": "If you are proposing a new plugin and have a GitHub account, please consider opening an issue on the [suggestions repository](https://github.com/goatcorp/suggestions/issues/new?assignees=&labels=discussion+requested&template=plugin_request.md&title=).",
+					"description": "Franzbot has detected chat activity in a suggestions channel. This is on a 15 minutes cooldown and is not based on the words you said. Only that a non-mod/non-dev user has sent a message. ",
 					"color": client.config.EMBED_ERROR_COLOR,
 					"footer": {
-						"text": client.config.TRIGGER_FOOTER,
+					  "text": client.config.TRIGGER_FOOTER,
 					},
-				},
+					"fields": [
+						{
+							"name": "Existing Plugins",
+							"value": "If you haven't already, see if the plugin has an issue or requests tracker on its repo. This may require a GitHub or other account. Otherwise, tag the developer once so they can find this request if you haven't already.",
+						},
+						{
+							"name": "New Plugins",
+							"value": "If you are proposing a new plugin and have a GitHub account, please consider opening an issue on the [suggestions repository](https://github.com/goatcorp/suggestions/issues/new?assignees=&labels=discussion+requested&template=plugin_request.md&title=).",
+						},
+						{
+							"name": "XIVLauncher/Dalamud",
+							"value": "If you have a gitHub account, please submit an issue/feature request for [XIVLauncher](https://github.com/goatcorp/FFXIVQuickLauncher/issues) or [Dalamud](https://github.com/goatcorp/Dalamud/issues) on their respective Github repos.",
+						},
+					],
+				  },
 			};
 
 			message.reply(replyMessage);
