@@ -92,6 +92,10 @@ exports.run = async (client, message, args) => {
 		case "xivlauncherdevelopment": args[0] = "dev"; break;
 		case "dalamuddevelopment": args[0] = "dev"; break;
 		case "plugindevelopment": args[0] = "dev"; break;
+		case "deleteffxiv": args[0] = "repair"; break;
+		case "repairffxiv": args[0] = "repair"; break;
+		case "deletegame": args[0] = "repair"; break;
+		case "repairgame": args[0] = "repair"; break;
 		default: break;
 	}
 
@@ -118,7 +122,8 @@ exports.run = async (client, message, args) => {
 							"value": "account av antivirus badconfig badplugin bsod credes credentials dalamudtesting dalamudsettings "
 								+ "deleteconfig deletedalamud deleteplugin dns env exploit ffxivpath ffxivinstall log logd logdalamud "
 								+ "gamepath gameinstall logxl maintenance migrate patch plugins reinstalldalamud removeconfig removedalamud "
-								+ "reshade removeplugin steam steampath steaminstall testplugins uninstall update xlhelp",
+								+ "removeplugin repair repairffxiv repairgame reshade "
+								+ "steam steampath steaminstall testplugins uninstall update xlhelp",
 						},
 					],
 				},
@@ -140,6 +145,20 @@ exports.run = async (client, message, args) => {
 			break;
 		*/
 		// KNOWN ISSUES
+		case "repair":
+			responses.push({
+				"embed": {
+					"title": `Can I repair my FFXIV installion?`,
+					"description": `Yes, in the sense that you can reinstall the game. `
+						+ `But it can be reinstalled selectively to help cut down on download/install time if needed.\n\n`
+						+ `More Info: [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-can-i-repair-my-ffxiv-installion)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
 		case "integrity":
 			responses.push({
 				"embed": {
