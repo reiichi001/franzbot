@@ -365,7 +365,7 @@ module.exports = async (client, message) => {
 		// disabled as no new patches
 		let sectionIdentifier = "newpatch";
 		if (client.config.NEWFFXIVPATCH) {
-			if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
+			if (timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
 				forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
 				forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
 				forbiddenMinCount = 2;
