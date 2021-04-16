@@ -170,7 +170,7 @@ exports.run = async (client, message, args) => {
 					"title": `Updating FFXIV with TexTools mods still applied can lead to crashes`,
 					"description": `We recommend you check with the TexTools discord on this.\n\n`
 					+ `Our suggested steps are to disable all mods and start over. \n\n`
-					+ `More Info: [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-i-updated-my-game-with-tex-tools-mods-installed-how-do-i-fix-crashes)`,
+					+ `More Info: [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-i-updated-my-game-with-textools-mods-installed-how-do-i-fix-crashes)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
@@ -183,7 +183,7 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `How do I fix a version check error when trying to update FFXIV?`,
 					"description": `You'll need to make an edit to your FFXIVBOOT.cfg file.`
-					+ `More Info: [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-fix-a-version-check-error-when-trying-to-update-ffxiv
+					+ `More Info: [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-do-i-fix-a-version-check-error-when-trying-to-update-ffxiv
 						)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
@@ -198,7 +198,7 @@ exports.run = async (client, message, args) => {
 					"title": `Can I repair my FFXIV installion?`,
 					"description": `Yes, in the sense that you can reinstall the game. `
 						+ `But it can be reinstalled selectively to help cut down on download/install time if needed.\n\n`
-						+ `More Info: [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-can-i-repair-my-ffxiv-installion)`,
+						+ `More Info: [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-can-i-repair-my-ffxiv-installion)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
