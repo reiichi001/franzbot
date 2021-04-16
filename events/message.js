@@ -429,7 +429,7 @@ module.exports = async (client, message) => {
 
 		sectionIdentifier = "suggestions";
 		const watchChannels = client.config.SUGGESTION_WATCH_CHANNELS;
-		if (watchChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 30 * MINUTE)) {
+		if (watchChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 60 * MINUTE)) {
 			// These need to be set to things about suggestions
 			// forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
 			// forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
@@ -447,7 +447,7 @@ module.exports = async (client, message) => {
 				"embed": {
 					"title": client.config.TRIGGER_TITLE,
 					"description": "Franzbot has detected chat activity from a non-mod/non-dev user in a suggestions channel.",
-					"color": client.config.EMBED_ERROR_COLOR,
+					"color": client.config.EMBED_INFO_COLOR,
 					"footer": {
 					  "text": "This automated response is on a 30 minute cooldown and is not based on the words you said.",
 					},
