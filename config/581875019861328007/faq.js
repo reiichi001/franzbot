@@ -96,6 +96,12 @@ exports.run = async (client, message, args) => {
 		case "repairffxiv": args[0] = "repair"; break;
 		case "deletegame": args[0] = "repair"; break;
 		case "repairgame": args[0] = "repair"; break;
+		case "versioncheck": args[0] = "vercheck"; break;
+		case "versionfail": args[0] = "vercheck"; break;
+		case "bootcheck": args[0] = "vercheck"; break;
+		case "ffxivboot": args[0] = "vercheck"; break;
+		case "badui": args[0] = "dalamudui"; break;
+		case "missingui": args[0] = "dalamudui"; break;
 		default: break;
 	}
 
@@ -119,11 +125,11 @@ exports.run = async (client, message, args) => {
 						},
 						{
 							"name": "FAQs and Help posts",
-							"value": "account av antivirus badconfig badplugin bsod credes credentials dalamudtesting dalamudsettings "
+							"value": "account av antivirus badconfig badplugin badui bsod credes credentials dalamudtesting dalamudsettings "
 								+ "deleteconfig deletedalamud deleteplugin dns env exploit ffxivpath ffxivinstall log logd logdalamud "
-								+ "gamepath gameinstall logxl maintenance migrate patch plugins reinstalldalamud removeconfig removedalamud "
-								+ "removeplugin repair repairffxiv repairgame reshade "
-								+ "steam steampath steaminstall testplugins uninstall update xlhelp",
+								+ "gamepath gameinstall logxl maintenance migrate missingui patch plugins reinstalldalamud removeconfig removedalamud "
+								+ "removeplugin repair repairffxiv repairgame reshade steam steampath steaminstall "
+								+ "testplugins textools uninstall vercheck versioncheck update xlhelp",
 						},
 					],
 				},
@@ -134,7 +140,7 @@ exports.run = async (client, message, args) => {
 		case "KEYWORD":
 			responses.push({
 				"embed": {
-					"title": `TITLE text`,
+					"title": `TITLE`,
 					"description": `DESC`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
@@ -145,6 +151,47 @@ exports.run = async (client, message, args) => {
 			break;
 		*/
 		// KNOWN ISSUES
+		case "dalamudui":
+			responses.push({
+				"embed": {
+					"title": `How do I reset dalamud/plugin window locations?`,
+					"description": `Please see our FAQ with steps `
+					+ `[HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-how-do-i-reset-dalamud-plugin-window-locations)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "textools":
+			responses.push({
+				"embed": {
+					"title": `Updating FFXIV with TexTools mods still applied can lead to crashes`,
+					"description": `We recommend you check with the TexTools discord on this.\n\n`
+					+ `Our suggested steps are to disable all mods and start over. \n\n`
+					+ `More Info: [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-i-updated-my-game-with-tex-tools-mods-installed-how-do-i-fix-crashes)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "vercheck":
+			responses.push({
+				"embed": {
+					"title": `How do I fix a version check error when trying to update FFXIV?`,
+					"description": `You'll need to make an edit to your FFXIVBOOT.cfg file.`
+					+ `More Info: [HERE](https://github.com/goatcorp/faq/blob/main/xl_troubleshooting.md#q-how-do-i-fix-a-version-check-error-when-trying-to-update-ffxiv
+						)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
 		case "repair":
 			responses.push({
 				"embed": {
