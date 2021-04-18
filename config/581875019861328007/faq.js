@@ -61,6 +61,8 @@ exports.run = async (client, message, args) => {
 		case "dt": args[0] = "dalamudtesting"; break;
 		case "badplugin": args[0] = "removeplugin"; break;
 		case "deleteplugin": args[0] = "removeplugin"; break;
+		case "deleteplugins": args[0] = "removeplugin"; break;
+		case "removeplugins": args[0] = "removeplugin"; break;
 		case "deletedalamud": args[0] = "removedalamud"; break;
 		case "baddalamud": args[0] = "removedalamud"; break;
 		case "reinstalldalamud": args[0] = "removedalamud"; break;
@@ -102,6 +104,7 @@ exports.run = async (client, message, args) => {
 		case "ffxivboot": args[0] = "vercheck"; break;
 		case "badui": args[0] = "dalamudui"; break;
 		case "missingui": args[0] = "dalamudui"; break;
+		case "textool": args[0] = "textools"; break;
 		default: break;
 	}
 
@@ -156,7 +159,7 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `How do I reset dalamud/plugin window locations?`,
 					"description": `Please see our FAQ with steps `
-					+ `[HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-how-do-i-reset-dalamud-plugin-window-locations)`,
+					+ `[HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-how-do-i-reset-dalamudplugin-window-locations)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
