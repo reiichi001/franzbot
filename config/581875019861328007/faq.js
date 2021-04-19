@@ -53,9 +53,14 @@ exports.run = async (client, message, args) => {
 		case "hookfail": args[0] = "rtss"; break;
 		case "dns": args[0] = "vpn"; break;
 		case "oldplugin": args[0] = "oldplugins"; break;
-		// case "jobicon": args[0] = "oldplugins"; break;
-		// case "jobicons": args[0] = "oldplugins"; break;
-		case "chatextender": args[0] = "oldplugins"; break;
+		case "adventurerinneed": args[0] = "oldplugins"; break;
+		case "autosweep ": args[0] = "oldplugins"; break;
+		case "paissahouse ": args[0] = "oldplugins"; break;
+		case "browser host ": args[0] = "oldplugins"; break;
+		case "chatextender": args[0] = "oldplugins"; break
+		case "deepdungeondex ": args[0] = "oldplugins"; break;
+		case "fantasy player ": args[0] = "oldplugins"; break;
+		case "voidlist": args[0] = "oldplugins"; break;
 		case "dalamudstaging": args[0] = "dalamudtesting"; break;
 		case "testdalamud": args[0] = "dalamudtesting"; break;
 		case "dt": args[0] = "dalamudtesting"; break;
