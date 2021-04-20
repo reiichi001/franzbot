@@ -56,7 +56,6 @@ exports.run = async (client, message, args) => {
 		case "adventurerinneed": args[0] = "oldplugins"; break;
 		case "autosweep ": args[0] = "oldplugins"; break;
 		case "paissahouse ": args[0] = "oldplugins"; break;
-		case "browserhost ": args[0] = "oldplugins"; break;
 		case "chatextender": args[0] = "oldplugins"; break;
 		case "deepdungeondex ": args[0] = "oldplugins"; break;
 		case "fantasyplayer ": args[0] = "oldplugins"; break;
