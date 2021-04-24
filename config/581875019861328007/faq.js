@@ -637,7 +637,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				"embed": {
 					"title": `Generic steps to remove/reinstall Dalamud`,
-					"description": `General "how to delete a plugin" steps:\n`
+					"description": `General "how to delete dalamud" steps:\n`
 						+ `1. Close the game and xivlauncher\n`
 						+ `2. Go to \`%AppData%\\XIVLauncher\`\n`
 						+ `3. Remove the Addon\\Hooks folder\n`
