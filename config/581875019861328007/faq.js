@@ -106,6 +106,7 @@ exports.run = async (client, message, args) => {
 		case "badui": args[0] = "dalamudui"; break;
 		case "missingui": args[0] = "dalamudui"; break;
 		case "textool": args[0] = "textools"; break;
+		case "eventlog": args[0] = "eventviewer"; break;
 		default: break;
 	}
 
@@ -602,6 +603,25 @@ exports.run = async (client, message, args) => {
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"image": {
 						"url": windowsExplorerScreenshot,
+					},
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "eventviewer":
+			responses.push({
+				"embed": {
+					"title": `Please check the Windows Event Viewer`,
+					"description": `Please check the Windows Event Viewer to determine the cause of your FFXIV crash.`
+						+ `\n\nThis can be found in \`Windows Logs\` -> \`Application\`.`
+						+ `\n\nYou can also run a search for \`ffixv_dx11.exe\` in the "Find" action on the right-side panel.`
+						+ `\n\nNOTE: You may have multiple crash events. Please let us know if your recent Event IDs are `
+						+ `stated as some for of CLR/.Net crash or if they're a native FFXIV error such as c000005.`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"image": {
+						"url": "https://cdn.discordapp.com/attachments/687530726756712478/842492553533194240/unknown.png",
 					},
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
