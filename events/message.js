@@ -207,7 +207,7 @@ module.exports = async (client, message) => {
 
 			message.attachments.forEach(async attachment => {
 				console.log(attachment.name);
-				if (isDirectMessage && attachment.name.match(/(output|dalamud|message|dalamudConfig|launcherConfigV3|dxdiag).*\.(log|txt|json)/gui)) {
+				if (isDirectMessage && attachment.name.match(/(output|dalamud|message|dalamudConfig|launcherConfigV3|dxdiag|event).*\.(log|txt|json|evtx)/gui)) {
 					// sane filesizes only
 					if (attachment.size > (5 * 1024 * 1024)) {
 						console.log("Big chonker file. That's a lot of text...");
