@@ -107,6 +107,23 @@ exports.run = async (client, message, args) => {
 		case "missingui": args[0] = "dalamudui"; break;
 		case "textool": args[0] = "textools"; break;
 		case "eventlog": args[0] = "eventviewer"; break;
+		case "migration": args[0] = "migrate"; break;
+		case "oldlinux": args[0] = "migrate"; break;
+		case "oldwindows": args[0] = "migrate"; break;
+		case "linuxmove": args[0] = "migrate"; break;
+		case "windowsmove": args[0] = "migrate"; break;
+		case "linuxmigrate": args[0] = "migrate"; break;
+		case "windowsmigrate": args[0] = "migrate"; break;
+		case "linuxmigration": args[0] = "migrate"; break;
+		case "windowsmigration": args[0] = "migrate"; break;
+		case "linuxconfig": args[0] = "migrate"; break;
+		case "windowsconfig": args[0] = "migrate"; break;
+		case "linuxsettings": args[0] = "migrate"; break;
+		case "windowssettings": args[0] = "migrate"; break;
+		case "linuxfiles": args[0] = "migrate"; break;
+		case "windowsfiles": args[0] = "migrate"; break;
+		case "migratelinux": args[0] = "migrate"; break;
+		case "migratewindows": args[0] = "migrate"; break;
 		default: break;
 	}
 
