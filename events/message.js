@@ -201,7 +201,14 @@ module.exports = async (client, message) => {
 			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_TEST);
 		}
 
-		// check if it's a dalamud log
+		// autopublish in announcement channels
+		if (message.channel.type === 'news') {
+			message.crosspost()
+				.then(() => console.log('Crossposted an announcement'))
+				.catch(console.error);
+		}
+
+		  // check if it's a dalamud log
 		if (message.attachments.size > 0)  {
 			console.log("Found an attachment in this message");
 
