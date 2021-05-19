@@ -110,12 +110,13 @@ function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbid
 module.exports = async (client, message) => {
 	// It's good practice to ignore other bots. This also makes your bot ignore itself
 	// and not get into a spam loop (we call that "botception").
-	if (message.author.bot) {
+	// unless it's an announcement channel, since we want to publish posts...
+	if (message.channel.type !== 'news' && message.author.bot) {
 		return;
 	}
 
-	// Franzbot should ignore webhooks too
-	if (message.webhookID) {
+	// Franzbot should ignore webhooks too, unless it's an announcement channel
+	if (message.channel.type !== 'news' && message.webhookID) {
 		return;
 	}
 
