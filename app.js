@@ -5,7 +5,7 @@ const {
 const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
 
-//const { getResponse } = require('./commands/faq.js')
+const { getResponse } = require('./commands/faq.js')
 
 // set up intents
 const myIntents = new Discord.Intents();
