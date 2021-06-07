@@ -13,6 +13,24 @@ exports.run = async (client, message, args) => {
 
 	switch (args[0]) {
 		// aliases
+		case "log": args[0] = "logxl"; break;
+		case "launcherlog": args[0] = "logxl"; break;
+		case "xivlauncherlog": args[0] = "logxl"; break;
+		case "logs": args[0] = "logxl"; break;
+		case "xllog": args[0] = "logxl"; break;
+		case "logdalamud": args[0] = "logd"; break;
+		case "dalamudlog": args[0] = "logd"; break;
+		case "dlog": args[0] = "logd"; break;
+		case "logdl": args[0] = "logd"; break; // just for Aireil
+		case "linuxlog": args[0] = "logxl"; break;
+		case "linuxlauncherlog": args[0] = "logxl"; break;
+		case "linuxxivlauncherlog": args[0] = "logxl"; break;
+		case "linuxlogs": args[0] = "logxl"; break;
+		case "linuxxllog": args[0] = "logxl"; break;
+		case "linuxlogdalamud": args[0] = "logd"; break;
+		case "linuxdalamudlog": args[0] = "logd"; break;
+		case "linuxdlog": args[0] = "logd"; break;
+		case "linuxlogdl": args[0] = "logd"; break; // just for Aireil
 		case "accountcreds": args[0] = "account"; break;
 		case "accountcredentials": args[0] = "account"; break;
 		case "creds": args[0] = "account"; break;
@@ -77,15 +95,6 @@ exports.run = async (client, message, args) => {
 		case "ffxivpath": args[0] = "gamepath"; break;
 		case "ffxivinstall": args[0] = "gamepath"; break;
 		case "exploits": args[0] = "exploit"; break;
-		case "log": args[0] = "logxl"; break;
-		case "launcherlog": args[0] = "logxl"; break;
-		case "xivlauncherlog": args[0] = "logxl"; break;
-		case "logs": args[0] = "logxl"; break;
-		case "xllog": args[0] = "logxl"; break;
-		case "logdalamud": args[0] = "logd"; break;
-		case "dalamudlog": args[0] = "logd"; break;
-		case "dlog": args[0] = "logd"; break;
-		case "logdl": args[0] = "logd"; break; // just for Aireil
 		case "xldev": args[0] = "dev"; break;
 		case "xivlauncherdev": args[0] = "dev"; break;
 		case "dalamuddev": args[0] = "dev"; break;
@@ -516,7 +525,7 @@ exports.run = async (client, message, args) => {
 						+ `**NEVER** copy your installed plugins. (Users who know enough should know better)\n\n`
 						+ `The Linux FAQ post for this can be found `
 						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-do-i-migrate-ffxiv-andor-xivlauncher-files-from-an-old-wine-prefix-to-a-new-one-linux)`
-						+ `The Windows FAQ post for this can be found `
+						+ `\nThe Windows FAQ post for this can be found `
 						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-do-i-migrate-ffxiv-andor-xivlauncher-files-from-an-old-installation-to-a-new-one-windows)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
@@ -612,6 +621,52 @@ exports.run = async (client, message, args) => {
 					"title": `Please send us your output.log file`,
 					"description": `Please send us your **output.log** log file from `
 						+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
+						+ `\n\nIt's best to just upload/attach the file if you can!`
+						+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
+						+ `If you're not comfortable posting that here, you can `
+						+ `open the file in a text editor to redact that information first or `
+						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"image": {
+						"url": windowsExplorerScreenshot,
+					},
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "linuxlogd":
+			responses.push({
+				"embed": {
+					"title": `Please send us your dalamud.log file (Linux edition)`,
+					"description": `Please send us your **dalamud.log** log file from `
+						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/output.log\``
+						+ ` in this channel, so we can look into the problem!`
+						+ `\n\nIt's best to just upload/attach the file if you can!`
+						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
+						+ `If you're not comfortable posting that here, you can `
+						+ `open the file in a text editor to redact that information first or `
+						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"image": {
+						"url": windowsExplorerScreenshot,
+					},
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "linuxlogxl":
+			responses.push({
+				"embed": {
+					"title": `Please send us your output.log file (Linux edition)`,
+					"description": `Please send us your **output.log** log file from `
+						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/output.log\``
+						+ ` in this channel, so we can look into the problem!`
 						+ `\n\nIt's best to just upload/attach the file if you can!`
 						+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
 						+ `If you're not comfortable posting that here, you can `
