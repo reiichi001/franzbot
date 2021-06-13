@@ -133,6 +133,10 @@ exports.run = async (client, message, args) => {
 		case "windowsfiles": args[0] = "migrate"; break;
 		case "migratelinux": args[0] = "migrate"; break;
 		case "migratewindows": args[0] = "migrate"; break;
+		case "security": args[0] = "safety"; break;
+		case "safe": args[0] = "safety"; break;
+		case "safeness": args[0] = "safety"; break;
+		case "secure": args[0] = "safety"; break;
 		default: break;
 	}
 
@@ -182,6 +186,22 @@ exports.run = async (client, message, args) => {
 			break;
 		*/
 		// KNOWN ISSUES
+		case "safety":
+			responses.push({
+				"embed": {
+					"title": `Are XIVLauncher, Dalamud, and Dalamud Plugins safe to use?`,
+					"description": `Yes! We've taken steps to ensure that using XIVLauncher, `
+						+ `Dalamud, and **officially supported** Dalamud Plugins are safe to use.`
+						+ `\n\nPlease note that we cannot vouch for the safety of third party plugins.`
+						+ `\n\nIf you'd like more information, please see the <#585958820061249537> channel and our FAQ post `
+						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-are-xivlauncher-dalamud-and-dalamud-plugins-safe-to-use)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
 		case "dalamudui":
 			responses.push({
 				"embed": {
