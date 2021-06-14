@@ -435,7 +435,40 @@ module.exports = async (client, message) => {
 			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 
-		sectionIdentifier = "suggestions";
+		sectionIdentifier = "xivlauncher-suggestions";
+		const watchXLSuggest = client.config.XLSUGGEST_TRIGGER_CHANNEL;
+		if (watchXLSuggest.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 60 * MINUTE)) {
+			forbidAny.push(/(plug[-]*in|add[-]*on|mod|xiv\s*combo)/gui);
+			forbidCount.push(/(can|would|is there|possible|made|make|build|create)/gui);
+			negateBadWords = [];
+			forbiddenMinCount = 1;
+			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
+			replyMessage = {
+				"embed": {
+					"title": client.config.TRIGGER_TITLE,
+					"description": "Please put plugin suggestions into the <#685275026156683280> channel please."
+						+ "\n\nThis channel is for XIVLauncher, Dalamud, or Discord related requests.",
+					"color": client.config.EMBED_INFO_COLOR,
+					"footer": {
+						"text": client.config.TRIGGER_FOOTER,
+					},
+				},
+			};
+
+			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
+
+			timeoutManager.resetTimeout(sectionIdentifier);
+
+			// bandaid, clear all the important variables
+			forbidAny = [];
+			forbidCount = [];
+			negateBadWords = [];
+		}
+		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
+			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+		}
+
+		sectionIdentifier = "suggestionchannels";
 		const watchChannels = client.config.SUGGESTION_WATCH_CHANNELS;
 		if (watchChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 60 * MINUTE)) {
 			// These need to be set to things about suggestions
