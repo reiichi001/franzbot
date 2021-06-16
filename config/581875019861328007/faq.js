@@ -22,15 +22,15 @@ exports.run = async (client, message, args) => {
 		case "dalamudlog": args[0] = "logd"; break;
 		case "dlog": args[0] = "logd"; break;
 		case "logdl": args[0] = "logd"; break; // just for Aireil
-		case "linuxlog": args[0] = "logxl"; break;
-		case "linuxlauncherlog": args[0] = "logxl"; break;
-		case "linuxxivlauncherlog": args[0] = "logxl"; break;
-		case "linuxlogs": args[0] = "logxl"; break;
-		case "linuxxllog": args[0] = "logxl"; break;
-		case "linuxlogdalamud": args[0] = "logd"; break;
-		case "linuxdalamudlog": args[0] = "logd"; break;
-		case "linuxdlog": args[0] = "logd"; break;
-		case "linuxlogdl": args[0] = "logd"; break; // just for Aireil
+		case "linuxlog": args[0] = "linuxlogxl"; break;
+		case "linuxlauncherlog": args[0] = "linuxlogxl"; break;
+		case "linuxxivlauncherlog": args[0] = "linuxlogxl"; break;
+		case "linuxlogs": args[0] = "linuxlogxl"; break;
+		case "linuxxllog": args[0] = "linuxlogxl"; break;
+		case "linuxlogdalamud": args[0] = "linuxlogd"; break;
+		case "linuxdalamudlog": args[0] = "linuxlogd"; break;
+		case "linuxdlog": args[0] = "linuxlogd"; break;
+		case "linuxlogdl": args[0] = "linuxlogd"; break; // just for Aireil
 		case "accountcreds": args[0] = "account"; break;
 		case "accountcredentials": args[0] = "account"; break;
 		case "creds": args[0] = "account"; break;
@@ -668,7 +668,7 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `Please send us your dalamud.log file (Linux edition)`,
 					"description": `Please send us your **dalamud.log** log file from `
-						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/output.log\``
+						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/dalamud.log\``
 						+ ` in this channel, so we can look into the problem!`
 						+ `\n\nIt's best to just upload/attach the file if you can!`
 						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
