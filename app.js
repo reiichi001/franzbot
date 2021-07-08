@@ -5,11 +5,13 @@ const {
 const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
 
-// set up intents
-// const myIntents = new Discord.Intents();
-//  myIntents.add('GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS');
+const { getResponse } = require('./commands/faq.js')
 
-const client = new Discord.Client();
+// set up intents
+const myIntents = new Discord.Intents();
+myIntents.add('GUILDS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS');
+
+const client = new Discord.Client({ intents: myIntents.bitfield });
 
 const config = require("./config.json");
 // We also need to make sure we're attaching the config to the CLIENT so it's accessible everywhere!
@@ -55,6 +57,87 @@ const init = async () => {
 		client.on(eventName, event.bind(null, client));
 	});
 
+	const commandData = {
+		name: 'faq',
+		description: 'Get info about a specific topic!',
+		options: [{
+			name: 'faq',
+			type: 'STRING',
+			description: 'The FAQ entry to be shown',
+			required: true,
+			choices: [
+				{
+					"name": "Getting a XIVLauncher Log",
+					"value": "logxl"
+				},
+				{
+					"name": "Getting a Dalamud Log",
+					"value": "logd"
+				},
+				{
+					"name": "Antivirus Guide",
+					"value": "av"
+				},
+				{
+					"name": "VC Redist & .NET Framework",
+					"value": "redist"
+				},
+				{
+					"name": "Game Path/Location",
+					"value": "gamepath"
+				},
+				{
+					"name": "Moving the game/XL to a new PC",
+					"value": "migrate"
+				},
+				{
+					"name": "Repairing bad game installations",
+					"value": "repair"
+				},
+				{
+					"name": "Resources for plugin development",
+					"value": "dev"
+				},
+				{
+					"name": "Show all FAQs",
+					"value": "help"
+				}
+			]
+		}],
+	};
+
+	client.once('ready', () => {
+		// Creating a guild-specific command for Goat Place
+
+		try
+		{
+			client.guilds.cache.get('581875019861328007').commands.create(commandData);
+		} catch(error)
+		{
+			console.error("Could not register FAQ command.");
+			console.error(error);
+		}
+	});
+
+	client.on('interaction', async interaction => {
+		// If the interaction isn't a slash command, return
+		if (interaction.isCommand()) {
+			// Check if it is the correct command
+			if (interaction.commandName === 'faq') {
+				// Get the input of the user
+				const input = interaction.options.get('faq').value;
+
+				var responses = await getResponse(client, interaction.guild, input);
+				responses = responses.map(function (v) {
+					return v.embed;
+				});
+
+				interaction.reply({
+					embeds: responses
+				});
+			}
+		}
+	});
 
 	// Here we login the client.
 	client.login(client.config.token);

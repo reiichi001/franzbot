@@ -7,7 +7,7 @@
     "better-sqlite3": "^7.4.0",
     "bufferutil": "^4.0.3",
     "chalk": "^4.1.1",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.0.0-dev.df9b67894ae62720e45be5d3ec99c98f8cb35601",
     "disrequire": "^1.1.2",
     "eightball": "^1.0.1",
     "enmap": "^5.8.5",

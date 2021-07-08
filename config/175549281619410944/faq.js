@@ -1,12 +1,11 @@
 /* eslint-disable max-len */
 
 // Project Meteor //
-exports.run = async (client, message, args) => {
+exports.run = async (client, args) => {
 	if (args.length < 1) {
 		args = ["help"];
 	}
 
-	console.log(`FAQ command found in MeteorTriggers: ${message.channel.name}`);
 	const responses = [];
 	switch (args[0]) {
 		case "help":

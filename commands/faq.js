@@ -1,5 +1,36 @@
 const disrequire = require('disrequire');
 
+exports.getResponse = async (client, guild, faq) => {
+	console.log(`GUILD: ${guild.id}`);
+
+	const configpath = `../config/${guild.id}/faq.js`;
+	console.log(`checking for: ${configpath}`);
+	try {
+		console.log("Attempting to load custom config.");
+		const goattriggers = require(configpath);
+		// The check succeeded
+		const goatresponses = await goattriggers.run(client, [faq]);
+
+		disrequire(require.resolve(configpath));
+
+		return goatresponses;
+	}
+	catch (error) {
+		// The check failed
+		console.log("No FAQs found.");
+
+		return [{
+			"embed": {
+				"title": `No FAQ available...`,
+				"description": "This server does not contain any Franzbot FAQs",
+				"color": client.config.EMBED_ERROR_COLOR,
+				"footer": {
+					"text": client.config.FRANZBOT_VERSION,
+				},
+			},
+		}];
+	}
+}
 
 exports.run = async (client, message, args) => {
 	if (args.length < 1) {
@@ -7,32 +38,10 @@ exports.run = async (client, message, args) => {
 	}
 	console.log(`GUILD: ${message.guild.id}, CHANNEL: ${message.channel.id}`);
 
-	const configpath = `../config/${message.guild.id}/faq.js`;
-	console.log(`checking for: ${configpath}`);
-	try {
-		console.log("Attempting to load custom config.");
-		const goattriggers = require(configpath);
-		// The check succeeded
-		const goatresponses = await goattriggers.run(client, message, args);
+	var responses = await this.getResponse(client, message.guild, args);
 
-		for (const response of goatresponses) {
-			await message.channel.send(response);
-		}
-		disrequire(require.resolve(configpath));
-	}
-	catch (error) {
-		// The check failed
-		console.log("No FAQs found.");
-
-		message.channel.send({
-			"embed": {
-				"title": `This server does not contain any Franzbot FAQs`,
-				"color": client.config.EMBED_ERROR_COLOR,
-				"footer": {
-					"text": client.config.FRANZBOT_VERSION,
-				},
-			},
-		});
+	for (const response of responses) {
+		await message.channel.send(response);
 	}
 };
 
