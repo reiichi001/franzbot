@@ -343,6 +343,7 @@ module.exports = async (client, message) => {
 					}
 				}
 			});
+			return;
 		}
 
 		// we don't want to deal with any other DMs.
@@ -356,6 +357,7 @@ module.exports = async (client, message) => {
 		if (message.author.id == "131195749017976833"
 			&& message.content.match(/(glad|happy) to help/gui)) {
 			message.channel.send("https://cdn.discordapp.com/attachments/684745859497590843/812389944013881394/unknown.png");
+			return;
 		}
 
 		// END custom triggers that I probably shouldn't do.
@@ -402,6 +404,7 @@ module.exports = async (client, message) => {
 			else if (timeoutManager.timeoutSet(sectionIdentifier)) {
 				console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 			}
+			return;
 		}
 
 		sectionIdentifier = "bdth";
@@ -463,6 +466,7 @@ module.exports = async (client, message) => {
 			forbidAny = [];
 			forbidCount = [];
 			negateBadWords = [];
+			return;
 		}
 		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
 			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
@@ -519,6 +523,7 @@ module.exports = async (client, message) => {
 			forbidAny = [];
 			forbidCount = [];
 			negateBadWords = [];
+			return;
 		}
 		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
 			console.log(`${sectionIdentifier} timeout not exceeded or not a watched channel for ${sectionIdentifier}; ignoring message`);
