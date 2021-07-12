@@ -75,6 +75,7 @@ exports.run = async (client, message, args) => {
 		case "chatextender": args[0] = "oldplugins"; break;
 		case "deepdungeondex ": args[0] = "oldplugins"; break;
 		case "voidlist": args[0] = "oldplugins"; break;
+		case "staging": args[0] = "dalamudtesting"; break;
 		case "dalamudstaging": args[0] = "dalamudtesting"; break;
 		case "testdalamud": args[0] = "dalamudtesting"; break;
 		case "dt": args[0] = "dalamudtesting"; break;
@@ -137,6 +138,9 @@ exports.run = async (client, message, args) => {
 		case "safe": args[0] = "safety"; break;
 		case "safeness": args[0] = "safety"; break;
 		case "secure": args[0] = "safety"; break;
+		case "rl": args[0] = "ratelimits"; break;
+		case "rate": args[0] = "ratelimits"; break;
+		case "ratelimit": args[0] = "ratelimits"; break;
 		default: break;
 	}
 
@@ -160,10 +164,12 @@ exports.run = async (client, message, args) => {
 						},
 						{
 							"name": "FAQs and Help posts",
-							"value": "account av antivirus badconfig badplugin badui bsod credes credentials dalamudtesting dalamudsettings "
+							"value": "account av antivirus badconfig badplugin badui bsod credes credentials dalamudstaging "
+								+ "dalamudtesting dalamudsettings "
 								+ "deleteconfig deletedalamud deleteplugin dns env exploit ffxivpath ffxivinstall log logd logdalamud "
-								+ "gamepath gameinstall logxl maintenance migrate missingui patch plugins reinstalldalamud removeconfig removedalamud "
-								+ "removeplugin repair repairffxiv repairgame reshade steam steampath steaminstall "
+								+ "gamepath gameinstall logxl maintenance migrate missingui patch plugins "
+								+ "ratelimit reinstalldalamud removeconfig removedalamud "
+								+ "removeplugin repair repairffxiv repairgame reshade staging steam steampath steaminstall "
 								+ "testplugins textools uninstall vercheck versioncheck update xlhelp",
 						},
 					],
@@ -598,6 +604,20 @@ exports.run = async (client, message, args) => {
 						+ `be part of recent changes to your distro's SSL configuration. Especially on newer `
 						+ `distributions. \n\nSee the FAQ for more details `
 						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-im-on-linux-and-i-keep-getting-xivlauncher-failed-to-update-errors)`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "ratelimits":
+			responses.push({
+				"embed": {
+					"title": `GitHub ratelimits will affect XIVLauncher`,
+					"description": `If XIVLauncher and/or Gshade are failing to check for updates and `
+						+ `you know it's not your antivirus, you may be rate-limited by GitHub. \n\nSee the FAQ for more details `
+						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#github-rate-limits)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
