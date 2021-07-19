@@ -22,15 +22,32 @@ exports.run = async (client, message, args) => {
 		case "dalamudlog": args[0] = "logd"; break;
 		case "dlog": args[0] = "logd"; break;
 		case "logdl": args[0] = "logd"; break; // just for Aireil
+		case "aria": args[0] = "loga"; break;
+		case "logaria": args[0] = "loga"; break;
+		case "arialog": args[0] = "loga"; break;
+		case "logdownload": args[0] = "loga"; break;
+		case "downloadlog": args[0] = "loga"; break;
+		case "downloaderlog": args[0] = "loga"; break;
 		case "linuxlog": args[0] = "linuxlogxl"; break;
 		case "linuxlauncherlog": args[0] = "linuxlogxl"; break;
 		case "linuxxivlauncherlog": args[0] = "linuxlogxl"; break;
 		case "linuxlogs": args[0] = "linuxlogxl"; break;
 		case "linuxxllog": args[0] = "linuxlogxl"; break;
+		case "loglinux": args[0] = "linuxlogxl"; break;
+		case "logslinux": args[0] = "linuxlogxl"; break;
+		case "logxllinux": args[0] = "linuxlogxl"; break;
 		case "linuxlogdalamud": args[0] = "linuxlogd"; break;
 		case "linuxdalamudlog": args[0] = "linuxlogd"; break;
 		case "linuxdlog": args[0] = "linuxlogd"; break;
 		case "linuxlogdl": args[0] = "linuxlogd"; break; // just for Aireil
+		case "logdlinux": args[0] = "linuxlogd"; break;
+		case "dalamudloglinux": args[0] = "linuxlogd"; break;
+		case "logdalamudlinux": args[0] = "linuxlogd"; break;
+		case "dloglinux": args[0] = "linuxlogd"; break;
+		case "linuxloga": args[0] = "loga"; break;
+		case "linuxlogaria": args[0] = "loga"; break;
+		case "logalinux": args[0] = "loga"; break;
+		case "arialoglinux": args[0] = "loga"; break;
 		case "accountcreds": args[0] = "account"; break;
 		case "accountcredentials": args[0] = "account"; break;
 		case "creds": args[0] = "account"; break;
@@ -164,10 +181,11 @@ exports.run = async (client, message, args) => {
 						},
 						{
 							"name": "FAQs and Help posts",
-							"value": "account av antivirus badconfig badplugin badui bsod credes credentials dalamudstaging "
+							"value": "account aria av antivirus badconfig badplugin badui bsod credes credentials dalamudstaging "
 								+ "dalamudtesting dalamudsettings "
-								+ "deleteconfig deletedalamud deleteplugin dns env exploit ffxivpath ffxivinstall log logd logdalamud "
-								+ "gamepath gameinstall logxl maintenance migrate missingui patch plugins "
+								+ "deleteconfig deletedalamud deleteplugin dns env exploit ffxivpath ffxivinstall "
+								+ "log loga logaria logd logdalamud logxl"
+								+ "gamepath gameinstall maintenance migrate missingui patch plugins "
 								+ "ratelimit reinstalldalamud removeconfig removedalamud "
 								+ "removeplugin repair repairffxiv repairgame reshade staging steam steampath steaminstall "
 								+ "testplugins textools uninstall vercheck versioncheck update xlhelp",
@@ -639,6 +657,28 @@ exports.run = async (client, message, args) => {
 				},
 			});
 			break;
+		case "loga":
+			responses.push({
+				"embed": {
+					"title": `Please send us your aria.log file`,
+					"description": `Please send us your **aria.log** log file from `
+						+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
+						+ `\n\nIt's best to just upload/attach the file if you can!`
+						+ `\n\n**DISCLAIMER**:This log will contain file paths from your computer, which could include your username. `
+						+ `If you're not comfortable posting that here, you can `
+						+ `open the file in a text editor to redact that information first or `
+						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"image": {
+						"url": windowsExplorerScreenshot,
+					},
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
 		case "logd":
 			responses.push({
 				"embed": {
@@ -683,12 +723,35 @@ exports.run = async (client, message, args) => {
 				},
 			});
 			break;
+		case "linuxloga":
+			responses.push({
+				"embed": {
+					"title": `Please send us your aria.log file (Linux edition)`,
+					"description": `Please send us your **aria.log** log file from `
+						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/`
+						+ ` in this channel, so we can look into the problem!`
+						+ `\n\nIt's best to just upload/attach the file if you can!`
+						+ `\n\n**DISCLAIMER**:This log may contain your computer username. `
+						+ `If you're not comfortable posting that here, you can `
+						+ `open the file in a text editor to redact that information first or `
+						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"image": {
+						"url": windowsExplorerScreenshot,
+					},
+					"footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
 		case "linuxlogd":
 			responses.push({
 				"embed": {
 					"title": `Please send us your dalamud.log file (Linux edition)`,
 					"description": `Please send us your **dalamud.log** log file from `
-						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/dalamud.log\``
+						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/`
 						+ ` in this channel, so we can look into the problem!`
 						+ `\n\nIt's best to just upload/attach the file if you can!`
 						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
@@ -711,7 +774,7 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `Please send us your output.log file (Linux edition)`,
 					"description": `Please send us your **output.log** log file from `
-						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/output.log\``
+						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/`
 						+ ` in this channel, so we can look into the problem!`
 						+ `\n\nIt's best to just upload/attach the file if you can!`
 						+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
