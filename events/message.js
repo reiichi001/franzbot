@@ -30,7 +30,7 @@ function makeTimeoutManager() {
 const timeoutManager = makeTimeoutManager();
 
 function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, ignorelength, replyMessage) {
-	if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
+	if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name)) || message.member.user.bot) {
 		return;
 	}
 
