@@ -28,6 +28,9 @@ exports.run = async (client, message, args) => {
 		case "logdownload": args[0] = "loga"; break;
 		case "downloadlog": args[0] = "loga"; break;
 		case "downloaderlog": args[0] = "loga"; break;
+		case "squirrellog": args[0] = "logsq"; break;
+		case "logsq": args[0] = "logsq"; break;
+		case "logsquirrel": args[0] = "logsq"; break;
 		case "linuxlog": args[0] = "linuxlogxl"; break;
 		case "linuxlauncherlog": args[0] = "linuxlogxl"; break;
 		case "linuxxivlauncherlog": args[0] = "linuxlogxl"; break;
@@ -105,6 +108,7 @@ exports.run = async (client, message, args) => {
 		case "reinstalldalamud": args[0] = "removedalamud"; break;
 		case "badconfig": args[0] = "removeconfig"; break;
 		case "deleteconfig": args[0] = "removeconfig"; break;
+		case "deletepluginconfig": args[0] = "removeconfig"; break;
 		case "pluginconfig": args[0] = "removeconfig"; break;
 		case "gameinstall": args[0] = "gamepath"; break;
 		case "steampath": args[0] = "gamepath"; break;
@@ -181,7 +185,7 @@ exports.run = async (client, message, args) => {
 						},
 						{
 							"name": "FAQs and Help posts",
-							"value": "account aria av antivirus badconfig badplugin badui bsod credes credentials dalamudstaging "
+							"value": "account aria av antivirus badconfig badplugin badui bsod creds credentials dalamudstaging "
 								+ "dalamudtesting dalamudsettings "
 								+ "deleteconfig deletedalamud deleteplugin dns env exploit ffxivpath ffxivinstall "
 								+ "log loga logaria logd logdalamud logxl"
@@ -696,6 +700,28 @@ exports.run = async (client, message, args) => {
 						"url": windowsExplorerScreenshot,
 					},
 					 "footer": {
+						"text": client.config.FRANZBOT_VERSION,
+					},
+				},
+			});
+			break;
+		case "logsq":
+			responses.push({
+				"embed": {
+					"title": `Please send us your SquirrelSetup.log file`,
+					"description": `Please send us your **SquirrelSetup.log** log file from `
+						+ `\`%localappdata%\SquirrelTemp\\\` in this channel, so we can look into the problem!`
+						+ `\n\nIt's best to just upload/attach the file if you can!`
+						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
+						+ `If you're not comfortable posting that here, you can `
+						+ `open the file in a text editor to redact that information first or `
+						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					"color": client.config.EMBED_NORMAL_COLOR,
+					"image": {
+						"url": windowsExplorerScreenshot,
+					},
+						"footer": {
 						"text": client.config.FRANZBOT_VERSION,
 					},
 				},
