@@ -490,8 +490,8 @@ module.exports = async (client, message) => {
 					"description": "Franzbot has detected chat activity from a non-mod/non-dev user in a suggestions channel.",
 					"color": client.config.EMBED_INFO_COLOR,
 					"footer": {
-					  "text": "This automated response is on a 30 minute cooldown and is not based on the words you said. "
-					  	+ "This message will self destruct in 5 minutes.",
+						"text": "This automated response is on a 30 minute cooldown and is not based on the words you said. "
+							+ "This message will self destruct in 5 minutes.",
 					},
 					"fields": [
 						{
@@ -512,7 +512,7 @@ module.exports = async (client, message) => {
 
 			message.reply(replyMessage)
 				.then(msg => {
-					setTimeout(() => msg.delete(), 5 * MINUTE)
+					setTimeout(() => msg.delete(), 5 * MINUTE);
 				});
 
 			// checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);

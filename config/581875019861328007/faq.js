@@ -708,7 +708,7 @@ exports.run = async (client, message, args) => {
 				"embed": {
 					"title": `Please send us your SquirrelSetup.log file`,
 					"description": `Please send us your **SquirrelSetup.log** log file from `
-						+ `\`%localappdata%\SquirrelTemp\\\` in this channel, so we can look into the problem!`
+						+ `\`%localappdata%\\SquirrelTemp\\\` in this channel, so we can look into the problem!`
 						+ `\n\nIt's best to just upload/attach the file if you can!`
 						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
 						+ `If you're not comfortable posting that here, you can `
@@ -719,7 +719,7 @@ exports.run = async (client, message, args) => {
 					"image": {
 						"url": windowsExplorerScreenshot,
 					},
-						"footer": {
+					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
 					},
 				},
