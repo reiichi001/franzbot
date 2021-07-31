@@ -91,9 +91,7 @@ exports.run = async (client, message, args) => {
 		case "hookfail": args[0] = "rtss"; break;
 		case "dns": args[0] = "vpn"; break;
 		case "oldplugin": args[0] = "oldplugins"; break;
-		case "adventurerinneed": args[0] = "oldplugins"; break;
 		case "chatextender": args[0] = "oldplugins"; break;
-		case "deepdungeondex ": args[0] = "oldplugins"; break;
 		case "voidlist": args[0] = "oldplugins"; break;
 		case "staging": args[0] = "dalamudtesting"; break;
 		case "dalamudstaging": args[0] = "dalamudtesting"; break;
@@ -653,7 +651,7 @@ exports.run = async (client, message, args) => {
 					"title": `Developer Resources`,
 					"description": `The primary developer resources should all be on their relevant GitHub pages `
 						+ `but for some quick links to a few common resources, see our FAQ post `
-						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-do-i-get-started-with-development)`,
+						+ `[HERE](https://goatcorp.github.io/faq/development)`,
 					"color": client.config.EMBED_NORMAL_COLOR,
 					"footer": {
 						"text": client.config.FRANZBOT_VERSION,
