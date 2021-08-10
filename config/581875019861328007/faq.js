@@ -6,7 +6,7 @@ exports.run = async (client, message, args) => {
 		args = ["help"];
 	}
 	else if (args.length >= 2) {
-		args = [args.join("")]; // watch this magic shite
+		args = [args.join("").toLowerCase()]; // watch this magic shite
 	}
 	console.log(`FAQ command found in TestTriggers: ${message.channel.name}`);
 	const responses = [];
@@ -64,6 +64,7 @@ exports.run = async (client, message, args) => {
 		case "xlplugins": args[0] = "plugins"; break;
 		case "installplugins": args[0] = "plugins"; break;
 		case "integritycheck": args[0] = "integrity"; break;
+		case "redists ": args[0] = "redist"; break;
 		case "runtime": args[0] = "redist"; break;
 		case "runtimes": args[0] = "redist"; break;
 		case "redistributable": args[0] = "redist"; break;
