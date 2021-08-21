@@ -1,11 +1,11 @@
 // Franztest //
 /* eslint-disable no-fallthrough */
 /* eslint-disable max-len */
-exports.run = async (client, message, args) => {
+exports.run = async (client, args) => {
 	if (args.length < 1) {
 		args = ["help"];
 	}
-	console.log(`FAQ command found in TestTriggers: ${message.channel.name}`);
+
 	const responses = [];
 	switch (args[0]) {
 		case "help":

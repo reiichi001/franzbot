@@ -1,14 +1,14 @@
 // Goatplace //
 /* eslint-disable no-fallthrough */
 /* eslint-disable max-len */
-exports.run = async (client, message, args) => {
+exports.run = async (client, args) => {
 	if (args.length < 1) {
 		args = ["help"];
 	}
 	else if (args.length >= 2) {
 		args = [args.join("").toLowerCase()]; // watch this magic shite
 	}
-	console.log(`FAQ command found in TestTriggers: ${message.channel.name}`);
+
 	const responses = [];
 
 	switch (args[0]) {
