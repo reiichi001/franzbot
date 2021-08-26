@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+const { MessageEmbed } = require('discord.js');
 const got = require('got');
 
 const SECOND = 1000;
@@ -239,7 +240,15 @@ module.exports = async (client, message) => {
 					console.log(attachment.attachment);
 					try {
 						const response = await got(attachment.attachment);
-						// console.log(response.body);
+
+						/*
+						if (message.channel.isThread()) {
+							client.logger.debug("THIS IS A THREAD");
+							console.log(response);
+							client.logger.debug("END OF THREAD");
+						}
+						*/
+						
 						const logdata = response.body;
 						const results = logdata.match(/TROUBLESHOOTING:(.*)/gu);
 						if (results.length > 0) {
@@ -254,7 +263,13 @@ module.exports = async (client, message) => {
 							data = JSON.parse(data);
 
 							// make fancy embed and return
-							let  embedfields = [];
+							var replymessage2 = new MessageEmbed()
+								.setTitle("Dalamud.txt parse results MESSAGEMEBEDD version")
+								.setDescription("Franzbot has parsed your logfile. "
+									+ "Here's some information about the plugins that were loaded.")
+								.setColor(client.config.EMBED_NORMAL_COLOR)
+								.setFooter(`DalamudVersion: ${data.DalamudVersion}`);
+
 							let plugintext = ">>> ";
 							let overflowed = false;
 
@@ -264,82 +279,72 @@ module.exports = async (client, message) => {
 									plugintext += `**${plugin.Name}**`
 										+ ` - ${plugin.AssemblyVersion}\n`;
 									if (plugintext.length > 900) {
-										embedfields.push({
-											name: "Loaded plugins",
-											value: plugintext,
-										});
+										replymessage2
+											.addField(
+												"Loaded plugins",
+												plugintext,
+											);
 										plugintext = ">>> ";
 										overflowed = true;
 									}
 								});
 
 							if (overflowed) {
-								embedfields.push({
-									name: "Plugins Continued...",
-									value: plugintext,
-								});
+								replymessage2
+									.addField(
+										"Plugins Continued...",
+										plugintext,
+									);
 							}
 							else {
-								embedfields = [
-									{
-										name: "Loaded plugins as of last troubleshoot blob",
-										value: plugintext,
-									},
-								];
+								replymessage2
+									.addField(
+										"Loaded plugins as of last troubleshoot blob",
+										plugintext,
+									);
 							}
 
-							/*
-							const embedfields = data.LoadedPlugins.map(item => ({
-								name: item.Name,
-								value: item.AssemblyVersion,
-							}));
-							*/
-							embedfields.push({
-								name: "Has third party repos",
-								value: data.ThirdRepo.length > 0 ? "Yes" : "No",
-							});
-							embedfields.push({
-								name: "Dalamud Testing",
-								value: data.DoDalamudTest,
-								inline: true,
-							});
-							embedfields.push({
-								name: "Plugin Testing",
-								value: data.DoPluginTest,
-								inline: true,
-							});
-							embedfields.push({
-								name: "InterfaceLoaded ",
-								value: data.InterfaceLoaded,
-								inline: true,
-							});
+							replymessage2
+								.addField(
+									"Has third party repos",
+									data.ThirdRepo.length > 0 ? "Yes" : "No",
+								)
+								.addField(
+									"Dalamud Testing",
+									data.DoDalamudTest ? "Yes" : "No",
+									true,
+								)
+								.addField(
+									"Plugin Testing",
+									data.DoPluginTest ? "Yes" : "No",
+									true,
+								)
+								.addField(
+									"InterfaceLoaded",
+									data.InterfaceLoaded ? "Yes" : "No",
+									true,
+								);
+								
 
-
-							replyMessage = {
-
-								title: "Dalamud.txt parse results",
-								description: "Franzbot has parsed your logfile. "
-										+ "Here's some information about the plugins that were loaded.",
-								color: client.config.EMBED_NORMAL_COLOR,
-								footer: {
-									"text": `DalamudVersion: ${data.DalamudVersion}`,
-								},
-								fields: embedfields,
-							};
 							if (isDirectMessage) {
 								customChannel.send({
-									embeds: [replyMessage],
+									embeds: [replymessage2],
 								});
 							}
 							else {
 								message.reply({
-									embeds: [replyMessage],
+									embeds: [replymessage2],
 								});
 							}
 						}
 					}
 					catch (error) {
-						console.log(error.response.body);
+						if (error?.response?.body) {
+							console.error(error.response.body);
+						}
+						else {
+							console.error(error);
+						}
 					}
 				}
 			});
