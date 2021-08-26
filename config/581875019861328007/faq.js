@@ -85,6 +85,8 @@ exports.run = async (client, message, args) => {
 		case "defender": args[0] = "av"; break;
 		case "bitdefender": args[0] = "av"; break;
 		case "removexl": args[0] = "uninstall"; break;
+		case "reinstall": args[0] = "uninstall"; break;
+		case "cleaninstall": args[0] = "uninstall"; break;
 		case "rivatuner": args[0] = "rtss"; break;
 		case "msiafterburner": args[0] = "rtss"; break;
 		case "afterburner": args[0] = "rtss"; break;
