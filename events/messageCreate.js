@@ -408,7 +408,7 @@ module.exports = async (client, message) => {
 			else if (timeoutManager.timeoutSet(sectionIdentifier)) {
 				console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 			}
-			return;
+			// return;
 		}
 
 		sectionIdentifier = "bdth";
