@@ -8,7 +8,7 @@ const {
 const config = {
 	root: true,
 	env: {
-		es2017: true,
+		es2020: true,
 		node: true,
 	},
 	parserOptions: {
