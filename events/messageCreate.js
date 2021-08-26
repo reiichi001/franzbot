@@ -268,7 +268,7 @@ module.exports = async (client, message) => {
 								.setDescription("Franzbot has parsed your logfile. "
 									+ "Here's some information about the plugins that were loaded.")
 								.setColor(client.config.EMBED_NORMAL_COLOR)
-								.setFooter(`DalamudVersion: ${data.DalamudVersion}`);
+								.setFooter(`DalamudVersion: ${data.DalamudVersion}\nGameVersion: ${data.GameVersion}`);
 
 							let plugintext = ">>> ";
 							let overflowed = false;
