@@ -5,10 +5,9 @@ exports.run = (client, message, args) => {
 	];
 	if (!ZuTriggers.includes(message.guild.id)) {
 		return message.reply("\u200Bthis command doesn't work here.")
-			.then(message.delete({
-				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
-			}));
+			.then(
+				setTimeout(() => message.delete(), 5000)
+			);
 	}
 
 	if (!args || args.length < 1) {
@@ -28,15 +27,11 @@ exports.run = (client, message, args) => {
 	return message
 		.reply(`\u200BThe command ${commandName} has been reloaded`)
 		.then(msg => {
-			msg.delete({
-				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
-			});
+			setTimeout(() => msg.delete(), 5000);
 		})
-		.then(message.delete({
-			timeout: 5000,
-			reason: client.config.AUDITLOG_COMMON,
-		}));
+		.then(
+			setTimeout(() => message.delete(), 5000)
+		);
 };
 
 exports.conf = {

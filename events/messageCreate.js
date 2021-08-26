@@ -100,7 +100,9 @@ function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbid
 		&& adjustedWordWeight >= adjustedMinCount
 		&& (message.content.length <= 220 || ignorelength === true) // if it's longer than a tweet, it's probably a false positive
 	) {
-		message.reply(replyMessage);
+		message.reply({
+			embeds: [replyMessage],
+		});
 	}
 }
 
@@ -152,28 +154,27 @@ module.exports = async (client, message) => {
 
 		if (MeteorTriggers.includes(message.guild.id)) {
 			const embedobj = {
-				"embed": {
-					"title": "Franzbot FAQ",
-					"description": `Supported FAQ commands listed below. Type \`${client.config.prefix}faq <topic>\` to display the content.`,
-					"color": client.config.EMBED_NORMAL_COLOR,
-					"footer": {
-						"text": client.config.FRANZBOT_VERSION,
-					},
-					"fields": [
-						{
-							"name": "Information",
-							"value": "wiki status paru md5",
-						},
-						{
-							"name": "Guides",
-							"value": "compile config client",
-						},
-						{
-							"name": "Tools",
-							"value": "vs wamp",
-						},
-					],
+
+				title: "Franzbot FAQ",
+				description: `Supported FAQ commands listed below. Type \`${client.config.prefix}faq <topic>\` to display the content.`,
+				color: client.config.EMBED_NORMAL_COLOR,
+				footer: {
+					"text": client.config.FRANZBOT_VERSION,
 				},
+				fields: [
+					{
+						"name": "Information",
+						"value": "wiki status paru md5",
+					},
+					{
+						"name": "Guides",
+						"value": "compile config client",
+					},
+					{
+						"name": "Tools",
+						"value": "vs wamp",
+					},
+				],
 			};
 			message.channel.send(embedobj);
 		}
@@ -315,22 +316,25 @@ module.exports = async (client, message) => {
 
 
 							replyMessage = {
-								"embed": {
-									"title": "Dalamud.txt parse results",
-									"description": "Franzbot has parsed your logfile. "
+
+								title: "Dalamud.txt parse results",
+								description: "Franzbot has parsed your logfile. "
 										+ "Here's some information about the plugins that were loaded.",
-									"color": client.config.EMBED_NORMAL_COLOR,
-									"footer": {
-										"text": `DalamudVersion: ${data.DalamudVersion}`,
-									},
-									"fields": embedfields,
+								color: client.config.EMBED_NORMAL_COLOR,
+								footer: {
+									"text": `DalamudVersion: ${data.DalamudVersion}`,
 								},
+								fields: embedfields,
 							};
 							if (isDirectMessage) {
-								customChannel.send(replyMessage);
+								customChannel.send({
+									embeds: [replyMessage],
+								});
 							}
 							else {
-								message.reply(replyMessage);
+								message.reply({
+									embeds: [replyMessage],
+								});
 							}
 						}
 					}
@@ -378,13 +382,12 @@ module.exports = async (client, message) => {
 				adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 
 				replyMessage = {
-					"embed": {
-						"title": client.config.TRIGGER_TITLE,
-						"description": "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",
-						"color": client.config.EMBED_ERROR_COLOR,
-						"footer": {
-							"text": client.config.TRIGGER_FOOTER,
-						},
+
+					title: client.config.TRIGGER_TITLE,
+					description: "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",
+					color: client.config.EMBED_ERROR_COLOR,
+					footer: {
+						"text": client.config.TRIGGER_FOOTER,
 					},
 				};
 
@@ -411,13 +414,12 @@ module.exports = async (client, message) => {
 			forbiddenMinCount = 1;
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 			replyMessage = {
-				"embed": {
-					"title": client.config.TRIGGER_TITLE,
-					"description": "We are unable to provide support for plugins installed via third-party repo. Please contact the plugin creator directly or ask in their support discords.",
-					"color": client.config.EMBED_ERROR_COLOR,
-					"footer": {
-						"text": client.config.TRIGGER_FOOTER,
-					},
+
+				title: client.config.TRIGGER_TITLE,
+				description: "We are unable to provide support for plugins installed via third-party repo. Please contact the plugin creator directly or ask in their support discords.",
+				color: client.config.EMBED_ERROR_COLOR,
+				footer: {
+					"text": client.config.TRIGGER_FOOTER,
 				},
 			};
 
@@ -443,14 +445,13 @@ module.exports = async (client, message) => {
 			forbiddenMinCount = 1;
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 			replyMessage = {
-				"embed": {
-					"title": client.config.TRIGGER_TITLE,
-					"description": "Please put plugin suggestions into the <#685275026156683280> channel please."
+
+				title: client.config.TRIGGER_TITLE,
+				description: "Please put plugin suggestions into the <#685275026156683280> channel please."
 						+ "\n\nThis channel is for XIVLauncher, Dalamud, or Discord related requests.",
-					"color": client.config.EMBED_INFO_COLOR,
-					"footer": {
-						"text": client.config.TRIGGER_FOOTER,
-					},
+				color: client.config.EMBED_INFO_COLOR,
+				footer: {
+					"text": client.config.TRIGGER_FOOTER,
 				},
 			};
 
@@ -485,32 +486,33 @@ module.exports = async (client, message) => {
 
 			// send a reply
 			replyMessage = {
-				"embed": {
-					"title": client.config.TRIGGER_TITLE,
-					"description": "Franzbot has detected chat activity from a non-mod/non-dev user in a suggestions channel.",
-					"color": client.config.EMBED_INFO_COLOR,
-					"footer": {
-						"text": "This automated response is on a 30 minute cooldown and is not based on the words you said. "
+
+				title: client.config.TRIGGER_TITLE,
+				description: "Franzbot has detected chat activity from a non-mod/non-dev user in a suggestions channel.",
+				color: client.config.EMBED_INFO_COLOR,
+				footer: {
+					"text": "This automated response is on a 30 minute cooldown and is not based on the words you said. "
 							+ "This message will self destruct in 5 minutes.",
+				},
+				fields: [
+					{
+						"name": "Existing Plugins",
+						"value": "If you haven't already, see if the plugin has an issue or requests tracker on its repo. This may require a GitHub or other account. Otherwise, tag the developer once so they can find this request if you haven't already.",
 					},
-					"fields": [
-						{
-							"name": "Existing Plugins",
-							"value": "If you haven't already, see if the plugin has an issue or requests tracker on its repo. This may require a GitHub or other account. Otherwise, tag the developer once so they can find this request if you haven't already.",
-						},
-						{
-							"name": "New Plugins",
-							"value": "If you are proposing a new plugin and have a GitHub account, please consider opening an issue on the [suggestions repository](https://github.com/goatcorp/suggestions/issues/new?assignees=&labels=discussion+requested&template=plugin_request.md&title=).",
-						},
-						{
-							"name": "XIVLauncher/Dalamud",
-							"value": "If you have a gitHub account, please submit an issue/feature request for [XIVLauncher](https://github.com/goatcorp/FFXIVQuickLauncher/issues) or [Dalamud](https://github.com/goatcorp/Dalamud/issues) on their respective Github repos.",
-						},
-					],
-				  },
+					{
+						"name": "New Plugins",
+						"value": "If you are proposing a new plugin and have a GitHub account, please consider opening an issue on the [suggestions repository](https://github.com/goatcorp/suggestions/issues/new?assignees=&labels=discussion+requested&template=plugin_request.md&title=).",
+					},
+					{
+						"name": "XIVLauncher/Dalamud",
+						"value": "If you have a gitHub account, please submit an issue/feature request for [XIVLauncher](https://github.com/goatcorp/FFXIVQuickLauncher/issues) or [Dalamud](https://github.com/goatcorp/Dalamud/issues) on their respective Github repos.",
+					},
+				],
 			};
 
-			message.reply(replyMessage)
+			message.reply({
+				embeds: [replyMessage],
+			})
 				.then(msg => {
 					setTimeout(() => msg.delete(), 5 * MINUTE);
 				});
@@ -545,13 +547,12 @@ module.exports = async (client, message) => {
 			"test",
 		]);
 		replyMessage = {
-			"embed": {
-				"title": client.config.TRIGGER_TITLE,
-				"description": "Any discussion of torrenting, piracy, or other illegitimate means of obtaining software is not allowed on this server.",
-				"color": client.config.EMBED_ERROR_COLOR,
-				"footer": {
-					"text": client.config.TRIGGER_FOOTER,
-				},
+
+			title: client.config.TRIGGER_TITLE,
+			description: "Any discussion of torrenting, piracy, or other illegitimate means of obtaining software is not allowed on this server.",
+			color: client.config.EMBED_ERROR_COLOR,
+			footer: {
+				"text": client.config.TRIGGER_FOOTER,
 			},
 		};
 
@@ -577,14 +578,14 @@ module.exports = async (client, message) => {
 			"test",
 		]);
 		replyMessage = {
-			"embed": {
-				"title": client.config.TRIGGER_TITLE,
-				"description": "Please move this conversation out of the general channel. There are additional opt-in channels available on the discord for this topic.",
-				"color": client.config.EMBED_ERROR_COLOR,
-				"footer": {
+
+				title: client.config.TRIGGER_TITLE,
+				description: "Please move this conversation out of the general channel. There are additional opt-in channels available on the discord for this topic.",
+				color: client.config.EMBED_ERROR_COLOR,
+				footer: {
 					"text": client.config.TRIGGER_FOOTER,
 				},
-				"fields": [
+				fields: [
 					{
 						"name": "Spoilers",
 						"value": "Please enable the Discussion role to talk about spoilers.",

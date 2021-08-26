@@ -6,10 +6,9 @@ exports.run = (client, message) => {
 	if (!ZuTriggers.includes(message.guild.id)) {
 		message
 			.reply("\u200Bthis command doesn't work here.")
-			.then(message.delete({
-				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
-			}));
+			.then(
+				setTimeout(() => message.delete(), 5000)
+			);
 		return; // this command
 	}
 	// toggle a role for Zu
@@ -22,15 +21,11 @@ exports.run = (client, message) => {
 		message.member.roles.add(addThisRole).catch(console.error);
 		message.reply(`\u200BAdding role ${addThisRole.name} for you.`)
 			.then(msg => {
-				msg.delete({
-					timeout: 5000,
-					reason: client.config.AUDITLOG_COMMON,
-				});
+				setTimeout(() => msg.delete(), 5000);
 			})
-			.then(message.delete({
-				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
-			}));
+			.then(
+				setTimeout(() => message.delete(), 5000)
+			);
 	}
 };
 

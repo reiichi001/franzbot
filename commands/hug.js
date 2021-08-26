@@ -12,7 +12,7 @@ exports.run = async (client, message, args) => { // eslint-disable-line no-unuse
 	}
 
 	return message.channel.send(message.mentions.users.first()
-		? `\u200B(っ´▽｀)っ${message.mentions.users.array().join(" ")}`
+		? `\u200B(っ´▽｀)っ${message.mentions.users.reduce((prev, curr) => `${prev} ${curr}`)}`
 		: "\u200BI don't know who to hug. >_>");
 };
 

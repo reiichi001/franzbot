@@ -15,7 +15,7 @@ exports.run = async (client, message, args) => {
 	let output = "\u200B(╯°□°）╯︵ ";
 	let joinedargs = args.join(" ");
 	console.log(`Starting with: ${joinedargs}\n`);
-	message.mentions.users.array().forEach(user => {
+	message.mentions.users.forEach(user => {
 		// make a text replacement for mention -> username string
 
 		const useridstring = `<@${user.id}>`;

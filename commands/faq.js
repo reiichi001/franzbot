@@ -15,23 +15,39 @@ exports.run = async (client, message, args) => {
 		// The check succeeded
 		const goatresponses = await goattriggers.run(client, message, args);
 
-		for (const response of goatresponses) {
-			await message.channel.send(response);
+		// for (const response of goatresponses) {
+		if (goatresponses !== null && goatresponses.length > 0) {
+			// console.log(goatresponses);
+			// console.log();
+			await message.channel.send({
+				embeds: goatresponses,
+			});
 		}
+		else {
+			console.log("Responses = 0; No FAQs found.");
+		}
+
+		// }
 		disrequire(require.resolve(configpath));
 	}
 	catch (error) {
 		// The check failed
 		console.log("No FAQs found.");
+		console.error(error);
 
 		message.channel.send({
-			"embed": {
-				"title": `This server does not contain any Franzbot FAQs`,
-				"color": client.config.EMBED_ERROR_COLOR,
-				"footer": {
-					"text": client.config.FRANZBOT_VERSION,
+			embeds: [
+				{
+					"embed": {
+						"title": `This server does not contain any Franzbot FAQs`,
+						"description": "How did you manage to get this?",
+						"color": client.config.EMBED_ERROR_COLOR,
+						"footer": {
+							"text": client.config.FRANZBOT_VERSION,
+						},
+					},
 				},
-			},
+			],
 		});
 	}
 };

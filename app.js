@@ -6,10 +6,14 @@ const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
 
 // set up intents
-// const myIntents = new Discord.Intents();
-//  myIntents.add('GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS');
+const myIntents = new Discord.Intents();
+myIntents.add('GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS');
 
-const client = new Discord.Client();
+const client = new Discord.Client(
+	{
+		intents: myIntents.bitfield,
+	}
+);
 
 const config = require("./config.json");
 // We also need to make sure we're attaching the config to the CLIENT so it's accessible everywhere!

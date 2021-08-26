@@ -5,10 +5,9 @@ exports.run = (client, message, args) => {
 	];
 	if (!ZuTriggers.includes(message.guild.id)) {
 		return message.reply("\u200Bthis command doesn't work here.")
-			.then(message.delete({
-				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
-			}));
+			.then(
+				setTimeout(() => message.delete(), 5000)
+			);
 	}
 
 	const [

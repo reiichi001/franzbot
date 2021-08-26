@@ -1,6 +1,17 @@
 exports.run = (client, message, args) => {
 	// toggle a role for Zu
 
+	const ZuTriggers = [
+		client.config.GUILDID_TESTING, // franzbot testing - general
+		client.config.GUILDID_ZU, // Zu - general
+	];
+	if (!ZuTriggers.includes(message.guild.id)) {
+		return message.reply("\u200Bthis command doesn't work here.")
+			.then(
+				setTimeout(() => message.delete(), 5000)
+			);
+	}
+
 	if (args.length == 1) {
 		const addThisRole = message.guild.roles.cache.find(role => role.name === args[0]);
 		console.log(`the role is: ${addThisRole}`);
@@ -10,7 +21,9 @@ exports.run = (client, message, args) => {
 
 		if (!addThisRole) {
 			message.reply(`\u200BERROR: Cannot find the role "${args[0]}" on this server. `
-			+ `Please check spelling and capitalization, or ask an Officer/Admin to set the role for you.`);
+			+ `Please check spelling and capitalization, or ask an Officer/Admin to set the role for you.`).then(
+				setTimeout(() => message.delete(), 5000)
+			);
 		}
 		else if (message.member.roles.cache.get(addThisRole.id)) {
 			message.member.roles.remove(addThisRole).catch(console.error);
@@ -22,15 +35,11 @@ exports.run = (client, message, args) => {
 		}
 
 		message.reply(textresponse).then(msg => {
-			msg.delete({
-				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
-			});
+			setTimeout(() => msg.delete(), 5000);
 		})
-			.then(message.delete({
-				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
-			}));
+			.then(
+				setTimeout(() => message.delete(), 5000)
+			);
 	}
 	else {
 		message.reply("\u200BI didn't understand what you meant by that.");

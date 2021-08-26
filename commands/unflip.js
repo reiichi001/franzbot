@@ -10,16 +10,15 @@ exports.run = async (client, message, args) => {
 	];
 	if (!ZuTriggers.includes(message.guild.id)) {
 		return message.reply("\u200Bthis command doesn't work here.")
-			.then(message.delete({
-				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
-			}));
+			.then(
+				setTimeout(() => message.delete(), 5000)
+			);
 	}
 
 	let output = "\u200B";
 	let joinedargs = args.join(" ");
 	console.log(`Starting with: ${joinedargs}\n`);
-	message.mentions.users.array().forEach(user => {
+	message.mentions.users.each(user => {
 		// make a text replacement for mention -> username string
 
 		const useridstring = `<@${user.id}>`;
