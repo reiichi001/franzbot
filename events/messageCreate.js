@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
-const { MessageEmbed } = require('discord.js');
+const {
+	MessageEmbed,
+} = require('discord.js');
 const got = require('got');
 
 const SECOND = 1000;
@@ -248,7 +250,7 @@ module.exports = async (client, message) => {
 							client.logger.debug("END OF THREAD");
 						}
 						*/
-						
+
 						const logdata = response.body;
 						const results = logdata.match(/TROUBLESHOOTING:(.*)/gu);
 						if (results.length > 0) {
@@ -263,7 +265,7 @@ module.exports = async (client, message) => {
 							data = JSON.parse(data);
 
 							// make fancy embed and return
-							var replymessage2 = new MessageEmbed()
+							const replymessage2 = new MessageEmbed()
 								.setTitle(`Dalamud.txt parse results${client.config.DEBUGMODE ? " - Debug Version" : ""}`)
 								.setDescription("Franzbot has parsed your logfile. "
 									+ "Here's some information about the plugins that were loaded.")
@@ -282,7 +284,7 @@ module.exports = async (client, message) => {
 										replymessage2
 											.addField(
 												"Loaded plugins",
-												plugintext,
+												plugintext
 											);
 										plugintext = ">>> ";
 										overflowed = true;
@@ -293,39 +295,37 @@ module.exports = async (client, message) => {
 								replymessage2
 									.addField(
 										"Plugins Continued...",
-										plugintext,
+										plugintext
 									);
 							}
 							else {
 								replymessage2
 									.addField(
 										"Loaded plugins as of last troubleshoot blob",
-										plugintext,
+										plugintext
 									);
 							}
 
 							replymessage2
 								.addField(
 									"Has third party repos",
-									data.ThirdRepo.length > 0 ? "Yes" : "No",
+									data.ThirdRepo.length > 0 ? "Yes" : "No"
 								)
 								.addField(
 									"Dalamud Testing",
 									data.DoDalamudTest ? "Yes" : "No",
-									true,
+									true
 								)
 								.addField(
 									"Plugin Testing",
 									data.DoPluginTest ? "Yes" : "No",
-									true,
+									true
 								)
 								.addField(
 									"InterfaceLoaded",
 									data.InterfaceLoaded ? "Yes" : "No",
-									true,
+									true
 								);
-								
-
 							if (isDirectMessage) {
 								customChannel.send({
 									embeds: [replymessage2],
@@ -339,7 +339,7 @@ module.exports = async (client, message) => {
 						}
 					}
 					catch (error) {
-						if (error?.response?.body) {
+						if (error.response.body) {
 							console.error(error.response.body);
 						}
 						else {
