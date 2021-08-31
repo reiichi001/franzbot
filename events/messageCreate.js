@@ -264,7 +264,7 @@ module.exports = async (client, message) => {
 
 							// make fancy embed and return
 							var replymessage2 = new MessageEmbed()
-								.setTitle("Dalamud.txt parse results MESSAGEMEBEDD version")
+								.setTitle(`Dalamud.txt parse results${client.config.DEBUGMODE ? " - Debug Version" : ""}`)
 								.setDescription("Franzbot has parsed your logfile. "
 									+ "Here's some information about the plugins that were loaded.")
 								.setColor(client.config.EMBED_NORMAL_COLOR)
