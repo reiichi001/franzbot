@@ -75,9 +75,6 @@ exports.run = async (client, message, args) => {
 		case "net48": args[0] = "redist"; break;
 		case "net4.8": args[0] = "redist"; break;
 		case ".net4.8": args[0] = "redist"; break;
-		case "testplugins": args[0] = "dalamudsettings"; break;
-		case "plugintesting": args[0] = "dalamudsettings"; break;
-		case "xlsettings": args[0] = "dalamudsettings"; break;
 		case "BSOD": args[0] = "bsod"; break;
 		case "bluescreen": args[0] = "bsod"; break;
 		case "antivirus": args[0] = "av"; break;
@@ -100,6 +97,12 @@ exports.run = async (client, message, args) => {
 		case "dalamudstaging": args[0] = "dalamudtesting"; break;
 		case "testdalamud": args[0] = "dalamudtesting"; break;
 		case "dt": args[0] = "dalamudtesting"; break;
+		case "pt": args[0] = "plugintesting"; break;
+		case "xlsettings": args[0] = "plugintesting"; break;
+		case "testplugin": args[0] = "plugintesting"; break;
+		case "testplugins": args[0] = "plugintesting"; break;
+		case "testingplugin": args[0] = "plugintesting"; break;
+		case "testingplugins": args[0] = "plugintesting"; break;
 		case "badplugin": args[0] = "removeplugin"; break;
 		case "deleteplugin": args[0] = "removeplugin"; break;
 		case "deleteplugins": args[0] = "removeplugin"; break;
@@ -461,16 +464,6 @@ exports.run = async (client, message, args) => {
 				title: `I think XIV Launcher is giving me a Blue Screen of Death`,
 				description: `It's probably not XL's fault. But if you really think it is, please answer the questions `
 					+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-i-think-xivlauncher-is-giving-me-a-blue-screen-of-death-what-information-would-help-narrow-this-down)`,
-				color: client.config.EMBED_NORMAL_COLOR,
-				footer: {
-					"text": client.config.FRANZBOT_VERSION,
-				},
-			});
-			break;
-		case "dalamudsettings":
-			responses.push({
-				title: `How do I turn Plugin Testing on or off?`,
-				description: `See [HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#How do I turn Plugin Testing on or off?)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
