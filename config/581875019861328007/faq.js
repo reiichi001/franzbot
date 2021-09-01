@@ -261,7 +261,7 @@ exports.run = async (client, message, args) => {
 			break;
 		case "recommend":
 			responses.push({
-				title: `It is impossible for us to givep lugin recommendations`,
+				title: `It is impossible for us to give plugin recommendations`,
 				description: `It is impossible for us to give plugin recommendations.\n\n`
 					+ ``
 					+ `While we'd like to be able to help you improve your FFXIV gaming experience in every way possible, `
