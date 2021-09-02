@@ -24,7 +24,6 @@ module.exports = (client, member) => {
 		}
 
 		const embedobj = {
-			"content": `${member}`,
 			"embed": {
 				title: `Welcome to ${member.guild.name}!`,
 				description: `Welcome to **Zu**, ${member} \n\n`
@@ -44,6 +43,7 @@ module.exports = (client, member) => {
 			.cache
 			.find(c => c.name === "welcome")
 			.send({
+				content: `${member}`,
 				embeds: [embedobj],
 			})
 			.catch(console.error);
