@@ -43,7 +43,9 @@ module.exports = (client, member) => {
 			.channels
 			.cache
 			.find(c => c.name === "welcome")
-			.send(embedobj)
+			.send({
+				embeds: [embedobj],
+			})
 			.catch(console.error);
 	}
 
