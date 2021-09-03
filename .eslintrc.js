@@ -12,7 +12,7 @@ const config = {
 		node: true,
 	},
 	parserOptions: {
-		ecmaVersion: 9,
+		ecmaVersion: 11,
 	},
 	rules: {
 		"prefer-spread": "error",
