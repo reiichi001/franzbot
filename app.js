@@ -14,9 +14,16 @@ const Enmap = require("enmap");
 const myIntents = new Intents();
 myIntents.add('DIRECT_MESSAGES', 'GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS');
 
+
 const client = new Client(
 	{
 		intents: myIntents.bitfield,
+		partials: [
+			'GUILD',
+			'MESSAGE',
+			'CHANNEL',
+			'REACTION',
+		],
 	}
 );
 

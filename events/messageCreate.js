@@ -116,6 +116,14 @@ module.exports = async (client, message) => {
 	// It's good practice to ignore other bots. This also makes your bot ignore itself
 	// and not get into a spam loop (we call that "botception").
 	// unless it's an announcement channel, since we want to publish posts...
+	if (message.partial) {
+		message = await message.fetch()
+			.catch(error => {
+				console.log('Something went wrong when fetching the message: ', error);
+			});
+	}
+	// client.logger.debug(`Message type: ${message.channel.type}`);
+
 	if (message.channel.type !== 'news' && message.author.bot) {
 		return;
 	}
@@ -125,7 +133,8 @@ module.exports = async (client, message) => {
 		return;
 	}
 
-	const isDirectMessage = message.channel.type == "dm";
+	const isDirectMessage = message.channel.type == "DM";
+
 
 	// Channel-specific markers
 	const GoatTriggers = [
@@ -146,7 +155,8 @@ module.exports = async (client, message) => {
 		console.log(`Received a DM from ${message.author.username}.`);
 	}
 	else {
-		console.log(`GUILD: ${message.guild.id}, CHANNEL: ${message.channel.id}`);
+		console.log(`GUILD: ${message.guild?.id ?? "Not a guild"}`);
+		console.log(`CHANNEL: ${message.channel?.id ?? "Not a channel"}`);
 	}
 
 	// Checks if the bot was mentioned, with no message after it, returns the prefix.
@@ -197,7 +207,7 @@ module.exports = async (client, message) => {
 	let replyMessage; // whatever this is, it gets sent via `message.reply()` unless it's falsey
 
 	// Triggers for Goatplace
-	if (isDirectMessage || GoatTriggers.includes(message.guild.id)) {
+	if (isDirectMessage || GoatTriggers.includes(message.guild?.id)) {
 		console.log(`Found in GoatTriggers: ${isDirectMessage ? "direct message" : message.channel.name}`);
 
 		// some debugging
@@ -538,7 +548,7 @@ module.exports = async (client, message) => {
 	}
 
 	// Triggers for Project Meteor
-	if (MeteorTriggers.includes(message.guild.id)) {
+	if (MeteorTriggers.includes(message.guild?.id)) {
 		console.log(`Found in MeteorTriggers: ${message.channel.name}`);
 		forbidAny.push(/(ffxiv|ff14|1\.[0-9]{0,2}[a|b|c]?)+(?!.*\1)/igu);
 		forbidCount.push(/(torrent|pirat|free|copy|copies|download|ISO)+(?!.*\1)/igu);
