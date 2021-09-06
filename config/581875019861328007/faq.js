@@ -189,13 +189,13 @@ exports.run = async (client, message, args) => {
 					{
 						"name": "FAQs and Help posts",
 						"value": "account aria av antivirus badconfig badplugin badui bsod creds credentials dalamudstaging "
-								+ "dalamudtesting dalamudsettings "
-								+ "deleteconfig deletedalamud deleteplugin dns env exploit ffxivpath ffxivinstall "
-								+ "log loga logaria logd logdalamud logxl"
-								+ "gamepath gameinstall maintenance migrate missingui patch plugins "
-								+ "ratelimit reinstalldalamud removeconfig removedalamud "
-								+ "removeplugin repair repairffxiv repairgame reshade staging steam steampath steaminstall "
-								+ "testplugins textools uninstall vercheck versioncheck update xlhelp",
+							+ "dalamudtesting dalamudsettings "
+							+ "deleteconfig deletedalamud deleteplugin dns env exploit ffxivpath ffxivinstall "
+							+ "log loga logaria logd logdalamud logxl"
+							+ "gamepath gameinstall maintenance migrate missingui patch plugins "
+							+ "ratelimit reinstalldalamud removeconfig removedalamud "
+							+ "removeplugin repair repairffxiv repairgame reshade staging steam steampath steaminstall "
+							+ "testplugins textools uninstall vercheck versioncheck update xlhelp",
 					},
 				],
 			});
@@ -312,16 +312,16 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Are XIVLauncher, Dalamud, and Dalamud Plugins safe to use?`,
 				description: `For the most part, yes, this should be safe to use. We've taken steps to `
-						+ `ensure that using XIVLauncher, Dalamud, and **officially supported** `
-						+ `Dalamud Plugins should not result in invalid or unexpected behavior.`
-						+ `\n\nLike other game modifictions, you shouldn't talk about using it in-game and should exercise `
-						+ `caution over which plugins you use. XIVLauncher and Dalamud are not designed `
-						+ `for game exploitation, automation, or botting.`
-						+ `\n\nTo the best of our knowledge, SE does not check for or prevent the usage of `
-						+ `third party tools, but they are against the terms of service.`
-						+ `\n\nPlease note that we cannot vouch for the safety of third party plugins.`
-						+ `\n\nIf you'd like more information, please see the <#585958820061249537> channel and our FAQ post `
-						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-are-xivlauncher-dalamud-and-dalamud-plugins-safe-to-use)`,
+					+ `ensure that using XIVLauncher, Dalamud, and **officially supported** `
+					+ `Dalamud Plugins should not result in invalid or unexpected behavior.`
+					+ `\n\nLike other game modifictions, you shouldn't talk about using it in-game and should exercise `
+					+ `caution over which plugins you use. XIVLauncher and Dalamud are not designed `
+					+ `for game exploitation, automation, or botting.`
+					+ `\n\nTo the best of our knowledge, SE does not check for or prevent the usage of `
+					+ `third party tools, but they are against the terms of service.`
+					+ `\n\nPlease note that we cannot vouch for the safety of third party plugins.`
+					+ `\n\nIf you'd like more information, please see the <#585958820061249537> channel and our FAQ post `
+					+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-are-xivlauncher-dalamud-and-dalamud-plugins-safe-to-use)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -548,7 +548,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Please wait for Dalamud and Plugin updates after a patch`,
 				description: `XIVLauncher should work just fine after a patch.\n\nDalamud and plugins will need to be updated.\n\nMore Info `
-						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-do-not-expect-dalamud-andor-plugins-to-work-on-updatespatch-day-releases)`,
+					+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-do-not-expect-dalamud-andor-plugins-to-work-on-updatespatch-day-releases)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -559,7 +559,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Only use Dalamud Testing when required`,
 				description: `Please only enable Dalamud test builds when absolutely needed. It's not secret hidden features. Expect crashes and failed launches and for it to ruin your raid night. More Info `
-						+ `[HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-how-do-i-turn-dalamud-staging-on-or-off)`,
+					+ `[HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-how-do-i-turn-dalamud-staging-on-or-off)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -570,14 +570,14 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `How to enable Plugin Testing`,
 				description: `General "how to enable plugin test builds" steps:\n`
-					+ `1. Type \`/xlsettings\` in game.\n`
-					+ `2. Go to the \`Experimental\` tab\n`
-					+ `3. Click the checkbox for \`Get plugin testing builds\`\n`
-					+ `4. Save / Save and Close\n`
-					+ `\n`
-					+ `**Please note that testing plugins can/will have bugs and may change dramatically before final release. Especially on newer plugins, they could crash your game. `
-					+ `For troubleshooting, please keep questions/comments/issues in the <#719513457988337724> channel.**`
-					+ `[HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-how-do-i-enable-plugin-test-builds)`,
+				+ `1. Type \`/xlsettings\` in game.\n`
+				+ `2. Go to the \`Experimental\` tab\n`
+				+ `3. Click the checkbox for \`Get plugin testing builds\`\n`
+				+ `4. Save / Save and Close\n`
+				+ `\n`
+				+ `**Please note that testing plugins can/will have bugs and may change dramatically before final release. Especially on newer plugins, they could crash your game. `
+				+ `For troubleshooting, please keep questions/comments/issues in the <#719513457988337724> channel.**`
+				+ `[HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-how-do-i-enable-plugin-test-builds)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -588,8 +588,8 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `SE's routing is shit. Use a VPN`,
 				description: `If you're getting consistent login or patch fail downloads on both XL and the Official Launcher, `
-						+ `it's likely a bad route from your connection. A VPN may help you bypass the issue.`
-						+ `[More info](https://goatcorp.github.io/faq/xl_troubleshooting#q-the-launcher-shows-a-red-world-icon-and-an-error-message-when-trying-to-log-in-and-the-official-launcher-doesnt-open)`,
+					+ `it's likely a bad route from your connection. A VPN may help you bypass the issue.`
+					+ `[More info](https://goatcorp.github.io/faq/xl_troubleshooting#q-the-launcher-shows-a-red-world-icon-and-an-error-message-when-trying-to-log-in-and-the-official-launcher-doesnt-open)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -600,7 +600,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `WTFast Configuration for XIVLauncher`,
 				description: `You can find details on how to configure WTFast to work with xivlauncher `
-						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-wtfast-config)`,
+					+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-wtfast-config)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -611,7 +611,7 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Injection delay for RivaTuner/RTSS`,
 				description: `Please follow steps listed in the FAQ `
-						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-to-set-an-injection-delay-in-rivatunerrtss)`,
+					+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-to-set-an-injection-delay-in-rivatunerrtss)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -622,14 +622,14 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Migrating FFXIV or XIVLauncher?`,
 				description: `The main FFXIV installation folder is entirely portable. You can freely move/copy it `
-						+ `between different locations as long as your computer has all redistributables needed to run it.\n\n`
-						+ `XIVLauncher on the other hand is *technically* portable, but we recommend only copying plugin configuration `
-						+ `accross different computers as the launcher/dalamud settings should stay machine-specific and you should `
-						+ `**NOT** copy your installed plugins. (Users who know enough should know better)\n\n`
-						+ `The Linux FAQ post for this can be found `
-						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-do-i-migrate-ffxiv-andor-xivlauncher-files-from-an-old-wine-prefix-to-a-new-one-linux)`
-						+ `\nThe Windows FAQ post for this can be found `
-						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-do-i-migrate-ffxiv-andor-xivlauncher-files-from-an-old-installation-to-a-new-one-windows)`,
+					+ `between different locations as long as your computer has all redistributables needed to run it.\n\n`
+					+ `XIVLauncher on the other hand is *technically* portable, but we recommend only copying plugin configuration `
+					+ `accross different computers as the launcher/dalamud settings should stay machine-specific and you should `
+					+ `**NOT** copy your installed plugins. (Users who know enough should know better)\n\n`
+					+ `The Linux FAQ post for this can be found `
+					+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-do-i-migrate-ffxiv-andor-xivlauncher-files-from-an-old-wine-prefix-to-a-new-one-linux)`
+					+ `\nThe Windows FAQ post for this can be found `
+					+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-do-i-migrate-ffxiv-andor-xivlauncher-files-from-an-old-installation-to-a-new-one-windows)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -640,9 +640,9 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Please check your gamepath in xivlauncher`,
 				description: `XIVLauncher requires a working installation of the FFXIV game client, or it will install one for you. `
-						+ `On first install, XIVLauncher will try to autoselect your FFXIV install for you, based on the default `
-						+ `launcher's installation location and common Steam locations.\n\nFor more information, see `
-						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-where-can-i-find-my-ffxiv-installation)`,
+					+ `On first install, XIVLauncher will try to autoselect your FFXIV install for you, based on the default `
+					+ `launcher's installation location and common Steam locations.\n\nFor more information, see `
+					+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-where-can-i-find-my-ffxiv-installation)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -653,9 +653,9 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Please do not discuss exploits here`,
 				description: `Per the [Server Rules](https://discord.com/channels/581875019861328007/585958820061249537/586214664954707968), `
-						+ `This server **is *not* intended for exploit development of discussion** or finding bugs in the game that could be abused, be they `
-						+ `visual or gameplay-relevant. Especially if the bug is something that is visible to other players. `
-						+ `Please refrain from discussing these topics here, no matter how inconsequential the bug may be.`,
+					+ `This server **is *not* intended for exploit development of discussion** or finding bugs in the game that could be abused, be they `
+					+ `visual or gameplay-relevant. Especially if the bug is something that is visible to other players. `
+					+ `Please refrain from discussing these topics here, no matter how inconsequential the bug may be.`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -666,9 +666,9 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `SSL/TLS issues on wine?`,
 				description: `If you're running into SSL/TLS issues while using Wine/Lutris, this may `
-						+ `be part of recent changes to your distro's SSL configuration. Especially on newer `
-						+ `distributions. \n\nSee the FAQ for more details `
-						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-im-on-linux-and-i-keep-getting-xivlauncher-failed-to-update-errors)`,
+					+ `be part of recent changes to your distro's SSL configuration. Especially on newer `
+					+ `distributions. \n\nSee the FAQ for more details `
+					+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-im-on-linux-and-i-keep-getting-xivlauncher-failed-to-update-errors)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -679,8 +679,8 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `GitHub ratelimits will affect XIVLauncher`,
 				description: `If XIVLauncher and/or Gshade are failing to check for updates and `
-						+ `you know it's not your antivirus, you may be rate-limited by GitHub. \n\nSee the FAQ for more details `
-						+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#github-rate-limits)`,
+					+ `you know it's not your antivirus, you may be rate-limited by GitHub. \n\nSee the FAQ for more details `
+					+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#github-rate-limits)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -691,8 +691,8 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Developer Resources`,
 				description: `The primary developer resources should all be on their relevant GitHub pages `
-						+ `but for some quick links to a few common resources, see our FAQ post `
-						+ `[HERE](https://goatcorp.github.io/faq/development)`,
+					+ `but for some quick links to a few common resources, see our FAQ post `
+					+ `[HERE](https://goatcorp.github.io/faq/development)`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
@@ -703,13 +703,13 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Please send us your aria.log file`,
 				description: `Please send us your **aria.log** log file from `
-						+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
-						+ `\n\nIt's best to just upload/attach the file if you can!`
-						+ `\n\n**DISCLAIMER**:This log will contain file paths from your computer, which could include your username. `
-						+ `If you're not comfortable posting that here, you can `
-						+ `open the file in a text editor to redact that information first or `
-						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
-						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
+					+ `\n\nIt's best to just upload/attach the file if you can!`
+					+ `\n\n**DISCLAIMER**:This log will contain file paths from your computer, which could include your username. `
+					+ `If you're not comfortable posting that here, you can `
+					+ `open the file in a text editor to redact that information first or `
+					+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+					+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				image: {
 					"url": windowsExplorerScreenshot,
@@ -723,13 +723,13 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Please send us your dalamud.log file`,
 				description: `Please send us your **dalamud.log** log file from `
-						+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
-						+ `\n\nIt's best to just upload/attach the file if you can!`
-						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
-						+ `If you're not comfortable posting that here, you can `
-						+ `open the file in a text editor to redact that information first or `
-						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
-						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
+					+ `\n\nIt's best to just upload/attach the file if you can!`
+					+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
+					+ `If you're not comfortable posting that here, you can `
+					+ `open the file in a text editor to redact that information first or `
+					+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+					+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				image: {
 					"url": windowsExplorerScreenshot,
@@ -743,13 +743,13 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Please send us your SquirrelSetup.log file`,
 				description: `Please send us your **SquirrelSetup.log** log file from `
-						+ `\`%localappdata%\\SquirrelTemp\\\` in this channel, so we can look into the problem!`
-						+ `\n\nIt's best to just upload/attach the file if you can!`
-						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
-						+ `If you're not comfortable posting that here, you can `
-						+ `open the file in a text editor to redact that information first or `
-						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
-						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					+ `\`%localappdata%\\SquirrelTemp\\\` in this channel, so we can look into the problem!`
+					+ `\n\nIt's best to just upload/attach the file if you can!`
+					+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
+					+ `If you're not comfortable posting that here, you can `
+					+ `open the file in a text editor to redact that information first or `
+					+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+					+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				image: {
 					"url": windowsExplorerScreenshot,
@@ -763,13 +763,13 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Please send us your output.log file`,
 				description: `Please send us your **output.log** log file from `
-						+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
-						+ `\n\nIt's best to just upload/attach the file if you can!`
-						+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
-						+ `If you're not comfortable posting that here, you can `
-						+ `open the file in a text editor to redact that information first or `
-						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
-						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
+					+ `\n\nIt's best to just upload/attach the file if you can!`
+					+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
+					+ `If you're not comfortable posting that here, you can `
+					+ `open the file in a text editor to redact that information first or `
+					+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+					+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				image: {
 					"url": windowsExplorerScreenshot,
@@ -783,14 +783,15 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Please send us your aria.log file (Linux edition)`,
 				description: `Please send us your **aria.log** log file from `
-						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/`
-						+ ` in this channel, so we can look into the problem!`
-						+ `\n\nIt's best to just upload/attach the file if you can!`
-						+ `\n\n**DISCLAIMER**:This log may contain your computer username. `
-						+ `If you're not comfortable posting that here, you can `
-						+ `open the file in a text editor to redact that information first or `
-						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
-						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/\` (Wine 5) or`
+					+ `\`$WINEPREFIX/drive_c/users/$USER/Appdata/Roaming/XIVLauncher/\` (Wine 6)`
+					+ ` in this channel, so we can look into the problem!`
+					+ `\n\nIt's best to just upload/attach the file if you can!`
+					+ `\n\n**DISCLAIMER**:This log may contain your computer username. `
+					+ `If you're not comfortable posting that here, you can `
+					+ `open the file in a text editor to redact that information first or `
+					+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+					+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				image: {
 					"url": windowsExplorerScreenshot,
@@ -804,14 +805,15 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Please send us your dalamud.log file (Linux edition)`,
 				description: `Please send us your **dalamud.log** log file from `
-						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/`
-						+ ` in this channel, so we can look into the problem!`
-						+ `\n\nIt's best to just upload/attach the file if you can!`
-						+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
-						+ `If you're not comfortable posting that here, you can `
-						+ `open the file in a text editor to redact that information first or `
-						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
-						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/\` (Wine 5) or`
+					+ `\`$WINEPREFIX/drive_c/users/$USER/Appdata/Roaming/XIVLauncher/\` (Wine 6)`
+					+ ` in this channel, so we can look into the problem!`
+					+ `\n\nIt's best to just upload/attach the file if you can!`
+					+ `\n\n**DISCLAIMER**:This log will contain your computer username. `
+					+ `If you're not comfortable posting that here, you can `
+					+ `open the file in a text editor to redact that information first or `
+					+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+					+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				image: {
 					"url": windowsExplorerScreenshot,
@@ -825,14 +827,15 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Please send us your output.log file (Linux edition)`,
 				description: `Please send us your **output.log** log file from `
-						+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/`
-						+ ` in this channel, so we can look into the problem!`
-						+ `\n\nIt's best to just upload/attach the file if you can!`
-						+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
-						+ `If you're not comfortable posting that here, you can `
-						+ `open the file in a text editor to redact that information first or `
-						+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
-						+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+					+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/\` (Wine 5) or`
+					+ `\`$WINEPREFIX/drive_c/users/$USER/Appdata/Roaming/XIVLauncher/\` (Wine 6)`
+					+ ` in this channel, so we can look into the problem!`
+					+ `\n\nIt's best to just upload/attach the file if you can!`
+					+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
+					+ `If you're not comfortable posting that here, you can `
+					+ `open the file in a text editor to redact that information first or `
+					+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+					+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				image: {
 					"url": windowsExplorerScreenshot,
@@ -846,13 +849,13 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Please check the Windows Event Viewer`,
 				description: `Please check the Windows Event Viewer to determine the cause of your FFXIV crash.`
-						+ `\n\nThis can be found in \`Windows Logs\` -> \`Application\`.`
-						+ `\n\nYou can also run a search for \`ffixv_dx11.exe\` in the "Find" action on the right-side panel.`
-						+ ` **Please send us all of the inner text in the General tab**. You can copy and paste it into a `
-						+ `\`\`\`fancy code block\`\`\` if you want, but a plain message is also fine.`
-						+ ` You can also copy it to a text file named \`event.log\` and DM it to Franzbot for pricacy.`
-						+ `\n\nNOTE: You may have multiple crash events. Please let us know if your recent Event IDs are `
-						+ `stated as some for of CLR/.Net crash or if they're a native FFXIV error such as c000005.`,
+					+ `\n\nThis can be found in \`Windows Logs\` -> \`Application\`.`
+					+ `\n\nYou can also run a search for \`ffixv_dx11.exe\` in the "Find" action on the right-side panel.`
+					+ ` **Please send us all of the inner text in the General tab**. You can copy and paste it into a `
+					+ `\`\`\`fancy code block\`\`\` if you want, but a plain message is also fine.`
+					+ ` You can also copy it to a text file named \`event.log\` and DM it to Franzbot for pricacy.`
+					+ `\n\nNOTE: You may have multiple crash events. Please let us know if your recent Event IDs are `
+					+ `stated as some for of CLR/.Net crash or if they're a native FFXIV error such as c000005.`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				image: {
 					"url": "https://cdn.discordapp.com/attachments/687530726756712478/842492553533194240/unknown.png",
@@ -866,13 +869,13 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Generic steps to remove plugins manually`,
 				description: `General "how to delete a plugin" steps:\n`
-						+ `1. Close the game and xivlauncher\n`
-						+ `2. Go to \`%AppData%\\XIVLauncher\\installedPlugins\`\n`
-						+ `3. Remove the folder[s] for the plugin[s]\n`
-						+ `4. Start the game now\n`
-						+ `5. Let us know if the issue persists`
-						+ `\n\nEXPERIMENTAL: You can also now delete a plugin from xivlauncher before`
-						+ ` logging in. While this should work, it hasn't been tested extensively yet.`,
+					+ `1. Close the game and xivlauncher\n`
+					+ `2. Go to \`%AppData%\\XIVLauncher\\installedPlugins\`\n`
+					+ `3. Remove the folder[s] for the plugin[s]\n`
+					+ `4. Start the game now\n`
+					+ `5. Let us know if the issue persists`
+					+ `\n\nEXPERIMENTAL: You can also now delete a plugin from xivlauncher before`
+					+ ` logging in. While this should work, it hasn't been tested extensively yet.`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				image: {
 					"url": windowsExplorerScreenshot,
@@ -886,11 +889,11 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Generic steps to remove/reinstall Dalamud`,
 				description: `General "how to delete dalamud" steps:\n`
-						+ `1. Close the game and xivlauncher\n`
-						+ `2. Go to \`%AppData%\\XIVLauncher\`\n`
-						+ `3. Remove the Addon\\Hooks folder\n`
-						+ `4. Start the game now\n`
-						+ `5. Let us know if the issue persists`,
+					+ `1. Close the game and xivlauncher\n`
+					+ `2. Go to \`%AppData%\\XIVLauncher\`\n`
+					+ `3. Remove the Addon\\Hooks folder\n`
+					+ `4. Start the game now\n`
+					+ `5. Let us know if the issue persists`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				image: {
 					"url": windowsExplorerScreenshot,
@@ -904,11 +907,11 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Generic steps to remove a plugin's config`,
 				description: `General "how to delete a plugin's config" steps:\n`
-						+ `1. Close the game and xivlauncher\n`
-						+ `2. Go to \`%AppData%\\XIVLauncher\\pluginConfigs\`\n`
-						+ `3. Remove the offending config files\n`
-						+ `4. Start the game now\n`
-						+ `5. Let us know if the issue persists`,
+					+ `1. Close the game and xivlauncher\n`
+					+ `2. Go to \`%AppData%\\XIVLauncher\\pluginConfigs\`\n`
+					+ `3. Remove the offending config files\n`
+					+ `4. Start the game now\n`
+					+ `5. Let us know if the issue persists`,
 				color: client.config.EMBED_NORMAL_COLOR,
 				image: {
 					"url": windowsExplorerScreenshot,
@@ -924,9 +927,9 @@ exports.run = async (client, message, args) => {
 			responses.push({
 				title: `Faq not found for '${args[0]}'`,
 				description: `Please check your spelling or use \`f!faq help\`.\n\n`
-						+ `Franzbot does not contain FAQs for plugins. Please poke the plugin maintainer in `
-						+ `<#684745859497590843>, <#719513457988337724>, or `
-						+ `make an issue on their github repo if you have a question about a specific plugin. `,
+					+ `Franzbot does not contain FAQs for plugins. Please poke the plugin maintainer in `
+					+ `<#684745859497590843>, <#719513457988337724>, or `
+					+ `make an issue on their github repo if you have a question about a specific plugin. `,
 				color: client.config.EMBED_ERROR_COLOR,
 				footer: {
 					"text": client.config.FRANZBOT_VERSION,
