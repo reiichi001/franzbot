@@ -243,7 +243,10 @@ module.exports = async (client, message) => {
 					console.log(`Launcher or Dalamud log upload: ${attachment.attachment}`);
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
-					await customChannel.send(`${message.author.username} (${message.author}) uploaded an attachment in DMs`, attachment);
+					await customChannel.send({
+						content: `${message.author.username} (${message.author}) uploaded an attachment in DMs`,
+						files: [attachment],
+					});
 				}
 
 				// handle the dalamud.txt file
