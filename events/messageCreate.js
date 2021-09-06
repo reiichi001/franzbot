@@ -421,17 +421,19 @@ module.exports = async (client, message) => {
 			// return;
 		}
 
-		sectionIdentifier = "bdth";
+		sectionIdentifier = "UnsupportedTools";
 		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
-			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*)/gui);
-			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command)(ed|t?ing)?\b/gui);
+			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*|delvui)/gui);
+			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break)(ed|t?ing)?\b/gui);
 			negateBadWords = [];
 			forbiddenMinCount = 1;
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 			replyMessage = {
 
 				title: client.config.TRIGGER_TITLE,
-				description: "We are unable to provide support for plugins installed via third-party repo or other third party tools. Please contact the creator directly or ask in their support discords.",
+				description: "We are unable to provide support for plugins installed via third-party repo or other third party tools. "
+					+ "Please contact the creator directly or ask in their support discords."
+					+ "\n\nPlease do not link to the aforementioned tool/plugin here. Thank you for your understanding!",
 				color: client.config.EMBED_ERROR_COLOR,
 				footer: {
 					"text": client.config.TRIGGER_FOOTER,
