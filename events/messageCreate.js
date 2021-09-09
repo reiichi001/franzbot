@@ -427,7 +427,7 @@ module.exports = async (client, message) => {
 		sectionIdentifier = "UnsupportedTools";
 		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
 			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*|delvui)/gui);
-			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break)(ed|t?ing)?\b/gui);
+			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know)(ed|t?ing)?\b/gui);
 			negateBadWords = [];
 			forbiddenMinCount = 1;
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
