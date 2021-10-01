@@ -424,18 +424,52 @@ module.exports = async (client, message) => {
 			// return;
 		}
 
+		sectionIdentifier = "SupportedElsewhere";
 		sectionIdentifier = "UnsupportedTools";
 		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
-			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*|delvui)/gui);
-			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know)(ed|t?ing)?\b/gui);
+			forbidAny.push(/(sonar|delvui|aether\s*sense)/gui);
+			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(ed|t?ing)?\b/gui);
 			negateBadWords = [];
 			forbiddenMinCount = 1;
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 			replyMessage = {
 
 				title: client.config.TRIGGER_TITLE,
-				description: "We are unable to provide support for plugins installed via third-party repo or other third party tools. "
-					+ "Please contact the creator directly or ask in their support discords."
+				description: "While this tool is on the official Dalamud Plugins repository, they provide plugin support elsewhere. "
+					+ "Please contact the creator[s] directly or ask in their support discords."
+					+ "\n\nIf they have a third party repo URL or Discord link, someone may link is as long as it doesn't provide other unofficial plugins. "
+					+ "Thank you for your understanding!",
+				color: client.config.EMBED_ERROR_COLOR,
+				footer: {
+					"text": client.config.TRIGGER_FOOTER,
+				},
+			};
+
+			checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
+
+			timeoutManager.resetTimeout(sectionIdentifier);
+
+			// bandaid, clear all the important variables
+			forbidAny = [];
+			forbidCount = [];
+			negateBadWords = [];
+		}
+		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
+			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+		}
+
+		sectionIdentifier = "UnsupportedTools";
+		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
+			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*)/gui);
+			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(ed|t?ing)?\b/gui);
+			negateBadWords = [];
+			forbiddenMinCount = 1;
+			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
+			replyMessage = {
+
+				title: client.config.TRIGGER_TITLE,
+				description: "We are unable to provide support for plugins that can only be installed via third-party repo or other third party tools. "
+					+ "Please contact the creator[s] directly, make an issue on their git repo, or ask in their support discords."
 					+ "\n\nPlease do not link to the aforementioned tool/plugin here. Thank you for your understanding!",
 				color: client.config.EMBED_ERROR_COLOR,
 				footer: {
