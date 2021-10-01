@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const disrequire = require('disrequire');
 
 
@@ -5,18 +6,45 @@ exports.run = async (client, message, args) => {
 	if (args.length < 1) {
 		args = ["help"];
 	}
-	console.log(`GUILD: ${message.guild.id}, CHANNEL: ${message.channel.id}`);
+	console.log(`GUILD: ${message.guild.id}, CHANNEL: ${message.channel.id}, ARGS: ${args}`);
+
+	// lets load the new FAQs first.
+	/*
+		Categories: logs, help, info
+	*/
+	const squashedargs = args.join("").toLowerCase();
+	const faq = client.perserversettings?.get(message.guild.id)?.get(squashedargs)
+		|| client.perserversettings?.get(message.guild.id)?.get(client.perserveraliases.get(squashedargs));
+	if (faq) {
+		console.log(`Answer FAQ for ${client.perserveraliases.get(squashedargs) || squashedargs}`);
+
+		let response = null;
+		if (squashedargs === "help") {
+			response = await faq.answer(client, message.guild);
+		}
+		else {
+			response = await faq.answer(client);
+		}
+		if (response) {
+			return message.channel.send({
+				embeds: [response],
+			});
+		}
+	}
+	else {
+		client.logger.error("New FAQ not found. Using fallback");
+	}
 
 	const configpath = `../config/${message.guild.id}/faq.js`;
 	console.log(`checking for: ${configpath}`);
 	try {
-		console.log("Attempting to load custom config.");
+		console.log("Attempting to load fallback custom config.");
 		const goattriggers = require(configpath);
 		// The check succeeded
 		const goatresponses = await goattriggers.run(client, message, args);
 
 		// for (const response of goatresponses) {
-		if (goatresponses !== null && goatresponses.length > 0) {
+		if (goatresponses?.length > 0) {
 			// console.log(goatresponses);
 			// console.log();
 			await message.channel.send({

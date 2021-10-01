@@ -105,6 +105,9 @@ function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbid
 	) {
 		message.reply({
 			embeds: [replyMessage],
+			allowedMentions: {
+				repliedUser: false,
+			},
 		});
 	}
 }
@@ -434,12 +437,12 @@ module.exports = async (client, message) => {
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 			replyMessage = {
 
-				title: client.config.TRIGGER_TITLE,
-				description: "While this tool is on the official Dalamud Plugins repository, they provide plugin support elsewhere. "
+				title: "Automated Message Response",
+				description: "While this tool is on the official Dalamud Plugins repository, support for it is provided elsewhere. "
 					+ "Please contact the creator[s] directly or ask in their support discords."
 					+ "\n\nIf they have a third party repo URL or Discord link, someone may link is as long as it doesn't provide other unofficial plugins. "
 					+ "Thank you for your understanding!",
-				color: client.config.EMBED_ERROR_COLOR,
+				color: client.config.EMBED_WARN_COLOR,
 				footer: {
 					"text": client.config.TRIGGER_FOOTER,
 				},

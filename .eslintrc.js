@@ -19,7 +19,7 @@ const config = {
 		"max-len": [
 			"warn",
 			{
-				code: 115,
+				code: 125,
 				ignoreRegExpLiterals: false,
 				ignoreStrings: false,
 				ignoreUrls: false,

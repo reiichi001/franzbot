@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 exports.run = (client, message, args) => {
 	// toggle a role for Zu
 

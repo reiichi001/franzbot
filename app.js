@@ -2,13 +2,9 @@ const {
 	Client, Collection, Intents,
 } = require("discord.js");
 const {
-	promisify,
-} = require("util");
-// const readdir = promisify(require("fs").readdir);
-const {
+	existsSync,
 	readdirSync,
 } = require("fs");
-const Enmap = require("enmap");
 
 // set up intents
 const myIntents = new Intents();
@@ -44,10 +40,40 @@ require("./modules/functions.js")(client);
 client.commands = new Collection();
 client.aliases = new Collection();
 client.slashcmds = new Collection();
+client.perserversettings = new Collection();
+client.perserveraliases = new Collection();
 
 const init = async () => {
-	// Here we load **commands** into memory, as a collection, so they're accessible
-	// here and everywhere else.
+	// Now let's load up some per-server config
+	const perserversettings = readdirSync("./config", {
+		withFileTypes: true,
+	})
+		.filter(folder => folder.isDirectory())
+		.map(dir => dir.name);
+	for (const dirname of perserversettings) {
+		if (!existsSync(`./config/${dirname}/faqs/`)) {
+			continue;
+		}
+		logger.log(`Loading FAQs for ${dirname}`);
+		const serversettings = readdirSync(`./config/${dirname}/faqs/`).filter(file => file.endsWith(".js"));
+		const faqentries = new Collection();
+		if (serversettings.length === 0) {
+			logger.log(`No FAQs found for ${dirname}`);
+			continue;
+		}
+		for (const faq of serversettings) {
+			// logger.debug(`./config/${dirname}/faqs/${faq}`);
+			const faqentry = require(`./config/${dirname}/faqs/${faq}`);
+			faqentries.set(faqentry.info.name, faqentry);
+			faqentry.info.aliases.forEach(alias => {
+				client.perserveraliases.set(alias, faqentry.info.name);
+			});
+			logger.debug(`Loaded the ${faqentry.info.name} FAQ`);
+		}
+		client.perserversettings.set(dirname, faqentries);
+		// logger.log(`Finished Loading FAQs for ${dirname}. 👌`, "log");
+	}
+
 	// Here we load **commands** into memory, as a collection, so they're accessible
 	// here and everywhere else.
 	const commands = readdirSync("./commands/").filter(file => file.endsWith(".js"));
@@ -67,7 +93,7 @@ const init = async () => {
 		logger.log(`Loading Slash command: ${commandName}. 👌`, "log");
 
 		// Now set the name of the command with it's properties.
-		client.slashcmds.set(command.commandData.name, command);
+		client.slashcmds.set(command.commandData().name, command);
 	}
 
 	// Then we load events, which will include our message and ready event.
@@ -81,7 +107,6 @@ const init = async () => {
 		// This line is awesome by the way. Just sayin'.
 		client.on(eventName, event.bind(null, client));
 	}
-
 
 	// Here we login the client.
 	client.login(client.config.token);
