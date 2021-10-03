@@ -21,6 +21,7 @@ exports.info = {
 	name: "logxl",
 	category: "logs",
 	aliases: [
+		"log",
 		"launcherlog",
 		"xivlauncherlog",
 		"logs",
