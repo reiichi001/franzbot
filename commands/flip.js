@@ -1,4 +1,5 @@
 exports.run = async (client, message, args) => {
+	/*
 	const ZuTriggers = [
 		client.config.GUILDID_TESTING, // franzbot testing - general
 		client.config.GUILDID_ZU, // Zu - general
@@ -10,6 +11,7 @@ exports.run = async (client, message, args) => {
 				reason: client.config.AUDITLOG_COMMON,
 			}));
 	}
+	*/
 
 	const runes = require('stringz');
 	let output = "\u200B(╯°□°）╯︵ ";

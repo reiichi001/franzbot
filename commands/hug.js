@@ -1,4 +1,5 @@
 exports.run = async (client, message, args) => { // eslint-disable-line no-unused-vars
+	/*
 	const ZuTriggers = [
 		client.config.GUILDID_TESTING, // franzbot testing - general
 		client.config.GUILDID_ZU, // Zu - general
@@ -10,6 +11,9 @@ exports.run = async (client, message, args) => { // eslint-disable-line no-unuse
 				reason: client.config.AUDITLOG_COMMON,
 			}));
 	}
+	*/
+
+	const shutupESLint = false;
 
 	return message.channel.send(message.mentions.users.first()
 		? `\u200B(っ´▽｀)っ${message.mentions.users.reduce((prev, curr) => `${prev} ${curr}`)}`

@@ -4,16 +4,19 @@ function randomInt(low, high) {
 
 
 exports.run = async (client, message, args) => {
+	/*
 	const ZuTriggers = [
 		client.config.GUILDID_TESTING, // franzbot testing - general
 		client.config.GUILDID_ZU, // Zu - general
 	];
 	if (!ZuTriggers.includes(message.guild.id)) {
 		return message.reply("\u200Bthis command doesn't work here.")
-			.then(
-				setTimeout(() => message.delete(), 5000)
-			);
+			.then(message.delete({
+				timeout: 5000,
+				reason: client.config.AUDITLOG_COMMON,
+			}));
 	}
+	*/
 
 	let output = "\u200B";
 	let joinedargs = args.join(" ");
