@@ -12,5 +12,9 @@ exports.answer = async client => ({
 exports.info = {
 	name: "reshade",
 	category: "help",
-	aliases: [],
+	aliases: [
+		"stormshade",
+		"gshade",
+		"shaders",
+	],
 };

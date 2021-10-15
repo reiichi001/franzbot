@@ -255,19 +255,19 @@ module.exports = async (client, message) => {
 				// handle the dalamud.txt file
 				if (attachment.name.match(/(dalamud|message).*\.(log|txt)/gui)) {
 					// read the data
-					console.log(attachment.attachment);
+					console.log(`Processing Dalamud log called ${attachment.attachment}`);
 					try {
 						const response = await got(attachment.attachment);
 
 						/*
 						if (message.channel.isThread()) {
 							client.logger.debug("THIS IS A THREAD");
-							console.log(response);
+							console.log(response?.body);
 							client.logger.debug("END OF THREAD");
 						}
 						*/
 
-						const logdata = response.body;
+						const logdata = response?.body;
 						const results = logdata.match(/TROUBLESHOOTING:(.*)/gu);
 						if (results.length > 0) {
 							let data = results[results.length - 1];
@@ -355,7 +355,7 @@ module.exports = async (client, message) => {
 						}
 					}
 					catch (error) {
-						if (error.response.body) {
+						if (error?.response?.body) {
 							console.error(error.response.body);
 						}
 						else {
