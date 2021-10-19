@@ -22,5 +22,6 @@ exports.info = {
 		"deletedalamud",
 		"baddalamud",
 		"reinstalldalamud",
+		"uninstalldalamud"
 	],
 };
