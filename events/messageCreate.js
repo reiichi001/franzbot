@@ -272,13 +272,12 @@ module.exports = async (client, message) => {
 						if (results.length > 0) {
 							let data = results[results.length - 1];
 							data = data.slice(16);
-							// console.log(data);
+							// console.log(`TROUBLESHOOTING:\n${data}`);
 
 							// decrypt from base64
 							const buffer = new Buffer.from(data, 'base64');
-							data = buffer.toString('ascii');
-							// console.log(data);
-							data = JSON.parse(data);
+							data = buffer.toString('utf8');
+							// console.log(`TROUBLESHOOTING:\n${data}`);
 
 							// make fancy embed and return
 							const replymessage2 = new MessageEmbed()
