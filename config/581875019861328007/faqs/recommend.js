@@ -22,5 +22,9 @@ exports.answer = async client => ({
 exports.info = {
 	name: "recommend",
 	category: "info",
-	aliases: ["recommendation"],
+	aliases: [
+		"recommends",
+		"recommendation",
+		"recommendations",
+	],
 };
