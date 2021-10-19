@@ -428,7 +428,6 @@ module.exports = async (client, message) => {
 		}
 
 		sectionIdentifier = "SupportedElsewhere";
-		sectionIdentifier = "UnsupportedTools";
 		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
 			forbidAny.push(/(sonar|delvui|aether\s*sense)/gui);
 			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(ed|t?ing)?\b/gui);
