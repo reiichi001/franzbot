@@ -277,7 +277,8 @@ module.exports = async (client, message) => {
 							// decrypt from base64
 							const buffer = new Buffer.from(data, 'base64');
 							data = buffer.toString('utf8');
-							// console.log(`TROUBLESHOOTING:\n${data}`);
+							// console.log(`TROUBLESHOOTING decoded:\n${data}`);
+							data = JSON.parse(data);
 
 							// make fancy embed and return
 							const replymessage2 = new MessageEmbed()
@@ -290,35 +291,54 @@ module.exports = async (client, message) => {
 							let plugintext = ">>> ";
 							let overflowed = false;
 
-							data.LoadedPlugins
-								.sort((a, b) => (a.Name.toLowerCase() > b.Name.toLowerCase() ? 1 : -1))
-								.forEach(plugin => {
-									plugintext += `**${plugin.Name}**`
-										+ ` - ${plugin.AssemblyVersion}\n`;
-									if (plugintext.length > 900) {
-										replymessage2
-											.addField(
-												"Loaded plugins",
-												plugintext
-											);
-										plugintext = ">>> ";
-										overflowed = true;
-									}
-								});
-
-							if (overflowed) {
+							if (data?.LoadedPlugins?.length == 0) {
 								replymessage2
 									.addField(
-										"Plugins Continued...",
+										"Loaded plugins",
+										"No plugins loaded according to troubleshooting blob."
+									);
+							}
+							else if (data.LoadedPlugins.length == 1) {
+								plugintext += `**${data.LoadedPlugins[0].Name}**`
+									+ ` - ${data.LoadedPlugins[0].AssemblyVersion}\n`;
+
+								replymessage2
+									.addField(
+										"Loaded plugin",
 										plugintext
 									);
 							}
 							else {
-								replymessage2
-									.addField(
-										"Loaded plugins as of last troubleshoot blob",
-										plugintext
-									);
+								data.LoadedPlugins
+									.sort((a, b) => (a.Name.toLowerCase() > b.Name.toLowerCase() ? 1 : -1))
+									.forEach(plugin => {
+										plugintext += `**${plugin.Name}**`
+											+ ` - ${plugin.AssemblyVersion}\n`;
+										if (plugintext.length > 900) {
+											replymessage2
+												.addField(
+													"Loaded plugins",
+													plugintext
+												);
+											plugintext = ">>> ";
+											overflowed = true;
+										}
+									});
+
+								if (overflowed) {
+									replymessage2
+										.addField(
+											"Plugins Continued...",
+											plugintext
+										);
+								}
+								else {
+									replymessage2
+										.addField(
+											"Last known loaded plugins",
+											plugintext
+										);
+								}
 							}
 
 							replymessage2
@@ -344,11 +364,17 @@ module.exports = async (client, message) => {
 							if (isDirectMessage) {
 								customChannel.send({
 									embeds: [replymessage2],
+									allowedMentions: {
+										repliedUser: false,
+									},
 								});
 							}
 							else {
 								message.reply({
 									embeds: [replymessage2],
+									allowedMentions: {
+										repliedUser: false,
+									},
 								});
 							}
 						}
