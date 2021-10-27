@@ -1,8 +1,7 @@
 exports.answer = async client => ({
 	title: `Please send us your dalamud.log file (Linux edition)`,
 	description: `Please send us your **dalamud.log** log file from `
-		+ `\`$WINEPREFIX/drive_c/users/$USER/Application Data/XIVLauncher/\` (Wine 5) or`
-		+ `\`$WINEPREFIX/drive_c/users/$USER/Appdata/Roaming/XIVLauncher/\` (Wine 6)`
+		+ `\`$WINEPREFIX/drive_c/users/$USER/Appdata/Roaming/XIVLauncher/\``
 		+ ` in this channel, so we can look into the problem!`
 		+ `\n\nIt's best to just upload/attach the file if you can!`
 		+ `\n\n**DISCLAIMER**:This log will contain your computer username. `

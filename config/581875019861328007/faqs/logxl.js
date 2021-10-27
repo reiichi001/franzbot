@@ -3,6 +3,7 @@ exports.answer = async client => ({
 	description: `Please send us your **output.log** log file from `
 		+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
 		+ `\n\nIt's best to just upload/attach the file if you can!`
+		+ `\n\n**NOTE**: If you have file extensions hidden, this file will just look like \`output\` on your screen.`
 		+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
 		+ `If you're not comfortable posting that here, you can `
 		+ `open the file in a text editor to redact that information first or `

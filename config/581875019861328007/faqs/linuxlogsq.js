@@ -1,10 +1,10 @@
 exports.answer = async client => ({
-	title: `Please send us your output.log file (Linux edition)`,
-	description: `Please send us your **output.log** log file from `
-		+ `\`$WINEPREFIX/drive_c/users/$USER/Appdata/Roaming/XIVLauncher/\``
+	title: `Please send us your SquirrelSetup.log file (Linux edition)`,
+	description: `Please send us your **SquirrelSetup.log** log file from `
+		+ `\`$WINEPREFIX/drive_c/users/$USER/Appdata/Local/SquirrelTemp/\``
 		+ ` in this channel, so we can look into the problem!`
 		+ `\n\nIt's best to just upload/attach the file if you can!`
-		+ `\n\n**DISCLAIMER**:This log will contain your ffxiv username[s]. `
+		+ `\n\n**DISCLAIMER**:This log may contain your computer username. `
 		+ `If you're not comfortable posting that here, you can `
 		+ `open the file in a text editor to redact that information first or `
 		+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
@@ -19,17 +19,12 @@ exports.answer = async client => ({
 });
 
 exports.info = {
-	name: "linuxlogxl",
+	name: "linuxlogsq",
 	category: "logs",
 	aliases: [
-		"linuxlog",
-		"linuxlauncherlog",
-		"linuxxivlauncherlog",
-		"linuxlogs",
-		"linuxxllog",
-		"loglinux",
-		"logslinux",
-		"logxllinux",
+		"linuxlogsq",
+		"linuxlogsquirrel",
+		"logsqlinux",
+		"squirreloglinux",
 	],
 };
-
