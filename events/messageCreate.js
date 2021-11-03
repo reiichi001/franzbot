@@ -252,6 +252,32 @@ module.exports = async (client, message) => {
 					});
 				}
 
+				// relay crash dumps from goatplace (or DMs)
+				if (attachment.name.match(/.*\.(dmp)/gui)) {
+					console.log(`Dalamud crash dump upload: ${attachment.attachment}`);
+					// const response = await got(attachment.attachment);
+					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
+					await customChannel.send({
+						content: `${message.author.username} (${message.author}) uploaded a crash log in ${isDirectMessage ? "DMs" : message.channel}.`,
+						files: [attachment],
+					});
+					await message.channel.send({
+						content: `Franzbot has relayed a crash dump to a private channel for analysis.`,
+					});
+
+					if (!isDirectMessage) {
+						// try to delete this out of the channel it was in.
+						const curChannel = message.channel;
+						await message.delete()
+							/*
+							.catch(await curChannel.send({
+								content: `Franzbot couldn't delete your crash dump from this channel for you. Please remove it.`,
+							}));
+							*/
+							.catch(console.error);
+					}
+				}
+
 				// handle the dalamud.txt file
 				if (attachment.name.match(/(dalamud|message).*\.(log|txt)/gui)) {
 					// read the data
