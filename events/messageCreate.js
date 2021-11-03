@@ -294,7 +294,7 @@ module.exports = async (client, message) => {
 						*/
 
 						const logdata = response?.body;
-						const results = logdata.match(/TROUBLESHOOTING:(.*)/gu);
+						let results = logdata.match(/TROUBLESHOOTING:(.*)/gu);
 						if (results.length > 0) {
 							let data = results[results.length - 1];
 							data = data.slice(16);
@@ -308,7 +308,7 @@ module.exports = async (client, message) => {
 
 							// make fancy embed and return
 							const replymessage2 = new MessageEmbed()
-								.setTitle(`Dalamud.txt parse results${client.config.DEBUGMODE ? " - Debug Version" : ""}`)
+								.setTitle(`Dalamud.log parse results${client.config.DEBUGMODE ? " - Debug Version" : ""}`)
 								.setDescription("Franzbot has parsed your logfile. "
 									+ "Here's some information about the plugins that were loaded.")
 								.setColor(client.config.EMBED_NORMAL_COLOR)
@@ -398,6 +398,57 @@ module.exports = async (client, message) => {
 							else {
 								message.reply({
 									embeds: [replymessage2],
+									allowedMentions: {
+										repliedUser: false,
+									},
+								});
+							}
+						}
+						results = logdata.match(/LASTEXCEPTION:(.*)/gu);
+						if (results.length > 0) {
+							let data = results[results.length - 1];
+							data = data.slice(14);
+							// console.log(`LASTEXCEPTION:\n${data}`);
+
+							// decrypt from base64
+							const buffer = new Buffer.from(data, 'base64');
+							data = buffer.toString('utf8');
+							// console.log(`LASTEXCEPTION decoded:\n${data}`);
+							data = JSON.parse(data);
+
+							// handle the injection error blob
+							const replymessage3 = {
+								"title": "Dalamud.log parse results for LASTEXCEPTION",
+								"description": "Franzbot has parsed your logfile. "
+									+ "Here's some information about the issue in your log file.",
+								"color": client.config.EMBED_NORMAL_COLOR,
+								"timestamp": Date.parse(data?.When),
+								"footer": {
+									"text": "footer text",
+								},
+								"fields": [
+									{
+										"name": "Info",
+										"value": `\`\`\`${data?.Info}\`\`\``,
+									},
+									{
+										"name": "Context",
+										"value": `\`\`\`${data?.Context}\`\`\``,
+									},
+								],
+							};
+
+							if (isDirectMessage) {
+								customChannel.send({
+									embeds: [replymessage3],
+									allowedMentions: {
+										repliedUser: false,
+									},
+								});
+							}
+							else {
+								message.reply({
+									embeds: [replymessage3],
 									allowedMentions: {
 										repliedUser: false,
 									},
