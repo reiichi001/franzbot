@@ -295,7 +295,7 @@ module.exports = async (client, message) => {
 
 						const logdata = response?.body;
 						let results = logdata.match(/TROUBLESHOOTING:(.*)/gu);
-						if (results.length > 0) {
+						if (results?.length > 0) {
 							let data = results[results.length - 1];
 							data = data.slice(16);
 							// console.log(`TROUBLESHOOTING:\n${data}`);
