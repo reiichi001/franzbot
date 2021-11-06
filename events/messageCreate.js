@@ -502,6 +502,11 @@ module.exports = async (client, message) => {
 								}
 							}
 
+							replymessage3.addField(
+								"Timestamp",
+								`${data?.When}\n<t:${timestamp}:F>`
+							);
+
 							if (isDirectMessage) {
 								customChannel.send({
 									embeds: [replymessage3],
