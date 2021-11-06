@@ -417,26 +417,90 @@ module.exports = async (client, message) => {
 							data = JSON.parse(data);
 
 							// handle the injection error blob
-							const replymessage3 = {
-								"title": "Dalamud.log parse results for LASTEXCEPTION",
-								"description": "Franzbot has parsed your logfile. "
-									+ "Here's some information about the issue in your log file.",
-								"color": client.config.EMBED_NORMAL_COLOR,
-								"timestamp": Date.parse(data?.When),
-								"footer": {
-									"text": "footer text",
-								},
-								"fields": [
-									{
-										"name": "Info",
-										"value": `\`\`\`${data?.Info}\`\`\``,
-									},
-									{
-										"name": "Context",
-										"value": `\`\`\`${data?.Context}\`\`\``,
-									},
-								],
-							};
+							const timestamp = Math.round(Date.parse(data?.When) / 1000);
+
+							const replymessage3 = new MessageEmbed()
+								.setTitle(`Dalamud.log parse results for LASTEXCEPTION${client.config.DEBUGMODE ? " - Debug Version" : ""}`)
+								.setDescription("Franzbot has parsed your logfile. "
+									+ "Here's some information about the last issue found in your log file.")
+								.setColor(client.config.EMBED_NORMAL_COLOR)
+								.setFooter(client.config.FRANZBOT_VERSION);
+
+							const exceptionInfo = data?.Info;
+							const exceptionContext = data?.Context;
+
+							if (exceptionInfo.length > 0) {
+								// console.log(`Long Info ${exceptionInfo.length} characters.`);
+								if (exceptionInfo.length > 1024) {
+									const temp = exceptionInfo.split("\r\n");
+									// console.log(temp);
+									// console.log(`Split into ${temp.length} lines`);
+									let tempvalue = "";
+									let overflowed = false;
+
+									temp.forEach(line => {
+										tempvalue += line;
+										if (tempvalue.length > 700) {
+											// console.log("Splitting Info into new field.");
+											replymessage3.addField(
+												"Info",
+												`\`\`\`${tempvalue}\`\`\``
+											);
+											tempvalue = "";
+											overflowed = true;
+										}
+									});
+
+									if (overflowed) {
+										replymessage3.addField(
+											"Info continued",
+											`\`\`\`${tempvalue}\`\`\``
+										);
+									}
+								}
+								else {
+									replymessage3.addField(
+										"Info",
+										`\`\`\`${data?.Info}\`\`\``
+									);
+								}
+							}
+
+							if (exceptionContext.length > 0) {
+								// console.log(`Long Context ${exceptionInfo.length} characters.`);
+								if (exceptionContext.length > 1024) {
+									const temp = exceptionContext.split("\r\n");
+									// console.log(`Split into ${temp.length} lines`);
+									let tempvalue = "";
+									let overflowed = false;
+
+									temp.forEach(line => {
+										tempvalue += line;
+										if (tempvalue.length > 700) {
+											// console.log("Splitting Context into new field.");
+											replymessage3.addField(
+												"Context",
+												`\`\`\`${tempvalue}\`\`\``
+											);
+											tempvalue = "";
+											overflowed = true;
+										}
+									});
+
+									if (overflowed) {
+										replymessage3.addField(
+											"Context continued",
+											`\`\`\`${tempvalue}\`\`\``
+										);
+									}
+								}
+								else {
+									replymessage3.addField(
+										"Context",
+										`\`\`\`${data?.Context}\`\`\``
+									);
+								}
+							}
 
 							if (isDirectMessage) {
 								customChannel.send({
