@@ -27,6 +27,14 @@ const config = require("./config.json");
 // We also need to make sure we're attaching the config to the CLIENT so it's accessible everywhere!
 client.config = config;
 
+// will this work?
+const JSONdb = require('simple-json-db');
+const configdb = new JSONdb('config.json', {
+	syncOnWrite: true,
+	jsonSpaces: 4,
+});
+client.configdb = configdb;
+
 // Require our logger
 const logger = require("./modules/Logger");
 client.logger = logger;
@@ -40,6 +48,7 @@ require("./modules/functions.js")(client);
 client.commands = new Collection();
 client.aliases = new Collection();
 client.slashcmds = new Collection();
+client.buttoncmds = new Collection();
 client.perserversettings = new Collection();
 client.perserveraliases = new Collection();
 
@@ -96,6 +105,17 @@ const init = async () => {
 		client.slashcmds.set(command.commandData().name, command);
 	}
 
+	// Now we load any **button** interactions you may have in the ./buttons directory.
+	const buttonFiles = readdirSync("./buttons").filter(file => file.endsWith(".js"));
+	for (const file of buttonFiles) {
+		const button = require(`./buttons/${file}`);
+		const buttonName = file.split(".")[0];
+		logger.log(`Loading Button interactions: ${buttonName}. 👌`, "log");
+
+		// Now set the name of the command with it's properties.
+		client.buttoncmds.set(button.buttonData().name, button);
+	}
+
 	// Then we load events, which will include our message and ready event.
 	const eventFiles = readdirSync("./events/").filter(file => file.endsWith(".js"));
 	for (const file of eventFiles) {
@@ -108,8 +128,8 @@ const init = async () => {
 		client.on(eventName, event.bind(null, client));
 	}
 
-	// Here we login the client.
-	client.login(client.config.token);
+	// Here we login the client. And do a little check that the configdb is loaded
+	client.login(configdb.get("token"));
 
 	// End top-level async/await function.
 };
