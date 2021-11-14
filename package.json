@@ -4,23 +4,25 @@
   "description": "Franzbot is a Discord bot for zu.",
   "main": "app.js",
   "dependencies": {
-    "better-sqlite3": "^7.4.0",
-    "bufferutil": "^4.0.3",
-    "chalk": "^4.1.1",
-    "discord.js": "^13.1.0",
+    "@discordjs/builders": "^0.8.2",
+    "better-sqlite3": "^7.4.4",
+    "bufferutil": "^4.0.5",
+    "chalk": "^4.1.2",
+    "discord.js": "^13.3.1",
     "disrequire": "^1.1.2",
     "eightball": "^1.0.1",
-    "enmap": "^5.8.5",
+    "enmap": "^5.8.7",
     "erlpack": "^0.1.3",
-    "eslint": "^7.26.0",
-    "eslint-plugin-sonarjs": "^0.7.0",
-    "ffmpeg-static": "^4.3.0",
+    "eslint": "^8.2.0",
+    "eslint-plugin-sonarjs": "^0.10.0",
+    "ffmpeg-static": "^4.4.0",
     "got": "^11.8.2",
     "libsodium-wrappers": "^0.7.9",
     "moment": "^2.29.1",
+    "simple-json-db": "^1.2.3",
     "spliddit": "^2.1.1",
     "stringz": "^2.1.0",
-    "utf-8-validate": "^5.0.5",
+    "utf-8-validate": "^5.0.7",
     "zlib-sync": "^0.1.7"
   },
   "scripts": {
@@ -32,5 +34,8 @@
     "type": "git",
     "url": "git+https://reiichi001@bitbucket.org/reiichi001/franzbot-reborn.git"
   },
-  "homepage": "https://bitbucket.org/reiichi001/franzbot-reborn#readme"
+  "homepage": "https://bitbucket.org/reiichi001/franzbot-reborn#readme",
+  "devDependencies": {
+    "@types/node": "^16.11.7"
+  }
 }
