@@ -16,7 +16,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 		});
 
 		// handle any incoming options
-		let  user = interaction.options.getUser("user");
+		let  user = interaction.options.getUser("user") ?? interaction.user;
 		const  reason = interaction.options.getString("reason");
 		// client.logger.debug(`User: ${user}\nreason: ${reason}`);
 
@@ -91,7 +91,6 @@ exports.commandData = () => ({
 });
 */
 exports.commandData = (client, message) => {
-	const fuck = true;
 	const commandinfo = new SlashCommandBuilder()
 		.setName('ticket')
 		.setDescription('Creates a help ticket.');

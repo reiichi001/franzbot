@@ -267,7 +267,7 @@ module.exports = async (client, message) => {
 
 					if (!isDirectMessage) {
 						// try to delete this out of the channel it was in.
-						const curChannel = message.channel;
+						// const curChannel = message.channel;
 						await message.delete()
 							/*
 							.catch(await curChannel.send({
@@ -576,7 +576,7 @@ module.exports = async (client, message) => {
 				replyMessage = {
 
 					title: client.config.TRIGGER_TITLE,
-					description: "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.",
+					description: "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.\n\nPlease see our [many](https://discord.com/channels/581875019861328007/830939095478829096/893209077071609887) [posts](https://discord.com/channels/581875019861328007/585180735032393730/914487751708119091) in <#585180735032393730> and <#830939095478829096>",
 					color: client.config.EMBED_ERROR_COLOR,
 					footer: {
 						"text": client.config.TRIGGER_FOOTER,
@@ -718,7 +718,7 @@ module.exports = async (client, message) => {
 				description: "Franzbot has detected chat activity from a non-mod/non-dev user in a suggestions channel.",
 				color: client.config.EMBED_INFO_COLOR,
 				footer: {
-					"text": "This automated response is on a 30 minute cooldown and is not based on the words you said. "
+					"text": "This automated response is on a 30 minute cooldown every time there's chat activity and is not based on the words you said. "
 							+ "This message will self destruct in 5 minutes.",
 				},
 				fields: [
@@ -737,7 +737,7 @@ module.exports = async (client, message) => {
 				],
 			};
 
-			message.reply({
+			message.channel.send({
 				embeds: [replyMessage],
 			})
 				.then(msg => {

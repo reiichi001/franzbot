@@ -1,5 +1,7 @@
 /* eslint-disable no-return-await */
 const logger = require("../modules/Logger.js");
+const JSONdb = require('simple-json-db');
+
 
 const {
 	MessageEmbed,
@@ -8,9 +10,26 @@ const {
 /* eslint-disable consistent-return */
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
 	try {
+		const ticketdbpath = `${__dirname}/../config/${interaction.guild.id}/tickets.json`;
+		const ticketdb = new JSONdb(ticketdbpath, {
+			syncOnWrite: true,
+			jsonSpaces: 4,
+		});
+
 		interaction.deferUpdate();
 		logger.cmd(`${interaction.user.username} pushed a button in `
-            + `#${interaction.channel.name} on ${interaction.guild.name}`);
+            + `#${interaction.channel.name} at ${interaction.guild.name}`);
+
+		if (ticketdb.has("guildticketinfo")) {
+			const guildTicketInfo = ticketdb.get("guildticketinfo");
+			const thisTicket = guildTicketInfo.Tickets.get(`${interaction.channel.id}`);
+			logger.debug(`Found ticket: ${thisTicket}`);
+			process.exit(1);
+		}
+		else {
+			throw new Error("Ticket Config for this server not found.");
+		}
+
 		const channel = interaction.channel;
 		const newname = channel.name.replace("help-", "closed-");
 		await interaction.channel.setName(newname);

@@ -18,7 +18,8 @@ exports.run = async (client, message, args) => {
 	// args = args.split(',');
 	if (args.length > 0) {
 		// check if the first arg is a mention or ID number
-		const matches = args[0].match(/^<@!?(\d+)>$/u);
+		// const matches = args[0].match(/^<@!?(\d+)>$/u);
+		const matches = args[0].match(USERS_PATTERN);
 		if (matches) {
 			client.logger.debug(`Matches: ${JSON.stringify(matches)}`);
 			user = await message.guild.members.fetch(`${matches[1]}`);

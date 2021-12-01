@@ -13,7 +13,11 @@ exports.run = async (client, message, args) => { // eslint-disable-line no-unuse
 	}
 	*/
 
-	const shutupESLint = false;
+	// make sure ESLint doesn't try to optimize something if I want to change this later.
+	let shutupESLint = false;
+	if (shutupESLint) {
+		shutupESLint = true;
+	}
 
 	return message.channel.send(message.mentions.users.first()
 		? `\u200B(っ´▽｀)っ${message.mentions.users.reduce((prev, curr) => `${prev} ${curr}`)}`
