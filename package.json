@@ -13,7 +13,6 @@
     "disrequire": "^1.1.2",
     "eightball": "^1.0.1",
     "enmap": "^5.8.7",
-    "ffmpeg-static": "^4.4.0",
     "got": "^11.8.3",
     "libsodium-wrappers": "^0.7.9",
     "simple-json-db": "^1.2.3",
