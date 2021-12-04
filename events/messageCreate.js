@@ -698,7 +698,7 @@ module.exports = async (client, message) => {
 
 		sectionIdentifier = "suggestionchannels";
 		const watchChannels = client.config.SUGGESTION_WATCH_CHANNELS;
-		if (watchChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 30 * MINUTE)) {
+		if (watchChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 60 * MINUTE)) {
 			// These need to be set to things about suggestions
 			// forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
 			// forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
@@ -758,70 +758,6 @@ module.exports = async (client, message) => {
 			console.log(`${sectionIdentifier} timeout not exceeded or not a watched channel for ${sectionIdentifier}; ignoring message`);
 		}
 	}
-
-	sectionIdentifier = "newpatchnag";
-	const watchChannels = client.config.NEWPATCHNAG_WATCH_CHANNELS;
-	if (watchChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
-		// These need to be set to things about suggestions
-		// forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
-		// forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
-		// negateBadWords = [];
-		// forbiddenMinCount = 1;
-		// adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
-		if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
-			return;
-		}
-
-		console.log("Suggestion watch channel detected.");
-
-		// send a reply
-		replyMessage = {
-
-			title: client.config.TRIGGER_TITLE,
-			description: "Franzbot has detected chat activity from a non-mod/non-dev user.",
-			color: client.config.EMBED_INFO_COLOR,
-			footer: {
-				"text": "This automated response is on a 5 minute cooldown every time there's chat activity and is not based on the words you said. "
-					+ "This message will self destruct in 5 minutes.",
-			},
-			fields: [
-				{
-					"name": "Dalamud is not ready yet",
-					"value": "Please don't ask for plugin support. **All plugins are disabled because Dalamud is disabled.**\n\n"
-						+ "Follow the <#585180735032393730> channel for updated information.",
-				},
-				{
-					"name": "This is not #plugin-help",
-					"value": "Please don't ask for help with missing/broken plugins here. See above.",
-				},
-				{
-					"name": "Other third party tools/mods",
-					"value": "We have no control over other third party tools or mods. Please ask for support in their support servers/forums/websites/etc.",
-				},
-			],
-		};
-
-		message.channel.send({
-			embeds: [replyMessage],
-		})
-			.then(msg => {
-				setTimeout(() => msg.delete(), 5 * MINUTE);
-			});
-
-		// checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, true, replyMessage);
-
-		timeoutManager.resetTimeout(sectionIdentifier);
-
-		// bandaid, clear all the important variables
-		forbidAny = [];
-		forbidCount = [];
-		negateBadWords = [];
-		return;
-	}
-	else if (timeoutManager.timeoutSet(sectionIdentifier)) {
-		console.log(`${sectionIdentifier} timeout not exceeded or not a watched channel for ${sectionIdentifier}; ignoring message`);
-	}
-}
 
 	// Triggers for Project Meteor
 	if (MeteorTriggers.includes(message.guild?.id)) {
