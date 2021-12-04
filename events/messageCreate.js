@@ -824,6 +824,7 @@ module.exports = async (client, message) => {
 
 	}
 
+
 	// Triggers for Project Meteor
 	if (MeteorTriggers.includes(message.guild?.id)) {
 		console.log(`Found in MeteorTriggers: ${message.channel.name}`);
@@ -922,7 +923,7 @@ module.exports = async (client, message) => {
 
 	// If the member on a guild is invisible or not cached, fetch them.
 	if (message.guild && !message.member) {
-		await message.guild.fetchMember(message.author);
+		message.guild.fetchMember(message.author);
 	}
 
 

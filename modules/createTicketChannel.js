@@ -21,6 +21,8 @@ exports.createChannel = async (guild, member, reason = null) => {
 		jsonSpaces: 4,
 	});
 	let guildTicketInfo;
+	let Tickets = new Map();
+
 
 	try {
 		let createNewDB = true;
@@ -28,12 +30,14 @@ exports.createChannel = async (guild, member, reason = null) => {
 			logger.debug("File exists.");
 			if (ticketdb?.has("guildticketinfo")) {
 				guildTicketInfo = ticketdb.get("guildticketinfo");
+				Tickets = new Map(ticketdb.get('Tickets'));
+				logger.debug([...Tickets.entries()]);
+				logger.debug(`Loaded ${Tickets.size == 1
+					? `1 Ticket`
+					: `${Tickets.size
+					} Tickets`}.`);
 				createNewDB = false;
 				logger.debug("Loaded a tickets.json file");
-				if (typeof guildTicketInfo.Tickets === "undefined") {
-					guildTicketInfo.Tickets = new Map();
-				}
-				logger.debug(`Number of loaded tickets: ${guildTicketInfo.Tickets.size}`);
 			}
 		}
 		if (createNewDB) {
@@ -53,14 +57,11 @@ exports.createChannel = async (guild, member, reason = null) => {
 			guildTicketInfo = {
 				GuildID: guild.id,
 				TicketCategoryID: "724832111466512396",
-				Admins: new Map(),
-				Tickets: new Map(),
+				Admins: [],
 			};
 			ticketdb.set("guildticketinfo", guildTicketInfo);
-			logger.debug(`Number of tickets: ${guildTicketInfo.Tickets.size}`);
+			ticketdb.set(`Tickets`, [...Tickets]);
 		}
-
-		await ticketdb.sync();
 	}
 	catch (err) {
 		console.error(err);
@@ -76,6 +77,18 @@ exports.createChannel = async (guild, member, reason = null) => {
 		parent: category,
 		permissionOverwrites: category.permissionOverwrites.cache,
 	});
+
+	// create a new ticketinfo
+	const ticketInfo = {
+		"id": `${newchannel.id}`,
+		"user": `${member.id}`,
+		reason,
+		"isOpen": true,
+	};
+
+	Tickets.set(`${ticketInfo.id}`, ticketInfo);
+	ticketdb.set(`Tickets`, [...Tickets]);
+	// logger.debug([...Tickets.entries()]);
 
 	// await newchannel.setParent(category.id);
 	await newchannel.lockPermissions();
@@ -110,20 +123,6 @@ exports.createChannel = async (guild, member, reason = null) => {
 		components: [row],
 	});
 
-	// create a new ticketinfo
-	const ticketInfo = {
-		"id": `${newchannel.id}`,
-		"user": `${member.id}`,
-		reason,
-		"isOpen": true,
-	};
-
-
-	logger.debug(`Number of tickets: ${guildTicketInfo.Tickets.size}`);
-	guildTicketInfo.Tickets.set(`${ticketInfo.id}`, ticketInfo);
-	logger.debug(`Number of tickets: ${guildTicketInfo.Tickets.size}`);
-	ticketdb.set("guildticketinfo", guildTicketInfo);
-	ticketdb.sync();
 
 	return newchannel;
 };
