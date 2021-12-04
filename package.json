@@ -4,19 +4,19 @@
   "description": "Franzbot is a Discord bot for zu.",
   "main": "app.js",
   "dependencies": {
-    "@discordjs/builders": "^0.9.0",
-    "better-sqlite3": "^7.4.5",
+    "@discordjs/builders": "^0.8.2",
+    "better-sqlite3": "^7.4.4",
     "bufferutil": "^4.0.5",
-    "chalk": "^5.0.0",
+    "chalk": "^4.1.2",
     "discord.js": "^13.3.1",
     "disrequire": "^1.1.2",
     "eightball": "^1.0.1",
     "enmap": "^5.8.7",
     "erlpack": "^0.1.3",
-    "eslint": "^8.3.0",
-    "eslint-plugin-sonarjs": "^0.11.0",
+    "eslint": "^8.2.0",
+    "eslint-plugin-sonarjs": "^0.10.0",
     "ffmpeg-static": "^4.4.0",
-    "got": "^11.8.3",
+    "got": "^11.8.2",
     "libsodium-wrappers": "^0.7.9",
     "moment": "^2.29.1",
     "simple-json-db": "^1.2.3",
@@ -36,6 +36,6 @@
   },
   "homepage": "https://bitbucket.org/reiichi001/franzbot-reborn#readme",
   "devDependencies": {
-    "@types/node": "^16.11.11"
+    "@types/node": "^16.11.7"
   }
 }
