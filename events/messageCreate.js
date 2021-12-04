@@ -759,14 +759,9 @@ module.exports = async (client, message) => {
 		}
 
 		sectionIdentifier = "newpatchnag";
+		const postnag = true;
 		const watchNagChannels = client.config.NEWPATCHNAG_WATCH_CHANNELS;
-		if (watchNagChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
-			// These need to be set to things about suggestions
-			// forbidAny.push(/(bdth|burn[ing]* down the house)/gui);
-			// forbidCount.push(/(install|help|support|download|update|use|using|where|find|issue|problem|command)/gui);
-			// negateBadWords = [];
-			// forbiddenMinCount = 1;
-			// adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
+		if (postnag && watchNagChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
 			if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
 				return;
 			}
@@ -776,7 +771,7 @@ module.exports = async (client, message) => {
 			// send a reply
 			replyMessage = {
 
-				title: client.config.TRIGGER_TITLE,
+				title: "Automated Chat Channel Nag",
 				description: "Franzbot has detected chat activity from a non-mod/non-dev user.",
 				color: client.config.EMBED_INFO_COLOR,
 				footer: {
@@ -786,8 +781,14 @@ module.exports = async (client, message) => {
 				fields: [
 					{
 						"name": "Dalamud is not ready yet",
-						"value": "Please don't ask for plugin support. **All plugins are disabled because Dalamud is disabled.**\n\n"
+						"value": "Please don't ask when it will be ready. There is no average time it takes or estimate. "
+							+ "We'd like it to be ready too!"
+							+ "\n__All plugins are disabled because Dalamud is disabled.__\n\n"
 							+ "Follow the <#585180735032393730> channel for updated information.",
+					},
+					{
+						"name": "This is not #general",
+						"value": "Please try to keep discussions in this channel to a minimum. It's a support channel first and foremost.",
 					},
 					{
 						"name": "This is not #plugin-help",
@@ -820,8 +821,6 @@ module.exports = async (client, message) => {
 		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
 			console.log(`${sectionIdentifier} timeout not exceeded or not a watched channel for ${sectionIdentifier}; ignoring message`);
 		}
-
-
 	}
 
 
