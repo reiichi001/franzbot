@@ -761,7 +761,7 @@ module.exports = async (client, message) => {
 		sectionIdentifier = "newpatchnag";
 		const postnag = true;
 		const watchNagChannels = client.config.NEWPATCHNAG_WATCH_CHANNELS;
-		if (postnag && watchNagChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
+		if (postnag && watchNagChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 15 * MINUTE)) {
 			if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
 				return;
 			}
@@ -775,7 +775,7 @@ module.exports = async (client, message) => {
 				description: "Franzbot has detected chat activity from a non-mod/non-dev user.",
 				color: client.config.EMBED_INFO_COLOR,
 				footer: {
-					"text": "This automated response is on a 5 minute cooldown every time there's chat activity and is not based on the words you said. "
+					"text": "This automated response is on a 15 minute cooldown every time there's chat activity and is not based on the words you said. "
 						+ "This message will self destruct in 5 minutes.",
 				},
 				fields: [
