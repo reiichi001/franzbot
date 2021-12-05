@@ -788,7 +788,8 @@ module.exports = async (client, message) => {
 					},
 					{
 						"name": "This is not #general",
-						"value": "Please try to keep discussions in this channel to a minimum. It's a support channel first and foremost.",
+						"value": "Please try to keep discussions in this channel to a minimum. It's a support channel first and foremost.\n\n"
+							+ "You can pick up a role for <#581875020632948762> access in <#719508946141970492>",
 					},
 					{
 						"name": "This is not #plugin-help",
