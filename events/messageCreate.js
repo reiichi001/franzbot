@@ -759,7 +759,7 @@ module.exports = async (client, message) => {
 		}
 
 		sectionIdentifier = "newpatchnag";
-		const postnag = true;
+		const postnag = false;
 		const watchNagChannels = client.config.NEWPATCHNAG_WATCH_CHANNELS;
 		if (postnag && watchNagChannels.includes(message.channel.id) && timeoutManager.timeoutEnded(sectionIdentifier, 15 * MINUTE)) {
 			if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
