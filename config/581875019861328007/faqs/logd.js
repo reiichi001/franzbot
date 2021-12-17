@@ -1,5 +1,5 @@
 exports.answer = async client => ({
-	title: `Please send us your dalamud.log file`,
+	title: `Please send us your dalamud.log file for Dalamud/Plugin troubleshooting`,
 	description: `Please send us your **dalamud.log** log file from `
 		+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!`
 		+ `\n\nIt's best to just upload/attach the file if you can!`
