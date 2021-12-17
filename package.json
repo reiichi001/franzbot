@@ -13,6 +13,8 @@
     "disrequire": "^1.1.2",
     "eightball": "^1.0.1",
     "enmap": "^5.8.7",
+    "eslint": "^8.3.0",
+    "eslint-plugin-sonarjs": "^0.11.0",
     "got": "^11.8.3",
     "libsodium-wrappers": "^0.7.9",
     "simple-json-db": "^1.2.3",
@@ -32,8 +34,6 @@
   },
   "homepage": "https://bitbucket.org/reiichi001/franzbot-reborn#readme",
   "devDependencies": {
-    "@types/node": "^16.11.11",
-    "eslint": "^8.3.0",
-    "eslint-plugin-sonarjs": "^0.11.0"
+    "@types/node": "^16.11.11"
   }
 }
