@@ -220,7 +220,8 @@ module.exports = async (client, message) => {
 		}
 
 		// autopublish in announcement channels
-		if (message.channel.type === 'news') {
+		console.log(`Channel type: ${message.channel.type}`);
+		if (message.channel.type === 'GUILD_NEWS' || message.channel.type.match(/news/gui)) {
 			message.crosspost()
 				.then(() => console.log('Crossposted an announcement'))
 				.catch(console.error);
@@ -600,7 +601,7 @@ module.exports = async (client, message) => {
 
 		sectionIdentifier = "SupportedElsewhere";
 		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
-			forbidAny.push(/(sonar|delvui|aether\s*sense)/gui);
+			forbidAny.push(/(sonar|delvui|aether\s*sense|fvp|vibe_*\s*plugin)/gui);
 			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(ed|t?ing)?\b/gui);
 			negateBadWords = [];
 			forbiddenMinCount = 1;
@@ -633,8 +634,8 @@ module.exports = async (client, message) => {
 
 		sectionIdentifier = "UnsupportedTools";
 		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
-			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*)/gui);
-			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(ed|t?ing)?\b/gui);
+			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*|no\s*clip.*)/gui);
+			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(s|ed|t?ing)?\b/gui);
 			negateBadWords = [];
 			forbiddenMinCount = 1;
 			adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
