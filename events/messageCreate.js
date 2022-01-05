@@ -371,11 +371,11 @@ module.exports = async (client, message) => {
 							replymessage2
 								.addField(
 									"Has third party repos",
-									data.ThirdRepo.length > 0 ? "Yes" : "No"
+									data.HasThirdRepo ? "Yes" : "No"
 								)
 								.addField(
 									"Dalamud Testing",
-									data.DoDalamudTest ? "Yes" : "No",
+									data.BetaKey ?? "null",
 									true
 								)
 								.addField(
