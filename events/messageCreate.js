@@ -674,6 +674,8 @@ module.exports = async (client, message) => {
 
 		// START custom triggers that I probably shouldn't do.
 
+		// testing CD
+
 		// just for Adam
 		let sectionIdentifier = "funnyshit";
 		if (timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
