@@ -1,7 +1,7 @@
 exports.answer = async client => ({
-	title: `Please send us your SquirrelSetup.log file (mac edition)`,
-	description: `Please send us your **SquirrelSetup.log** log file from `
-		+ `\`~Library/Application Support/XIV on Mac/game/drive_c/users/emet-selch/Local Settings/SquirrelTemp/\``
+	title: `Please send us your patcher.log file (mac edition)`,
+	description: `Please send us your **patcher.log** log file from `
+		+ `\`~Library/Application Support/XIV on Mac/game/drive_c/users/emet-selch/Application Data/XIVLauncher\``
 		+ ` in this channel, so we can look into the problem!`
 		+ `\n\nIt's best to just upload/attach the file if you can!`
 		+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
@@ -15,17 +15,17 @@ exports.answer = async client => ({
 });
 
 exports.info = {
-	name: "maclogsq",
+	name: "maclogp",
 	category: "logs",
 	aliases: [
-		"logsq",
-		"maclogsq",
-		"maclogsquirrel",
-		"logsqmac",
-		"squirrelogmac",
-		"macoslogsq",
-		"macoslogsquirrel",
-		"logossqmac",
-		"squirrelogmacos",
+		// "logp", // only for XIV on Mac
+		"maclogp",
+		"maclogpatcher",
+		"logpatchermac",
+		"patcherlogmac",
+		"macoslogp",
+		"macoslogpatcher",
+		"logpatchermacos",
+		"patcherlogmacos",
 	],
 };

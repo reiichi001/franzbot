@@ -17,7 +17,7 @@ exports.info = {
 	name: "macloga",
 	category: "logs",
 	aliases: [
-		"loga", // only uncomment this for the xivonmac server
+		// "loga", // only uncomment this for the xivonmac server
 		"macloga",
 		"maclogaria",
 		"logamac",

@@ -18,7 +18,7 @@ exports.info = {
 	name: "maclogsq",
 	category: "logs",
 	aliases: [
-		"logsq",
+		// "logsq",
 		"maclogsq",
 		"maclogsquirrel",
 		"logsqmac",

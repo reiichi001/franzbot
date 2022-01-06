@@ -21,7 +21,7 @@ exports.info = {
 	name: "maclogxl",
 	category: "logs",
 	aliases: [
-		"logxl", // on enable on XIV on Mac
+		// "logxl", // on enable on XIV on Mac
 		"maclog",
 		"maclauncherlog",
 		"macxivlauncherlog",
