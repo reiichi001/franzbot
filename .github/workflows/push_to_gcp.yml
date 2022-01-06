@@ -1,8 +1,0 @@
-- name: SSH Execute Commands
-  uses: JimCronqvist/action-ssh@0.1.1
- with:
-    hosts: 'reiichi001@ffxivrp.org'
-    privateKey: ${{ secrets.PRIVATE_KEY }}
-    command: |
-      cd ~/franzbot-reborn
-      git pull
