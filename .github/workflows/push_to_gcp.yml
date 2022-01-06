@@ -1,8 +1,18 @@
-- name: SSH Execute Commands
-  uses: JimCronqvist/action-ssh@master
-  with:
-    hosts: 'reiichi001@ffxivrp.org'
-    privateKey: ${{ secrets.PRIVATE_KEY }}
-    command: |
-      cd ~/franzbot-reborn
-      git pull
+name: test
+on:
+  push:
+    branches:
+    - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy franzbot
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ~/franzbot-reborn
+            git pull
+          host: ffxivrp.org
+          user: reiichi001
+          key: ${{ secrets.PRIVATE_KEY}}
