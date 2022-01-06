@@ -674,6 +674,13 @@ module.exports = async (client, message) => {
 
 		// START custom triggers that I probably shouldn't do.
 
+		// just for Adam
+		if (message.author.id == "95483650853838848"
+			&& message.content.match(/(classic|lol|just|iconic)*\s*se\s*(things|quality)*/gui)) {
+			message.channel.send("You know, you were doing well until the very last sentence, then you lost any and all respect you'd clawed back. Have a good day.");
+			return;
+		}
+
 		// just for Attick
 		if (message.author.id == "131195749017976833"
 			&& message.content.match(/(glad|happy) to help/gui)) {
