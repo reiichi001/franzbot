@@ -677,7 +677,12 @@ module.exports = async (client, message) => {
 		// just for Adam
 		if (message.author.id == "95483650853838848"
 			&& message.content.match(/(classic|lol|just|iconic)*\s*\bse\b\s*(things|quality)*/gui).length > 0) {
-			message.channel.send("You know, you were doing well until the very last sentence, then you lost any and all respect you'd clawed back. Have a good day.");
+			message.reply({
+				content: "You know, you were doing well until the very last sentence, then you lost any and all respect you'd clawed back. Have a good day.",
+				allowedMentions: {
+					repliedUser: false,
+				},
+			});
 			return;
 		}
 
