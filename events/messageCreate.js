@@ -93,8 +93,8 @@ function checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbid
 		}
 	}
 
-	console.log(`Bad wordset: ${forbidden.size} Goodwords: ${offsetWeight}`);
-	console.log(`Ignoring message length: ${ignorelength}`);
+	// console.log(`Bad wordset: ${forbidden.size} Goodwords: ${offsetWeight}`);
+	// console.log(`Ignoring message length: ${ignorelength}`);
 
 	const adjustedWordWeight = forbidden.size - offsetWeight;
 	if (replyMessage
@@ -143,6 +143,7 @@ module.exports = async (client, message) => {
 	const GoatTriggers = [
 		client.config.GUILDID_TESTING, // franzbot testing - general
 		client.config.GUILDID_GOAT, // Goatplace - general
+		client.config.XIVONMAC, // XIV on Mac - general
 	];
 	const MeteorTriggers = [
 		// client.config.GUILDID_TESTING, // franzbot testing - general
@@ -158,8 +159,8 @@ module.exports = async (client, message) => {
 		console.log(`Received a DM from ${message.author.username}.`);
 	}
 	else {
-		console.log(`GUILD: ${message.guild?.id ?? "Not a guild"}`);
-		console.log(`CHANNEL: ${message.channel?.id ?? "Not a channel"}`);
+		console.log(`GUILD: ${message.guild.name} ${message.guild?.id ?? "Not a guild"}`);
+		console.log(`CHANNEL: ${message.channel.name} ${message.channel?.id ?? "Not a channel"}`);
 	}
 
 	// Checks if the bot was mentioned, with no message after it, returns the prefix.
@@ -220,7 +221,7 @@ module.exports = async (client, message) => {
 		}
 
 		// autopublish in announcement channels
-		console.log(`Channel type: ${message.channel.type}`);
+		// console.log(`Channel type: ${message.channel.type}`);
 		if (message.channel.type === 'GUILD_NEWS' || message.channel.type.match(/news/gui)) {
 			message.crosspost()
 				.then(() => console.log('Crossposted an announcement'))
@@ -700,7 +701,7 @@ module.exports = async (client, message) => {
 			timeoutManager.resetTimeout(sectionIdentifier);
 		}
 		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
-			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+			// console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 
 
@@ -713,6 +714,9 @@ module.exports = async (client, message) => {
 			"plugin developer",
 			"test",
 			"botters",
+			"XIV on Mac Team",
+			"Contributor",
+			"XIVLauncher Developer",
 		]);
 
 
@@ -745,7 +749,7 @@ module.exports = async (client, message) => {
 				negateBadWords = [];
 			}
 			else if (timeoutManager.timeoutSet(sectionIdentifier)) {
-				console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+				// console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 			}
 			// return;
 		}
@@ -780,7 +784,7 @@ module.exports = async (client, message) => {
 			negateBadWords = [];
 		}
 		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
-			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+			// console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 
 		sectionIdentifier = "UnsupportedTools";
@@ -812,7 +816,7 @@ module.exports = async (client, message) => {
 			negateBadWords = [];
 		}
 		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
-			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+			// console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 
 		sectionIdentifier = "xivlauncher-suggestions";
@@ -845,7 +849,7 @@ module.exports = async (client, message) => {
 			return;
 		}
 		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
-			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+			// console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 
 		sectionIdentifier = "suggestionchannels";
@@ -907,7 +911,7 @@ module.exports = async (client, message) => {
 			return;
 		}
 		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
-			console.log(`${sectionIdentifier} timeout not exceeded or not a watched channel for ${sectionIdentifier}; ignoring message`);
+			// console.log(`${sectionIdentifier} timeout not exceeded or not a watched channel for ${sectionIdentifier}; ignoring message`);
 		}
 
 		sectionIdentifier = "newpatchnag";
@@ -972,7 +976,7 @@ module.exports = async (client, message) => {
 			return;
 		}
 		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
-			console.log(`${sectionIdentifier} timeout not exceeded or not a watched channel for ${sectionIdentifier}; ignoring message`);
+			// console.log(`${sectionIdentifier} timeout not exceeded or not a watched channel for ${sectionIdentifier}; ignoring message`);
 		}
 	}
 
@@ -1077,7 +1081,6 @@ module.exports = async (client, message) => {
 	if (message.guild && !message.member) {
 		message.guild.fetchMember(message.author);
 	}
-
 
 	// Check whether the command, or alias, exist in the collections defined
 	// in app.js.
