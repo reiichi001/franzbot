@@ -280,9 +280,9 @@ module.exports = async (client, message) => {
 				}
 
 				// handle the dalamud.txt file
-				if (attachment.name.match(/(dalamud|message).*\.(log|txt)/gui)) {
+				if (attachment.name.match(/(dalamud|output|message).*\.(log|txt)/gui)) {
 					// read the data
-					console.log(`Processing Dalamud log called ${attachment.attachment}`);
+					console.log(`Processing Dalamud or XIVLauncher log called ${attachment.name}`);
 					try {
 						const response = await got(attachment.attachment);
 
@@ -295,9 +295,9 @@ module.exports = async (client, message) => {
 						*/
 
 						const logdata = response?.body;
-						let results = logdata.match(/TROUBLESHOOTING:(.*)/gu);
-						if (results?.length > 0) {
-							let data = results[results.length - 1];
+						const logdresults = logdata.match(/TROUBLESHOOTING:(.*)/gu);
+						if (logdresults?.length > 0) {
+							let data = logdresults[logdresults.length - 1];
 							data = data.slice(16);
 							// console.log(`TROUBLESHOOTING:\n${data}`);
 
@@ -309,10 +309,10 @@ module.exports = async (client, message) => {
 
 							// make fancy embed and return
 							const replymessage2 = new MessageEmbed()
-								.setTitle(`Dalamud.log parse results${client.config.DEBUGMODE ? " - Debug Version" : ""}`)
+								.setTitle(`${attachment.name} TROUBLESHOOTING parse results${client.config.DEBUGMODE ? " - Debug Version" : ""}`)
 								.setDescription("Franzbot has parsed your logfile. "
 									+ "Here's some information about the plugins that were loaded.")
-								.setColor(client.config.EMBED_NORMAL_COLOR)
+								.setColor(13580863)
 								.setFooter(`DalamudVersion: ${data.DalamudVersion}\nGameVersion: ${data.GameVersion}`);
 
 							let plugintext = ">>> ";
@@ -405,9 +405,10 @@ module.exports = async (client, message) => {
 								});
 							}
 						}
-						results = logdata.match(/LASTEXCEPTION:(.*)/gu);
-						if (results.length > 0) {
-							let data = results[results.length - 1];
+
+						const lastexpresults = logdata.match(/LASTEXCEPTION:(.*)/gu);
+						if (lastexpresults?.length > 0) {
+							let data = lastexpresults[lastexpresults.length - 1];
 							data = data.slice(14);
 							// console.log(`LASTEXCEPTION:\n${data}`);
 
@@ -421,10 +422,10 @@ module.exports = async (client, message) => {
 							const timestamp = Math.round(Date.parse(data?.When) / 1000);
 
 							const replymessage3 = new MessageEmbed()
-								.setTitle(`Dalamud.log parse results for LASTEXCEPTION${client.config.DEBUGMODE ? " - Debug Version" : ""}`)
+								.setTitle(`${attachment.name} LASTEXCEPTION parse results${client.config.DEBUGMODE ? " - Debug Version" : ""}`)
 								.setDescription("Franzbot has parsed your logfile. "
 									+ "Here's some information about the last issue found in your log file.")
-								.setColor(client.config.EMBED_NORMAL_COLOR)
+								.setColor(13580863)
 								.setFooter(client.config.FRANZBOT_VERSION);
 
 							const exceptionInfo = data?.Info;
@@ -519,6 +520,133 @@ module.exports = async (client, message) => {
 							else {
 								message.reply({
 									embeds: [replymessage3],
+									allowedMentions: {
+										repliedUser: false,
+									},
+								});
+							}
+						}
+
+						const logxlresults = logdata.match(/TROUBLESHXLTING:(.*)/gu);
+						if (logxlresults?.length > 0) {
+							let data = logxlresults[logxlresults.length - 1];
+							data = data.slice(16);
+							console.log(`TROUBLESHXLTING:\n${data}`);
+
+							// decrypt from base64
+							const buffer = new Buffer.from(data, 'base64');
+							data = buffer.toString('utf8');
+							// console.log(`TROUBLESHXLTING decoded:\n${data}`);
+							data = JSON.parse(data);
+
+							// handle the injection error blob
+							const timestamp = Math.round(Date.parse(data?.When) / 1000);
+
+							/* eslint-disable sonarjs/no-duplicate-string */
+
+							const troubleshxltingreplymessage = new MessageEmbed()
+								.setTitle(`${attachment.name} XLTROUBLESHOOTING parse results${client.config.DEBUGMODE ? " - Debug Version" : ""}`)
+								.setDescription("Franzbot has parsed your logfile. "
+									+ "Here's some information about the last issue found in your log file.")
+								.setColor(4886754);
+
+
+							// launcher info
+							troubleshxltingreplymessage
+								.addField("XIVLauncher version", data.LauncherVersion, true)
+								.addField("XL Git Hash", data.LauncherHash, true)
+								.addField("Official XL Release", data.Official ? "yes" : "no", true);
+
+							// launcher settings
+							const troubleshxltingreplymessage2 = new MessageEmbed()
+								.setColor(4886754)
+								.setTitle("General Launcher Settings")
+								.addField("Autologin", data.IsAutoLogin ? "enabled" : "disabled", true)
+								.addField("DirectX", data.IsDx11 ? "dx11" : "dx9", true)
+								.addField("DPI Aware", data.DpiAwareness ? "yes" : "no", true)
+								.addField("Encrypted Arguments", data.EncryptArguments ? "enabled" : "disabled", true)
+								.addField("Steam Integration", data.SteamIntegration ? "enabled" : "disabled", true)
+								.addField("UID Cache", data.IsUidCache ? "enabled" : "disabled", true);
+							// dalamud injection
+							troubleshxltingreplymessage2
+								.addField("Dalamud", data.DalamudEnabled ? "enabled" : "disabled");
+							if (data.DalamudEnabled) {
+								troubleshxltingreplymessage2
+									.addField("Injection Method", data.DalamudLoadMethod == 0 ? "Entrypoint" : "DLL Inject", true)
+									.addField("Injection Delay", data.DalamudInjectionDelay ? `${data.DalamudInjectionDelay}ms` : "0ms", true);
+							}
+
+							// game version info
+
+							const troubleshxltingreplymessage3 = new MessageEmbed()
+								.setColor(4886754)
+								.setTitle("Game Version Information")
+								.addField("A Realm Reborn", data.ObservedGameVersion ?? "not installed", true)
+								.addField("Heavensward", data.ObservedEx1Version ?? "not installed", true)
+								.addField("Stormblood", data.ObservedEx2Version ?? "not installed", true)
+								.addField("Shadowbringers", data.ObservedEx3Version ?? "not installed", true)
+								.addField("Endwalker", data.ObservedEx4Version ?? "not installed", true)
+								.addField("BCK files match", data.BckMatch ? "yes" : "no", true);
+
+							switch (data.IndexIntegrity) {
+								case 0:
+									troubleshxltingreplymessage3
+										.addField("Index Integrity", "Failed");
+									break;
+
+								case 1:
+									troubleshxltingreplymessage3
+										.addField("Index Integrity", "Exception");
+									break;
+
+								case 2:
+									troubleshxltingreplymessage3
+										.addField("Index Integrity", "NoGame");
+									break;
+
+								case 3:
+									troubleshxltingreplymessage3
+										.addField("Index Integrity", "NoServer");
+									break;
+
+								case 4:
+									troubleshxltingreplymessage3
+										.addField("Index Integrity", "Success");
+									break;
+
+								default:
+									break;
+							}
+
+							troubleshxltingreplymessage.addField(
+								"Log Timestamp",
+								`${data?.When}\n<t:${timestamp}:F>`
+							);
+
+							troubleshxltingreplymessage3
+								.setFooter(client.config.FRANZBOT_VERSION);
+
+							/* eslint-enable sonarjs/no-duplicate-string */
+
+							if (isDirectMessage) {
+								customChannel.send({
+									embeds: [
+										troubleshxltingreplymessage,
+										troubleshxltingreplymessage2,
+										troubleshxltingreplymessage3,
+									],
+									allowedMentions: {
+										repliedUser: false,
+									},
+								});
+							}
+							else {
+								message.reply({
+									embeds: [
+										troubleshxltingreplymessage,
+										troubleshxltingreplymessage2,
+										troubleshxltingreplymessage3,
+									],
 									allowedMentions: {
 										repliedUser: false,
 									},
