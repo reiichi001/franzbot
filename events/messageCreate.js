@@ -675,23 +675,32 @@ module.exports = async (client, message) => {
 		// START custom triggers that I probably shouldn't do.
 
 		// just for Adam
-		if (message.author.id == "95483650853838848"
-			&& message.content.match(/(classic|lol|just|iconic)*\s*\bse\b\s*(things|quality)*/gui).length > 0) {
-			message.reply({
-				content: "You know, you were doing well until the very last sentence, then you lost any and all respect you'd clawed back. Have a good day.",
-				allowedMentions: {
-					repliedUser: false,
-				},
-			});
-			return;
+		let sectionIdentifier = "funnyshit";
+		if (timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
+			if (message.author.id == "95483650853838848"
+				&& message.content.match(/(classic|lol|just|iconic)*\s*\bse\b\s*(things|quality)*/gui).length > 0) {
+				message.reply({
+					content: "You know, you were doing well until the very last sentence, then you lost any and all respect you'd clawed back. Have a good day.",
+					allowedMentions: {
+						repliedUser: false,
+					},
+				});
+				return;
+			}
+
+			// just for Attick
+			if (message.author.id == "131195749017976833"
+				&& message.content.match(/(glad|happy) to help/gui)) {
+				message.channel.send("https://cdn.discordapp.com/attachments/684745859497590843/812389944013881394/unknown.png");
+				return;
+			}
+
+			timeoutManager.resetTimeout(sectionIdentifier);
+		}
+		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
+			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 
-		// just for Attick
-		if (message.author.id == "131195749017976833"
-			&& message.content.match(/(glad|happy) to help/gui)) {
-			message.channel.send("https://cdn.discordapp.com/attachments/684745859497590843/812389944013881394/unknown.png");
-			return;
-		}
 
 		// END custom triggers that I probably shouldn't do.
 
@@ -706,7 +715,7 @@ module.exports = async (client, message) => {
 
 
 		// disabled as no new patches
-		let sectionIdentifier = "newpatch";
+		sectionIdentifier = "newpatch";
 		if (client.config.NEWFFXIVPATCH) {
 			if (timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
 				forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
