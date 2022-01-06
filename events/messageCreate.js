@@ -143,7 +143,7 @@ module.exports = async (client, message) => {
 	const GoatTriggers = [
 		client.config.GUILDID_TESTING, // franzbot testing - general
 		client.config.GUILDID_GOAT, // Goatplace - general
-		client.config.XIVONMAC, // XIV on Mac - general
+		client.config.GUILDID_XIVONMAC, // XIV on Mac - general
 	];
 	const MeteorTriggers = [
 		// client.config.GUILDID_TESTING, // franzbot testing - general
