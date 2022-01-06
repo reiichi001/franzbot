@@ -1,5 +1,5 @@
 - name: SSH Execute Commands
-  uses: JimCronqvist/action-ssh@0.1.1
+  uses: JimCronqvist/action-ssh@master
  with:
     hosts: 'reiichi001@ffxivrp.org'
     privateKey: ${{ secrets.PRIVATE_KEY }}
