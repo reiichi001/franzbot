@@ -22,6 +22,13 @@ exports.run = (client, message, args) => {
 				reason: client.config.AUDITLOG_COMMON,
 			}));
 	}
+	if (message.guild.id === client.config.GUILDID_XIVONMAC) {
+		return message.reply(`\u200BDid you mean ${client.config.prefix}faq?`)
+			.then(message.delete({
+				timeout: 5000,
+				reason: client.config.AUDITLOG_COMMON,
+			}));
+	}
 
 	// If no specific command is called, show all filtered commands.
 	if (args[0]) {

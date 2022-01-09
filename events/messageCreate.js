@@ -558,6 +558,23 @@ module.exports = async (client, message) => {
 								.addField("XL Git Hash", data.LauncherHash, true)
 								.addField("Official XL Release", data.Official ? "yes" : "no", true);
 
+							switch (data.Platform) {
+								case 0:
+									troubleshxltingreplymessage
+										.addField("Platform", "Windows");
+									break;
+								case 1:
+									troubleshxltingreplymessage
+										.addField("Platform", "Wine on Linux");
+									break;
+								case 2:
+									troubleshxltingreplymessage
+										.addField("Platform", "macOS");
+									break;
+								default:
+									break;
+							}
+
 							// launcher settings
 							const troubleshxltingreplymessage2 = new MessageEmbed()
 								.setColor(4886754)

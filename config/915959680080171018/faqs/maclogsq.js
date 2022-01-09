@@ -3,7 +3,7 @@ exports.answer = async client => ({
 	description: `Please send us your **SquirrelSetup.log** log file from `
 		+ `\`~Library/Application Support/XIV on Mac/game/drive_c/users/emet-selch/Local Settings/SquirrelTemp/\``
 		+ ` in this channel, so we can look into the problem!`
-		+ `\n\nIt's best to just upload/attach the file if you can!`
+		+ `\n\nIt's best to just upload/attach the file if you can!\n\n`
 		+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	image: {
