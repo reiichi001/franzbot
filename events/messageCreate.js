@@ -127,12 +127,15 @@ module.exports = async (client, message) => {
 	}
 	// client.logger.debug(`Message type: ${message.channel.type}`);
 
-	if (message.channel.type !== 'news' && message.author.bot) {
+	// I swear to god if the channel type enum changes again, I'll scream. This should work. For now.
+	// (message.channel.type === 'GUILD_NEWS' || message.channel.type.match(/news/gui))
+
+	if (!(message.channel.type === 'GUILD_NEWS' || message.channel.type.match(/news/gui)) && message.author.bot) {
 		return;
 	}
 
 	// Franzbot should ignore webhooks too, unless it's an announcement channel
-	if (message.channel.type !== 'news' && message.webhookID) {
+	if (!(message.channel.type === 'GUILD_NEWS' || message.channel.type.match(/news/gui)) && message.webhookID) {
 		return;
 	}
 
