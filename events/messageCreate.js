@@ -602,11 +602,11 @@ module.exports = async (client, message) => {
 							const troubleshxltingreplymessage3 = new MessageEmbed()
 								.setColor(4886754)
 								.setTitle("Game Version Information")
-								.addField("A Realm Reborn", data.ObservedGameVersion ?? "not installed", true)
-								.addField("Heavensward", data.ObservedEx1Version ?? "not installed", true)
-								.addField("Stormblood", data.ObservedEx2Version ?? "not installed", true)
-								.addField("Shadowbringers", data.ObservedEx3Version ?? "not installed", true)
-								.addField("Endwalker", data.ObservedEx4Version ?? "not installed", true)
+								.addField("A Realm Reborn", data.ObservedGameVersion === "2012.01.01.0000.0000" ? "not installed" : data.ObservedGameVersion ?? "error", true)
+								.addField("Heavensward", data.ObservedEx1Version === "2012.01.01.0000.0000" ? "not installed" : data.ObservedEx1Version ?? "error", true)
+								.addField("Stormblood", data.ObservedEx2Version === "2012.01.01.0000.0000" ? "not installed" : data.ObservedEx2Version ?? "error", true)
+								.addField("Shadowbringers", data.ObservedEx3Version === "2012.01.01.0000.0000" ? "not installed" : data.ObservedEx3Version ?? "error", true)
+								.addField("Endwalker", data.ObservedEx4Version === "2012.01.01.0000.0000" ? "not installed" : data.ObservedEx4Version ?? "error", true)
 								.addField("BCK files match", data.BckMatch ? "yes" : "no", true);
 
 							switch (data.IndexIntegrity) {
