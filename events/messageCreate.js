@@ -700,8 +700,11 @@ module.exports = async (client, message) => {
 		// just for Adam
 		let sectionIdentifier = "funnyshit";
 		if (timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
-			if (message.author.id == "95483650853838848"
-				&& message.content.match(/(classic|lol|just|iconic)*\s*\bse\b\s*(things|quality)*/gui).length > 0) {
+			timeoutManager.resetTimeout(sectionIdentifier);
+			if ((message.author.id == "95483650853838848"
+			// || message.author.id == "60851293232574464"
+			)
+			&& message.content.match(/(classic|lol|just|iconic)*\s*\bse\b\s*(things|quality)*/gui)?.length > 0) {
 				message.reply({
 					content: "You know, you were doing well until the very last sentence, then you lost any and all respect you'd clawed back. Have a good day.",
 					allowedMentions: {
@@ -717,11 +720,9 @@ module.exports = async (client, message) => {
 				message.channel.send("https://cdn.discordapp.com/attachments/684745859497590843/812389944013881394/unknown.png");
 				return;
 			}
-
-			timeoutManager.resetTimeout(sectionIdentifier);
 		}
 		else if (timeoutManager.timeoutSet(sectionIdentifier)) {
-			// console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
 		}
 
 
