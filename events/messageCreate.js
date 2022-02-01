@@ -810,7 +810,7 @@ module.exports = async (client, message) => {
 
 		sectionIdentifier = "UnsupportedTools";
 		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
-			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*|no\s*clip.*)/gui);
+			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*|no\s*clip.*||l\s*meter)/gui);
 			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(s|ed|t?ing)?\b/gui);
 			negateBadWords = [];
 			forbiddenMinCount = 1;
@@ -820,7 +820,7 @@ module.exports = async (client, message) => {
 				title: client.config.TRIGGER_TITLE,
 				description: "We are unable to provide support for plugins that can only be installed via third-party repo or other third party tools. "
 					+ "Please contact the creator[s] directly, make an issue on their git repo, or ask in their support discords."
-					+ "\n\nPlease do not link to the aforementioned tool/plugin here. Thank you for your understanding!",
+					+ "\n\nPlease do not link or discuss the aforementioned tool/plugin here. Thank you for your understanding!",
 				color: client.config.EMBED_ERROR_COLOR,
 				footer: {
 					"text": client.config.TRIGGER_FOOTER,
