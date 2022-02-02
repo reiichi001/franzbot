@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
         try {
             const channel = client.channels.cache.get(selectedChannel.replace('<#','').replace('>',''));
             channel.setRateLimitPerUser(Math.floor(time * 60), reason)
-            return message.channel.send(`Setting ${selectedChannel} to slowmode for ${time} minutes.`);
+            return message.channel.send(`Setting ${selectedChannel} to a slowmode of one message per user every ${time} minutes.`);
         } catch (err) {
             console.log(err);
             return message.channel.send("Something went wrong, please verify that your arguments are correct and try again.")
