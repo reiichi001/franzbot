@@ -731,6 +731,7 @@ module.exports = async (client, message) => {
 		// process actual triggers
 		ignoredRoles = ignoredRoles.concat([
 			"moderator",
+			"tippy",
 			"demogoat",
 			"plugin developer",
 			"test",
