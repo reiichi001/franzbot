@@ -24,8 +24,37 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 		const success = await setSlowmode(interaction.member, channel, interaction.channel, time, reason);
 
 		if (success) {
+			let nicetime;
+
+			if (time.toLowerCase().endsWith("s")) {
+				nicetime = `${parseInt(time, 10)} seconds`;
+			}
+			else if (time.toLowerCase().endsWith("h")) {
+				// time in hours, convert to seconds
+				nicetime = `${parseInt(time, 10)} hour`;
+				if (parseInt(time, 10) !== 1) {
+					nicetime = `${nicetime}s`;
+				}
+			}
+			else if (time.toLowerCase() == "off") {
+				// time in hours, convert to seconds
+				nicetime = 0;
+			}
+			else {
+				// time in minutes, convert to seconds
+				nicetime = `${parseInt(time, 10)} minute`;
+				if (parseInt(time, 10) !== 1) {
+					nicetime = `${nicetime}s`;
+				}
+			}
+
+			const replymsg = nicetime === 0
+				? channel.send(`Setting ${channel} to a slowmode of one message per user every ${nicetime}.`)
+				: channel.send(`Slowmode has been turned off for ${channel}.`);
+
+
 			return await interaction.editReply({
-				content: `Setting ${channel} to a slowmode of one message per user every ${time} minutes.`,
+				content: replymsg,
 				ephemeral: true,
 			});
 		}

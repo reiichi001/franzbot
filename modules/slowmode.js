@@ -31,14 +31,15 @@ exports.setSlowmode = async (member, channel, responseChannel, time, reason = nu
 
 			if (time.toLowerCase().endsWith("s")) {
 				// time in seconds do not convert
+				timeInSeconds = parseInt(time, 10);
 			}
 			else if (time.toLowerCase().endsWith("m")) {
 				// time in minutes, convert to seconds
-				timeInSeconds = time * 60;
+				timeInSeconds = parseInt(time, 10) * 60;
 			}
 			else if (time.toLowerCase().endsWith("h")) {
 				// time in hours, convert to seconds
-				timeInSeconds = time * 60 * 60;
+				timeInSeconds = parseInt(time, 10) * 60 * 60;
 			}
 			else if (time.toLowerCase() == "off") {
 				// time in hours, convert to seconds
@@ -46,7 +47,7 @@ exports.setSlowmode = async (member, channel, responseChannel, time, reason = nu
 			}
 			else {
 				// assume minutes for now
-				timeInSeconds = time * 60;
+				timeInSeconds = parseInt(time, 10) * 60;
 			}
 
 			await channel.setRateLimitPerUser(
