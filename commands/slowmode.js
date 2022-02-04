@@ -25,7 +25,7 @@ exports.run = async (client, message, args) => {
 				nicetime = `${nicetime}s`;
 			}
 		}
-		else if (time.toLowerCase() == "off") {
+		else if (time == "0" || time.toLowerCase() == "off") {
 			// time in hours, convert to seconds
 			nicetime = 0;
 		}
@@ -38,8 +38,8 @@ exports.run = async (client, message, args) => {
 		}
 
 		return nicetime === 0
-			? channel.send(`Setting ${channel} to a slowmode of one message per user every ${nicetime}.`)
-			: channel.send(`Slowmode has been turned off for ${channel}.`);
+			? channel.send(`Slowmode has been turned off for ${channel}.`)
+			: channel.send(`Setting ${channel} to a slowmode of one message per user every ${nicetime}.`);
 	}
 
 	return message.channel.send("Something went wrong, please verify that your arguments are correct and try again.");
