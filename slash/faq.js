@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-return-await */
 /* eslint-disable consistent-return */
 const {
@@ -7,9 +8,7 @@ const {
 exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
 	try {
 		await interaction.deferReply();
-		const reply = await interaction.editReply("Ping?");
-		await interaction.editReply(`Pong! Latency is ${reply.createdTimestamp - interaction.createdTimestamp}ms.`
-			+ ` API Latency is ${Math.round(client.ws.ping)}ms.`);
+		await interaction.editReply(`This command is not ready for use yet. Please use \`${client.config.prefix}faq\` instead.`);
 	}
 	catch (e) {
 		console.log(e);
@@ -21,15 +20,18 @@ exports.commandData = (client, message) => {
 	const fuck = true;
 	const commandinfo = new SlashCommandBuilder()
 		.setName('faq')
-		.setDescription('Get info about a user or a server!');
+		.setDescription('This command is not ready for use yet.');
+
 
 	commandinfo
-		.addStringOption(option => option.setName('category')
-			.setDescription('The gif category')
-			.setRequired(false)
-			.addChoice('Funny', 'gif_funny')
-			.addChoice('Meme', 'gif_meme')
-			.addChoice('Movie', 'gif_movie'));
+		.addStringOption(option => option.setName('topic')
+			.setDescription('Display FAQ post for selected topic')
+			.setRequired(true)
+			// .addChoice('Logs', 'faq_logs')
+			// .addChoice('Help', 'gif_meme')
+			// .addChoice('Info', 'gif_movie')
+		);
+
 	return commandinfo.toJSON();
 };
 
