@@ -49,9 +49,10 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 			}
 
 			const replymsg = nicetime === 0
-				? channel.send(`Slowmode has been turned off for ${channel}.`)
-				: channel.send(`Setting ${channel} to a slowmode of one message per user every ${nicetime}.`);
+				? `Slowmode has been turned off for ${channel}.`
+				: `Setting ${channel} to a slowmode of one message per user every ${nicetime}.`;
 
+			channel.send(replymsg);
 
 			return await interaction.editReply({
 				content: replymsg,
