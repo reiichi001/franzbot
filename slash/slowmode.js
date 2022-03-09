@@ -81,6 +81,7 @@ exports.commandData = (client, message) => {
 		.addStringOption(option => option
 			.setName('time')
 			.setDescription('Set the slowmode interval. If unset, defaults to 1 minute.')
+			.addChoice("Off", "off")
 			.addChoice("5 Seconds", "5s")
 			.addChoice("10 Seconds", "10s")
 			.addChoice("15 Seconds", "15s")
