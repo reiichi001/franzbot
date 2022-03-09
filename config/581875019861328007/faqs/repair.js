@@ -1,9 +1,14 @@
 exports.answer = async client => ({
 	title: `Can I repair my FFXIV installation?`,
-	description: `Yes, in the sense that you can reinstall the game. `
-		+ `But it can be reinstalled selectively to help cut down on download/install time if needed.\n\n`
+	description: `Yes, starting in XIVLauncher 6.2.0, there is a repair game function.`
+		+ `To repair a broken FFXIV installation, right-click on the login button and select \`Repair Game Files\`.\n\n`
+		+ `NOTE: Linux users will need to be using a prefix with Wine 7 or later. If you're on an older build,`
+		+ ` please make a new prefix and migrate first.\n\n`
 		+ `More Info: [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-can-i-repair-my-ffxiv-installation)`,
 	color: client.config.EMBED_NORMAL_COLOR,
+	image: {
+		"url": "https://cdn.discordapp.com/attachments/586272168741044226/948933649296924722/unknown.png",
+	},
 	footer: {
 		"text": client.config.FRANZBOT_VERSION,
 	},
