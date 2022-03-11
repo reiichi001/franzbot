@@ -13,6 +13,6 @@ jobs:
           command: |
             cd ~/franzbot-reborn
             git pull
-          host: ffxivrp.org
+          host: 35.212.198.25
           user: reiichi001
           key: ${{ secrets.PRIVATE_KEY}}
