@@ -6,14 +6,14 @@ exports.answer = async client => ({
 		+ `[HERE](https://www.xivmac.com/faq#q-xiv-on-mac-app-reqs)`,
 	fields: [
 		{
-			"name": "Intel Macs",
-			"value: "AMD Radeon GPUs are required. Intel graphics cannot be used.",
+			name: "Intel Macs",
+			value: "AMD Radeon GPUs are required. Intel graphics cannot be used.",
 		},
 		{
-			"name" "Apple Silicon"
-			"value": "M1 or better"
+			name: "Apple Silicon",
+			value: "M1 or better",
 		},
-	]
+	],
 	color: client.config.EMBED_NORMAL_COLOR,
 	footer: {
 		"text": client.config.FRANZBOT_VERSION,
