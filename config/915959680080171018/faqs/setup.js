@@ -6,10 +6,10 @@ exports.answer = async client => ({
 	color: client.config.EMBED_NORMAL_COLOR,
 	footer: {
 		"text": client.config.FRANZBOT_VERSION
-    "image": {
-      "url": "https://media.discordapp.net/attachments/915975769010876566/953738655745343488/lsg2.png?width=1547&height=870",
     },
-	},
+    "image": {
+      "url": "https://i.imgur.com/9qTtqFL.png",
+    },
 });
 
 exports.info = {
