@@ -10,10 +10,7 @@ exports.answer = async client => ({
     "image": {
       "url": "https://i.imgur.com/9hEPTZf.png",
     },
-    "image": {
-      "url": "https://i.imgur.com/aT9L4rn.png",
-    },
-});
+  });
 
 exports.info = {
 	name: "missingDXVK",
