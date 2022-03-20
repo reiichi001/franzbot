@@ -12,6 +12,7 @@ exports.answer = async client => ({
     },
     "image": {
       "url": "https://i.imgur.com/aT9L4rn.png",
+    },
 });
 
 exports.info = {
