@@ -25,6 +25,13 @@ exports.run = async (client, message, args) => {
 		else {
 			response = await faq.answer(client);
 		}
+		if (response?.content || response?.files) {
+			return message.channel.send({
+				content: response.content ?? null,
+				embeds: [response.embed] ?? null,
+				files: response.files ?? [],
+			});
+		}
 		if (response) {
 			return message.channel.send({
 				embeds: [response],
