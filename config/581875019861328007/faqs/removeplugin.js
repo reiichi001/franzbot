@@ -23,9 +23,14 @@ exports.info = {
 	name: "removeplugin",
 	category: "files",
 	aliases: [
+		"removeplugins",
 		"badplugin",
 		"deleteplugin",
+		"reinstallplugin",
+		"uninstallplugin",
+		"badplugins",
 		"deleteplugins",
-		"removeplugins",
+		"reinstallplugins",
+		"uninstallplugins",
 	],
 };

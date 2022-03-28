@@ -19,8 +19,8 @@ exports.info = {
 	name: "removedalamud",
 	category: "files",
 	aliases: [
-		"deletedalamud",
 		"baddalamud",
+		"deletedalamud",
 		"reinstalldalamud",
 		"uninstalldalamud",
 	],

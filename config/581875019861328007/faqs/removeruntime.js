@@ -1,6 +1,6 @@
 exports.answer = async client => ({
-	title: `Generic steps to remove the .Net 5 runtime manually`,
-	description: `General "how to delete the packaged .Net 5 runtime" steps:\n`
+	title: `Generic steps to remove the Dalamud internal .Net runtime manually`,
+	description: `General "how to delete the packaged .Net runtime" steps:\n`
 		+ `1. Close the game and xivlauncher\n`
 		+ `2. Go to \`%AppData%\\XIVLauncher\`\n`
 		+ `3. Remove the \`runtime\` folder\n`
@@ -19,9 +19,14 @@ exports.info = {
 	name: "removeruntime",
 	category: "files",
 	aliases: [
-		"runtimeremove",
-		"deleteruntime",
-		"deleteruntimes",
 		"removeruntimes",
+		"badruntime",
+		"deleteruntime",
+		"reinstallruntime",
+		"uninstallruntime",
+		"badruntimes",
+		"deleteruntimes",
+		"reinstallruntimes",
+		"uninstallruntimes",
 	],
 };
