@@ -39,10 +39,20 @@ exports.run = async (client, message, args) => {
 
 		return nicetime === 0
 			? channel.send(`Slowmode has been turned off for ${channel}.`)
-			: channel.send(`Setting ${channel} to a slowmode of one message per user every ${nicetime}.`);
+				.then(msg => {
+					setTimeout(() => msg.delete(), 5 * 60 * 60);
+				})
+			: channel.send(`Setting ${channel} to a slowmode of one message per user every ${nicetime}.`)
+				.then(msg => {
+					setTimeout(() => msg.delete(), 5 * 60 * 60);
+				});
 	}
 
-	return message.channel.send("Something went wrong, please verify that your arguments are correct and try again.");
+	return message.channel.send("Something went wrong with the slowmode command. "
+		+ "Please verify that your arguments are correct and try again.")
+		.then(msg => {
+			setTimeout(() => msg.delete(), 5 * 60 * 60);
+		});
 };
 
 exports.conf = {

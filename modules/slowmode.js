@@ -62,6 +62,11 @@ exports.setSlowmode = async (member, channel, responseChannel, time, reason = nu
 		}
 	}
 	else {
-		return responseChannel.send("You do not have permission to use that command.");
+		await responseChannel.send(`${member.displayName}, you do not have permission to use slowmode commands here.`)
+			.then(msg => {
+				setTimeout(() => msg.delete(), 5 * 60 * 60);
+			});
+
+		return false;
 	}
 };

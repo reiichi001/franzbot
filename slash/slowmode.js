@@ -52,7 +52,10 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 				? `Slowmode has been turned off for ${channel}.`
 				: `Setting ${channel} to a slowmode of one message per user every ${nicetime}.`;
 
-			channel.send(replymsg);
+			channel.send(replymsg)
+				.then(msg => {
+					setTimeout(() => msg.delete(), 5 * 60 * 60);
+				});
 
 			return await interaction.editReply({
 				content: replymsg,
