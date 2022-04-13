@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 exports.answer = async client => ({
 	title: `Updated to macOS 12.3 and now your controller is acting weird?`,
 	description: `Due to a regression in macOS 12.3 controllers may not function as expected, or not be useable at all. \n `
@@ -10,12 +11,13 @@ exports.answer = async client => ({
 });
 
 exports.info = {
-	name: "controllerRegression",
+	name: "123controller",
 	category: "info",
 	aliases: [
 		"controller",
-		"12.3Controller",
-		"PS4",
-		"Xboxone",
+		"12.3controller",
+		"ps4",
+		"controllerregression",
+		"xboxone",
 	],
 };

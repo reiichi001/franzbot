@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 exports.answer = async client => ({
 	title: `XIV on Mac Application Requirements`,
 	description: `The XIV on Mac Application currently requires macOS Catalina 10.15 or later, although it is recommended to be on macOS Montery 12.0 or later for the best experience. Please check out <https://www.xivmac.com/compatibility-database> for more information.`

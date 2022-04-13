@@ -1,6 +1,6 @@
 exports.answer = async client => ({
-	title: `Please send us your app.log file`,
-	description: `Please send us your **app.log** log file from `
+	title: `Please send us your wine.log file`,
+	description: `Please send us your **wine.log** log file from `
 		+ `\`~/Library/Application Support/XIV on Mac\``
 		+ ` in this channel, so we can look into the problem!`
 		+ `\n\nIt's best to just upload/attach the file if you can!`
@@ -15,17 +15,17 @@ exports.answer = async client => ({
 });
 
 exports.info = {
-	name: "macloga",
+	name: "maclogw",
 	category: "logs",
 	aliases: [
-		// "loga", // only uncomment this for the xivonmac server
-		"macloga",
-		"maclogapp",
-		"logamac",
-		"applogmac",
-		"macosloga",
-		"macoslogapp",
-		"logamacos",
-		"applogmacos",
+		// "logw", // only uncomment this for the xivonmac server
+		"maclogw",
+		"maclogwine",
+		"logwmac",
+		"winelogmac",
+		"macoslogw",
+		"macoslogwine",
+		"logwmacos",
+		"winelogmacos",
 	],
 };
