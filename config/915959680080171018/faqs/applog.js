@@ -15,17 +15,11 @@ exports.answer = async client => ({
 });
 
 exports.info = {
-	name: "macloga",
+	name: "applog",
 	category: "logs",
 	aliases: [
-		"loga", // only uncomment this for the xivonmac server
-		"macloga",
-		"maclogapp",
-		"logamac",
-		"applogmac",
-		"macosloga",
-		"macoslogapp",
-		"logamacos",
-		"applogmacos",
+		"app.log", // only uncomment this for the xivonmac server
+		"applog",
+		"macloga"
 	],
 };

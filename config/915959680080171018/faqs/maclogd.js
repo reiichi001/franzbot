@@ -19,7 +19,7 @@ exports.info = {
 	name: "maclogd",
 	category: "logs",
 	aliases: [
-		"logd", // only for XIV on Mac
+		"dalamud.log", // only for XIV on Mac
 		"maclogdalamud",
 		"macdalamudlog",
 		"macdlog",
