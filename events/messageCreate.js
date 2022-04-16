@@ -910,7 +910,7 @@ module.exports = async (client, message) => {
 					},
 					{
 						"name": "XIVLauncher/Dalamud",
-						"value": "If you have a gitHub account, please submit an issue/feature request for [XIVLauncher](https://github.com/goatcorp/FFXIVQuickLauncher/issues) or [Dalamud](https://github.com/goatcorp/Dalamud/issues) on their respective Github repos.",
+						"value": "If you have a GitHub account, please submit an issue/feature request for [XIVLauncher](https://github.com/goatcorp/FFXIVQuickLauncher/issues) or [Dalamud](https://github.com/goatcorp/Dalamud/issues) on their respective GitHub repos.",
 					},
 				],
 			};
