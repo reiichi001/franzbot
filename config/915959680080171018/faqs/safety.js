@@ -28,4 +28,3 @@ exports.info = {
 		"secure",
 	],
 };
-

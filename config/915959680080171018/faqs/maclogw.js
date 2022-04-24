@@ -18,9 +18,9 @@ exports.info = {
 	name: "maclogw",
 	category: "logs",
 	aliases: [
-		"logw", // only uncomment this for the xivonmac server
-		"maclogw",
-		"maclogwine",
+		"wine.log", // only uncomment this for the xivonmac server
+		"wine",
+		"winelog",
 		"logwmac",
 		"winelogmac",
 		"macoslogw",
