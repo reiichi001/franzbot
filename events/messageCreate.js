@@ -661,6 +661,16 @@ module.exports = async (client, message) => {
 										repliedUser: false,
 									},
 								});
+								message.reply({
+									embeds: [
+										troubleshxltingreplymessage,
+										troubleshxltingreplymessage2,
+										troubleshxltingreplymessage3,
+									],
+									allowedMentions: {
+										repliedUser: false,
+									},
+								});
 							}
 							else {
 								message.reply({
