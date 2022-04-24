@@ -81,6 +81,20 @@ const init = async () => {
 		}
 		client.perserversettings.set(dirname, faqentries);
 		// logger.log(`Finished Loading FAQs for ${dirname}. 👌`, "log");
+
+		logger.log(`Loading per-server config for ${dirname}`);
+		const serverSettings = new JSONdb(`./config/${dirname}/perserversettings.json`, {
+			syncOnWrite: true,
+			jsonSpaces: 4,
+		});
+
+		logger.log("loading command ignore list");
+		let ignoredUsers = serverSettings.get("ignoredUsers");
+		if (!Array.isArray(ignoredUsers)) {
+			ignoredUsers = [];
+			serverSettings.set("ignoredUsers", ignoredUsers);
+		}
+		client.perserversettings.set(`${dirname}-ignoredUsers`, ignoredUsers);
 	}
 
 	// Here we load **commands** into memory, as a collection, so they're accessible

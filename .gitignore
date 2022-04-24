@@ -1,5 +1,6 @@
 
 config\.json
+perserversettings\.json
 
 node_modules/
 

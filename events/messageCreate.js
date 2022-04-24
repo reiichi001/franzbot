@@ -4,6 +4,8 @@ const {
 } = require('discord.js');
 const got = require('got');
 
+const logger = require("../modules/Logger");
+
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 
@@ -1113,6 +1115,22 @@ module.exports = async (client, message) => {
 	// If the member on a guild is invisible or not cached, fetch them.
 	if (message.guild && !message.member) {
 		message.guild.fetchMember(message.author);
+	}
+
+	// If the member was added to a server's ignorelist, don't process the command
+	logger.debug(`loading ${message.guild.id}-ignoredUsers`);
+	const ignoredUsers = client.perserversettings.get(`${message.guild.id}-ignoredUsers`);
+	logger.debug(`checking ignored users: ${ignoredUsers}`);
+	if (ignoredUsers?.includes(message.author.id)) {
+		await message.reply("You can't use that command.")
+			.then(msg => {
+				setTimeout(() => msg.delete(), 5 * SECOND);
+			})
+			.then(origMsg => {
+				// only works if Franzbot is allowed to manage messages.
+				setTimeout(() => message.delete(), 5 * SECOND);
+			});
+		return;
 	}
 
 	// Check whether the command, or alias, exist in the collections defined
