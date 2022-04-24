@@ -21,5 +21,5 @@ exports.info = {
 		"DT1F",
 		"injectiondelay",
 		"dalamuddelay",
-		],
+	],
 };

@@ -26,11 +26,11 @@ exports.commandData = (client, message) => {
 	commandinfo
 		.addStringOption(option => option.setName('topic')
 			.setDescription('Display FAQ post for selected topic')
-			.setRequired(true)
-			// .addChoice('Logs', 'faq_logs')
-			// .addChoice('Help', 'gif_meme')
-			// .addChoice('Info', 'gif_movie')
-		);
+			.setRequired(true));
+	// .addChoice('Logs', 'faq_logs')
+	// .addChoice('Help', 'gif_meme')
+	// .addChoice('Info', 'gif_movie')
+
 
 	return commandinfo.toJSON();
 };
