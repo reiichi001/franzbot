@@ -9,7 +9,7 @@ exports.answer = async client => ({
 		"text": client.config.FRANZBOT_VERSION
     },
     "image": {
-      "url": "https://i.imgur.com/GaKCkJJ.png",
+      "url": "https://i.imgur.com/Eq8LlVZ.png",
     },
   });
 
