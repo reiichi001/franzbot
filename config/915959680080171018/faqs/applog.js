@@ -20,6 +20,6 @@ exports.info = {
 	aliases: [
 		"app.log", // only uncomment this for the xivonmac server
 		"applog",
-		"macloga"
+		"macloga",
 	],
 };
