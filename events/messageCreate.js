@@ -374,12 +374,8 @@ module.exports = async (client, message) => {
 										);
 								}
 							}
-
+							//
 							replymessage2
-								.addField(
-									"Has third party repos",
-									data.HasThirdRepo ? "Yes" : "No"
-								)
 								.addField(
 									"Dalamud Testing",
 									data.BetaKey ?? "null",
@@ -388,6 +384,15 @@ module.exports = async (client, message) => {
 								.addField(
 									"Plugin Testing",
 									data.DoPluginTest ? "Yes" : "No",
+									true
+								)
+								.addField(
+									"Has third party repos",
+									data.HasThirdRepo ? "Yes" : "No"
+								)
+								.addField(
+									"Loading all API levels",
+									data.LoadAllApiLevels ? "Yes" : "No",
 									true
 								)
 								.addField(
