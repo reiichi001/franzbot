@@ -1,6 +1,6 @@
 exports.answer = async client => ({
 	"title": `Download Error downloading the base game archive? Try a VPN`,
-	"description": 'Some ISPs block the servers SquareEnix uses for downloading the game", \n'
+	"description": 'Some ISPs block the servers SquareEnix uses for downloading the game, \n'
     + 'Using a VPN will get the game to download, most free trials will work. \n'
 		+ "This is something between your ISP and SE's servers, not XIV on Mac",
 
