@@ -1,6 +1,6 @@
 exports.answer = async client => ({
 	"title": `Can't find character config data? We need permissions!`,
-	"description": 'In Security and privacy in System preferences, grant XIV on Mac", \n'
+	"description": 'In Security and privacy in System preferences, grant XIV on Mac, \n'
     + 'permissions to your documents folder. This is what happens when you press \n'
 		+ "no on the dialogue asking for permissons",
 

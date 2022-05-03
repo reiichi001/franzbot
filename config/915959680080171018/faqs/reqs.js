@@ -7,7 +7,7 @@ exports.answer = async client => ({
 	fields: [
 		{
 			name: "Intel Macs",
-			value: "AMD Radeon GPUs are required. Intel graphics cannot be used.",
+			value: "AMD Radeon GPUs are required. Intel GPUs are not and will not be supported so don't ask.",
 		},
 		{
 			name: "Apple Silicon",
