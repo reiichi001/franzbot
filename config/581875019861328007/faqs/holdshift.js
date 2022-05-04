@@ -16,5 +16,6 @@ exports.info = {
 		"shift",
 		"disableautologin",
 		"stopautologin",
+		"autologin",
 	],
 };
