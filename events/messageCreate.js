@@ -717,7 +717,7 @@ module.exports = async (client, message) => {
 
 		// just for Adam
 		let sectionIdentifier = "funnyshit";
-		if (timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
+		if (message.guild.id !== client.config.GUILDID_XIVONMAC || timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
 			timeoutManager.resetTimeout(sectionIdentifier);
 			if ((message.author.id == "95483650853838848"
 			// || message.author.id == "60851293232574464"
@@ -762,7 +762,7 @@ module.exports = async (client, message) => {
 
 		// disabled as no new patches
 		sectionIdentifier = "newpatch";
-		if (client.config.NEWFFXIVPATCH) {
+		if (message.guild.id !== client.config.GUILDID_XIVONMAC || client.config.NEWFFXIVPATCH) {
 			if (timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
 				forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
 				forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
@@ -795,7 +795,7 @@ module.exports = async (client, message) => {
 		}
 
 		sectionIdentifier = "SupportedElsewhere";
-		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
+		if (message.guild.id !== client.config.GUILDID_XIVONMAC || timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
 			forbidAny.push(/(sonar|delvui|aether\s*sense|fvp|vibe_*\s*plugin)/gui);
 			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(ed|t?ing)?\b/gui);
 			negateBadWords = [];
@@ -828,7 +828,7 @@ module.exports = async (client, message) => {
 		}
 
 		sectionIdentifier = "UnsupportedTools";
-		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
+		if (message.guild.id !== client.config.GUILDID_XIVONMAC || timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
 			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*|no\s*clip.*|l\s*meter)/gui);
 			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(s|ed|t?ing)?\b/gui);
 			negateBadWords = [];
