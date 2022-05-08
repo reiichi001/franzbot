@@ -20,5 +20,7 @@ exports.info = {
 		"path",
 		"ffxivpath",
 		"ffxivinstall",
+		"installpath",
+		"ffxivinstallpath",
 	],
 };
