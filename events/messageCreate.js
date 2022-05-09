@@ -762,7 +762,7 @@ module.exports = async (client, message) => {
 
 		// disabled as no new patches
 		sectionIdentifier = "newpatch";
-		if (message.guild.id !== client.config.GUILDID_XIVONMAC && client.config.NEWFFXIVPATCH) {
+		if (client.config.NEWFFXIVPATCH) {
 			if (timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
 				forbidAny.push(/(plugin|dalamud|launcher|in-game|in game|XL|XIVLauncher|XIV Launcher|combo|moaction|mouseover)/igu);
 				forbidCount.push(/(update|(not|n't)\s+(work|exist|use)|when|eta|why|yet)+(?!.*\1)/igu);
@@ -795,7 +795,7 @@ module.exports = async (client, message) => {
 		}
 
 		sectionIdentifier = "SupportedElsewhere";
-		if (message.guild.id !== client.config.GUILDID_XIVONMAC && timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
+		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
 			forbidAny.push(/(sonar|delvui|aether\s*sense|fvp|vibe_*\s*plugin)/gui);
 			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(ed|t?ing)?\b/gui);
 			negateBadWords = [];
@@ -828,8 +828,8 @@ module.exports = async (client, message) => {
 		}
 
 		sectionIdentifier = "UnsupportedTools";
-		if (message.guild.id !== client.config.GUILDID_XIVONMAC && timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
-			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*|no\s*clip.*|l\s*meter)/gui);
+		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
+			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*|no\s*clip.*|l\s*meter|cammy|oobplugin|sloth|combo\s*expand.*|splatoon)/gui);
 			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(s|ed|t?ing)?\b/gui);
 			negateBadWords = [];
 			forbiddenMinCount = 1;
