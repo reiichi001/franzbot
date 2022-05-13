@@ -1,6 +1,6 @@
 exports.answer = async client => ({
-	title: `Please send us your output.log file (XLCore Linux edition)`,
-	description: `Please send us your **output.log** log file from `
+	title: `Please send us your launcher.log file (XLCore Linux edition)`,
+	description: `Please send us your **launcher.log** log file from `
 		+ `\`~/.xlcore/logs\``
 		+ ` in this channel, so we can look into the problem!`
 		+ `\n\nIt's best to just upload/attach the file if you can!`
