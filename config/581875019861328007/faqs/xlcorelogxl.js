@@ -1,5 +1,5 @@
 exports.answer = async client => ({
-	title: `Please send us your output.log file (Linux edition)`,
+	title: `Please send us your output.log file (XLCore Linux edition)`,
 	description: `Please send us your **output.log** log file from `
 		+ `\`~/.xlcore/logs\``
 		+ ` in this channel, so we can look into the problem!`
@@ -19,20 +19,19 @@ exports.answer = async client => ({
 });
 
 exports.info = {
-	name: "linuxlogxl",
+	name: "xlcorelogxl",
 	category: "logs",
 	aliases: [
 		"xlcorelog",
-		"xlcorelogs",
 		"logxlcore",
-		"logsxlcore",
+		"logxlxlcore",
 		"flatpaklog",
-		"flatpaklogs",
+		"flatpaklogxl",
 		"logflatpak",
-		"logsflatpak",
+		"logxlflatpak",
 		"steamdecklog",
-		"steamdecklogs",
-		"logsteamdeck",
-		"logssteamdeck",
+		"steamdecklogxl",
+		"logxlteamdeck",
+		"logsxlteamdeck",
 	],
 };

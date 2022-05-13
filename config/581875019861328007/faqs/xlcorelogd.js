@@ -1,7 +1,7 @@
 
-  
+
 exports.answer = async client => ({
-	title: `Please send us your dalamud.log file (Linux edition)`,
+	title: `Please send us your dalamud.log file (XLCore Linux edition)`,
 	description: `Please send us your **dalamud.log** log file from `
 		+ `\`~/.xlcore/\``
 		+ ` in this channel, so we can look into the problem!`
@@ -32,7 +32,7 @@ exports.info = {
 		"dalamudlogflatpak",
 		"logdalamudflatpak",
 		"dlogflatpak",
-                "decklogdalamud",
+		"decklogdalamud",
 		"deckdalamudlog",
 		"deckdlog",
 		"decklogdl",
@@ -40,7 +40,7 @@ exports.info = {
 		"dalamudlogdeck",
 		"logdalamuddeck",
 		"dlogdeck",
-                "steamdecklogdalamud",
+		"steamdecklogdalamud",
 		"steamdeckdalamudlog",
 		"steamdeckdlog",
 		"steamdecklogdl",
