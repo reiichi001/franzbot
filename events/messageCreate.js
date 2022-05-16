@@ -829,7 +829,7 @@ module.exports = async (client, message) => {
 
 		sectionIdentifier = "UnsupportedTools";
 		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
-			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*|no\s*clip.*|l\s*meter|cammy|oobplugin|sloth|combo\s*expand.*|splatoon|makeplace)/gui);
+			forbidAny.push(/(bdth|burn[ing]*\s*down\s*the\s*house|xiv\s*alex.*|no\s*clip.*|l\s*meter|cammy|oobplugin|sloth|combo\s*expand.*|splatoon|makeplace)/gui);
 			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(s|ed|t?ing)?\b/gui);
 			negateBadWords = [];
 			forbiddenMinCount = 1;
