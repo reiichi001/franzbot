@@ -18,6 +18,7 @@ exports.info = {
 	aliases: [
 		"modern",
 		"azyscrash",
+		"azys",
 
 	],
 };
