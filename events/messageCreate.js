@@ -717,7 +717,7 @@ module.exports = async (client, message) => {
 
 		// just for Adam
 		let sectionIdentifier = "funnyshit";
-		if (timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
+		if (message.guild.id !== client.config.GUILDID_XIVONMAC && timeoutManager.timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
 			timeoutManager.resetTimeout(sectionIdentifier);
 			if ((message.author.id == "95483650853838848"
 			// || message.author.id == "60851293232574464"
@@ -829,7 +829,7 @@ module.exports = async (client, message) => {
 
 		sectionIdentifier = "UnsupportedTools";
 		if (timeoutManager.timeoutEnded(sectionIdentifier, 3 * SECOND)) {
-			forbidAny.push(/(bdth|burn[ing]* down the house|xiv\s*alex.*|no\s*clip.*|l\s*meter)/gui);
+			forbidAny.push(/(bdth|burn[ing]*\s*down\s*the\s*house|xiv\s*alex.*|no\s*clip.*|l\s*meter|cammy|oobplugin|sloth|combo\s*expand.*|splatoon|makeplace)/gui);
 			forbidCount.push(/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(s|ed|t?ing)?\b/gui);
 			negateBadWords = [];
 			forbiddenMinCount = 1;
