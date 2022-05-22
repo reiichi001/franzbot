@@ -17,6 +17,7 @@ exports.info = {
 	category: "help",
 	aliases: [
 		"modern",
+		"azyscrash",
 		"azys",
 
 	],
