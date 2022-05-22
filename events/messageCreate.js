@@ -635,10 +635,15 @@ module.exports = async (client, message) => {
 
 								case 3:
 									troubleshxltingreplymessage3
-										.addField("Index Integrity", "NoServer");
+										.addField("Index Integrity", "ReferenceNotFound");
 									break;
 
 								case 4:
+									troubleshxltingreplymessage3
+										.addField("Index Integrity", "ReferenceFetchFailure");
+									break;
+
+								case 5:
 									troubleshxltingreplymessage3
 										.addField("Index Integrity", "Success");
 									break;
