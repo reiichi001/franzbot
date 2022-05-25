@@ -1,7 +1,7 @@
 exports.answer = async client => ({
-	title: `XL Saved Credentials`,
-	description: `Having an issue with saved credentials or your FFXIV Account? See `
-		+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-xiv-isnt-saving-my-new-password--how-do-i-clear-my-saved-password)`,
+	title: `XIV on Mac Saved Credentials`,
+	description: `Having an issue with saved credentials on your FFXIV Account?`
+		+ `Credentials are saved in macOS's keychain application (keychain-access in /Applications/Utilities)`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	footer: {
 		"text": client.config.FRANZBOT_VERSION,
