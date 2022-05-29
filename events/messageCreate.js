@@ -754,9 +754,11 @@ module.exports = async (client, message) => {
 		// process actual triggers
 		ignoredRoles = ignoredRoles.concat([
 			"moderator",
+			"team",
 			"tippy",
 			"demogoat",
 			"plugin developer",
+			"plugin creator",
 			"test",
 			"botters",
 			"XIV on Mac Team",
@@ -809,7 +811,7 @@ module.exports = async (client, message) => {
 			replyMessage = {
 
 				title: "Automated Message Response",
-				description: "While this tool is on the official Dalamud Plugins repository, support for it is provided elsewhere. "
+				description: "While this tool is on the official Dalamud Plugins repository (or used to be or is planned to be), support for it is provided elsewhere. "
 					+ "Please contact the creator[s] directly or ask in their support discords."
 					+ "\n\nIf they have a third party repo URL or Discord link, someone may link is as long as it doesn't provide other unofficial plugins. "
 					+ "Thank you for your understanding!",
