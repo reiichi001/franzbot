@@ -755,8 +755,7 @@ module.exports = async (client, message) => {
 		ignoredRoles = ignoredRoles.concat([
 			"moderator",
 			"team",
-			"tippy",
-			"demogoat",
+			"friends", // FORMERLY: demogoat
 			"plugin developer",
 			"plugin creator",
 			"test",
