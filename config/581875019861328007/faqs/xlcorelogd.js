@@ -48,6 +48,7 @@ exports.info = {
 		"dalamudlogsteamdeck",
 		"logdalamudsteamdeck",
 		"dlogsteamdeck",
+		"xlcorelogd",
 		"xlcorelogdalamud",
 		"xlcoredalamudlog",
 		"xlcoredlog",

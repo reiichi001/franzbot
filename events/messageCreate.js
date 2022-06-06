@@ -273,6 +273,7 @@ module.exports = async (client, message) => {
 						content: `Franzbot has relayed a crash dump to a private channel for analysis.`,
 					});
 
+
 					if (!isDirectMessage) {
 						// try to delete this out of the channel it was in.
 						// const curChannel = message.channel;
@@ -283,6 +284,24 @@ module.exports = async (client, message) => {
 							}));
 							*/
 							.catch(console.error);
+					}
+				}
+
+				// relay dalamud.injector.log files from goatplace (or DMs)
+				if (attachment.name.match(/dalamud\.injector.*\.(log)/gui)) {
+					console.log(`Dalamud injector log upload: ${attachment.attachment}`);
+					// const response = await got(attachment.attachment);
+					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
+					await customChannel.send({
+						content: `${message.author.username} (${message.author}) uploaded a dalamud.injector log in ${isDirectMessage ? "DMs" : message.channel}.`,
+						files: [attachment],
+					});
+					await message.channel.send({
+						content: `Franzbot has relayed this log to a private channel for analysis.`,
+					});
+
+					if (!isDirectMessage) {
+						await message.delete().catch(console.error);
 					}
 				}
 
@@ -754,9 +773,10 @@ module.exports = async (client, message) => {
 		// process actual triggers
 		ignoredRoles = ignoredRoles.concat([
 			"moderator",
-			"tippy",
-			"demogoat",
+			"team",
+			"friends", // FORMERLY: demogoat
 			"plugin developer",
+			"plugin creator",
 			"test",
 			"botters",
 			"XIV on Mac Team",
@@ -809,7 +829,7 @@ module.exports = async (client, message) => {
 			replyMessage = {
 
 				title: "Automated Message Response",
-				description: "While this tool is on the official Dalamud Plugins repository, support for it is provided elsewhere. "
+				description: "While this tool is on the official Dalamud Plugins repository (or used to be or is planned to be), support for it is provided elsewhere. "
 					+ "Please contact the creator[s] directly or ask in their support discords."
 					+ "\n\nIf they have a third party repo URL or Discord link, someone may link is as long as it doesn't provide other unofficial plugins. "
 					+ "Thank you for your understanding!",
