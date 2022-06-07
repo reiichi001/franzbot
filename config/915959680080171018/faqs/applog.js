@@ -1,7 +1,7 @@
 exports.answer = async client => ({
-	title: `Please send us your app.log file`,
-	description: `Please send us your **app.log** log file from `
-		+ `\`~/Library/Application Support/XIV on Mac\``
+	title: `Please send us your launcher.log file`,
+	description: `Please send us your **launcher.log** log file from `
+		+ `\`~/Library/Application Support/XIV on Mac/logs\``
 		+ ` in this channel, so we can look into the problem!`
 		+ `\n\nIt's best to just upload/attach the file if you can!`
 		+ `\n\nUse Finder's 'Go to Folder...' option in the Go menu or SHIFT+CMD+G and paste the above path in!`,
@@ -18,8 +18,9 @@ exports.info = {
 	name: "applog",
 	category: "logs",
 	aliases: [
-		"app.log", // only uncomment this for the xivonmac server
-		"applog",
+		"maclogl", // only uncomment this for the xivonmac server
+		"launcherlog",
+		"launcher.log",
 		"macloga",
 	],
 };
