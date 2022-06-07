@@ -1,5 +1,5 @@
 exports.answer = async client => ({
-	title: `Please send us your SquirrelSetup.log file (Linux edition)`,
+	title: `Please send us your SquirrelSetup.log file (Lutris edition)`,
 	description: `Please send us your **SquirrelSetup.log** log file from `
 		+ `\`$WINEPREFIX/drive_c/users/$USER/Appdata/Local/SquirrelTemp/\``
 		+ ` in this channel, so we can look into the problem!`
@@ -11,7 +11,7 @@ exports.answer = async client => ({
 		+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	image: {
-		"url": client.config.WINDOWSEXPLORERSCREENSHOT,
+		"url": client.config.lutrisFILEBROWSERSCREENSHOT,
 	},
 	footer: {
 		"text": client.config.FRANZBOT_VERSION,
@@ -19,12 +19,12 @@ exports.answer = async client => ({
 });
 
 exports.info = {
-	name: "linuxlogsq",
+	name: "lutrislogsq",
 	category: "logs",
 	aliases: [
-		"linuxlogsq",
-		"linuxlogsquirrel",
-		"logsqlinux",
-		"squirreloglinux",
+		"lutrislogsq",
+		"lutrislogsquirrel",
+		"logsqlutris",
+		"squirreloglutris",
 	],
 };
