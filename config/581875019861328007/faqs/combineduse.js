@@ -8,7 +8,7 @@ exports.answer = async client => ({
 		+ `Essentially, if we are assisting you in troubleshooting an issue, and you provide that you use both, `
 		+ `we would be unable to assist any further until you repair your game using the XIV Launcher Repair tool, `
 		+ `or download index backups and Start Over in Textools.\n\n`
-		+ `See \`${client.config.prefix}repair\` for more info.`,
+		+ `See \`${client.config.prefix}faq repair\` for more info.`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	image: {
 		"url": "https://cdn.discordapp.com/attachments/586272168741044226/948933649296924722/unknown.png",
