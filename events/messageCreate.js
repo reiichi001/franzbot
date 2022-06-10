@@ -276,7 +276,7 @@ module.exports = async (client, message) => {
 						files: [attachment],
 					});
 					await message.channel.send({
-						content: `Franzbot has relayed a crash dump to a private channel for analysis.`,
+						content: `Franzbot has relayed a crash dump to a private channel in ${customChannel.guild.name} for analysis.`,
 					});
 
 
@@ -303,7 +303,7 @@ module.exports = async (client, message) => {
 						files: [attachment],
 					});
 					await message.channel.send({
-						content: `Franzbot has relayed this log to a private channel for analysis.`,
+						content: `Franzbot has relayed this log to a private channel in ${customChannel.guild.name} for analysis.`,
 					});
 
 					if (!isDirectMessage) {
