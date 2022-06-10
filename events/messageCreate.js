@@ -221,7 +221,13 @@ module.exports = async (client, message) => {
 		console.log(`Found in GoatTriggers: ${isDirectMessage ? "direct message" : message.channel.name}`);
 
 		// some debugging
-		let customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_GOAT);
+		let customChannel = null;
+		if (message.guild.id === client.config.GUILDID_GOAT) {
+			await client.channels.fetch(client.config.CHANNELID_RELAY_GOAT);
+		}
+		if (message.guild.id === client.config.GUILDID_XIVONMAC) {
+			await client.channels.fetch(client.config.CHANNELID_RELAY_XIVONMAC);
+		}
 		if (client.config.DEBUGMODE) {
 			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_TEST);
 		}
@@ -266,7 +272,7 @@ module.exports = async (client, message) => {
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
 					await customChannel.send({
-						content: `${message.author.username} (${message.author}) uploaded a crash log in ${isDirectMessage ? "DMs" : message.channel}.`,
+						content: `${message.author.username} (${message.author}) uploaded a crash log in ${isDirectMessage ? "DMs" : `${message.channel} from ${message.guild.name}`}.`,
 						files: [attachment],
 					});
 					await message.channel.send({
@@ -293,7 +299,7 @@ module.exports = async (client, message) => {
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
 					await customChannel.send({
-						content: `${message.author.username} (${message.author}) uploaded a dalamud.injector log in ${isDirectMessage ? "DMs" : message.channel}.`,
+						content: `${message.author.username} (${message.author}) uploaded a dalamud.injector log in ${isDirectMessage ? "DMs" : `${message.channel} from ${message.guild.name}`}.`,
 						files: [attachment],
 					});
 					await message.channel.send({
