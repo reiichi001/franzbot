@@ -51,6 +51,7 @@ client.slashcmds = new Collection();
 client.buttoncmds = new Collection();
 client.perserversettings = new Collection();
 client.perserveraliases = new Collection();
+client.perservertriggers = new Collection();
 
 const init = async () => {
 	// Now let's load up some per-server config
@@ -60,27 +61,44 @@ const init = async () => {
 		.filter(folder => folder.isDirectory())
 		.map(dir => dir.name);
 	for (const dirname of perserversettings) {
-		if (!existsSync(`./config/${dirname}/faqs/`)) {
-			continue;
+		// logger.log(`Looking in "${dirname}"`);
+		if (existsSync(`./config/${dirname}/faqs/`)) {
+			logger.log(`Loading FAQs for ${dirname}`);
+			const faqsToLoad = readdirSync(`./config/${dirname}/faqs/`).filter(file => file.endsWith(".js"));
+			const faqentries = new Collection();
+			if (faqsToLoad.length === 0) {
+				logger.log(`No FAQs found for ${dirname}`);
+				continue;
+			}
+			for (const faq of faqsToLoad) {
+				// logger.debug(`./config/${dirname}/faqs/${faq}`);
+				const faqentry = require(`./config/${dirname}/faqs/${faq}`);
+				faqentries.set(faqentry.info.name, faqentry);
+				faqentry.info.aliases.forEach(alias => {
+					client.perserveraliases.set(alias, faqentry.info.name);
+				});
+				logger.debug(`Loaded the ${faqentry.info.name} FAQ`);
+			}
+			client.perserversettings.set(dirname, faqentries);
+			// logger.log(`Finished Loading FAQs for ${dirname}. 👌`, "log");
 		}
-		logger.log(`Loading FAQs for ${dirname}`);
-		const serversettings = readdirSync(`./config/${dirname}/faqs/`).filter(file => file.endsWith(".js"));
-		const faqentries = new Collection();
-		if (serversettings.length === 0) {
-			logger.log(`No FAQs found for ${dirname}`);
-			continue;
+
+		if (existsSync(`./config/${dirname}/triggers/`)) {
+			// logger.log(`Loading Triggers for ${dirname}`);
+			const triggersToLoad = readdirSync(`./config/${dirname}/triggers/`).filter(file => file.endsWith(".js"));
+			const servertriggers = new Collection();
+			if (triggersToLoad.length === 0) {
+				logger.log(`No Triggers found for ${dirname}`);
+				continue;
+			}
+			for (const trigger of triggersToLoad) {
+				// logger.debug(`./config/${dirname}/triggers/${trigger}`);
+				const triggerentry = require(`./config/${dirname}/triggers/${trigger}`);
+				servertriggers.set(triggerentry.info.name, triggerentry);
+				logger.debug(`Loaded the ${triggerentry.info.name} Trigger`);
+			}
+			client.perserversettings.set(`${dirname}-triggers`, servertriggers);
 		}
-		for (const faq of serversettings) {
-			// logger.debug(`./config/${dirname}/faqs/${faq}`);
-			const faqentry = require(`./config/${dirname}/faqs/${faq}`);
-			faqentries.set(faqentry.info.name, faqentry);
-			faqentry.info.aliases.forEach(alias => {
-				client.perserveraliases.set(alias, faqentry.info.name);
-			});
-			logger.debug(`Loaded the ${faqentry.info.name} FAQ`);
-		}
-		client.perserversettings.set(dirname, faqentries);
-		// logger.log(`Finished Loading FAQs for ${dirname}. 👌`, "log");
 
 		logger.log(`Loading per-server config for ${dirname}`);
 		const serverSettings = new JSONdb(`./config/${dirname}/perserversettings.json`, {
@@ -124,7 +142,7 @@ const init = async () => {
 	for (const file of buttonFiles) {
 		const button = require(`./buttons/${file}`);
 		const buttonName = file.split(".")[0];
-		logger.log(`Loading Button interactions: ${buttonName}. 👌`, "log");
+		logger.debug(`Loading Button interactions: ${buttonName}. 👌`, "log");
 
 		// Now set the name of the command with it's properties.
 		client.buttoncmds.set(button.buttonData().name, button);
