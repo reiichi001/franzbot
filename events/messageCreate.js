@@ -1134,7 +1134,8 @@ module.exports = async (client, message) => {
 
 	// If the member was added to a server's ignorelist, don't process the command
 	logger.debug(`loading ${message.guild.id}-ignoredUsers`);
-	const ignoredUsers = client.perserversettings.get(`${message.guild.id}-ignoredUsers`);
+	const ignoredUsers = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("ignoredUsers");
+	// const ignoredUsers = client.perserversettings.get(`${message.guild.id}-ignoredUsers`);
 	logger.debug(`checking ignored users: ${ignoredUsers}`);
 	if (ignoredUsers?.includes(message.author.id)) {
 		await message.reply("You can't use that command.")
