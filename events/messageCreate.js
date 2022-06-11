@@ -953,39 +953,6 @@ module.exports = async (client, message) => {
 		}
 	}
 
-
-	// Triggers for Project Meteor
-	if (MeteorTriggers.includes(message.guild?.id)) {
-		console.log(`Found in MeteorTriggers: ${message.channel.name}`);
-		forbidAny.push(/(ffxiv|ff14|1\.[0-9]{1,2}[a|b|c]?)+(?!.*\1)/igu);
-		forbidCount.push(/(torrent|pirat|free|copy|copies|download|ISO)+(?!.*\1)/igu);
-		negateBadWords.push(/(can't|don't|cannot|ARR|HW|SB|SHB|trial|[2-9]\.[0-9]{0,2})+/igu);
-		forbiddenMinCount = 2;
-		adjustedMinCount = 2;
-		ignoredRoles = ignoredRoles.concat([
-			"Developer",
-			"Moderator",
-			"Operator",
-			"test",
-		]);
-		replyMessage = {
-
-			title: client.config.TRIGGER_TITLE,
-			description: "Any discussion of torrenting, piracy, or other illegitimate means of obtaining software is not allowed on this server.",
-			color: client.config.EMBED_ERROR_COLOR,
-			footer: {
-				"text": client.config.TRIGGER_FOOTER,
-			},
-		};
-
-		checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
-
-		// bandaid, clear all the important variables
-		forbidAny = [];
-		forbidCount = [];
-		negateBadWords = [];
-	}
-
 	/*
 	// Triggers for Zu
 	if (ZuTriggers.includes(message.guild.id)) {
