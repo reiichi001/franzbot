@@ -643,41 +643,6 @@ module.exports = async (client, message) => {
 			return;
 		}
 
-		// START custom triggers that I probably shouldn't do.
-
-		// testing CD
-
-		// just for Adam
-		let sectionIdentifier = "funnyshit";
-		if (message.guild.id !== client.config.GUILDID_XIVONMAC && timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
-			resetTimeout(sectionIdentifier);
-			if ((message.author.id == "95483650853838848"
-			 || message.author.id == "60851293232574464"
-			)
-			&& message.content.match(/(classic|lol|just|iconic)*\s*\bse\b\s*(things|quality)*/gui)?.length > 0) {
-				message.reply({
-					content: "You know, you were doing well until the very last sentence, then you lost any and all respect you'd clawed back. Have a good day.",
-					allowedMentions: {
-						repliedUser: false,
-					},
-				});
-				return;
-			}
-
-			// just for Attick
-			if (message.author.id == "131195749017976833"
-				&& message.content.match(/(glad|happy) to help/gui)) {
-				message.channel.send("https://cdn.discordapp.com/attachments/684745859497590843/812389944013881394/unknown.png");
-				return;
-			}
-		}
-		else if (timeoutSet(sectionIdentifier)) {
-			console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
-		}
-
-
-		// END custom triggers that I probably shouldn't do.
-
 		// process actual triggers
 		ignoredRoles = ignoredRoles.concat([
 			"moderator",
