@@ -95,7 +95,7 @@ const init = async () => {
 				// logger.debug(`./config/${dirname}/triggers/${trigger}`);
 				const triggerentry = require(`./config/${dirname}/triggers/${trigger}`);
 				servertriggers.set(triggerentry.info.name, triggerentry);
-				logger.debug(`Loaded the ${triggerentry.info.name} Trigger`);
+				logger.cmd(`Loaded the ${triggerentry.info.name} Trigger`);
 			}
 			client.perserversettings.set(`${dirname}-triggers`, servertriggers);
 		}
@@ -112,7 +112,7 @@ const init = async () => {
 			ignoredUsers = [];
 			serverSettings.set("ignoredUsers", ignoredUsers);
 		}
-		client.perserversettings.set(`${dirname}-ignoredUsers`, ignoredUsers);
+		client.perserversettings.set(`${dirname}-serversettings`, serverSettings);
 	}
 
 	// Here we load **commands** into memory, as a collection, so they're accessible
@@ -120,7 +120,7 @@ const init = async () => {
 	const commands = readdirSync("./commands/").filter(file => file.endsWith(".js"));
 	for (const file of commands) {
 		const props = require(`./commands/${file}`);
-		logger.log(`Loading Command: ${props.help.name}. 👌`, "log");
+		logger.cmd(`Loading Command: ${props.help.name}. 👌`);
 		client.commands.set(props.help.name, props);
 		props.conf.aliases.forEach(alias => {
 			client.aliases.set(alias, props.help.name);
@@ -131,7 +131,7 @@ const init = async () => {
 	for (const file of slashFiles) {
 		const command = require(`./slash/${file}`);
 		const commandName = file.split(".")[0];
-		logger.log(`Loading Slash command: ${commandName}. 👌`, "log");
+		logger.cmd(`Loading Slash command: ${commandName}. 👌`);
 
 		// Now set the name of the command with it's properties.
 		client.slashcmds.set(command.commandData().name, command);
@@ -142,7 +142,7 @@ const init = async () => {
 	for (const file of buttonFiles) {
 		const button = require(`./buttons/${file}`);
 		const buttonName = file.split(".")[0];
-		logger.debug(`Loading Button interactions: ${buttonName}. 👌`, "log");
+		logger.log(`Loading Button interactions: ${buttonName}. 👌`);
 
 		// Now set the name of the command with it's properties.
 		client.buttoncmds.set(button.buttonData().name, button);
@@ -152,7 +152,7 @@ const init = async () => {
 	const eventFiles = readdirSync("./events/").filter(file => file.endsWith(".js"));
 	for (const file of eventFiles) {
 		const eventName = file.split(".")[0];
-		logger.log(`Loading Event: ${eventName}. 👌`, "log");
+		logger.cmd(`Loading Event: ${eventName}. 👌`);
 		const event = require(`./events/${file}`);
 		// Bind the client to any event, before the existing arguments
 		// provided by the discord.js event.
