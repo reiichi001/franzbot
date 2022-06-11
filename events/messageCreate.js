@@ -204,7 +204,9 @@ module.exports = async (client, message) => {
 		return;
 	}
 
-	// console.log(message.member.guild.iconURL.replace(".jpg",".webp?size=1024"));
+	client.perserversettings?.get(`${message.guild.id}-triggers`)?.forEach(trigger => {
+		trigger.execute(client, message);
+	});
 
 	// PrincessRTFM's rewrite starts here
 
