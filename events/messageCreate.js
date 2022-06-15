@@ -124,10 +124,10 @@ module.exports = async (client, message) => {
 
 		// some debugging
 		let customChannel = null;
-		if (message.guild.id === client.config.GUILDID_GOAT) {
+		if (isDirectMessage || message.guild?.id === client.config.GUILDID_GOAT) {
 			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_GOAT);
 		}
-		if (message.guild.id === client.config.GUILDID_XIVONMAC) {
+		if (message.guild?.id === client.config.GUILDID_XIVONMAC) {
 			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_XIVONMAC);
 		}
 		if (client.config.DEBUGMODE) {
