@@ -252,7 +252,7 @@ module.exports = async (client, message) => {
 						console.log("Big chonker file. That's a lot of text...");
 						message.channel.send("This file is pretty big and has not be relayed.\n"
 							+ "Perhaps you'd like to generate a fresh log that's smaller?\n\n"
-							+ "To do that, just delete your log file and try to relaunch with xivlauncher. "
+							+ "To do that, just delete your log file and try to relaunch with XIVLauncher. "
 							+ "Then upload the new log, which should be much smaller!");
 						return;
 					}
@@ -803,7 +803,7 @@ module.exports = async (client, message) => {
 				replyMessage = {
 
 					title: client.config.TRIGGER_TITLE,
-					description: "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIV Launcher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.\n\nPlease see our [many](https://discord.com/channels/581875019861328007/830939095478829096/893209077071609887) [posts](https://discord.com/channels/581875019861328007/585180735032393730/914487751708119091) in <#585180735032393730> and <#830939095478829096>",
+					description: "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIVLauncher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.\n\nPlease see our [many](https://discord.com/channels/581875019861328007/830939095478829096/893209077071609887) [posts](https://discord.com/channels/581875019861328007/585180735032393730/914487751708119091) in <#585180735032393730> and <#830939095478829096>",
 					color: client.config.EMBED_ERROR_COLOR,
 					footer: {
 						"text": client.config.TRIGGER_FOOTER,
