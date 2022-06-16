@@ -1,7 +1,7 @@
 exports.answer = async client => ({
 	title: `Generic steps to remove/reinstall Dalamud Assets`,
 	description: `General "how to delete assets" steps:\n`
-		+ `1. Close the game and xivlauncher\n`
+		+ `1. Close the game and XIVLauncher\n`
 		+ `2. Go to \`%AppData%\\XIVLauncher\`\n`
 		+ `3. Remove the \`dalamudAssets\` folder\n`
 		+ `4. Start the game now\n`

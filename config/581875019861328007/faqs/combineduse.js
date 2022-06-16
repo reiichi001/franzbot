@@ -6,7 +6,7 @@ exports.answer = async client => ({
 		+ `This occurs because Textools by design changes your indexes to the modded file. `
 		+ `This corrupts your indexes and damages your game. Penumbra depends on these indexes to not be corrupted in order to function. \n\n`
 		+ `Essentially, if we are assisting you in troubleshooting an issue, and you provide that you use both, `
-		+ `we would be unable to assist any further until you repair your game using the XIV Launcher Repair tool, `
+		+ `we would be unable to assist any further until you repair your game using the XIVLauncher Repair tool, `
 		+ `or download index backups and Start Over in Textools.\n\n`
 		+ `See \`${client.config.prefix}faq repair\` for more info.`,
 	color: client.config.EMBED_NORMAL_COLOR,
