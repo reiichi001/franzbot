@@ -11,7 +11,5 @@ exports.answer = async client => ({
 exports.info = {
 	name: "steamdeck",
 	category: "help",
-	aliases: [
-    "deck",
-	],
+	aliases: ["deck"],
 };

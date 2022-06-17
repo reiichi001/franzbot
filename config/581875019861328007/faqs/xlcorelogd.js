@@ -22,50 +22,61 @@ exports.answer = async client => ({
 });
 
 exports.info = {
-	name: "flatpaklogd",
+	name: "xlcorelogd",
 	category: "logs",
 	aliases: [
-		"linuxlogd",
-		"linuxlogdalamud",
-		"linuxdalamudlog",
-		"linuxdlog",
-		"linuxlogdl", // just for Aireil
-		"logdlinux",
-		"dalamudloglinux",
-		"logdalamudlinux",
-		"dloglinux",
-		"flatpaklogdalamud",
-		"flatpakdalamudlog",
-		"flatpakdlog",
-		"flatpaklogdl", // just for Aireil
-		"logdflatpak",
-		"dalamudlogflatpak",
-		"logdalamudflatpak",
-		"dlogflatpak",
-		"decklogdalamud",
-		"deckdalamudlog",
-		"deckdlog",
-		"decklogdl",
 		"logddeck",
-		"dalamudlogdeck",
-		"logdalamuddeck",
-		"dlogdeck",
-		"steamdecklogdalamud",
-		"steamdeckdalamudlog",
-		"steamdeckdlog",
-		"steamdecklogdl",
+		"logdflatpak",
+		"logdlinux",
 		"logdsteamdeck",
-		"dalamudlogsteamdeck",
-		"logdalamudsteamdeck",
-		"dlogsteamdeck",
-		"xlcorelogd",
-		"xlcorelogdalamud",
-		"xlcoredalamudlog",
-		"xlcoredlog",
-		"xlcorelogdl",
 		"logdxlcore",
-		"dalamudlogxlcore",
+
+		"logdldeck", // just for Aireil
+		"logdlflatpak", // just for Aireil
+		"logdllinux", // just for Aireil
+		"logdlsteamdeck", // just for Aireil
+		"logdlxlcore", // just for Aireil
+
+		"logdalamuddeck",
+		"logdalamudflatpak",
+		"logdalamudlinux",
+		"logdalamudsteamdeck",
 		"logdalamudxlcore",
+
+		"dlogdeck",
+		"dlogflatpak",
+		"dloglinux",
+		"dlogsteamdeck",
 		"dlogxlcore",
+
+		"dalamudlogdeck",
+		"dalamudlogflatpak",
+		"dalamudloglinux",
+		"dalamudlogsteamdeck",
+		"dalamudlogxlcore",
+
+		"decklogd",
+		"flatpaklogd",
+		"linuxlogd",
+		"steamdecklogd",
+		// "xlcorelogb",
+
+		"deckdlog",
+		"flatpakdlog",
+		"linuxdlog",
+		"steamdeckdlog",
+		"xlcoredlog",
+
+		"decklogdalamud",
+		"flatpaklogdalamud",
+		"steamdecklogdalamud",
+		"linuxlogdalamud",
+		"xlcorelogdalamud",
+
+		"deckdalamudlog",
+		"flatpakdalamudlog",
+		"linuxdalamudlog",
+		"steamdeckdalamudlog",
+		"xlcoredalamudlog",
 	],
 };
