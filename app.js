@@ -109,9 +109,28 @@ const init = async () => {
 		logger.log("loading command ignore list");
 		let ignoredUsers = serverSettings.get("ignoredUsers");
 		if (!Array.isArray(ignoredUsers)) {
+			logger.warn(`Could not find ignored users for ${dirname}. Setting empty list.`);
 			ignoredUsers = [];
 			serverSettings.set("ignoredUsers", ignoredUsers);
 		}
+
+		logger.log("loading trigger ignored users list");
+		let ignoredRoles = serverSettings.get("ignoredRoles");
+		if (!Array.isArray(ignoredRoles)) {
+			logger.warn(`Could not find ignored roles for ${dirname}. Setting empty list.`);
+			ignoredRoles = [];
+			serverSettings.set("ignoredRoles", ignoredRoles);
+		}
+
+		logger.log("loading trigger watch channels list");
+		let suggestionWatchChannels = serverSettings.get("suggestionWatchChannels");
+		if (!Array.isArray(suggestionWatchChannels)) {
+			logger.warn(`Could not find watch channels for ${dirname}. Setting empty list.`);
+			suggestionWatchChannels = [];
+			serverSettings.set("suggestionWatchChannels", suggestionWatchChannels);
+		}
+
+
 		client.perserversettings.set(`${dirname}-serversettings`, serverSettings);
 	}
 

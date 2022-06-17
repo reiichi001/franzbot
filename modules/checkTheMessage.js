@@ -1,15 +1,16 @@
 exports.checkTheMessage = (
+	client,
 	message,
 	forbidAny,
 	forbidCount,
 	negateBadWords,
 	forbiddenMinCount,
 	adjustedMinCount,
-	ignoredRoles,
 	ignorelength,
 	replyMessage
 ) => {
-	if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
+	const ignoredRoles = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("ignoredRoles");
+	if (message.member?.roles?.cache.some(r => ignoredRoles.includes(r.name))) {
 		console.log("Ignored role. Skipping this check.");
 		return;
 	}
@@ -39,7 +40,7 @@ exports.checkTheMessage = (
 	}
 
 	for (const forbid of forbidAny) {
-		const results = message.content.match(forbid);
+		const results = message?.content?.match(forbid);
 		if (results) {
 			hasForbidAny = true;
 			const noun = `forbidden word${results.length == 1 ? '' : 's'}`;
@@ -50,7 +51,7 @@ exports.checkTheMessage = (
 		}
 	}
 	for (const forbid of forbidCount) {
-		const results = message.content.match(forbid);
+		const results = message?.content?.match(forbid);
 		if (results) {
 			forbidCountQuantity += results.length;
 			const noun = `bad word${results.length == 1 ? '' : 's'}`;
@@ -62,7 +63,7 @@ exports.checkTheMessage = (
 	}
 
 	for (const permit of negateBadWords) {
-		const results = message.content.match(permit);
+		const results = message?.content?.match(permit);
 		if (results) {
 			offsetWeight = results.length;
 			const noun = `good word${results.length == 1 ? '' : 's'}`;

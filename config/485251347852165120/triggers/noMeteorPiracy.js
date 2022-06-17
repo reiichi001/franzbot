@@ -16,14 +16,6 @@ exports.execute = async (client, message) => {
 	const forbiddenMinCount = 2;
 	const adjustedMinCount = 2;
 
-	let ignoredRoles = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("ignoredRoles");
-	if (!ignoredRoles) {
-		logger.warn(`Could not find ignored roles for ${message.guild.name}. Setting empty list.`);
-		ignoredRoles = [];
-		client.perserversettings?.get(`${message.guild.id}-serversettings`)?.set("ignoredRoles", ignoredRoles);
-		// client.perserversettings.set(`${message.guild.id}-serversettings`, ignoredRoles);
-	}
-
 	const replyMessage = {
 
 		title: client.config.TRIGGER_TITLE,
@@ -34,7 +26,7 @@ exports.execute = async (client, message) => {
 		},
 	};
 
-	checkTheMessage(message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, ignoredRoles, false, replyMessage);
+	checkTheMessage(client, message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, false, replyMessage);
 };
 
 exports.info = {
