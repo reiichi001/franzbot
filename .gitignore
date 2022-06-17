@@ -1,11 +1,5 @@
-
 config\.json
-perserversettings\.json
-
 node_modules/
-
 package-lock\.json
-
 config/*/tickets.json
-
 .DS_Store

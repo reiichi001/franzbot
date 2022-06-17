@@ -1,0 +1,15 @@
+{
+    "ignoredUsers": [],
+    "ignoredRoles": [
+        "Developer",
+        "Moderator",
+        "Operator",
+        "test"
+    ],
+    "suggestionWatchChannels": [
+        "687530726756712478"
+    ],
+    "watchNagChannels": [
+        "687530726756712478"
+    ]
+}
