@@ -21,7 +21,10 @@ exports.info = {
 	category: "info",
 	aliases: [
 		"pt",
-		"xlsettings",
+		"plugintest",
+		"pluginstest",
+		// "plugintesting",
+		"pluginstesting",
 		"testplugin",
 		"testplugins",
 		"testingplugin",
