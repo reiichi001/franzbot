@@ -1,15 +1,17 @@
 {
     "ignoredUsers": [],
     "ignoredRoles": [
-		"team",
-		"friends",
-		"plugin developer",
-		"plugin creator",
-		"test",
-		"botters"
-	],
+        "team",
+        "friends",
+        "plugin developer",
+        "plugin creator",
+        "test",
+        "botters"
+    ],
     "suggestionWatchChannels": [
-		"585106238795284486",
-		"685275026156683280"
-	]
+        "585106238795284486",
+        "685275026156683280"
+    ],
+    "watchNagChannels": [],
+    "watchXLSuggest": []
 }
