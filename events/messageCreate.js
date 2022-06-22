@@ -242,7 +242,7 @@ module.exports = async (client, message) => {
 									+ "Here's some information about the plugins that were loaded.")
 								.setColor(13580863)
 								.setFooter(`DalamudVersion: ${data.DalamudVersion}\n`
-									+ `DalamudGitHash: ${data.DalamudGitHash}`
+									+ `DalamudGitHash: ${data.DalamudGitHash}\n`
 									+ `GameVersion: ${data.GameVersion}`);
 
 							let plugintext = ">>> ";
