@@ -20,6 +20,6 @@ exports.info = {
 		"xompreferences",
 		"pref",
 		"prefs",
-		"recommended",
+		
 	],
 };
