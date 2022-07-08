@@ -142,7 +142,7 @@ module.exports = async (client, message) => {
 
 			message.attachments.forEach(async attachment => {
 				console.log(attachment.name);
-				if (isDirectMessage && attachment.name.match(/(aria|output|dalamud|message|dalamudConfig|launcherConfigV3|dxdiag|event|SquirrelSetup|patcher).*\.(log|txt|json|evtx)/gui)) {
+				if (isDirectMessage && attachment.name.match(/(aria|output|dalamud|message|dalamudConfig|launcher|dxdiag|event|SquirrelSetup|patcher).*\.(log|txt|json|evtx)/gui)) {
 					// sane filesizes only
 					if (attachment.size > (5 * 1024 * 1024)) {
 						console.log("Big chonker file. That's a lot of text...");
@@ -208,7 +208,7 @@ module.exports = async (client, message) => {
 				}
 
 				// handle the dalamud.txt file
-				if (attachment.name.match(/(dalamud|output|message).*\.(log|txt)/gui)) {
+				if (attachment.name.match(/(dalamud|output|launcher|message).*\.(log|txt)/gui)) {
 					// read the data
 					console.log(`Processing Dalamud or XIVLauncher log called ${attachment.name}`);
 					try {
