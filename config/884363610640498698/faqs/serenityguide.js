@@ -5,7 +5,7 @@ exports.answer = async client => ({
 		+ `It has easily digestible information for everything from how to install Penumbra, to collections, to material assignment, and more. `
 		+ `If you have additional questions after reviewing the guide, feel free to ask for more assistance or clarification on the guide. \n\n`
 		+ `If you have any feedback for additional content for the guide, please DM Serenity directly.\n\n`
-		+ `**Guide URL:** <https://penumbra.ju.mp/>`,
+		+ `**Guide URL:** <https://reniguide.info/>`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	footer: {
 		"text": client.config.FRANZBOT_VERSION,
