@@ -266,33 +266,84 @@ module.exports = async (client, message) => {
 									);
 							}
 							else {
-								data.LoadedPlugins
-									.sort((a, b) => (a.Name.toLowerCase() > b.Name.toLowerCase() ? 1 : -1))
-									.forEach(plugin => {
-										plugintext += `**${plugin.Name}**`
+								const pluginlist = data.LoadedPlugins
+									.sort((a, b) => (a.Name.toLowerCase() > b.Name.toLowerCase() ? 1 : -1));
+
+								const officialpluginsources = [
+									null,
+									"",
+									"https://kamori.goats.dev/Plugin/PluginMaster",
+									"https://raw.githubusercontent.com/goatcorp/DalamudPlugins/api6/pluginmaster.json",
+								];
+
+								const devpluginsources = [
+									null,
+									"",
+								];
+
+								const officialplugins = pluginlist.filter(plugin => officialpluginsources.includes(plugin.InstalledFromUrl));
+								// const devplugins = pluginlist.filter(plugin => devpluginsources.includes(plugin.InstalledFromUrl));
+								const unofficialplugins = pluginlist.filter(plugin => !officialpluginsources.includes(plugin.InstalledFromUrl));
+
+								// List all officially supported plugins
+								officialplugins.forEach(plugin => {
+									plugintext += `**${plugin.Name}**`
 											+ ` - ${plugin.AssemblyVersion}\n`;
-										if (plugintext.length > 900) {
-											replymessage2
-												.addField(
-													"Loaded plugins",
-													plugintext
-												);
-											plugintext = ">>> ";
-											overflowed = true;
-										}
-									});
+									if (plugintext.length > 900) {
+										replymessage2
+											.addField(
+												overflowed ? "Officially support plugins continued..." : "Loaded offically supported plugins",
+												plugintext
+											);
+										plugintext = ">>> ";
+										overflowed = true;
+									}
+								});
 
 								if (overflowed) {
 									replymessage2
 										.addField(
-											"Plugins Continued...",
+											"Officially supported plugins continued....",
 											plugintext
 										);
 								}
 								else {
 									replymessage2
 										.addField(
-											"Last known loaded plugins",
+											"Last seen loaded official plugins",
+											plugintext
+										);
+								}
+
+								// List all the unsupported plugins
+								plugintext = ">>> ";
+								overflowed = false;
+
+								unofficialplugins.forEach(plugin => {
+									plugintext += `**${plugin.Name}**`
+										+ ` - ${plugin.AssemblyVersion}\n`;
+									if (plugintext.length > 900) {
+										replymessage2
+											.addField(
+												overflowed ? "Unsupport plugins continued..." : "Loaded custom repo / unsupported plugins",
+												plugintext
+											);
+										plugintext = ">>> ";
+										overflowed = true;
+									}
+								});
+
+								if (overflowed) {
+									replymessage2
+										.addField(
+											"Unsupported plugins continued....",
+											plugintext
+										);
+								}
+								else {
+									replymessage2
+										.addField(
+											"Last seen loaded custom repo / unsupported plugins",
 											plugintext
 										);
 								}
@@ -316,6 +367,11 @@ module.exports = async (client, message) => {
 								.addField(
 									"Loading all API levels",
 									data.LoadAllApiLevels ? "Yes" : "No",
+									true
+								)
+								.addField(
+									"ForcedMinHook",
+									data.ForcedMinHook ? "Yes" : "No",
 									true
 								)
 								.addField(
