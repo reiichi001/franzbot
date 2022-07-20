@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 exports.answer = async client => ({
 	title: `XIVLauncher integrity check`,
-	description: `The integrity check feature supports up to patch 5.45 Hotfix.\n\n`
+	description: ``
 		+ `To run the check, open XIVLauncher, click the settings cog ⚙️, and select the Game tab. It will have a button.\n\n`
 		+ `You'll find the integrity report in your \`%appdata%\\xivlauncher\` folder. Please upload it for review.`
 		+ `__If your client has been modded via TexTools, the integrity check will always fail.__`,
