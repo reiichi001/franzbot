@@ -17,7 +17,7 @@ exports.answer = async client => ({
 
 exports.info = {
 	name: "sims4",
-	category: "help",
+	category: "info",
 	aliases: [
 		"simsgshade",
 		"sims",

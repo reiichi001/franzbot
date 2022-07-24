@@ -22,7 +22,7 @@ exports.answer = async client => ({
 
 exports.info = {
 	name: "reqs",
-	category: "help",
+	category: "info",
 	aliases: [
 		"reqs",
 		"req",

@@ -19,7 +19,7 @@ exports.answer = async client => ({
 
 exports.info = {
 	name: "prefixstock",
-	category: "help",
+	category: "info",
 	aliases: [
 		"stockprefix",
 		"stockbottle",

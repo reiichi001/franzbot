@@ -14,7 +14,7 @@ exports.answer = async client => ({
 
 exports.info = {
 	name: "abort",
-	category: "logs",
+	category: "info",
 	aliases: [
 		"abort", // only uncomment this for the xivonmac server
 		"hookabort",

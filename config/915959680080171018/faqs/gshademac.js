@@ -12,7 +12,7 @@ exports.answer = async client => ({
 
 exports.info = {
 	name: "gshademac",
-	category: "help",
+	category: "info",
 	aliases: [
 		"gshademac",
 		"gshadecx",

@@ -10,6 +10,6 @@ exports.answer = async client => ({
 
 exports.info = {
 	name: "steam",
-	category: "help",
+	category: "info",
 	aliases: [],
 };
