@@ -8,8 +8,8 @@ exports.answer = async client => ({
 		+ `\n`
 		+ `**Please note that testing plugins can/will have bugs and may change dramatically before final release. `
 		+ `Especially on newer plugins, they could crash your game. `
-		+ `For troubleshooting, please keep questions/comments/issues in the <#719513457988337724> channel.**`
-		+ `[HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-how-do-i-enable-plugin-test-builds)`,
+		+ `For troubleshooting, please keep questions/comments/issues in the <#719513457988337724> channel.** `
+		+ `More info [HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-how-do-i-enable-plugin-test-builds)`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	footer: {
 		"text": client.config.FRANZBOT_VERSION,

@@ -23,5 +23,11 @@ exports.info = {
 		"deletedalamud",
 		"reinstalldalamud",
 		"uninstalldalamud",
+		"removeaddon",
+		"removehook",
+		"removehooks",
+		"deleteaddon",
+		"deletehook",
+		"deletehooks",
 	],
 };

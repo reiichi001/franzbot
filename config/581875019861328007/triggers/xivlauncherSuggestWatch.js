@@ -14,7 +14,7 @@ exports.execute = async (client, message) => {
 
 	let watchXLSuggest = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("watchXLSuggest");
 	if (!Array.isArray(watchXLSuggest)) {
-		logger.warn(`Could not find newpatch nag watch channels for ${message.guild.id}. Setting empty list.`);
+		logger.warn(`Could not find wrong-place-for-plugin-suggestions watch channels for ${message.guild.id}. Setting empty list.`);
 		watchXLSuggest = [];
 		client.perserversettings?.get(`${message.guild.id}-serversettings`)?.set("watchXLSuggest", watchXLSuggest);
 	}

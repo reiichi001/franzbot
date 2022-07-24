@@ -104,13 +104,17 @@ module.exports = async (client, message) => {
 		return;
 	}
 
+	// execute server-specific triggers
 	if (!isDirectMessage) {
 		client.perserversettings?.get(`${message.guild.id}-triggers`)?.forEach(trigger => {
 			logger.debug(`Processing trigger: ${trigger.info.name}`);
+			if (trigger.info.name !== "announcement publisher" && (message.author.bot || message.webhookID)) {
+				// don't run triggers on bots or webhooks, unless it's to publish
+				return;
+			}
 			trigger.execute(client, message);
 		});
 	}
-
 
 	const forbidAny = []; // an array of regex, at least one must match to complain
 	const forbidCount = []; // same value type, a minimum number must match
