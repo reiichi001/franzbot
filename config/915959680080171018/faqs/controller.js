@@ -12,7 +12,7 @@ exports.answer = async client => ({
 
 exports.info = {
 	name: "controller",
-	category: "help",
+	category: "info",
 	aliases: [
 		"controller",
 		"remap",

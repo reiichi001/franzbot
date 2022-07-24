@@ -1,8 +1,9 @@
 exports.answer = async client => ({
-	title: `Visual C++ Runetime on exit?`,
+	title: `Visual C++ Runtime error on exit?`,
 	description: `Ignore the error about Dalamud and abort() `
 		+ `was called. it's a Dalamud bug and is harmless.`
-		+ ` Just click Abort and the game will close as normal.`,
+		+ ` Just click Abort and the game will close as normal.`
+		+ ` There is a fix pending for Dalamud that will be integrated soon.`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	image: {
 		"url": 'https://i.imgur.com/JJJkU7u.png',
@@ -14,7 +15,7 @@ exports.answer = async client => ({
 
 exports.info = {
 	name: "abort",
-	category: "logs",
+	category: "info",
 	aliases: [
 		"abort", // only uncomment this for the xivonmac server
 		"hookabort",

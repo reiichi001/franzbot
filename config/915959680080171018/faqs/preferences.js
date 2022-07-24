@@ -14,12 +14,12 @@ exports.answer = async client => ({
 
 exports.info = {
 	name: "preferences",
-	category: "help",
+	category: "info",
 	aliases: [
 		"preferences",
 		"xompreferences",
 		"pref",
 		"prefs",
-		
+
 	],
 };
