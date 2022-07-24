@@ -1,5 +1,5 @@
 exports.answer = async client => ({
-	title: `Visual C++ Runetime on exit?`,
+	title: `Visual C++ Runtime error on exit?`,
 	description: `Ignore the error about Dalamud and abort() `
 		+ `was called. it's a Dalamud bug and is harmless.`
 		+ ` Just click Abort and the game will close as normal.`,
