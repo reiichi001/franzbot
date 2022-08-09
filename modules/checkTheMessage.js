@@ -82,11 +82,21 @@ exports.checkTheMessage = (
         // if it's longer than a tweet, it's probably a false positive
         && (message.content.length <= 220 || ignorelength === true)
 	) {
-		message.reply({
-			embeds: [replyMessage],
-			allowedMentions: {
-				repliedUser: false,
-			},
-		});
+		if (Array.isArray(replyMessage)) {
+			message.reply({
+				embeds: replyMessage,
+				allowedMentions: {
+					repliedUser: false,
+				},
+			});
+		}
+		else {
+			message.reply({
+				embeds: [replyMessage],
+				allowedMentions: {
+					repliedUser: false,
+				},
+			});
+		}
 	}
 };

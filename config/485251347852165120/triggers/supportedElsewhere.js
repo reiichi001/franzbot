@@ -31,6 +31,8 @@ exports.execute = async (client, message) => {
 			},
 		};
 
+		resetTimeout(sectionIdentifier);
+
 		checkTheMessage(client, message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, false, replyMessage);
 	}
 };

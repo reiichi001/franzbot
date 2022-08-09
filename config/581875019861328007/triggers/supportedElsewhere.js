@@ -32,6 +32,12 @@ exports.execute = async (client, message) => {
 		};
 
 		checkTheMessage(client, message, forbidAny, forbidCount, negateBadWords, forbiddenMinCount, adjustedMinCount, false, replyMessage);
+
+		resetTimeout(sectionIdentifier);
+	}
+	else if (timeoutSet(sectionIdentifier)) {
+		// console.log(`${sectionIdentifier} timeout not exceeded; ignoring message`);
+
 	}
 };
 
