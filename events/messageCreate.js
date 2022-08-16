@@ -391,14 +391,12 @@ module.exports = async (client, message) => {
 									},
 								});
 							}
-							else {
-								message.reply({
-									embeds: [replymessage2],
-									allowedMentions: {
-										repliedUser: false,
-									},
-								});
-							}
+							message.reply({
+								embeds: [replymessage2],
+								allowedMentions: {
+									repliedUser: false,
+								},
+							});
 						}
 
 						const lastexpresults = logdata.match(/LASTEXCEPTION:(.*)/gu);
@@ -512,14 +510,12 @@ module.exports = async (client, message) => {
 									},
 								});
 							}
-							else {
-								message.reply({
-									embeds: [replymessage3],
-									allowedMentions: {
-										repliedUser: false,
-									},
-								});
-							}
+							message.reply({
+								embeds: [replymessage3],
+								allowedMentions: {
+									repliedUser: false,
+								},
+							});
 						}
 
 						const logxlresults = logdata.match(/TROUBLESHXLTING:(.*)/gu);
@@ -656,29 +652,17 @@ module.exports = async (client, message) => {
 										repliedUser: false,
 									},
 								});
-								message.reply({
-									embeds: [
-										troubleshxltingreplymessage,
-										troubleshxltingreplymessage2,
-										troubleshxltingreplymessage3,
-									],
-									allowedMentions: {
-										repliedUser: false,
-									},
-								});
 							}
-							else {
-								message.reply({
-									embeds: [
-										troubleshxltingreplymessage,
-										troubleshxltingreplymessage2,
-										troubleshxltingreplymessage3,
-									],
-									allowedMentions: {
-										repliedUser: false,
-									},
-								});
-							}
+							message.reply({
+								embeds: [
+									troubleshxltingreplymessage,
+									troubleshxltingreplymessage2,
+									troubleshxltingreplymessage3,
+								],
+								allowedMentions: {
+									repliedUser: false,
+								},
+							});
 						}
 					}
 					catch (error) {
