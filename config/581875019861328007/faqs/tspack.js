@@ -20,13 +20,9 @@ exports.answer = async client => ({
 });
 
 exports.info = {
-	name: "logxl",
+	name: "tspack",
 	category: "logs",
 	aliases: [
-		"log",
-		"launcherlog",
-		"xivlauncherlog",
-		"logs",
-		"xllog",
+		"troubleshootingpack"
 	],
 };
