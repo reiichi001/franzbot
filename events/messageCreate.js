@@ -4,6 +4,8 @@ const {
 } = require('discord.js');
 const got = require('got');
 
+const URLSafeBase64 = require('urlsafe-base64');
+
 const logger = require("../modules/Logger");
 
 const {
@@ -182,7 +184,6 @@ module.exports = async (client, message) => {
 
 					if (!isDirectMessage) {
 						// try to delete this out of the channel it was in.
-						// const curChannel = message.channel;
 						await message.delete()
 							/*
 							.catch(await curChannel.send({
@@ -209,6 +210,21 @@ module.exports = async (client, message) => {
 					if (!isDirectMessage) {
 						await message.delete().catch(console.error);
 					}
+				}
+
+				// relay tspack files from goatplace (or DMs)
+				if (attachment.name.match(/.*\.(tspack)/gui)) {
+					console.log(`Troubleshooting pack upload: ${attachment.attachment}`);
+					// const response = await got(attachment.attachment);
+					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
+					const relayedMessage = await customChannel.send({
+						content: `${message.author.username} (${message.author}) uploaded a troubleshooting pack in ${isDirectMessage ? "DMs" : `${message.channel} from ${message.guild.name}`}.`,
+						files: [attachment],
+					});
+					await message.channel.send({
+						content: `Franzbot has relayed this file to a private channel in ${customChannel.guild.name} for analysis.\n`,
+						// `https://soulja-boy-told.me/loggy?url=${URLSafeBase64.encode(new Buffer.from(relayedMessage.attachments.first().url))}`
+					});
 				}
 
 				// handle the dalamud.txt file
@@ -276,6 +292,7 @@ module.exports = async (client, message) => {
 								const officialpluginsources = [
 									null,
 									"",
+									"OFFICIAL",
 									"https://kamori.goats.dev/Plugin/PluginMaster",
 									"https://raw.githubusercontent.com/goatcorp/DalamudPlugins/api6/pluginmaster.json",
 								];
