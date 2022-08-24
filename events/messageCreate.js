@@ -340,33 +340,35 @@ module.exports = async (client, message) => {
 								plugintext = ">>> ";
 								overflowed = false;
 
-								unofficialplugins.forEach(plugin => {
-									plugintext += `**${plugin.Name}**`
-										+ ` - ${plugin.AssemblyVersion}\n`;
-									if (plugintext.length > 900) {
+								if (unofficialplugins.length > 1) {
+									unofficialplugins.forEach(plugin => {
+										plugintext += `**${plugin.Name}**`
+											+ ` - ${plugin.AssemblyVersion}\n`;
+										if (plugintext.length > 900) {
+											replymessage2
+												.addField(
+													overflowed ? "Unsupport plugins continued..." : "Loaded custom repo / unsupported plugins",
+													plugintext
+												);
+											plugintext = ">>> ";
+											overflowed = true;
+										}
+									});
+
+									if (overflowed) {
 										replymessage2
 											.addField(
-												overflowed ? "Unsupport plugins continued..." : "Loaded custom repo / unsupported plugins",
+												"Unsupported plugins continued....",
 												plugintext
 											);
-										plugintext = ">>> ";
-										overflowed = true;
 									}
-								});
-
-								if (overflowed) {
-									replymessage2
-										.addField(
-											"Unsupported plugins continued....",
-											plugintext
-										);
-								}
-								else {
-									replymessage2
-										.addField(
-											"Last seen loaded custom repo / unsupported plugins",
-											plugintext
-										);
+									else {
+										replymessage2
+											.addField(
+												"Last seen loaded custom repo / unsupported plugins",
+												plugintext
+											);
+									}
 								}
 							}
 							//
