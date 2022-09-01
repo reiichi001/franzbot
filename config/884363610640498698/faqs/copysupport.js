@@ -7,7 +7,7 @@ exports.answer = async client => ({
 		+ `**NOTE:** Formatting will be provided for you. You do not need to put this in a code block.`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	image: {
-		"url": "https://media.discordapp.net/attachments/968591485060677653/983117209494765648/unknown.png",
+		"url": "https://cdn.discordapp.com/attachments/984798693096046642/1014744616815304794/unknown.png",
 	},
 	footer: {
 		"text": client.config.FRANZBOT_VERSION,
