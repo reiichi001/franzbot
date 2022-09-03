@@ -1,8 +1,9 @@
 exports.answer = async client => ({
-	title: `Please remove your third party plugins`,
-	description: `Support for third party plugins is not provided here. `
-		+ `In order for us to help you, please remove your third party plugins.\n\n`
-		+ `Third party plugins will have a yellow 3 on their icon in the plugin installer. `
+	title: `Please disable plugins from custom repositories`,
+	description: `Support for plugins from external sources is not provided here. `
+		+ `In order for us to help you, please disable or remove any plugins that have come from a `
+		+ `custom plugin respository that you added in Dalamud Settings.\n\n`
+		+ `Unsupported plugins will have a yellow 3 on their icon in the plugin installer. `
 		+ `If your game is crashing before you can uninstall them, `
 		+ `you can also remove plugins manually - see \`f!faq delete plugin\`.`,
 	color: client.config.EMBED_NORMAL_COLOR,
