@@ -208,7 +208,9 @@ module.exports = async (client, message) => {
 					});
 
 					if (!isDirectMessage) {
-						await message.delete().catch(console.error);
+						// injector log no longer has the thing unless it's debug.
+						// TODO: parse injector log and verbose xlcore logs and strip that out.
+						// await message.delete().catch(console.error);
 					}
 				}
 
