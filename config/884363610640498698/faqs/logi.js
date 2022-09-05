@@ -3,9 +3,9 @@ exports.answer = async client => ({
 	description: `Please send us your **dalamud.injector.log** log file from `
 		+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!\n\n`
 		+ `It's best to just upload/attach the file if you can!\n\n`
-		+ `*NOTE**: If you have file extensions hidden, this will look like a \`Text Document\` `
+		+ `**NOTE**: If you have file extensions hidden, this will look like a \`Text Document\` `
 		+ `named \`dalamud.injector\` on your computer.\n\n`
-		+ `\n\n**DISCLAIMER**:This log will contain your windows username[s]. `
+		+ `**DISCLAIMER**:This log will contain your windows username[s]. `
 		+ `If you're not comfortable posting that here, you can `
 		+ `open the file in a text editor to redact that information first or `
 		+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
