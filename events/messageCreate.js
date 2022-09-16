@@ -594,7 +594,7 @@ module.exports = async (client, message) => {
 								.addField("DirectX", data.IsDx11 ? "dx11" : "dx9", true)
 								.addField("DPI Aware", data.DpiAwareness ? "yes" : "no", true)
 								.addField("Encrypted Arguments", data.EncryptArguments ? "enabled" : "disabled", true)
-								.addField("Steam Integration", data.SteamIntegration ? "enabled" : "disabled", true)
+								// .addField("Steam Integration", data.SteamIntegration ? "enabled" : "disabled", true)
 								.addField("UID Cache", data.IsUidCache ? "enabled" : "disabled", true);
 							// dalamud injection
 							troubleshxltingreplymessage2
