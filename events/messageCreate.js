@@ -148,7 +148,7 @@ module.exports = async (client, message) => {
 
 			message.attachments.forEach(async attachment => {
 				console.log(attachment.name);
-				if (isDirectMessage && attachment.name.match(/(aria|output|dalamud|message|dalamudConfig|launcher|dxdiag|event|SquirrelSetup|patcher).*\.(log|txt|json|evtx)/gui)) {
+				if (isDirectMessage && attachment.name.match(/(aria|output|dalamud|message|dalamudConfig|launcher|dxdiag|event|SquirrelSetup|patcher|wine).*\.(log|txt|json|evtx)/gui)) {
 					// sane filesizes only
 					if (attachment.size > (6 * 1024 * 1024)) {
 						console.log("Big chonker file. That's a lot of text...");
@@ -216,6 +216,7 @@ module.exports = async (client, message) => {
 				}
 
 				// relay tspack files from goatplace (or DMs)
+				const TSPACK_RELAY_ENABLE = false;
 				if (attachment.name.match(/.*\.(tspack)/gui)) {
 					console.log(`Troubleshooting pack upload: ${attachment.attachment}`);
 					// const response = await got(attachment.attachment);
@@ -224,10 +225,12 @@ module.exports = async (client, message) => {
 						content: `${message.author.username} (${message.author}) uploaded a troubleshooting pack in ${isDirectMessage ? "DMs" : `${message.channel} from ${message.guild.name}`}.`,
 						files: [attachment],
 					});
-					//await message.channel.send({
-					//	content: `Franzbot has relayed this file to a private channel in ${customChannel.guild.name} for analysis.\n`,
-						// `https://loggy.goat.place/?url=${URLSafeBase64.encode(new Buffer.from(relayedMessage.attachments.first().url))}`
-					});
+					if (isDirectMessage || TSPACK_RELAY_ENABLE) {
+						await message.channel.send({
+							content: `Franzbot has relayed this file to a private channel in ${customChannel.guild.name} for analysis.\n`,
+							// `https://loggy.goat.place/?url=${URLSafeBase64.encode(new Buffer.from(relayedMessage.attachments.first().url))}`
+						});
+					}
 				}
 
 				// handle the dalamud.txt file
