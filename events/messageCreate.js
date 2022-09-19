@@ -174,11 +174,11 @@ module.exports = async (client, message) => {
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
 					await customChannel.send({
-						content: `${message.author.username} (${message.author}) uploaded a crash log in ${isDirectMessage ? "DMs" : `${message.channel} from ${message.guild.name}`}.`,
+						content: `${message.author.username} (${message.author}) uploaded a crash log in ${isDirectMessage ? "DMs" : `${message.channel} from **${message.guild.name}**`}.`,
 						files: [attachment],
 					});
 					await message.channel.send({
-						content: `Franzbot has relayed a crash dump to a private channel in ${customChannel.guild.name} for analysis.`,
+						content: `Franzbot has relayed a crash dump to a private channel in **${customChannel.guild.name}** for analysis.`,
 					});
 
 
@@ -201,11 +201,11 @@ module.exports = async (client, message) => {
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
 					await customChannel.send({
-						content: `${message.author.username} (${message.author}) uploaded a dalamud.injector log in ${isDirectMessage ? "DMs" : `${message.channel} from ${message.guild.name}`}.`,
+						content: `${message.author.username} (${message.author}) uploaded a dalamud.injector log in ${isDirectMessage ? "DMs" : `${message.channel} from **${message.guild.name}**`}.`,
 						files: [attachment],
 					});
 					await message.channel.send({
-						content: `Franzbot has relayed this log to a private channel in ${customChannel.guild.name} for analysis.`,
+						content: `Franzbot has relayed this log to a private channel in **${customChannel.guild.name}** for analysis.`,
 					});
 
 					if (!isDirectMessage) {
@@ -216,20 +216,57 @@ module.exports = async (client, message) => {
 				}
 
 				// relay tspack files from goatplace (or DMs)
-				const TSPACK_RELAY_ENABLE = false;
+				const TSPACK_RELAY_ENABLE = true;
 				if (attachment.name.match(/.*\.(tspack)/gui)) {
 					console.log(`Troubleshooting pack upload: ${attachment.attachment}`);
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
 					const relayedMessage = await customChannel.send({
-						content: `${message.author.username} (${message.author}) uploaded a troubleshooting pack in ${isDirectMessage ? "DMs" : `${message.channel} from ${message.guild.name}`}.`,
+						content: `${message.author.username} (${message.author}) uploaded a troubleshooting pack in ${isDirectMessage ? "DMs" : `${message.channel} from **${message.guild.name}**`}.`,
 						files: [attachment],
 					});
-					if (isDirectMessage || TSPACK_RELAY_ENABLE) {
-						await message.channel.send({
-							content: `Franzbot has relayed this file to a private channel in ${customChannel.guild.name} for analysis.\n`,
-							// `https://loggy.goat.place/?url=${URLSafeBase64.encode(new Buffer.from(relayedMessage.attachments.first().url))}`
+
+
+					// set up proxied url for loggy
+					// console.log(relayedMessage.attachments.first().proxyURL);
+					// console.log(relayedMessage.attachments.first().url);
+					const url = `https://wiki.ffxivrp.org/${relayedMessage.channelId}/${relayedMessage.attachments.first().id}/${relayedMessage.attachments.first().name}`;
+					// console.log(url);
+					const base64url = new Buffer.from(url).toString('base64');
+					const safebase64url = URLSafeBase64.encode(new Buffer.from(url));
+
+					const loggyUrl = `https://loggy.goat.place/?url=${base64url}`;
+
+					// send our loggy url to the relay channel
+					await customChannel.send({
+						embeds: [
+							{
+								"description": `Read provided logs on [Loggy](${loggyUrl})`,
+							},
+						],
+					});
+
+					if (isDirectMessage) {
+						await message.reply({
+							content: `Franzbot-debug has relayed this file to a private channel in **${customChannel.guild.name}** for analysis.\n`
+								+ `loggyUrl`,
+							allowedMentions: {
+								repliedUser: false,
+							},
 						});
+					}
+
+					if (TSPACK_RELAY_ENABLE) {
+						await message.reply({
+							content: `Franzbot-debug has relayed this file to a private channel in **${customChannel.guild.name}** for analysis.\n`,
+							allowedMentions: {
+								repliedUser: false,
+							},
+						});
+					}
+
+					if (!isDirectMessage) {
+						await message.delete().catch(console.error);
 					}
 				}
 
