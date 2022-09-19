@@ -286,24 +286,25 @@ module.exports = async (client, message) => {
 							embeds: [
 								{
 									"description": `${message.author}, Franzbot has relayed this file to a private channel in `
-										+ `**${customChannel.guild.name}** for analysis.\n\n`
-										+ `The original post will be removed.\n\n`
-										+ `Orginal Message:\n`
-										+ `>>> ${message.content}`,
+										+ `**${customChannel.guild.name}** for analysis.\n\n`,
+									// + `The original post will be removed.\n\n`
+									// + `Orginal Message:\n`
+									// + `>>> ${message.content}`,
 								},
 							],
 							allowedMentions: {
 								repliedUser: false,
 							},
 						});
-						setTimeout(() => message.delete().catch(console.error), 5 * SECOND);
+						// setTimeout(() => message.delete().catch(console.error), 5 * SECOND);
 
 						// send our loggy url to the relay channel
 						await customChannel.send({
 							embeds: [
 								{
 									"description": `Read provided logs on [Loggy](${loggyUrl})\n\n`
-										+ `Original post: ${replymsg.url}`,
+										// + `Original post: ${replymsg.url}`,
+										+ `Original post: ${message.url}`,
 								},
 							],
 						});
