@@ -185,14 +185,29 @@ module.exports = async (client, message) => {
 						});
 					}
 					else {
-						await message.reply({
-							content: `Franzbot has relayed this crash dump to a private channel in **${customChannel.guild.name}** for analysis.\n\n`
-								+ `The original file will be removed shortly.`,
+						const replymsg = await message.reply({
+							embeds: [
+								{
+									"description": `${message.author}, Franzbot has relayed this crash dump to a private channel in `
+										+ `**${customChannel.guild.name}** for analysis.\n\n`
+										+ `The original post will be removed shortly.\n\n`
+										+ `Orginal Message:\n`
+										+ `>>> ${message.content}`,
+								},
+							],
 							allowedMentions: {
 								repliedUser: false,
 							},
 						});
-						setTimeout(() => message.removeAttachments().catch(console.error), 15 * SECOND);
+						setTimeout(() => message.delete().catch(console.error), 5 * SECOND);
+
+						await customChannel.send({
+							embeds: [
+								{
+									"description": `Original post: ${replymsg.url}`,
+								},
+							],
+						});
 					}
 				}
 
@@ -224,7 +239,15 @@ module.exports = async (client, message) => {
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
 					const relayedMessage = await customChannel.send({
-						content: `${message.author.username} (${message.author}) uploaded a troubleshooting pack in ${isDirectMessage ? "DMs" : `${message.channel} from **${message.guild.name}**`}.`,
+						embeds: [
+							{
+								"description": `${message.author.username} (${message.author}) uploaded a troubleshooting pack in `
+									+ `${isDirectMessage ? "DMs" : `${message.channel} from **${message.guild.name}**`}.\n\n`
+									+ `The original post will be removed shortly.\n\n`
+									+ `Orginal Message:\n`
+									+ `>>> ${message.content}`,
+							},
+						],
 						files: [attachment],
 					});
 
@@ -239,18 +262,13 @@ module.exports = async (client, message) => {
 
 					const loggyUrl = `https://loggy.goat.place/?url=${base64url}`;
 
-					// send our loggy url to the relay channel
-					await customChannel.send({
-						embeds: [
-							{
-								"description": `Read provided logs on [Loggy](${loggyUrl})`,
-							},
-						],
-					});
-
 					if (isDirectMessage) {
 						await message.reply({
-							content: `Franzbot has relayed this file to a private channel in **${customChannel.guild.name}** for analysis.`,
+							embeds: [
+								{
+									"description": `${message.author}, Franzbot has relayed this file to a private channel in **${customChannel.guild.name}** for analysis.`,
+								},
+							],
 							allowedMentions: {
 								repliedUser: false,
 							},
@@ -265,14 +283,31 @@ module.exports = async (client, message) => {
 					}
 
 					if (!isDirectMessage && TSPACK_RELAY_ENABLE) {
-						await message.reply({
-							content: `Franzbot has relayed this file to a private channel in **${customChannel.guild.name}** for analysis.\n\n`
-								+ `The original file will be removed shortly.`,
+						const replymsg = await message.reply({
+							embeds: [
+								{
+									"description": `${message.author}, Franzbot has relayed this file to a private channel in `
+										+ `**${customChannel.guild.name}** for analysis.\n\n`
+										+ `The original post will be removed shortly.\n\n`
+										+ `Orginal Message:\n`
+										+ `>>> ${message.content}`,
+								},
+							],
 							allowedMentions: {
 								repliedUser: false,
 							},
 						});
-						setTimeout(() => message.removeAttachments().catch(console.error), 15 * SECOND);
+						setTimeout(() => message.delete().catch(console.error), 5 * SECOND);
+
+						// send our loggy url to the relay channel
+						await customChannel.send({
+							embeds: [
+								{
+									"description": `Read provided logs on [Loggy](${loggyUrl})\n\n`
+										+ `Original post: ${replymsg.url}`,
+								},
+							],
+						});
 					}
 				}
 
