@@ -142,8 +142,8 @@ module.exports = async (client, message) => {
 			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_TEST);
 		}
 
-		 // check if it's a dalamud log
-		if (message.attachments.size > 0)  {
+		// check if it's a dalamud log
+		if (message.attachments.size > 0) {
 			console.log("Found an attachment in this message");
 
 			message.attachments.forEach(async attachment => {
@@ -177,20 +177,22 @@ module.exports = async (client, message) => {
 						content: `${message.author.username} (${message.author}) uploaded a crash log in ${isDirectMessage ? "DMs" : `${message.channel} from **${message.guild.name}**`}.`,
 						files: [attachment],
 					});
-					await message.channel.send({
-						content: `Franzbot has relayed a crash dump to a private channel in **${customChannel.guild.name}** for analysis.`,
-					});
 
 
-					if (!isDirectMessage) {
-						// try to delete this out of the channel it was in.
-						await message.delete()
-							/*
-							.catch(await curChannel.send({
-								content: `Franzbot couldn't delete your crash dump from this channel for you. Please remove it.`,
-							}));
-							*/
-							.catch(console.error);
+					if (isDirectMessage) {
+						await message.channel.send({
+							content: `Franzbot has relayed this crash dump to a private channel in **${customChannel.guild.name}** for analysis.`,
+						});
+					}
+					else {
+						await message.reply({
+							content: `Franzbot has relayed this crash dump to a private channel in **${customChannel.guild.name}** for analysis.\n\n`
+								+ `The original file will be removed shortly.`,
+							allowedMentions: {
+								repliedUser: false,
+							},
+						});
+						setTimeout(() => message.delete().catch(console.error), 15 * SECOND);
 					}
 				}
 
@@ -264,15 +266,13 @@ module.exports = async (client, message) => {
 
 					if (!isDirectMessage && TSPACK_RELAY_ENABLE) {
 						await message.reply({
-							content: `Franzbot-debug has relayed this file to a private channel in **${customChannel.guild.name}** for analysis.\n`,
+							content: `Franzbot has relayed this file to a private channel in **${customChannel.guild.name}** for analysis.\n\n`
+								+ `The original file will be removed shortly.`,
 							allowedMentions: {
 								repliedUser: false,
 							},
 						});
-					}
-
-					if (!isDirectMessage) {
-						await message.delete().catch(console.error);
+						setTimeout(() => message.delete().catch(console.error), 15 * SECOND);
 					}
 				}
 
@@ -358,7 +358,7 @@ module.exports = async (client, message) => {
 								// List all officially supported plugins
 								officialplugins.forEach(plugin => {
 									plugintext += `**${plugin.Name}**`
-											+ ` - ${plugin.AssemblyVersion}\n`;
+										+ ` - ${plugin.AssemblyVersion}\n`;
 									if (plugintext.length > 900) {
 										replymessage2
 											.addField(
