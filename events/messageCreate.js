@@ -192,7 +192,7 @@ module.exports = async (client, message) => {
 								repliedUser: false,
 							},
 						});
-						setTimeout(() => message.delete().catch(console.error), 15 * SECOND);
+						setTimeout(() => message.removeAttachments().catch(console.error), 15 * SECOND);
 					}
 				}
 
@@ -213,7 +213,7 @@ module.exports = async (client, message) => {
 					if (!isDirectMessage) {
 						// injector log no longer has the thing unless it's debug.
 						// TODO: parse injector log and verbose xlcore logs and strip that out.
-						// await message.delete().catch(console.error);
+						// await message.removeAttachments().catch(console.error);
 					}
 				}
 
@@ -272,7 +272,7 @@ module.exports = async (client, message) => {
 								repliedUser: false,
 							},
 						});
-						setTimeout(() => message.delete().catch(console.error), 15 * SECOND);
+						setTimeout(() => message.removeAttachments().catch(console.error), 15 * SECOND);
 					}
 				}
 
