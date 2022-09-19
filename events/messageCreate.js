@@ -190,7 +190,7 @@ module.exports = async (client, message) => {
 								{
 									"description": `${message.author}, Franzbot has relayed this crash dump to a private channel in `
 										+ `**${customChannel.guild.name}** for analysis.\n\n`
-										+ `The original post will be removed shortly.\n\n`
+										+ `The original post will be removed.\n\n`
 										+ `Orginal Message:\n`
 										+ `>>> ${message.content}`,
 								},
@@ -243,7 +243,6 @@ module.exports = async (client, message) => {
 							{
 								"description": `${message.author.username} (${message.author}) uploaded a troubleshooting pack in `
 									+ `${isDirectMessage ? "DMs" : `${message.channel} from **${message.guild.name}**`}.\n\n`
-									+ `The original post will be removed shortly.\n\n`
 									+ `Orginal Message:\n`
 									+ `>>> ${message.content}`,
 							},
@@ -288,7 +287,7 @@ module.exports = async (client, message) => {
 								{
 									"description": `${message.author}, Franzbot has relayed this file to a private channel in `
 										+ `**${customChannel.guild.name}** for analysis.\n\n`
-										+ `The original post will be removed shortly.\n\n`
+										+ `The original post will be removed.\n\n`
 										+ `Orginal Message:\n`
 										+ `>>> ${message.content}`,
 								},
