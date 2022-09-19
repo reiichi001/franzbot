@@ -248,15 +248,21 @@ module.exports = async (client, message) => {
 
 					if (isDirectMessage) {
 						await message.reply({
-							content: `Franzbot-debug has relayed this file to a private channel in **${customChannel.guild.name}** for analysis.\n`
-								+ `loggyUrl`,
+							content: `Franzbot has relayed this file to a private channel in **${customChannel.guild.name}** for analysis.`,
 							allowedMentions: {
 								repliedUser: false,
 							},
 						});
+						await message.channel.send({
+							embeds: [
+								{
+									"description": `Read provided logs on [Loggy](${loggyUrl})`,
+								},
+							],
+						});
 					}
 
-					if (TSPACK_RELAY_ENABLE) {
+					if (!isDirectMessage && TSPACK_RELAY_ENABLE) {
 						await message.reply({
 							content: `Franzbot-debug has relayed this file to a private channel in **${customChannel.guild.name}** for analysis.\n`,
 							allowedMentions: {
