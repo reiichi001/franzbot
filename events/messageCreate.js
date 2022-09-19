@@ -259,7 +259,7 @@ module.exports = async (client, message) => {
 					const base64url = new Buffer.from(url).toString('base64');
 					const safebase64url = URLSafeBase64.encode(new Buffer.from(url));
 
-					const loggyUrl = `https://loggy.goat.place/?url=${base64url}`;
+					const loggyUrl = `https://loggy.goat.place/?url=${safebase64url}`;
 
 					if (isDirectMessage) {
 						await message.reply({
