@@ -9,10 +9,10 @@ const {
 } = require("../../../modules/checkTheMessage");
 
 exports.execute = async (client, message) => {
-	const sectionIdentifier = `suggestionchannels-${message.guild.id}`;
+	const sectionIdentifier = `unsupportedtool-${message.guild.id}`;
 
 	if (timeoutEnded(sectionIdentifier, 3 * SECOND)) {
-		const forbidAny = [/(bdth|burn[ing]*\s*down\s*the\s*house|xiv\s*alex.*|no\s*clip.*|l\s*meter|cammy|oobplugin|sloth|combo\s*expand.*|splatoon|makeplace)/gui];
+		const forbidAny = [/(bdth|burn[ing]*\s*down\s*the\s*house|xiv\s*alex.*|no\s*clip.*|l\s*meter|cammy|oobplugin|sloth|combo\s*expand.*|splatoon|makeplace|mare|mui|material\s*ui\s*plugin|glamourer)/gui];
 		const forbidCount = [/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(s|ed|t?ing)?\b/gui];
 		const negateBadWords = [];
 		const forbiddenMinCount = 1;
@@ -21,7 +21,7 @@ exports.execute = async (client, message) => {
 		const replyMessage = {
 
 			title: client.config.TRIGGER_TITLE,
-			description: "We are unable to provide support for plugins that can only be installed via third-party repo or other third party tools. "
+			description: "We are unable to provide support for plugins that can only be installed via custom plugin repo or other third party tools. "
 			+ "Please contact the creator[s] directly, make an issue on their git repo, or ask in their support discords."
 			+ "\n\nPlease do not link or discuss the aforementioned tool/plugin here. Thank you for your understanding!",
 			color: client.config.EMBED_ERROR_COLOR,
