@@ -17,6 +17,7 @@ exports.replyMessage = async client => ({
 		+ `> **What gear are you wearing?**\n`
 		+ `\n`
 		+ `*We are unable to offer support on IVCS.*\n`
+		+ `\`\`\`fix\nPlease include your Penumbra support info from the main settings tab.\`\`\``
 		+ `\n`
 		+ `*Common issues below*:\n`
 		+ `\n`
@@ -30,10 +31,9 @@ exports.replyMessage = async client => ({
 		+ `> - If skin on Bibo+ gear mods looks disfigured, go to \`Edit Mod\` > \`Update Bibo Material\`.\n`
 		+ `\n`
 		+ `**UI/VFX/SFX/BGM mods not working?**\n`
-		+ `> - Make sure these are enabled in the Base Collection. `
-		+ `Some might need to be in your character collection as well.\n`
-		+ `\n`
-		+ `Also include your Penumbra support info from the main settings tab.`,
+		+ `> - Please make sure UI mods are enabled in the __Interface Collection__.\n`
+		+ `> - Please sake sure VFX/SFX/BGM mods are enabled in the __Base Collection__.\n`
+		+ `> - Some might need to be in your character collection as well.\n`,
 	image: {
 		"url": "https://cdn.discordapp.com/attachments/984798693096046642/1014744616815304794/unknown.png",
 	},
