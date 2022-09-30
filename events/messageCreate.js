@@ -325,6 +325,7 @@ module.exports = async (client, message) => {
 							client.logger.debug("END OF THREAD");
 						}
 						*/
+						let foundCustomRepoPluginInstalled = false;
 
 						const logdata = response?.body;
 						const logdresults = logdata.match(/TROUBLESHOOTING:(.*)/gu);
@@ -424,7 +425,9 @@ module.exports = async (client, message) => {
 								plugintext = ">>> ";
 								overflowed = false;
 
-								if (unofficialplugins.length > 1) {
+								if (unofficialplugins.length >= 1) {
+									foundCustomRepoPluginInstalled = true;
+
 									unofficialplugins.forEach(plugin => {
 										plugintext += `**${plugin.Name}**`
 											+ ` - ${plugin.AssemblyVersion}\n`;
@@ -615,6 +618,26 @@ module.exports = async (client, message) => {
 							}
 							message.reply({
 								embeds: [replymessage3],
+								allowedMentions: {
+									repliedUser: false,
+								},
+							});
+						}
+
+						if (foundCustomRepoPluginInstalled) {
+							const nagMessage = require("../modules/parse/customrepoplugin.js");
+							const nagMessageReply = await nagMessage.replyMessage(client);
+
+							if (isDirectMessage) {
+								customChannel.send({
+									embeds: [nagMessageReply],
+									allowedMentions: {
+										repliedUser: false,
+									},
+								});
+							}
+							message.reply({
+								embeds: [nagMessageReply],
 								allowedMentions: {
 									repliedUser: false,
 								},
