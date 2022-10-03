@@ -685,6 +685,10 @@ module.exports = async (client, message) => {
 									break;
 								case 2:
 									troubleshxltingreplymessage
+										.addField("Platform", "XLCore on Linux");
+									break;
+								case 3:
+									troubleshxltingreplymessage
 										.addField("Platform", "macOS");
 									break;
 								default:
