@@ -40,19 +40,18 @@ exports.run = async (client, message, args) => {
 		}*/
 
 		if (Array.isArray(response)) {
-			message.channel.send({
+			return message.channel.send({
 				embeds: response,
 			});
 		}
-		else {
-			message.channel.send({
-				embeds: [response],
-			});
-		}
+
+		return message.channel.send({
+			embeds: [response],
+		});
 	}
-	else {
-		client.logger.error("New FAQ not found. Using fallback");
-	}
+
+	client.logger.error("New FAQ not found. Using fallback");
+
 
 	const configpath = `../config/${message.guild.id}/faq.js`;
 	console.log(`checking for: ${configpath}`);
