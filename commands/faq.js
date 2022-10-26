@@ -32,8 +32,20 @@ exports.run = async (client, message, args) => {
 				files: response.files ?? [],
 			});
 		}
+		/*
 		if (response) {
 			return message.channel.send({
+				embeds: [response],
+			});
+		}*/
+
+		if (Array.isArray(response)) {
+			message.channel.send({
+				embeds: response,
+			});
+		}
+		else {
+			message.channel.send({
 				embeds: [response],
 			});
 		}
