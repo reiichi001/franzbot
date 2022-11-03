@@ -684,8 +684,14 @@ module.exports = async (client, message) => {
 										.addField("Platform", "Wine on Linux");
 									break;
 								case 2:
-									troubleshxltingreplymessage
-										.addField("Platform", "XLCore on Linux");
+									if (message.guildId === client.config.GUILDID_XIVONMAC) {
+										troubleshxltingreplymessage
+											.addField("Platform", "macOS");
+									}
+									else {
+										troubleshxltingreplymessage
+											.addField("Platform", "XLCore on Linux");
+									}
 									break;
 								case 3:
 									troubleshxltingreplymessage
