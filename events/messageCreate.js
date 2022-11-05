@@ -707,7 +707,7 @@ module.exports = async (client, message) => {
 								.setTitle("General Launcher Settings")
 								.addField("Autologin", data.IsAutoLogin ? "enabled" : "disabled", true)
 								.addField("DirectX", data.IsDx11 ? "dx11" : "dx9", true)
-								.addField("DPI Aware", data.DpiAwareness ? "yes" : "no", true)
+								.addField("DPI Aware", data.DpiAwareness ? "no" : "yes", true)
 								.addField("Encrypted Arguments", data.EncryptArguments ? "enabled" : "disabled", true)
 								// .addField("Steam Integration", data.SteamIntegration ? "enabled" : "disabled", true)
 								.addField("UID Cache", data.IsUidCache ? "enabled" : "disabled", true);
@@ -715,8 +715,24 @@ module.exports = async (client, message) => {
 							troubleshxltingreplymessage2
 								.addField("Dalamud", data.DalamudEnabled ? "enabled" : "disabled");
 							if (data.DalamudEnabled) {
+								switch (data.DalamudLoadMethod) {
+									case 0:
+										troubleshxltingreplymessage2
+											.addField("Injection Method", "Entrypoint", true);
+										break;
+									case 1:
+										troubleshxltingreplymessage2
+											.addField("Injection Method", "DLL Injection", true);
+										break;
+									case 2:
+										troubleshxltingreplymessage2
+											.addField("Injection Method", "ACL Only", true);
+										break;
+									default:
+										break;
+								}
+
 								troubleshxltingreplymessage2
-									.addField("Injection Method", data.DalamudLoadMethod == 0 ? "Entrypoint" : "DLL Inject", true)
 									.addField("Injection Delay", data.DalamudInjectionDelay ? `${data.DalamudInjectionDelay}ms` : "0ms", true);
 							}
 
