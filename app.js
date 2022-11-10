@@ -13,6 +13,12 @@ myIntents.add('DIRECT_MESSAGES', 'GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'G
 
 const client = new Client(
 	{
+		allowedMentions: {
+			parse: [
+				'users',
+				// 'roles', // we probably don't need this either, but kept for posterity.
+			],
+		},
 		intents: myIntents.bitfield,
 		partials: [
 			'GUILD',
