@@ -9,7 +9,7 @@ const allowedRoles = [
 	"moderator",
 	"team",
 	"support",
-	"support mod",
+	"support team",
 	// "test",
 	// "botters",
 	"XIV on Mac Team",
