@@ -2,6 +2,11 @@
 exports.run = async (client, message, args) => { // eslint-disable-line no-unused-vars
 	// console.log(`All slash commands: ${[...client.slashcmds.keys()]}`);
 
+	if (message.author.id !== "60851293232574464") {
+		await message.reply("You don't have permission to run that.");
+		return;
+	}
+
 	// Filter the slash commands to find guild only ones.
 	const guildCmds = client.slashcmds.filter(c => c.guildOnly).map(c => c.commandData(client, message));
 
