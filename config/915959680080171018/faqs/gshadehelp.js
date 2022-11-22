@@ -6,8 +6,8 @@ exports.answer = async client => ({
         + `\n\n- Certain effects are not compatible on Mac & will cause extreme performance degradation/crashing. Example: Clarity & Clarity2`
         + `\n\n- You can verify that Gshade is installed using the Gshade Manual installer in XOM and by pressing "S" in the terminal`
         + `\n\n- You can uninstall Gshade by using the Gshade Manual installer and by pressing "D" in the terminal`
-		+ `\n\n- The XOM team provide a performance suite of presets inside the gshade preset folder under "XIV of Mac"`
-        + `If you are having issues not listed here, contact a team member in #support-gshade `,
+	+ `\n\n- The XOM team provide a performance suite of presets inside the gshade preset folder under "XIV of Mac"`
+        + `\n\n If you are having issues not listed here, contact a team member in #support-gshade `,
 
 	color: client.config.EMBED_NORMAL_COLOR,
 
