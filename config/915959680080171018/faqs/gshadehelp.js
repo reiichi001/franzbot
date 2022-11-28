@@ -2,7 +2,6 @@ exports.answer = async client => ({
 	title: `Gshade Help`,
 	description: `Tips/Help setting up Gshade w/ XOM`
         + `\n\n- Use Shift+F2 or FN+Shift+F2 on Macbook to enter Gshade settings in game`
-        + `\n\n- You can verify that Gshade is installed using the Gshade Manual installer in XOM and by pressing "S"`
         + `\n\n- Certain effects are not compatible on Mac & will cause extreme performance degradation/crashing. Example: Clarity & Clarity2`
         + `\n\n- You can verify that Gshade is installed using the Gshade Manual installer in XOM and by pressing "S" in the terminal`
         + `\n\n- You can uninstall Gshade by using the Gshade Manual installer and by pressing "D" in the terminal`
