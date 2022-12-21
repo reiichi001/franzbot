@@ -222,7 +222,7 @@ module.exports = async (client, message) => {
 						files: [attachment],
 					});
 					await message.channel.send({
-						content: `Franzbot has relayed this log to a private channel in **${customChannel.guild.name}** for analysis.`,
+						content: `Franzbot has relayed this log to a private channel in **${customChannel.guild.name}** for analysis by select members of the support team.`,
 					});
 
 					if (!isDirectMessage) {
@@ -265,7 +265,7 @@ module.exports = async (client, message) => {
 						await message.reply({
 							embeds: [
 								{
-									"description": `${message.author}, Franzbot has relayed this file to a private channel in **${customChannel.guild.name}** for analysis.`,
+									"description": `${message.author}, Franzbot has relayed this file to a private channel in **${customChannel.guild.name}** for analysis by select members of the XIVLauncher/Dalamud support team.`,
 								},
 							],
 							allowedMentions: {
