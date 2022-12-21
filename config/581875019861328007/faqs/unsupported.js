@@ -17,6 +17,8 @@ exports.info = {
 	name: "unsupported",
 	category: "help",
 	aliases: [
+		"6",
 		"rule6",
+		"welcome6",
 	],
 };
