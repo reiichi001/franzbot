@@ -286,7 +286,8 @@ module.exports = async (client, message) => {
 							embeds: [
 								{
 									"description": `${message.author}, Franzbot has relayed this file to a private channel in `
-										+ `**${customChannel.guild.name}** for analysis.\n\n`,
+										+ `**${customChannel.guild.name}** for analysis by select members of the support team.\n\n`
+										+ `**NOTE**: Please make sure to provide some context about this if you haven't already.`,
 									// + `The original post will be removed.\n\n`
 									// + `Orginal Message:\n`
 									// + `>>> ${message.content}`,
