@@ -2,6 +2,7 @@
     "ignoredUsers": [],
     "ignoredRoles": [
         "team",
+        "support team",
         "friends",
         "plugin developer",
         "plugin creator",
