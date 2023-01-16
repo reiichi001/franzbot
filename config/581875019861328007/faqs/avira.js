@@ -5,7 +5,7 @@ exports.answer = async client => ({
   `We've had many users come in with this issue, and the only solution is to use Windows' "Reset Your PC" feature.\n\n`+
   `Please uninstall Avira, then follow the instructions `
 		+ `[HERE](https://support.microsoft.com/en-us/windows/recovery-options-in-windows-31ce2444-7de3-818c-d626-e3b5a3024da5#bkmk_reset_pc)` +
-   `. You can safely use the "Keep My Files" setting.`,
+   `. You can safely use the "Keep My Files" setting. **This will uninstall all programs on your computer. Please make note of any programs you need before performing these steps.**`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	footer: {
 		"text": client.config.FRANZBOT_VERSION,
