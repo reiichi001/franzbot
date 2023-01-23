@@ -228,7 +228,7 @@ module.exports = async (client, message) => {
 					if (!isDirectMessage) {
 						// injector log no longer has the thing unless it's debug.
 						// TODO: parse injector log and verbose xlcore logs and strip that out.
-						// await message.removeAttachments().catch(console.error);
+						await message.removeAttachments().catch(console.error);
 					}
 				}
 
@@ -287,17 +287,17 @@ module.exports = async (client, message) => {
 								{
 									"description": `${message.author}, Franzbot has relayed this file to a private channel in `
 										+ `**${customChannel.guild.name}** for analysis by select members of the support team.\n\n`
-										+ `**NOTE**: Please make sure to provide some context about this if you haven't already.`,
-									// + `The original post will be removed.\n\n`
-									// + `Orginal Message:\n`
-									// + `>>> ${message.content}`,
+										+ `**NOTE**: Please make sure to provide some context about this if you haven't already.` // ,
+										+ `The original post will be removed.\n\n`
+										+ `Orginal Message:\n`
+									    + `>>> ${message.content}`,
 								},
 							],
 							allowedMentions: {
 								repliedUser: false,
 							},
 						});
-						// setTimeout(() => message.delete().catch(console.error), 5 * SECOND);
+						setTimeout(() => message.delete().catch(console.error), 5 * SECOND);
 
 						// send our loggy url to the relay channel
 						await customChannel.send({
