@@ -212,7 +212,7 @@ module.exports = async (client, message) => {
 				}
 
 				// relay dalamud.injector.log files from goatplace (or DMs)
-				const DALAMUD_INJECTOR_RELAY_ENABLE = false;
+				const DALAMUD_INJECTOR_RELAY_ENABLE = true;
 				if (DALAMUD_INJECTOR_RELAY_ENABLE && attachment.name.match(/dalamud\.injector.*\.(log)/gui)) {
 					console.log(`Dalamud injector log upload: ${attachment.attachment}`);
 					// const response = await got(attachment.attachment);
