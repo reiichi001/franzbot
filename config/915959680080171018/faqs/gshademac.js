@@ -1,9 +1,9 @@
 exports.answer = async client => ({
-	title: `Gshade Crossover Mac`,
-	description: `Guide for setting up Gshade inside Mac Crossover.`
+	title: `Gshade Guide`,
+	description: `Guide for setting up Gshade with XIV on Mac.`
 		+ ``
-		+ `\n\nPlease visit our Gshade Crossover Mac setup guide on GitHub, see `
-		+ `[HERE](https://github.com/seathasky/gshade_cx_mac)`,
+		+ `\n\nPlease use our Gshade setup guide on our website, see `
+		+ `[HERE](https://www.xivmac.com/gshade)`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	footer: {
 		"text": client.config.FRANZBOT_VERSION,
@@ -15,7 +15,7 @@ exports.info = {
 	category: "info",
 	aliases: [
 		"gshademac",
-		"gshadecx",
+		"gshade",
 		"gshadeguide",
 	],
 };
