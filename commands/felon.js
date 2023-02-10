@@ -19,6 +19,7 @@ const responses = [
 	`!!`,
 	`🤣🤣🤣`,
 	`🤣`,
+	`.`,
 ];
 
 exports.run = async (client, message, args) => {
