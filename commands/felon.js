@@ -3,6 +3,7 @@ const responses = [
 	`Absolutely`,
 	`Certainly worth further investigation`,
 	`Concerning`,
+        `Extremely concerning`,
 	`I'm not cis, you are`,
 	`Interesting`,
 	`Looking into it`,
