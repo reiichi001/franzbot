@@ -173,7 +173,7 @@ module.exports = async (client, message) => {
 					console.log(`Dalamud crash dump upload: ${attachment.attachment}`);
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
-					await customChannel.send({
+					const relayedMessage = await customChannel.send({
 						content: `${message.author.username} (${message.author}) uploaded a crash log in ${isDirectMessage ? "DMs" : `${message.channel} from **${message.guild.name}**`}.`,
 						files: [attachment],
 					});
@@ -190,6 +190,7 @@ module.exports = async (client, message) => {
 								{
 									"description": `${message.author}, Franzbot has relayed this crash dump to a private channel in `
 										+ `**${customChannel.guild.name}** for analysis.\n\n`
+										+ `Support staff can find it [here](${relayedMessage.url})\n\n`
 										+ `The original post will be removed.\n\n`
 										+ `Orginal Message:\n`
 										+ `>>> ${message.content}`,
@@ -217,15 +218,34 @@ module.exports = async (client, message) => {
 					console.log(`Dalamud injector log upload: ${attachment.attachment}`);
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
-					await customChannel.send({
+					const relayedMessage = await customChannel.send({
 						content: `${message.author.username} (${message.author}) uploaded a dalamud.injector log in ${isDirectMessage ? "DMs" : `${message.channel} from **${message.guild.name}**`}.`,
 						files: [attachment],
 					});
-					await message.channel.send({
-						content: `Franzbot has relayed this log to a private channel in **${customChannel.guild.name}** for analysis by select members of the support team.`,
-					});
 
-					if (!isDirectMessage) {
+
+					if (isDirectMessage) {
+						await message.channel.send({
+							content: `Franzbot has relayed this log to a private channel in **${customChannel.guild.name}** for analysis by select members of the support team.`,
+						});
+					}
+					else {
+						const replymsg = await message.reply({
+							embeds: [
+								{
+									"description": `${message.author}, Franzbot has relayed this log to a private channel in `
+										+ `**${customChannel.guild.name}** for analysis.\n\n`
+										+ `Support staff can find it [here](${relayedMessage.url})\n\n`
+										+ `The original post will be removed.\n\n`
+										+ `Orginal Message:\n`
+										+ `>>> ${message.content}`,
+								},
+							],
+							allowedMentions: {
+								repliedUser: false,
+							},
+						});
+
 						// injector log no longer has the thing unless it's debug.
 						// TODO: parse injector log and verbose xlcore logs and strip that out.
 						await message.removeAttachments().catch(console.error);
@@ -287,6 +307,7 @@ module.exports = async (client, message) => {
 								{
 									"description": `${message.author}, Franzbot has relayed this file to a private channel in `
 										+ `**${customChannel.guild.name}** for analysis by select members of the support team.\n\n`
+										+ `Support staff can find it [here](${relayedMessage.url})\n\n`
 										+ `**NOTE**: Please make sure to provide some context about this if you haven't already.` // ,
 										+ `The original post will be removed.\n\n`
 										+ `Orginal Message:\n`
