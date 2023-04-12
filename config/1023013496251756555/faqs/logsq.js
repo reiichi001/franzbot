@@ -1,7 +1,7 @@
 exports.answer = async client => ({
 	title: `Please send us your SquirrelSetup.log file`,
 	description: `Please send us your **SquirrelSetup.log** log file from `
-		+ `\`%appdata%\\XIVLauncher\\\` in this channel, so we can look into the problem!\n\n`
+		+ `\`%localappdata%\\SquirrelTemp\\\` in this channel, so we can look into the problem!\n\n`
 		+ `It's best to just upload/attach the file if you can!\n\n`
 		+ `**NOTE**: If you have file extensions hidden, this will look like a \`Text Document\` `
 		+ `named \`SquirrelSetup\` on your computer.\n\n`
