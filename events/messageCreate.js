@@ -319,18 +319,18 @@ module.exports = async (client, message) => {
 							},
 						});
 						setTimeout(() => message.delete().catch(console.error), 5 * SECOND);
-
-						// send our loggy url to the relay channel
-						await customChannel.send({
-							embeds: [
-								{
-									"description": `Read provided logs on [Loggy](${loggyUrl})\n\n`
-										// + `Original post: ${replymsg.url}`,
-										+ `Original post: ${message.url}`,
-								},
-							],
-						});
 					}
+
+					// send our loggy url to the relay channel
+					await customChannel.send({
+						embeds: [
+							{
+								"description": `Read provided logs on [Loggy](${loggyUrl})\n\n`
+									// + `Original post: ${replymsg.url}`,
+									+ `Original post: ${message.url}`,
+							},
+						],
+					});
 				}
 
 				// handle the dalamud.txt file
