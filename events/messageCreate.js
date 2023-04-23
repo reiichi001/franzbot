@@ -646,7 +646,10 @@ module.exports = async (client, message) => {
 							});
 						}
 
-						if (foundCustomRepoPluginInstalled && message.guildId === client.config.GUILDID_GOAT) {
+						if (foundCustomRepoPluginInstalled && (
+							message.guildId === client.config.GUILDID_GOAT
+							|| message.guildId === client.config.GUILDID_XIVONMAC)
+						) {
 							const nagMessage = require("../modules/parse/customrepoplugin.js");
 							const nagMessageReply = await nagMessage.replyMessage(client);
 
