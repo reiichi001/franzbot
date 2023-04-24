@@ -7,9 +7,7 @@ exports.answer = async client => ({
 		+ `4. Go to \`%AppData%\\XIVLauncher\\devPlugins\`\n`
 		+ `5. Remove all manually installed plugins. (Check if they have a third party repo or reinstall later)\n`
 		+ `6. Start the game now\n`
-		+ `7. Let us know if the issue persists`
-		+ `\n\nEXPERIMENTAL: You can also now delete a plugin from XIVLauncher before`
-		+ ` logging in. While this should work, it hasn't been tested extensively yet.`,
+		+ `7. Let us know if the issue persists`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	image: {
 		"url": client.config.WINDOWSEXPLORERSCREENSHOT,
