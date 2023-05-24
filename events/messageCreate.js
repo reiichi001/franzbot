@@ -420,8 +420,9 @@ module.exports = async (client, message) => {
 
 								// List all officially supported plugins
 								officialplugins.forEach(plugin => {
-									plugintext += `**${plugin.Name}**`
-										+ ` - ${plugin.AssemblyVersion}\n`;
+									plugintext += plugin.Disabled
+										? `~~**${plugin.Name}** - ${plugin.AssemblyVersion}~~\n`
+										: `**${plugin.Name}** - ${plugin.AssemblyVersion}\n`;
 									if (plugintext.length > 900) {
 										replymessage2
 											.addField(
