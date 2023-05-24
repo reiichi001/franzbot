@@ -353,6 +353,7 @@ module.exports = async (client, message) => {
 						}
 						*/
 						let foundCustomRepoPluginInstalled = false;
+						let anyCustomRepoPluginsLoaded = false;
 
 						const logdata = response?.body;
 						const logdresults = logdata.match(/TROUBLESHOOTING:(.*)/gu);
@@ -383,8 +384,8 @@ module.exports = async (client, message) => {
 							if (data?.LoadedPlugins?.length == 0) {
 								replymessage2
 									.addField(
-										"Loaded plugins",
-										"No plugins loaded according to troubleshooting blob."
+										"Installed plugins",
+										"No plugins installed according to troubleshooting blob."
 									);
 							}
 							else if (data.LoadedPlugins.length == 1) {
@@ -393,7 +394,7 @@ module.exports = async (client, message) => {
 
 								replymessage2
 									.addField(
-										"Loaded plugin",
+										"Installed plugin",
 										plugintext
 									);
 							}
@@ -420,13 +421,34 @@ module.exports = async (client, message) => {
 
 								// List all officially supported plugins
 								officialplugins.forEach(plugin => {
+									let prefix = "";
+									let suffix = "\n";
+
+									if (data.PluginStates && plugin.InternalName in data.PluginStates) {
+										const state = data.PluginStates[plugin.InternalName];
+										const everStartedLoading = data.EverStartedLoadingPlugins?.includes(plugin.InternalName);
+										let startedLoadingSuffix = "";
+										if (state === "Loaded") {
+											prefix = "✅ ";
+										} else if (everStartedLoading) {
+											prefix += "⚠️ ";
+											startedLoadingSuffix = ", but started loading";
+										} else {
+											prefix += "❌ ";
+										}
+										suffix = ` _(${state}${startedLoadingSuffix})_\n`;
+									}
+
+									plugintext += prefix;
 									plugintext += plugin.Disabled
-										? `~~**${plugin.Name}** - ${plugin.AssemblyVersion}~~\n`
-										: `**${plugin.Name}** - ${plugin.AssemblyVersion}\n`;
+										? `~~**${plugin.Name}** - ${plugin.AssemblyVersion}~~`
+										: `**${plugin.Name}** - ${plugin.AssemblyVersion}`;
+									plugintext += suffix;
+
 									if (plugintext.length > 900) {
 										replymessage2
 											.addField(
-												overflowed ? "Officially support plugins continued..." : "Loaded offically supported plugins",
+												overflowed ? "Officially supported plugins continued..." : "Installed officially supported plugins",
 												plugintext
 											);
 										plugintext = ">>> ";
@@ -444,7 +466,7 @@ module.exports = async (client, message) => {
 								else {
 									replymessage2
 										.addField(
-											"Last seen loaded official plugins",
+											"Last seen installed official plugins",
 											plugintext
 										);
 								}
@@ -457,12 +479,36 @@ module.exports = async (client, message) => {
 									foundCustomRepoPluginInstalled = true;
 
 									unofficialplugins.forEach(plugin => {
-										plugintext += `**${plugin.Name}**`
-											+ ` - ${plugin.AssemblyVersion}\n`;
+										let prefix = "";
+										let suffix = "\n";
+
+										if (data.PluginStates && plugin.InternalName in data.PluginStates) {
+											const state = data.PluginStates[plugin.InternalName];
+											const everStartedLoading = data.EverStartedLoadingPlugins?.includes(plugin.InternalName);
+											let startedLoadingSuffix = "";
+											if (state === "Loaded") {
+												prefix = "✅ ";
+												anyCustomRepoPluginsLoaded = true;
+											} else if (everStartedLoading) {
+												prefix += "⚠️ ";
+												startedLoadingSuffix = ", but started loading";
+												anyCustomRepoPluginsLoaded = true;
+											} else {
+												prefix += "❌ ";
+											}
+											suffix = ` _(${state}${startedLoadingSuffix})_\n`;
+										}
+
+										plugintext += prefix;
+										plugintext += plugin.Disabled
+											? `~~**${plugin.Name}** - ${plugin.AssemblyVersion}~~`
+											: `**${plugin.Name}** - ${plugin.AssemblyVersion}`;
+										plugintext += suffix;
+
 										if (plugintext.length > 900) {
 											replymessage2
 												.addField(
-													overflowed ? "Unsupport plugins continued..." : "Loaded custom repo / unsupported plugins",
+													overflowed ? "Unsupported plugins continued..." : "Installed custom repo / unsupported plugins",
 													plugintext
 												);
 											plugintext = ">>> ";
@@ -480,7 +526,7 @@ module.exports = async (client, message) => {
 									else {
 										replymessage2
 											.addField(
-												"Last seen loaded custom repo / unsupported plugins",
+												"Last seen installed custom repo / unsupported plugins",
 												plugintext
 											);
 									}
@@ -499,7 +545,7 @@ module.exports = async (client, message) => {
 									true
 								)
 								.addField(
-									"Has third party repos",
+									"Has third-party repos",
 									data.HasThirdRepo ? "Yes" : "No"
 								)
 								.addField(
@@ -517,6 +563,15 @@ module.exports = async (client, message) => {
 									data.InterfaceLoaded ? "Yes" : "No",
 									true
 								);
+
+							if (data.EverStartedLoadingPlugins) {
+								replymessage2
+									.addField(
+										"Third-party plugins enabled",
+										anyCustomRepoPluginsLoaded ? "Yes" : "No"
+									);
+							}
+
 							if (isDirectMessage) {
 								customChannel.send({
 									embeds: [replymessage2],
@@ -652,9 +707,11 @@ module.exports = async (client, message) => {
 							});
 						}
 
-						if (foundCustomRepoPluginInstalled && (
+						if (foundCustomRepoPluginInstalled &&
+							anyCustomRepoPluginsLoaded && (
 							message.guildId === client.config.GUILDID_GOAT
-							|| message.guildId === client.config.GUILDID_XIVONMAC)
+							|| message.guildId === client.config.GUILDID_XIVONMAC
+							|| message.guildId === client.config.GUILDID_TESTING)
 						) {
 							const nagMessage = require("../modules/parse/customrepoplugin.js");
 							const nagMessageReply = await nagMessage.replyMessage(client);
