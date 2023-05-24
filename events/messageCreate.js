@@ -148,7 +148,7 @@ module.exports = async (client, message) => {
 
 			message.attachments.forEach(async attachment => {
 				console.log(attachment.name);
-				if (isDirectMessage && attachment.name.match(/(aria|output|dalamud|message|dalamudConfig|launcher|dxdiag|event|SquirrelSetup|patcher).*\.(log|txt|json|evtx)/gui)) {
+				if (isDirectMessage && attachment.name.match(/(aria|output|dalamud|message|dalamudConfig|launcher|dxdiag|event|SquirrelSetup|patcher).*\.(log|txt|json|evtx)$/gui)) {
 					// sane filesizes only
 					if (attachment.size > (6 * 1024 * 1024)) {
 						console.log("Big chonker file. That's a lot of text...");
@@ -169,7 +169,7 @@ module.exports = async (client, message) => {
 				}
 
 				// relay crash dumps from goatplace (or DMs)
-				if (attachment.name.match(/.*\.(dmp)/gui)) {
+				if (attachment.name.match(/.*\.(dmp)$/gui)) {
 					console.log(`Dalamud crash dump upload: ${attachment.attachment}`);
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
@@ -214,7 +214,7 @@ module.exports = async (client, message) => {
 
 				// relay dalamud.injector.log files from goatplace (or DMs)
 				const DALAMUD_INJECTOR_RELAY_ENABLE = true;
-				if (DALAMUD_INJECTOR_RELAY_ENABLE && attachment.name.match(/dalamud\.injector.*\.(log)/gui)) {
+				if (DALAMUD_INJECTOR_RELAY_ENABLE && attachment.name.match(/dalamud\.injector.*\.(log)$/gui)) {
 					console.log(`Dalamud injector log upload: ${attachment.attachment}`);
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
@@ -254,7 +254,7 @@ module.exports = async (client, message) => {
 
 				// relay tspack files from goatplace (or DMs)
 				const TSPACK_RELAY_ENABLE = true;
-				if (attachment.name.match(/.*\.(tspack)/gui)) {
+				if (attachment.name.match(/.*\.(tspack)$/gui)) {
 					console.log(`Troubleshooting pack upload: ${attachment.attachment}`);
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
@@ -334,11 +334,16 @@ module.exports = async (client, message) => {
 				}
 
 				// handle the dalamud.txt file
-				if (attachment.name.match(/(dalamud|output|launcher|message).*\.(log|txt)/gui)) {
+				if (attachment.name.match(/(dalamud|output|launcher|message).*\.(log|txt)$/gui)) {
 					// read the data
 					console.log(`Processing Dalamud or XIVLauncher log called ${attachment.name}`);
+
+					const dalamudLogParser = require("../modules/parse/dalamudLog");
+
 					try {
 						const response = await got(attachment.attachment);
+
+						const parseResults = dalamudLogParser.parse(client, response?.body);
 
 						/*
 						if (message.channel.isThread()) {
