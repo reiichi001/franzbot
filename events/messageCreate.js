@@ -338,12 +338,12 @@ module.exports = async (client, message) => {
 					// read the data
 					console.log(`Processing Dalamud or XIVLauncher log called ${attachment.name}`);
 
-					const dalamudLogParser = require("../modules/parse/dalamudLog");
+					// const dalamudLogParser = require("../modules/parse/dalamudLog");
 
 					try {
 						const response = await got(attachment.attachment);
 
-						const parseResults = dalamudLogParser.parse(client, response?.body);
+						// const parseResults = dalamudLogParser.parse(client, response?.body);
 
 						/*
 						if (message.channel.isThread()) {
