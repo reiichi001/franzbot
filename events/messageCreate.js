@@ -126,7 +126,7 @@ module.exports = async (client, message) => {
 	let ignoredRoles = []; // an array of roles to ignore messages from
 	let replyMessage; // whatever this is, it gets sent via `message.reply()` unless it's falsey
 
-	// Triggers for Goatplace
+	// Triggers for XIVLauncher and Dalamud functions
 	if (isDirectMessage || GoatTriggers.includes(message.guild?.id)) {
 		console.log(`Found in GoatTriggers: ${isDirectMessage ? "direct message" : message.channel.name}`);
 
@@ -336,7 +336,8 @@ module.exports = async (client, message) => {
 				// handle the dalamud.txt file
 				if (attachment.name.match(/(dalamud|output|launcher|message).*\.(log|txt)$/gui)) {
 					// read the data
-					console.log(`Processing Dalamud or XIVLauncher log called ${attachment.name}`);
+					console.log(`Processing Dalamud or XIVLauncher log called ${attachment.name} `
+						+ `in ${message.guild.name} #${message.channel.name}`);
 
 					// const dalamudLogParser = require("../modules/parse/dalamudLog");
 
@@ -430,10 +431,12 @@ module.exports = async (client, message) => {
 										let startedLoadingSuffix = "";
 										if (state === "Loaded") {
 											prefix = "✅ ";
-										} else if (everStartedLoading) {
+										}
+										else if (everStartedLoading) {
 											prefix += "⚠️ ";
 											startedLoadingSuffix = ", but started loading";
-										} else {
+										}
+										else {
 											prefix += "❌ ";
 										}
 										suffix = ` _(${state}${startedLoadingSuffix})_\n`;
@@ -489,11 +492,13 @@ module.exports = async (client, message) => {
 											if (state === "Loaded") {
 												prefix = "✅ ";
 												anyCustomRepoPluginsLoaded = true;
-											} else if (everStartedLoading) {
+											}
+											else if (everStartedLoading) {
 												prefix += "⚠️ ";
 												startedLoadingSuffix = ", but started loading";
 												anyCustomRepoPluginsLoaded = true;
-											} else {
+											}
+											else {
 												prefix += "❌ ";
 											}
 											suffix = ` _(${state}${startedLoadingSuffix})_\n`;
@@ -585,7 +590,7 @@ module.exports = async (client, message) => {
 								allowedMentions: {
 									repliedUser: false,
 								},
-							});
+							}).catch(console.error);
 						}
 
 						const lastexpresults = logdata.match(/LASTEXCEPTION:(.*)/gu);
@@ -704,11 +709,11 @@ module.exports = async (client, message) => {
 								allowedMentions: {
 									repliedUser: false,
 								},
-							});
+							}).catch(console.error);
 						}
 
-						if (foundCustomRepoPluginInstalled &&
-							anyCustomRepoPluginsLoaded && (
+						if (foundCustomRepoPluginInstalled
+							&& anyCustomRepoPluginsLoaded && (
 							message.guildId === client.config.GUILDID_GOAT
 							|| message.guildId === client.config.GUILDID_XIVONMAC
 							|| message.guildId === client.config.GUILDID_TESTING)
@@ -729,7 +734,7 @@ module.exports = async (client, message) => {
 								allowedMentions: {
 									repliedUser: false,
 								},
-							});
+							}).catch(console.error);
 						}
 
 						const logxlresults = logdata.match(/TROUBLESHXLTING:(.*)/gu);
