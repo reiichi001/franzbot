@@ -50,6 +50,7 @@ module.exports = async (client, message) => {
 	const GoatTriggers = [
 		client.config.GUILDID_TESTING, // franzbot testing - general
 		client.config.GUILDID_GOAT, // Goatplace - general
+		client.config.GUILDID_HELIOSPHERE,
 		client.config.GUILDID_XIVONMAC, // XIV on Mac - general
 		client.config.GUILDID_PENUMBRA,
 	];
@@ -133,6 +134,9 @@ module.exports = async (client, message) => {
 		// some debugging
 		let customChannel = null;
 		if (isDirectMessage || message.guild?.id === client.config.GUILDID_GOAT) {
+			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_GOAT);
+		}
+		if (message.guild.id === client.config.GUILDID_HELIOSPHERE) {
 			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_GOAT);
 		}
 		if (message.guild?.id === client.config.GUILDID_XIVONMAC) {
