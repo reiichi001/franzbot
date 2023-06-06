@@ -137,7 +137,7 @@ module.exports = async (client, message) => {
 			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_GOAT);
 		}
 		if (message.guild.id === client.config.GUILDID_HELIOSPHERE) {
-			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_GOAT);
+			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_HELIOSPHERE);
 		}
 		if (message.guild?.id === client.config.GUILDID_XIVONMAC) {
 			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_XIVONMAC);
