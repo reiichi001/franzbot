@@ -5,10 +5,9 @@ exports.answer = async client => ({
 		+ `It's best to just upload/attach the file if you can!\n\n`
 		+ `**NOTE**: If you have file extensions hidden, this will look like a \`Text Document\` `
 		+ `named \`output\` on your computer.\n\n`
-		+ `**DISCLAIMER**:This log will contain your ffxiv username[s]. `
+		+ `**DISCLAIMER**:This log can contain your ffxiv username[s]. `
 		+ `If you're not comfortable posting that here, you can `
-		+ `open the file in a text editor to redact that information first or `
-		+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
+		+ `open the file in a text editor to redact that information first.\n`
 		+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	image: {
