@@ -136,7 +136,7 @@ module.exports = async (client, message) => {
 		if (isDirectMessage || message.guild?.id === client.config.GUILDID_GOAT) {
 			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_GOAT);
 		}
-		if (message.guild.id === client.config.GUILDID_HELIOSPHERE) {
+		if (message.guild?.id === client.config.GUILDID_HELIOSPHERE) {
 			customChannel = await client.channels.fetch(client.config.CHANNELID_RELAY_HELIOSPHERE);
 		}
 		if (message.guild?.id === client.config.GUILDID_XIVONMAC) {
@@ -341,7 +341,7 @@ module.exports = async (client, message) => {
 				if (attachment.name.match(/(dalamud|output|launcher|message).*\.(log|txt)$/gui)) {
 					// read the data
 					console.log(`Processing Dalamud or XIVLauncher log called ${attachment.name} `
-						+ `in ${message.guild.name} #${message.channel.name}`);
+						+ `in ${message?.guild?.name ?? "no guild"} #${message?.channel?.name ?? "no channel"}`);
 
 					// const dalamudLogParser = require("../modules/parse/dalamudLog");
 
@@ -921,6 +921,12 @@ module.exports = async (client, message) => {
 						else {
 							console.error(error);
 						}
+					}
+
+					if (isDirectMessage) {
+						await message.channel.send({
+							content: `Franzbot has relayed this log to a private channel in **${customChannel.guild.name}** for analysis by select members of the support team.`,
+						});
 					}
 				}
 			});
