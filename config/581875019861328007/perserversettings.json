@@ -1,11 +1,14 @@
 {
     "ignoredUsers": [],
     "ignoredRoles": [
-        "team",
+	"admin",
+	"intern",
+        "moderator",
         "support team",
-        "friends",
-        "plugin developer",
-        "plugin creator",
+        "community contributor",
+	"xlcore maintainer",
+	"dalamud maintainer",
+	"dalamud-pac",
         "test",
         "botters"
     ],

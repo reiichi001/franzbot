@@ -12,7 +12,7 @@ exports.execute = async (client, message) => {
 	const sectionIdentifier = `unsupportedtool-${message.guild.id}`;
 
 	if (timeoutEnded(sectionIdentifier, 3 * SECOND)) {
-		const forbidAny = [/(bdth|burn[ing]*\s*down\s*the\s*house|xiv\s*alex.*|no\s*clip.*|l\s*meter|cammy|oobplugin|sloth|combo\s*expand.*|splatoon|makeplace|mare|mui|material\s*ui\s*plugin|glamourer)/gui];
+		const forbidAny = [/\b(bdth|burn[ing]*\s*down\s*the\s*house|xiv\s*alex.*|no\s*clip.*|l\s*meter|cammy|oobplugin|sloth|combo\s*expand.*|splatoon|makeplace|mare|mui|material\s*ui\s*plugin|glamourer)/gui];
 		const forbidCount = [/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(s|ed|t?ing)?\b/gui];
 		const negateBadWords = [];
 		const forbiddenMinCount = 1;
