@@ -7,7 +7,7 @@ exports.answer = async client => ({
         + `If your launcher logs in automatically and you don't see this dialog, hold down the shift key when starting XIVLauncher to disable autologin.`,
 	color: client.config.EMBED_NORMAL_COLOR,
 	image: {
-		"url": "https://media.discordapp.net/attachments/719513457988337724/1111185623064248360/image.png",
+		"url": "https://media.discordapp.net/attachments/687530726756712478/1196967126230118430/image.png",
 	},
 	footer: {
 		"text": client.config.FRANZBOT_VERSION,
