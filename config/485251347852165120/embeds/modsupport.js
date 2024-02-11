@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-exports.replyMessage = async client => ({
+export const replyMessage = async client => ({
 	title: `**Having mod issues?**`,
 	description: `_Do **not** include any character names in screenshots._\n\n`
 		+ `*Please provide the following:*\n`
@@ -37,8 +37,8 @@ exports.replyMessage = async client => ({
 	image: {
 		"url": "https://cdn.discordapp.com/attachments/984798693096046642/1014744616815304794/unknown.png",
 	},
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-exports.replyMessage = [
+export const replyMessage = [
 	{
 		"title": "Item Conversion auto command based on people saying convert",
 		"description": "Item Conversion has been requested plenty of times in the past, and is not being added to Penumbra. ",

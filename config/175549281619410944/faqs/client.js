@@ -1,11 +1,11 @@
-exports.answer = async client => ({
+export const answer = async client => ({
 
 	title: "Project Meteor FFXIV 1.23b Client Launcher Setup Guides",
 	description: "**NOTE**: This requires an installation of FFXIV 1.0. FFXIV 2.0 A Realm Reborn is a completely different game and uses a different client and is not compatible.\n\n"
 		+ "There are multiple guides on how to set up the Seventh Umbral (7U) Launcher.",
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 	fields: [
 		{
@@ -19,7 +19,7 @@ exports.answer = async client => ({
 	],
 });
 
-exports.info = {
+export const info = {
 	name: "client",
 	category: "guides",
 	aliases: [],

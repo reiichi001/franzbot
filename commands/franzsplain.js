@@ -1,8 +1,8 @@
-exports.run = (client, message, args) => message.channel
+export const run = (client, message, args) => message.channel
 	.send(`\u200Bhttps://google.com/search?q=${args.join("+")}`)
 	.catch(console.error);
 
-exports.conf = {
+export const conf = {
 	enabled: true,
 	guildOnly: false,
 	aliases: [
@@ -12,7 +12,7 @@ exports.conf = {
 	],
 };
 
-exports.help = {
+export const help = {
 	name: "franzsplain",
 	category: "Tool",
 	description: "Googles that text for you. How oppressive.",

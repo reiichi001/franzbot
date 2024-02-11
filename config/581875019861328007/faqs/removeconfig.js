@@ -1,4 +1,4 @@
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `Where can I find/delete a plugin's config?`,
 	description: ``
 		+ `1. Close the game and XIVLauncher\n`
@@ -6,16 +6,16 @@ exports.answer = async client => ({
 		+ `3. Remove the offending config file[s]\n`
 		+ `4. Start the game now\n`
 		+ `5. Let us know if the issue persists`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	image: {
-		"url": client.config.WINDOWSEXPLORERSCREENSHOT,
+		"url": client.configdb.get("WINDOWSEXPLORERSCREENSHOT"),
 	},
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "removeconfig",
 	category: "files",
 	aliases: [

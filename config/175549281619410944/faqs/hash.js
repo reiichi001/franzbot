@@ -1,10 +1,10 @@
-exports.answer = async client => ({
+export const answer = async client => ({
 
 	title: "Final Fantasy XIV 1.0 Installation Disc hashes",
 	description: "Here is some information about the official 1.0 install disc if you'd like to verify that yours is not damaged or tampered with.",
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 	fields: [
 		{
@@ -18,7 +18,7 @@ exports.answer = async client => ({
 	],
 });
 
-exports.info = {
+export const info = {
 	name: "hash",
 	category: "info",
 	aliases: [

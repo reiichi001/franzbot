@@ -1,4 +1,4 @@
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `How do I find an old XIV on Mac CrossOver Bottle?`,
 	description: `A CrossOver Bottle (aka Wine prefix) is a special folder that contains all programs and configuration `
 		+ `used to run FFXIV in CrossOver.`
@@ -6,16 +6,16 @@ exports.answer = async client => ({
 		// + `\n\nFor more information, see `
 		// + `[HERE](https://www.xivmac.com/faq#q-prefix-folder?)`
 		+ "",
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	image: {
-		"url": client.config.FINDERGOTOSCREENSHOT,
+		"url": client.configdb.get("FINDERGOTOSCREENSHOT"),
 	},
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "prefixcx",
 	category: "info",
 	aliases: [

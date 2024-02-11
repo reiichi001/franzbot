@@ -1,15 +1,15 @@
 /* eslint-disable no-return-await */
 /* eslint-disable consistent-return */
 
-const {
+import {
 	createChannel,
-} = require("../modules/createTicketChannel");
+} from '../modules/createTicketChannel.js';
 
-const {
+import {
 	SlashCommandBuilder,
-} = require('@discordjs/builders');
+} from '@discordjs/builders';
 
-exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+export const run = async (client, interaction) => { // eslint-disable-line no-unused-vars
 	try {
 		await interaction.deferReply({
 			ephemeral: true,
@@ -18,7 +18,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 		// handle any incoming options
 		let  user = interaction.options.getUser("user") ?? interaction.user;
 		const  reason = interaction.options.getString("reason");
-		// client.logger.debug(`User: ${user}\nreason: ${reason}`);
+		// logger.debug(`User: ${user}\nreason: ${reason}`);
 
 		user = await interaction.guild.members.fetch(user) ?? interaction.member;
 
@@ -90,7 +90,7 @@ exports.commandData = () => ({
 	defaultPermission: true,
 });
 */
-exports.commandData = (client, message) => {
+export const commandData = (client, message) => {
 	const commandinfo = new SlashCommandBuilder()
 		.setName('ticket')
 		.setDescription('Creates a help ticket.');
@@ -108,4 +108,4 @@ exports.commandData = (client, message) => {
 };
 
 // Set this to false if you want it to be global.
-exports.guildOnly = false;
+export const guildOnly = false;

@@ -1,5 +1,5 @@
 
-exports.run = async (client, message, args) => { // eslint-disable-line no-unused-vars
+export const run = async (client, message, args) => { // eslint-disable-line no-unused-vars
 	// console.log(`All slash commands: ${[...client.slashcmds.keys()]}`);
 
 	if (message.author.id !== "60851293232574464") {
@@ -32,13 +32,13 @@ exports.run = async (client, message, args) => { // eslint-disable-line no-unuse
 	await message.channel.send("All commands deployed!");
 };
 
-exports.conf = {
+export const conf = {
 	enabled: true,
 	guildOnly: true,
 	aliases: [],
 };
 
-exports.help = {
+export const help = {
 	name: "deploy",
 	category: "System",
 	description: "This will deploy all slash commands.",

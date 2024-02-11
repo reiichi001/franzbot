@@ -1,19 +1,19 @@
-const {
+import {
 	hydrate,
-} = require("../modules/hydrate.js");
+} from '../modules/hydrate.js';
 
-exports.run = async (client, message, args) => {
+export const run = async (client, message, args) => {
 	// eslint-disable-line no-unused-vars
 	 await hydrate(client, message.channel);
 };
 
-exports.conf = {
+export const conf = {
 	enabled: true,
 	guildOnly: false,
 	aliases: [],
 };
 
-exports.help = {
+export const help = {
 	name: "hydrate",
 	category: "Fun",
 	description: "Posts a picture reminding you to drink water.",

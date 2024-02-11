@@ -1,4 +1,4 @@
-exports.answer = async (client, guild) => {
+export const answer = async (client, guild) => {
 	// CATEGORIES: logs, help, info
 
 	const infoList = [
@@ -27,10 +27,10 @@ exports.answer = async (client, guild) => {
 
 	return {
 		title: "Franzbot FAQ",
-		description: `Supported FAQ commands listed below. Type \`${client.config.prefix}faq <topic>\` to display the content.`,
-		color: client.config.EMBED_NORMAL_COLOR,
+		description: `Supported FAQ commands listed below. Type \`${client.configdb.get("prefix")}faq <topic>\` to display the content.`,
+		color: client.configdb.get("EMBED_NORMAL_COLOR"),
 		footer: {
-			"text": client.config.FRANZBOT_VERSION,
+			"text": client.configdb.get("FRANZBOT_VERSION"),
 		},
 		fields: [
 			{
@@ -49,7 +49,7 @@ exports.answer = async (client, guild) => {
 	};
 };
 
-exports.info = {
+export const info = {
 	name: "help",
 	category: "info",
 	aliases: ["helpme"],

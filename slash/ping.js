@@ -1,6 +1,10 @@
+import {
+	SlashCommandBuilder,
+} from '@discordjs/builders';
+
 /* eslint-disable no-return-await */
 /* eslint-disable consistent-return */
-exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+export const run = async (client, interaction) => { // eslint-disable-line no-unused-vars
 	try {
 		await interaction.deferReply();
 		const reply = await interaction.editReply("Ping?");
@@ -13,7 +17,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 	}
 };
 
-exports.commandData = () => ({
+export const commandData = () => ({
 	name: "ping",
 	description: "Pongs when pinged.",
 	options: [],
@@ -21,4 +25,4 @@ exports.commandData = () => ({
 });
 
 // Set this to false if you want it to be global.
-exports.guildOnly = false;
+export const guildOnly = false;

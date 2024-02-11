@@ -1,7 +1,7 @@
-const customRepoPluginAnswer = require("../../../modules/parse/customrepoplugin");
-exports.answer = async client => customRepoPluginAnswer.replyMessage(client);
+import * as customRepoPluginAnswer from '../../../modules/parse/customrepoplugin.js';
+export const answer = async client => customRepoPluginAnswer.replyMessage(client);
 
-exports.info = {
+export const info = {
 	name: "thirdparty",
 	category: "help",
 	aliases: [

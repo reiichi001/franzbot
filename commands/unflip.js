@@ -3,17 +3,17 @@ function randomInt(low, high) {
 }
 
 
-exports.run = async (client, message, args) => {
+export const run = async (client, message, args) => {
 	/*
 	const ZuTriggers = [
-		client.config.GUILDID_TESTING, // franzbot testing - general
-		client.config.GUILDID_ZU, // Zu - general
+		client.configdb.get("GUILDID_TESTING"), // franzbot testing - general
+		client.configdb.get("GUILDID_ZU"), // Zu - general
 	];
 	if (!ZuTriggers.includes(message.guild.id)) {
 		return message.reply("\u200Bthis command doesn't work here.")
 			.then(message.delete({
 				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
+				reason: client.configdb.get("AUDITLOG_COMMON"),
 			}));
 	}
 	*/
@@ -54,13 +54,13 @@ exports.run = async (client, message, args) => {
 	return message.channel.send(`${output}ノ( ゜-゜ノ)`);
 };
 
-exports.conf = {
+export const conf = {
 	enabled: true,
 	guildOnly: false,
 	aliases: [],
 };
 
-exports.help = {
+export const help = {
 	name: "unflip",
 	category: "Fun",
 	description: "Unflips provided text. Franzbot is strong enough to flip multiple people.",

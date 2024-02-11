@@ -1,9 +1,9 @@
-const logger = require("../modules/Logger");
-const got = require('got');
+import logger from '../modules/logger.js';
+import got from 'got';
 
-exports.hydrate = async (client, channel) => {
+export const hydrate = async (client, channel) => {
 	const API = "https://api.giphy.com/v1/gifs/random";
-	const API_KEY = client.config.GIPHYAPI;
+	const API_KEY = client.configdb.get("GIPHYAPI");
 	const tag = "drink+water";
 	const rating = "g";
 

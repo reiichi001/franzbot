@@ -1,14 +1,14 @@
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `XL Environment Variables`,
 	description: `You can find the post on XL environment variables `
 		+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-xl-environment-variables)`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "env",
 	category: "info",
 	aliases: [

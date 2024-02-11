@@ -1,15 +1,18 @@
 /* eslint-disable max-len */
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `List of Dalamud plugins`,
 	description: `You can find a list of all plugins available on Dalamud's main and testing repos [HERE](https://tommadness.github.io/Plugin-Browser/)`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "pluginlist",
 	category: "info",
-	aliases: ["plugin list", "plugin browser"],
+	aliases: [
+		"plugin list",
+		"plugin browser",
+	],
 };

@@ -1,7 +1,7 @@
-const modSupportAnswer = require("../embeds/modsupport");
-exports.answer = async client => modSupportAnswer.replyMessage(client);
+import * as modSupportAnswer from '../embeds/modsupport.js';
+export const answer = async client => modSupportAnswer.replyMessage(client);
 
-exports.info = {
+export const info = {
 	name: "modsupport",
 	category: "info",
 	aliases: [

@@ -1,10 +1,13 @@
-const logger = require("../../../modules/Logger");
-const {
+import {
+	ChannelType,
+} from 'discord.js';
+import * as logger from '../../../modules/logger.js';
+import {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
-} = require("../../../modules/triggerTimeoutManager");
+} from '../../../modules/triggerTimeoutManager.js';
 
-exports.execute = async (client, message) => {
-	if (message.channel.type === 'GUILD_NEWS' || message.channel.type.match(/news/gui)) {
+export const execute = async (client, message) => {
+	if (message.channel.type === ChannelType.GuildAnnouncement) {
 		message.crosspost()
 			.then(() => logger.log(`Crossposted an announcement in ${message.channel} in ${message.guild.name}.`))
 			.catch(e => {
@@ -13,7 +16,7 @@ exports.execute = async (client, message) => {
 	}
 };
 
-exports.info = {
+export const info = {
 	name: "announcement publisher",
 	description: "automatically publishes messages in announcement channels",
 	type: "helper",

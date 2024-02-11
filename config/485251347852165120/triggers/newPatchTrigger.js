@@ -1,14 +1,14 @@
 /* eslint-disable max-len */
-const logger = require("../../../modules/Logger");
-const {
+import * as logger from '../../../modules/logger.js';
+
+import {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
-} = require("../../../modules/triggerTimeoutManager");
-
-const {
+} from '../../../modules/triggerTimeoutManager.js';
+import {
 	checkTheMessage,
-} = require("../../../modules/checkTheMessage");
+} from '../../../modules/checkTheMessage.js';
 
-exports.execute = async (client, message) => {
+export const execute = async (client, message) => {
 	const sectionIdentifier = `newpatch-${message.guild.id}`;
 
 	if (timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
@@ -21,11 +21,11 @@ exports.execute = async (client, message) => {
 
 		const replyMessage = {
 
-			title: client.config.TRIGGER_TITLE,
+			title: client.configdb.get("TRIGGER_TITLE"),
 			description: "Please understand that this is a community-driven project that has multiple dependencies by people who have school/jobs/both and live in a variety of timezones. Updates to XIVLauncher, Dalamud, and plugins will come when they can, but asking for a time estimate will not make that happen sooner.\n\nPlease see our [many](https://discord.com/channels/581875019861328007/830939095478829096/893209077071609887) [posts](https://discord.com/channels/581875019861328007/585180735032393730/914487751708119091) in <#585180735032393730> and <#830939095478829096>",
-			color: client.config.EMBED_ERROR_COLOR,
+			color: client.configdb.get("EMBED_ERROR_COLOR"),
 			footer: {
-				"text": client.config.TRIGGER_FOOTER,
+				"text": client.configdb.get("TRIGGER_FOOTER"),
 			},
 		};
 
@@ -36,7 +36,7 @@ exports.execute = async (client, message) => {
 	}
 };
 
-exports.info = {
+export const info = {
 	name: "nopiracy",
 	description: "don't steal FFXIV 1.0",
 	type: "rule",

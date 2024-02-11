@@ -1,8 +1,8 @@
-const {
+import {
 	setSlowmode,
-} = require("../modules/slowmode.js");
+} from '../modules/slowmode.js';
 
-exports.run = async (client, message, args) => {
+export const run = async (client, message, args) => {
 	// eslint-disable-line no-unused-vars
 	const selectedChannel = args.shift();
 	const time = args.shift();
@@ -55,13 +55,13 @@ exports.run = async (client, message, args) => {
 		});
 };
 
-exports.conf = {
+export const conf = {
 	enabled: true,
 	guildOnly: false,
 	aliases: [],
 };
 
-exports.help = {
+export const help = {
 	name: "slowmode",
 	category: "Admin",
 	description: "Makes a channel slowmode. User must have the `Moderator` role to use.",

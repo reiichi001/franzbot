@@ -1,15 +1,15 @@
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
-const fs = require('fs');
-const path = require('path');
-const logger = require("../modules/Logger");
-const JSONdb = require('simple-json-db');
+import fs from 'fs';
 
-const {
-	MessageActionRow, MessageButton, Collection,
-} = require('discord.js');
+import path from 'path';
+import logger from './logger.js';
+import JSONdb from 'simple-json-db';
+import {
+	ActionRowBuilder, ButtonBuilder, Collection,
+} from 'discord.js';
 
-exports.createChannel = async (guild, member, reason = null) => {
+export const createChannel = async (guild, member, reason = null) => {
 	logger.debug(`user: ${member}\nreason: ${reason}`);
 	// process.exit(0);
 	// member = guild.members.fetch(member.id);
@@ -108,9 +108,9 @@ exports.createChannel = async (guild, member, reason = null) => {
 			"text": "XIVLauncher",
 		},
 	};
-	const row = new MessageActionRow()
+	const row = new ActionRowBuilder()
 		.addComponents(
-			new MessageButton()
+			new ButtonBuilder()
 				.setCustomId("ticketClose")
 				.setEmoji("🔒")
 				.setLabel('Close')

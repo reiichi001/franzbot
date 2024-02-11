@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `Is it safe to stream with plugins?`,
 	description: `Generally, no. We highly advise that you disable all plugins or launch without plugins before streaming FFXIV.\n\n`
 		+ `However, there are a few ways to minimize your risks if you're going to stream anyways.\n`
@@ -13,13 +13,13 @@ exports.answer = async client => ({
 		+ `is not actually part of the game because of this.\n\n`
 		+ `__You probably still don't want to stream with plugins enabled unless you're **absolutely** sure `
 		+ `that you have nothing that modifies in-game elements as they will always show up on your stream.__`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "stream",
 	category: "info",
 	aliases: [

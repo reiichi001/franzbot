@@ -1,11 +1,11 @@
 /* eslint-disable no-return-await */
 /* eslint-disable consistent-return */
 
-const {
+import {
 	hydrate,
-} = require("../modules/hydrate");
+} from '../modules/hydrate.js';
 
-exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+export const run = async (client, interaction) => { // eslint-disable-line no-unused-vars
 	try {
 		await hydrate(client, interaction.channel);
 	}
@@ -15,7 +15,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 	}
 };
 
-exports.commandData = () => ({
+export const commandData = () => ({
 	name: "hydrate",
 	description: "Remember to drink some water.",
 	options: [],
@@ -23,4 +23,4 @@ exports.commandData = () => ({
 });
 
 // Set this to false if you want it to be global.
-exports.guildOnly = true;
+export const guildOnly = true;

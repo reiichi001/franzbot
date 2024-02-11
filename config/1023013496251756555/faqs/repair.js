@@ -1,4 +1,4 @@
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `Can I repair my FFXIV installation?`,
 	description: `Yes, starting in XIVLauncher 6.2.0, there is a repair game function. `
 		+ `To repair a broken FFXIV installation, right-click on the login button and select \`Repair Game Files\`.\n\n`
@@ -8,16 +8,16 @@ exports.answer = async client => ({
 		+ `This includes things like TexTools' mod db, GShade files and presets, graphics injectors, etc. You `
 		+ `will probably need to copy/move files back out or reinstall other addons again after repairing. `
 		+ `More Info: [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-can-i-repair-my-ffxiv-installation)`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	image: {
 		"url": "https://cdn.discordapp.com/attachments/586272168741044226/948933649296924722/unknown.png",
 	},
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "repair",
 	category: "help",
 	aliases: [

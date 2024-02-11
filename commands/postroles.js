@@ -1,7 +1,7 @@
-exports.run = (client, message, args) => {
+export const run = (client, message, args) => {
 	const ZuTriggers = [
-		client.config.GUILDID_TESTING, // franzbot testing - general
-		client.config.GUILDID_ZU, // Zu - general
+		client.configdb.get("GUILDID_TESTING"), // franzbot testing - general
+		client.configdb.get("GUILDID_ZU"), // Zu - general
 	];
 	if (!ZuTriggers.includes(message.guild.id)) {
 		return message.reply("\u200Bthis command doesn't work here.")
@@ -39,7 +39,7 @@ exports.run = (client, message, args) => {
 	return message.reply("\u200BI didn't understand what you meant by that.");
 };
 
-exports.conf = {
+export const conf = {
 	enabled: true,
 	guildOnly: false,
 	aliases: [
@@ -48,7 +48,7 @@ exports.conf = {
 	],
 };
 
-exports.help = {
+export const help = {
 	name: "postroles",
 	category: "Management",
 	description: "Posts a fancy message with reactions for all of the available server roles.",

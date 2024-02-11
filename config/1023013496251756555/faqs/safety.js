@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `Are XIVLauncher, Dalamud, and Dalamud Plugins safe to use?`,
 	description: `For the most part, yes, this should be safe to use. We've taken steps to `
 		+ `ensure that using XIVLauncher, Dalamud, and **officially supported** `
@@ -12,13 +12,13 @@ exports.answer = async client => ({
 		+ `\n\nPlease note that we cannot vouch for the safety of third party plugins.`
 		+ `\n\nIf you'd like more information, please see the <#585958820061249537> channel and our FAQ post `
 		+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-are-xivlauncher-dalamud-and-dalamud-plugins-safe-to-use)`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "safety",
 	category: "info",
 	aliases: [

@@ -1,6 +1,6 @@
 
 
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `Please send us your dalamud.log file (XLCore Linux edition)`,
 	description: `Please send us your **dalamud.log** log file from `
 		+ `\`~/.xlcore/\``
@@ -12,16 +12,16 @@ exports.answer = async client => ({
 		+ `open the file in a text editor to redact that information first or `
 		+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
 		+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	image: {
-		"url": client.config.LINUXFILEBROWSERSCREENSHOT,
+		"url": client.configdb.get("LINUXFILEBROWSERSCREENSHOT"),
 	},
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "xlcorelogd",
 	category: "logs",
 	aliases: [

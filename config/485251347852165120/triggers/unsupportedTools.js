@@ -1,14 +1,14 @@
 /* eslint-disable max-len */
-const logger = require("../../../modules/Logger");
-const {
+import * as logger from '../../../modules/logger.js';
+
+import {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
-} = require("../../../modules/triggerTimeoutManager");
-
-const {
+} from '../../../modules/triggerTimeoutManager.js';
+import {
 	checkTheMessage,
-} = require("../../../modules/checkTheMessage");
+} from '../../../modules/checkTheMessage.js';
 
-exports.execute = async (client, message) => {
+export const execute = async (client, message) => {
 	const sectionIdentifier = `suggestionchannels-${message.guild.id}`;
 
 	if (timeoutEnded(sectionIdentifier, 3 * SECOND)) {
@@ -20,13 +20,13 @@ exports.execute = async (client, message) => {
 
 		const replyMessage = {
 
-			title: client.config.TRIGGER_TITLE,
+			title: client.configdb.get("TRIGGER_TITLE"),
 			description: "We are unable to provide support for plugins that can only be installed via third-party repo or other third party tools. "
 			+ "Please contact the creator[s] directly, make an issue on their git repo, or ask in their support discords."
 			+ "\n\nPlease do not link or discuss the aforementioned tool/plugin here. Thank you for your understanding!",
-			color: client.config.EMBED_ERROR_COLOR,
+			color: client.configdb.get("EMBED_ERROR_COLOR"),
 			footer: {
-				"text": client.config.TRIGGER_FOOTER,
+				"text": client.configdb.get("TRIGGER_FOOTER"),
 			},
 		};
 
@@ -40,7 +40,7 @@ exports.execute = async (client, message) => {
 	}
 };
 
-exports.info = {
+export const info = {
 	name: "Unsupported Tools",
 	description: "Addons and plugins that we don't support",
 	type: "rule",

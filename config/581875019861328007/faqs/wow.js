@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `Hello [possible] [former] WoW player!`,
 	description: `This is mostly a joke command because users keep typing it.\n\n`
 		+ `Hello assumed WoW player! Welcome to the unofficial third party tools for FFXIV community. `
@@ -19,13 +19,13 @@ exports.answer = async client => ({
 		+ `before asking if a particular plugin or feature exists. With the growing numbers of recent WoW players coming to FFXIV, it can be `
 		+ `overwhelming to receive what has been perceived as a flood of requests for making FFXIV more like WoW.`
 		+ ``,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "wow",
 	category: "info",
 	aliases: ["wowuser"],

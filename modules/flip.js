@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	// uppercase (incomplete)
 	'A': '∀',
 	'B': '𐐒',

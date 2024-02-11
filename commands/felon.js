@@ -1,34 +1,35 @@
 const responses = [
-	`$8`,
+	`$8.`,
 	`A small API change had massive ramifications.`,
-	`Absolutely`,
-	`Certainly worth further investigation`,
-	`Concerning`,
-	`Extremely concerning`,
-	`I'm not cis, you are`,
-	`Interesting`,
-	`It's approved, you go ahead`,
+	`Absolutely.`,
+	`Certainly worth further investigation.`,
+	`Concerning.`,
+	`Extremely concerning.`,
+	`I'm not cis, you are.`,
+	`Interesting.`,
+	`It's approved, you go ahead.`,
+	`Let's see how earth responds to that.`,
 	`Literally roflmao …`,
-	`Looking into it`,
-	'Please comment on this matter',
-	`Messed up`,
-	`Mostly accurate tbh`,
-	`Not awesome imo`,
-	`Something is wrong`,
-	`That is extremely concerning`,
-	`They're fired`,
-	`Troublesome`,
-	`Vox populi, vox dei`,
+	`Looking into it.`,
+	'Please comment on this matter.',
+	`Messed up.`,
+	`Mostly accurate tbh.`,
+	`Not awesome imo.`,
+	`Something is wrong.`,
+	`That is extremely concerning.`,
+	`They're fired.`,
+	`Troublesome.`,
+	`Vox populi, vox dei.`,
 	`What work have you been doing?`,
 	`Will ultimately need a complete rewrite.`,
-	`Works for me`,
+	`Works for me.`,
 	`!!`,
 	`🤣🤣🤣`,
 	`🤣`,
 	`.`,
 ];
 
-exports.run = async (client, message, args) => {
+export const run = async (client, message, args) => {
 	let shutupESLint = false;
 	if (shutupESLint) {
 		shutupESLint = true;
@@ -37,8 +38,7 @@ exports.run = async (client, message, args) => {
 	return message.channel.send(`\u200B${responses[Math.floor(responses.length * Math.random())]}`);
 };
 
-
-exports.conf = {
+export const conf = {
 	enabled: true,
 	guildOnly: false,
 	aliases: [
@@ -48,7 +48,7 @@ exports.conf = {
 	],
 };
 
-exports.help = {
+export const help = {
 	name: "felon",
 	category: "Fun",
 	description: "Franzbot is fired.",

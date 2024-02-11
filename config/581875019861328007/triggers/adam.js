@@ -1,9 +1,9 @@
-const logger = require("../../../modules/Logger");
-const {
+import * as logger from '../../../modules/logger.js';
+import {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
-} = require("../../../modules/triggerTimeoutManager");
+} from '../../../modules/triggerTimeoutManager.js';
 
-exports.execute = async (client, message) => {
+export const execute = async (client, message) => {
 	const sectionIdentifier = `funnyshit-${message.guild.id}`;
 
 	if (timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
@@ -28,7 +28,7 @@ exports.execute = async (client, message) => {
 	}
 };
 
-exports.info = {
+export const info = {
 	name: "adam",
 	description: "he was doing so well",
 	type: "funnyshit",

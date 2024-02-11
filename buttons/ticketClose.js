@@ -1,14 +1,13 @@
 /* eslint-disable no-return-await */
-const logger = require("../modules/Logger.js");
-const JSONdb = require('simple-json-db');
+import logger from '../modules/logger.js';
 
-
-const {
-	MessageEmbed,
-} = require("discord.js");
+import JSONdb from 'simple-json-db';
+import {
+	EmbedBuilder,
+} from 'discord.js';
 
 /* eslint-disable consistent-return */
-exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+export const run = async (client, interaction) => { // eslint-disable-line no-unused-vars
 	try {
 		const ticketdbpath = `${__dirname}/../config/${interaction.guild.id}/tickets.json`;
 		const ticketdb = new JSONdb(ticketdbpath, {
@@ -34,7 +33,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 		const newname = channel.name.replace("help-", "closed-");
 		await interaction.channel.setName(newname);
 
-		const ticketClosedMessage = new MessageEmbed()
+		const ticketClosedMessage = new EmbedBuilder()
 			.setDescription(`This ticket has been closed by ${interaction.user}`);
 
 		// this needs to be updated to the user who made the ticket.
@@ -50,7 +49,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 	}
 };
 
-exports.buttonData = () => ({
+export const buttonData = () => ({
 	name: "ticketClose",
 	description: "Closes a support ticket channel.",
 	options: [],
@@ -58,4 +57,4 @@ exports.buttonData = () => ({
 });
 
 // Set this to false if you want it to be global.
-exports.guildOnly = false;
+export const guildOnly = false;

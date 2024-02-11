@@ -1,14 +1,14 @@
 /* eslint-disable max-len */
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `How to disable autologin`,
 	description: `To disable autologin, keep the shift key held down while you open XIVLauncher. Please keep it held down as the program opens.`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "holdshift",
 	category: "help",
 	aliases: [

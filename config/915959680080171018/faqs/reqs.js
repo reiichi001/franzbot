@@ -1,4 +1,4 @@
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `XIV on Mac Application Requirements`,
 	description: `The XIV on Mac Application currently requires macOS Big Sur 11.0 or later, although it is recommended to be on macOS Monterey 12.0 or later for the best experience. Please check out <https://www.xivmac.com/compatibility-database> for more information.`
 		+ ``
@@ -14,13 +14,13 @@ exports.answer = async client => ({
 			value: "M1 or better",
 		},
 	],
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "reqs",
 	category: "info",
 	aliases: [

@@ -1,14 +1,14 @@
 /* eslint-disable max-len */
 /* eslint-disable no-return-await */
 /* eslint-disable consistent-return */
-const {
+import {
 	SlashCommandBuilder,
-} = require('@discordjs/builders');
+} from '@discordjs/builders';
 
-exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+export const run = async (client, interaction) => { // eslint-disable-line no-unused-vars
 	try {
 		await interaction.deferReply();
-		await interaction.editReply(`This command is not ready for use yet. Please use \`${client.config.prefix}faq\` instead.`);
+		await interaction.editReply(`This command is not ready for use yet. Please use \`${client.configdb.get("prefix")}faq\` instead.`);
 	}
 	catch (e) {
 		console.log(e);
@@ -16,7 +16,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 	}
 };
 
-exports.commandData = (client, message) => {
+export const commandData = (client, message) => {
 	const fuck = true;
 	const commandinfo = new SlashCommandBuilder()
 		.setName('faq')
@@ -35,6 +35,5 @@ exports.commandData = (client, message) => {
 	return commandinfo.toJSON();
 };
 
-
 // Set this to false if you want it to be global.
-exports.guildOnly = true;
+export const guildOnly = true;

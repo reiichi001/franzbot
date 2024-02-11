@@ -4,5 +4,7 @@
     "suggestionWatchChannels": [],
     "watchNagChannels": [],
     "watchXLSuggest": [],
-    "newpatchNag": false
+    "newpatchNag": false,
+    "relayChannel": "1049488557171019806",
+    "guildname": "Heliosphere"
 }

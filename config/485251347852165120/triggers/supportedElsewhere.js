@@ -1,14 +1,14 @@
 /* eslint-disable max-len */
-const logger = require("../../../modules/Logger");
-const {
+import * as logger from '../../../modules/logger.js';
+
+import {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
-} = require("../../../modules/triggerTimeoutManager");
-
-const {
+} from '../../../modules/triggerTimeoutManager.js';
+import {
 	checkTheMessage,
-} = require("../../../modules/checkTheMessage");
+} from '../../../modules/checkTheMessage.js';
 
-exports.execute = async (client, message) => {
+export const execute = async (client, message) => {
 	const sectionIdentifier = `SupportedElsewhere-${message.guild.id}`;
 
 	if (timeoutEnded(sectionIdentifier, 3 * SECOND)) {
@@ -25,9 +25,9 @@ exports.execute = async (client, message) => {
 				+ "Please contact the creator[s] directly or ask in their support discords."
 				+ "\n\nIf they have a third party repo URL or Discord link, someone may link is as long as it doesn't provide other unofficial plugins. "
 				+ "Thank you for your understanding!",
-			color: client.config.EMBED_WARN_COLOR,
+			color: client.configdb.get("EMBED_WARN_COLOR"),
 			footer: {
-				"text": client.config.TRIGGER_FOOTER,
+				"text": client.configdb.get("TRIGGER_FOOTER"),
 			},
 		};
 
@@ -37,7 +37,7 @@ exports.execute = async (client, message) => {
 	}
 };
 
-exports.info = {
+export const info = {
 	name: "Unsupported Tools",
 	description: "Addons and plugins that we don't support",
 	type: "rule",

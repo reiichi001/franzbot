@@ -1,17 +1,17 @@
 /* eslint-disable max-len */
-const logger = require("../../../modules/Logger");
-const {
+import * as logger from '../../../modules/logger.js';
+
+import {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
-} = require("../../../modules/triggerTimeoutManager");
-
-const {
+} from '../../../modules/triggerTimeoutManager.js';
+import {
 	checkTheMessage,
-} = require("../../../modules/checkTheMessage");
+} from '../../../modules/checkTheMessage.js';
 
-exports.execute = async (client, message) => {
+export const execute = async (client, message) => {
 	const sectionIdentifier = `newpatchnag-${message.guild.id}`;
 	const postnag = false;
-	// const watchNagChannels = client.config.NEWPATCHNAG_WATCH_CHANNELS;
+	// const watchNagChannels = client.configdb.get("NEWPATCHNAG_WATCH_CHANNELS");
 
 	let  watchNagChannels = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("watchNagChannels");
 	if (!Array.isArray(watchNagChannels)) {
@@ -35,7 +35,7 @@ exports.execute = async (client, message) => {
 
 			title: "Automated Chat Channel Nag",
 			description: "Franzbot has detected chat activity from a non-mod/non-dev user.",
-			color: client.config.EMBED_INFO_COLOR,
+			color: client.configdb.get("EMBED_INFO_COLOR"),
 			footer: {
 				"text": "This automated response is on a 15 minute cooldown every time there's chat activity and is not based on the words you said. "
 					+ "This message will self destruct in 5 minutes.",
@@ -76,7 +76,7 @@ exports.execute = async (client, message) => {
 	}
 };
 
-exports.info = {
+export const info = {
 	name: "new patch nag",
 	description: "please stop asking these",
 	type: "nag",

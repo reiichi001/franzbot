@@ -1,16 +1,16 @@
 /* eslint-disable max-len */
-const logger = require("../../../modules/Logger");
-const {
+import * as logger from '../../../modules/logger.js';
+
+import {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
-} = require("../../../modules/triggerTimeoutManager");
-
-const {
+} from '../../../modules/triggerTimeoutManager.js';
+import {
 	checkTheMessage,
-} = require("../../../modules/checkTheMessage");
+} from '../../../modules/checkTheMessage.js';
 
-exports.execute = async (client, message) => {
+export const execute = async (client, message) => {
 	const sectionIdentifier = `suggestionchannels-${message.guild.id}`;
-	// const watchChannels = client.config.SUGGESTION_WATCH_CHANNELS;
+	// const watchChannels = client.configdb.get("SUGGESTION_WATCH_CHANNELS");
 
 	const watchChannels = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("suggestionWatchChannels");
 
@@ -26,9 +26,9 @@ exports.execute = async (client, message) => {
 		// send a reply
 		const replyMessage = {
 
-			title: client.config.TRIGGER_TITLE,
+			title: client.configdb.get("TRIGGER_TITLE"),
 			description: "Franzbot has detected chat activity from a non-mod/non-dev user in a suggestions channel.",
-			color: client.config.EMBED_INFO_COLOR,
+			color: client.configdb.get("EMBED_INFO_COLOR"),
 			footer: {
 				"text": "This automated response is on a 30 minute cooldown every time there's chat activity and is not based on the words you said. "
 						+ "This message will self destruct in 5 minutes.",
@@ -61,7 +61,7 @@ exports.execute = async (client, message) => {
 	}
 };
 
-exports.info = {
+export const info = {
 	name: "Unchecked Suggestion Channel Watch",
 	description: "You'd think users would stop being surprised at this being posted.",
 	type: "nag",

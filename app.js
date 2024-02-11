@@ -1,14 +1,12 @@
-const {
-	Client, Collection, Intents,
-} = require("discord.js");
-const {
-	existsSync,
-	readdirSync,
-} = require("fs");
-
-// set up intents
-const myIntents = new Intents();
-myIntents.add('DIRECT_MESSAGES', 'GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS');
+import {
+	Client, Collection, GatewayIntentBits, Partials,
+} from "discord.js";
+import {
+	isSnowflake,
+} from "discord-snowflake";
+import {
+	existsSync, readdirSync,
+} from "fs";
 
 
 const client = new Client(
@@ -19,22 +17,30 @@ const client = new Client(
 				// 'roles', // we probably don't need this either, but kept for posterity.
 			],
 		},
-		intents: myIntents.bitfield,
+		intents: [
+			GatewayIntentBits.DirectMessages,
+			GatewayIntentBits.Guilds,
+			GatewayIntentBits.GuildMembers,
+			GatewayIntentBits.GuildMessages,
+			GatewayIntentBits.GuildMessageReactions,
+			GatewayIntentBits.MessageContent,
+		],
 		partials: [
-			'GUILD',
-			'MESSAGE',
-			'CHANNEL',
-			'REACTION',
+			Partials.GuildMember,
+			Partials.Message,
+			Partials.Channel,
+			Partials.Reaction,
 		],
 	}
 );
 
-const config = require("./config.json");
 // We also need to make sure we're attaching the config to the CLIENT so it's accessible everywhere!
-client.config = config;
+// This is currently broken. But we also wanted to phase this out for the DB solution anyways.
+// import config from "./config.json" assert { type: 'json' };
+// client.config = config;
 
 // will this work?
-const JSONdb = require('simple-json-db');
+import JSONdb from 'simple-json-db';
 const configdb = new JSONdb('config.json', {
 	syncOnWrite: true,
 	jsonSpaces: 4,
@@ -42,12 +48,116 @@ const configdb = new JSONdb('config.json', {
 client.configdb = configdb;
 
 // Require our logger
-const logger = require("./modules/Logger");
-client.logger = logger;
+import * as logger from "./modules/logger.js";
+import {
+	dir,
+} from "console";
 
 // Let's start by getting some useful functions that we'll use throughout
 // the bot, like logs and elevation features.
-require("./modules/functions.js")(client);
+// require("./modules/functions.js")(client);
+// since we can't actually use require to just dump it all in anymore, copy functions.js directly.
+/*
+SINGLE-LINE AWAITMESSAGE
+A simple way to grab a single reply, from the user that initiated
+the command. Useful to get "precisions" on certain things...
+USAGE
+const response = await client.awaitReply(msg, "Favourite Color?");
+msg.reply(`Oh, I really love ${response} too!`);
+*/
+client.awaitReply = async (msg, question, limit = 60000) => {
+	const filter = m => m.author.id === msg.author.id;
+	await msg.channel.send(question);
+	try {
+		const collected = await msg.channel.awaitMessages(
+			filter,
+			{
+				max: 1,
+				time: limit,
+				errors: ["time"],
+			}
+		);
+		return collected.first().content;
+	}
+	catch (e) {
+		return false;
+	}
+};
+
+
+/*
+MESSAGE CLEAN FUNCTION
+"Clean" removes @everyone pings, as well as tokens, and makes code blocks
+escaped so they're shown more easily. As a bonus it resolves promises
+and stringifies objects!
+This is mostly only used by the Eval and Exec commands.
+*/
+client.clean = async (clientObj, text) => {
+	if (text && text.constructor.name == "Promise") {
+		text = await text;
+	}
+	if (typeof text !== "string") {
+		text = JSON.stringify(text);
+	}
+	text = text
+		.replace(/`/gu, `\`${String.fromCharCode(8203)}`)
+		.replace(/@/gu, `@${String.fromCharCode(8203)}`)
+		.replace(clientObj.token, "mfa.VkO_2G4Qv3T--NO--lWetW_tjND--TOKEN--QFTm6YGtzq9PH--4U--tG0");
+
+	return text;
+};
+
+/* MISCELANEOUS NON-CRITICAL FUNCTIONS */
+
+// EXTENDING NATIVE TYPES IS BAD PRACTICE. Why? Because if JavaScript adds this
+// later, this conflicts with native code. Also, if some other lib you use does
+// this, a conflict also occurs. KNOWING THIS however, the following 2 methods
+// are, we feel, very useful in code.
+
+// <String>.toPropercase() returns a proper-cased string such as:
+// "Mary had a little lamb".toProperCase() returns "Mary Had A Little Lamb"
+Object.defineProperty(
+	String.prototype,
+	"toProperCase",
+	{
+		value() {
+			return this.replace(
+				/([^\W_]+[^\s-]*) */gu,
+				txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+			);
+		},
+	}
+);
+
+// <Array>.random() returns a single random element from an array
+// [1, 2, 3, 4, 5].random() can return 1, 2, 3, 4 or 5.
+Object.defineProperty(
+	Array.prototype,
+	"random",
+	{
+		value() {
+			return this[Math.floor(Math.random() * this.length)];
+		},
+	}
+);
+
+// `await client.wait(1000);` to "pause" for 1 second.
+// client.wait = require("util").promisify(setTimeout);
+
+// These 2 process methods will catch exceptions and give *more details* about the error and stack trace.
+process.on("uncaughtException", err => {
+	const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "gu"), "./");
+	logger.error(`Uncaught Exception: ${errorMsg}`);
+	// console.error(err);
+	// Always best practice to let the code crash on uncaught exceptions.
+	// Because you should be catching them anyway.
+	process.exit(1);
+});
+
+process.on("unhandledRejection", err => {
+	logger.error(`Unhandled rejection: ${err}`);
+	console.error(err);
+});
 
 // Aliases and commands are put in collections where they can be read from,
 // catalogued, listed, etc.
@@ -60,6 +170,57 @@ client.perserveraliases = new Collection();
 client.perservertriggers = new Collection();
 
 const init = async () => {
+	// Here we load **commands** into memory, as a collection, so they're accessible
+	// here and everywhere else.
+	const commands = readdirSync("./commands/").filter(file => file.endsWith(".js"));
+	for (const file of commands) {
+		const props = await import(`./commands/${file}`);
+		logger.cmd(`Loading Command: ${props.help.name}. 👌`);
+		client.commands.set(props.help.name, props);
+		props.conf.aliases.forEach(alias => {
+			client.aliases.set(alias, props.help.name);
+		});
+	}
+	// Now we load any **slash** commands you may have in the ./slash directory.
+	const slashFiles = readdirSync("./slash").filter(file => file.endsWith(".js"));
+	for (const file of slashFiles) {
+		const command = await import(`./slash/${file}`);
+		const commandName = file.split(".")[0];
+		logger.cmd(`Loading Slash command: ${commandName}. 👌`);
+
+		// Now set the name of the command with it's properties.
+		client.slashcmds.set(command.commandData().name, command);
+	}
+
+	// Now we load any **button** interactions you may have in the ./buttons directory.
+	const buttonFiles = readdirSync("./buttons").filter(file => file.endsWith(".js"));
+	for (const file of buttonFiles) {
+		const button = await import(`./buttons/${file}`);
+		const buttonName = file.split(".")[0];
+		logger.log(`Loading Button interactions: ${buttonName}. 👌`);
+
+		// Now set the name of the command with it's properties.
+		client.buttoncmds.set(button.buttonData.name, button);
+	}
+
+	// Then we load events, which will include our message and ready event.
+	const eventFiles = readdirSync("./events/").filter(file => file.endsWith(".js"));
+	for (const file of eventFiles) {
+		const eventModule = await import(`./events/${file}`);
+		const event = eventModule.default;
+
+		logger.cmd(`Loading Event: ${event.name}. 👌`);
+		// Bind the client to any event, before the existing arguments
+		// provided by the discord.js event.
+		// This line is awesome by the way. Just sayin'.
+		client.on(event.name, (...args) => {
+			event.execute(client, ...args);
+		});
+	}
+
+	// Here we login the client. And do a little check that the configdb is loaded
+	client.login(configdb.get("token"));
+
 	// Now let's load up some per-server config
 	const perserversettings = readdirSync("./config", {
 		withFileTypes: true,
@@ -74,11 +235,11 @@ const init = async () => {
 			const faqentries = new Collection();
 			if (faqsToLoad.length === 0) {
 				logger.log(`No FAQs found for ${dirname}`);
-				continue;
+				// continue;
 			}
 			for (const faq of faqsToLoad) {
 				// logger.debug(`./config/${dirname}/faqs/${faq}`);
-				const faqentry = require(`./config/${dirname}/faqs/${faq}`);
+				const faqentry = await import(`./config/${dirname}/faqs/${faq}`);
 				faqentries.set(faqentry.info.name, faqentry);
 				faqentry.info.aliases.forEach(alias => {
 					client.perserveraliases.set(alias, faqentry.info.name);
@@ -95,11 +256,11 @@ const init = async () => {
 			const servertriggers = new Collection();
 			if (triggersToLoad.length === 0) {
 				logger.log(`No Triggers found for ${dirname}`);
-				continue;
+				// continue;
 			}
 			for (const trigger of triggersToLoad) {
 				// logger.debug(`./config/${dirname}/triggers/${trigger}`);
-				const triggerentry = require(`./config/${dirname}/triggers/${trigger}`);
+				const triggerentry = await import(`./config/${dirname}/triggers/${trigger}`);
 				servertriggers.set(triggerentry.info.name, triggerentry);
 				logger.cmd(`Loaded the ${triggerentry.info.name} Trigger`);
 			}
@@ -136,57 +297,22 @@ const init = async () => {
 			serverSettings.set("suggestionWatchChannels", suggestionWatchChannels);
 		}
 
+		if (dirname == "directmessage") {
+			serverSettings.set("guildname", "directmessage");
+		}
+		else if (isSnowflake(dirname)) {
+			try {
+				const guild = await client.guilds.fetch(dirname);
+				serverSettings.set("guildname", guild.name);
+			}
+			catch {
+				logger.error(`Couldn't handle ${dirname}`);
+			}
+		}
 
-		client.perserversettings.set(`${dirname}-serversettings`, serverSettings);
+
+		await client.perserversettings.set(`${dirname}-serversettings`, serverSettings);
 	}
-
-	// Here we load **commands** into memory, as a collection, so they're accessible
-	// here and everywhere else.
-	const commands = readdirSync("./commands/").filter(file => file.endsWith(".js"));
-	for (const file of commands) {
-		const props = require(`./commands/${file}`);
-		logger.cmd(`Loading Command: ${props.help.name}. 👌`);
-		client.commands.set(props.help.name, props);
-		props.conf.aliases.forEach(alias => {
-			client.aliases.set(alias, props.help.name);
-		});
-	}
-	// Now we load any **slash** commands you may have in the ./slash directory.
-	const slashFiles = readdirSync("./slash").filter(file => file.endsWith(".js"));
-	for (const file of slashFiles) {
-		const command = require(`./slash/${file}`);
-		const commandName = file.split(".")[0];
-		logger.cmd(`Loading Slash command: ${commandName}. 👌`);
-
-		// Now set the name of the command with it's properties.
-		client.slashcmds.set(command.commandData().name, command);
-	}
-
-	// Now we load any **button** interactions you may have in the ./buttons directory.
-	const buttonFiles = readdirSync("./buttons").filter(file => file.endsWith(".js"));
-	for (const file of buttonFiles) {
-		const button = require(`./buttons/${file}`);
-		const buttonName = file.split(".")[0];
-		logger.log(`Loading Button interactions: ${buttonName}. 👌`);
-
-		// Now set the name of the command with it's properties.
-		client.buttoncmds.set(button.buttonData().name, button);
-	}
-
-	// Then we load events, which will include our message and ready event.
-	const eventFiles = readdirSync("./events/").filter(file => file.endsWith(".js"));
-	for (const file of eventFiles) {
-		const eventName = file.split(".")[0];
-		logger.cmd(`Loading Event: ${eventName}. 👌`);
-		const event = require(`./events/${file}`);
-		// Bind the client to any event, before the existing arguments
-		// provided by the discord.js event.
-		// This line is awesome by the way. Just sayin'.
-		client.on(eventName, event.bind(null, client));
-	}
-
-	// Here we login the client. And do a little check that the configdb is loaded
-	client.login(configdb.get("token"));
 
 	// End top-level async/await function.
 };

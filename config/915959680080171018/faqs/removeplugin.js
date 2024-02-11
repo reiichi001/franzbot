@@ -1,4 +1,4 @@
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `Generic steps to remove plugins manually`,
 	description: `General "how to delete a plugin" steps:\n`
 		+ `1. Close the game and XIV on Mac\n`
@@ -8,16 +8,16 @@ exports.answer = async client => ({
 		+ `5. Remove all manually installed plugins. (Check if they have a third party repo or reinstall later)\n`
 		+ `6. Start the game now\n`
 		+ `7. Let us know if the issue persists`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	image: {
-		"url": client.config.FINDERGOTOSCREENSHOT,
+		"url": client.configdb.get("FINDERGOTOSCREENSHOT"),
 	},
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "removeplugin",
 	category: "files",
 	aliases: [

@@ -1,5 +1,5 @@
-const logger = require("../modules/Logger");
-const JSONdb = require('simple-json-db');
+import logger from '../modules/logger.js';
+import JSONdb from 'simple-json-db';
 
 const allowedRoles = [
 	"Admin",
@@ -17,7 +17,7 @@ const allowedRoles = [
 	"XIVLauncher Developer",
 ];
 
-exports.setSlowmode = async (member, channel, responseChannel, time, reason = null) => {
+export const setSlowmode = async (member, channel, responseChannel, time, reason = null) => {
 	logger.debug(`channel: ${channel} time: ${time} reason: ${reason}`);
 
 	if (!member || !channel || !responseChannel || !time) {

@@ -1,4 +1,4 @@
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `Trying to use GShade with The Sims 4?`,
 	description: `To use GShade with The Sims 4 you must:  `
         + `\n\nInstall (and purchase if your trial is over) [Crossover](https://www.codeweavers.com/crossover)`
@@ -8,14 +8,14 @@ exports.answer = async client => ({
         + `\n\nPlease don't ask for support if you're using the Mac version, it's not possible as GShade is Windows/wine only. `,
 
 
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "sims4",
 	category: "info",
 	aliases: [

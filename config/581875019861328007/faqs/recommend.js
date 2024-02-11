@@ -1,4 +1,4 @@
-exports.answer = async client => ({
+export const answer = async client => ({
 	title: `It is impossible for us to give plugin recommendations`,
 	description: `It is impossible for us to give plugin recommendations.\n\n`
 		+ ``
@@ -13,13 +13,13 @@ exports.answer = async client => ({
 		+ ``
 		+ `If you can give us some additional context, we can give you some better answers!`
 		+ ``,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
-exports.info = {
+export const info = {
 	name: "recommend",
 	category: "info",
 	aliases: [

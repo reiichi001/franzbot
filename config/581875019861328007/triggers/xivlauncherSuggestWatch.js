@@ -1,16 +1,16 @@
 /* eslint-disable max-len */
-const logger = require("../../../modules/Logger");
-const {
+import * as logger from '../../../modules/logger.js';
+
+import {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
-} = require("../../../modules/triggerTimeoutManager");
-
-const {
+} from '../../../modules/triggerTimeoutManager.js';
+import {
 	checkTheMessage,
-} = require("../../../modules/checkTheMessage");
+} from '../../../modules/checkTheMessage.js';
 
-exports.execute = async (client, message) => {
+export const execute = async (client, message) => {
 	const sectionIdentifier = `xivlauncher-suggestions-${message.guild.id}`;
-	// const watchChannels = client.config.SUGGESTION_WATCH_CHANNELS;
+	// const watchChannels = client.configdb.get("SUGGESTION_WATCH_CHANNELS");
 
 	let watchXLSuggest = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("watchXLSuggest");
 	if (!Array.isArray(watchXLSuggest)) {
@@ -28,12 +28,12 @@ exports.execute = async (client, message) => {
 		const adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature
 		const replyMessage = {
 
-			title: client.config.TRIGGER_TITLE,
+			title: client.configdb.get("TRIGGER_TITLE"),
 			description: "Please put plugin suggestions into the <#685275026156683280> channel please."
 				+ "\n\nThis channel is for XIVLauncher, Dalamud, or Discord related requests.",
-			color: client.config.EMBED_INFO_COLOR,
+			color: client.configdb.get("EMBED_INFO_COLOR"),
 			footer: {
-				"text": client.config.TRIGGER_FOOTER,
+				"text": client.configdb.get("TRIGGER_FOOTER"),
 			},
 		};
 
@@ -46,7 +46,7 @@ exports.execute = async (client, message) => {
 	}
 };
 
-exports.info = {
+export const info = {
 	name: "Unchecked Suggestion Channel Watch",
 	description: "You'd think users would stop being surprised at this being posted.",
 	type: "nag",

@@ -1,15 +1,15 @@
 /* eslint-disable no-return-await */
 /* eslint-disable consistent-return */
 
-const {
+import {
 	setSlowmode,
-} = require("../modules/slowmode.js");
+} from '../modules/slowmode.js';
 
-const {
+import {
 	SlashCommandBuilder,
-} = require('@discordjs/builders');
+} from '@discordjs/builders';
 
-exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+export const run = async (client, interaction) => { // eslint-disable-line no-unused-vars
 	try {
 		await interaction.deferReply({
 			ephemeral: true,
@@ -19,7 +19,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 		const channel = interaction.options.getChannel("channel") ?? interaction.channel;
 		const time = interaction.options.getString("time") ?? "1";
 		const reason = interaction.options.getString("reason") ?? null;
-		// client.logger.debug(`User: ${user}\nreason: ${reason}`);
+		// logger.debug(`User: ${user}\nreason: ${reason}`);
 
 		const success = await setSlowmode(interaction.member, channel, interaction.channel, time, reason);
 
@@ -71,7 +71,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 	}
 };
 
-exports.commandData = (client, message) => {
+export const commandData = (client, message) => {
 	const commandinfo = new SlashCommandBuilder()
 		.setName('slowmode')
 		.setDescription('Enable/Disable slowmode on a channel. Requires appropriate permissions.');
@@ -84,18 +84,56 @@ exports.commandData = (client, message) => {
 		.addStringOption(option => option
 			.setName('time')
 			.setDescription('Set the slowmode interval. If unset, defaults to 1 minute.')
-			.addChoice("Off", "off")
-			.addChoice("5 Seconds", "5s")
-			.addChoice("10 Seconds", "10s")
-			.addChoice("15 Seconds", "15s")
-			.addChoice("30 Seconds", "30s")
-			.addChoice("1 Minute", "1m")
-			.addChoice("2 Minutes", "2m")
-			.addChoice("5 Minutes", "5m")
-			.addChoice("10 Minutes", "10m")
-			.addChoice("15 Minutes", "15m")
-			.addChoice("30 Minutes", "30m")
-			.addChoice("1 Hour", "1h")
+			.addChoices(
+				{
+					name: "Off",
+					value: "off",
+				},
+				{
+					name: "5 Seconds",
+					value: "5s",
+				},
+				{
+					name: "10 Seconds",
+					value: "10s",
+				},
+				{
+					name: "15 Seconds",
+					value: "15s",
+				},
+				{
+					name: "30 Seconds",
+					value: "30s",
+				},
+				{
+					name: "1 Minute",
+					value: "1m",
+				},
+				{
+					name: "2 Minutes",
+					value: "2m",
+				},
+				{
+					name: "5 Minutes",
+					value: "5m",
+				},
+				{
+					name: "10 Minutes",
+					value: "10m",
+				},
+				{
+					name: "15 Minutes",
+					value: "15m",
+				},
+				{
+					name: "30 Minutes",
+					value: "30m",
+				},
+				{
+					name: "1 Hour",
+					value: "1h",
+				}
+			)
 			.setRequired(false))
 		.addStringOption(option => option
 			.setName('reason')
@@ -105,4 +143,4 @@ exports.commandData = (client, message) => {
 };
 
 // Set this to false if you want it to be global.
-exports.guildOnly = true;
+export const guildOnly = true;

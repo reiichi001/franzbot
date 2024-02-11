@@ -1,14 +1,15 @@
 /*
 Logger class for easy and aesthetically pleasing console logging
 */
-const {
+import {
 	cyan, red, magenta, gray, yellow, white, green,
-} = require("colorette");
-const {
-	Timestamp,
-} = require("@sapphire/time-utilities");
+} from 'colorette';
 
-exports.log = (content, type = "log") => {
+import {
+	Timestamp,
+} from '@sapphire/time-utilities';
+
+function printlog(content, type = "log") {
 	const timestamp = `[${cyan(new Timestamp("YYYY-MM-DD HH:mm:ss"))}]:`;
 
 	switch (type) {
@@ -20,12 +21,26 @@ exports.log = (content, type = "log") => {
 		case "ready": return console.log(`${timestamp} ${green(type.toUpperCase())} ${content}`);
 		default: throw new TypeError("Logger type must be either warn, debug, log, ready, cmd or error.");
 	}
+}
+
+function log(...args) {
+	printlog(...args, "log");
+}
+function error(...args) {
+	printlog(...args, "error");
+}
+function warn(...args) {
+	printlog(...args, "warn");
+}
+function debug(...args) {
+	printlog(...args, "debug");
+}
+function cmd(...args) {
+	printlog(...args, "cmd");
+}
+
+export {
+	log, error, warn, debug, cmd,
 };
+export default printlog;
 
-exports.error = (...args) => this.log(...args, "error");
-
-exports.warn = (...args) => this.log(...args, "warn");
-
-exports.debug = (...args) => this.log(...args, "debug");
-
-exports.cmd = (...args) => this.log(...args, "cmd");

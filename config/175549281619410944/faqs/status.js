@@ -1,10 +1,10 @@
-exports.answer = async client => [
+export const answer = async client => [
 	{
 		title: "Project Meteor Implementation Status",
 		description: "This is difficult to quantify. Chances are, whatever feature you're hoping to have implemented isn't quite ready yet for any variety of reasons. These sorts of questions cannot be answered clearly or with a percentage number and are often between varying degrees of implemented to no current plans to implement.",
 		color: 10197915,
 		footer: {
-			"text": client.config.FRANZBOT_VERSION,
+			"text": client.configdb.get("FRANZBOT_VERSION"),
 		},
 	},
 	{
@@ -38,7 +38,7 @@ exports.answer = async client => [
 	},
 ];
 
-exports.info = {
+export const info = {
 	name: "status",
 	category: "info",
 	aliases: ["progress"],

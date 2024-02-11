@@ -15,5 +15,7 @@
     ],
     "watchNagChannels": [],
     "watchXLSuggest": [],
-    "newpatchNag": false
+    "newpatchNag": false,
+    "relayChannel": "837808848718004245",
+    "guildname": "XIVLauncher & Dalamud"
 }
