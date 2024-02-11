@@ -16,6 +16,8 @@ const {
 	checkTheMessage,
 } = require("../modules/checkTheMessage");
 
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+
 // The MESSAGE event runs anytime a message is received
 // Note that due to the binding of client to every event, every event
 // goes `client, other, args` when this function is run.
@@ -275,10 +277,31 @@ module.exports = async (client, message) => {
 					});
 
 
-					// set up proxied url for loggy
-					// console.log(relayedMessage.attachments.first().proxyURL);
-					// console.log(relayedMessage.attachments.first().url);
-					const url = `https://wiki.ffxivrp.org/${relayedMessage.channelId}/${relayedMessage.attachments.first().id}/${relayedMessage.attachments.first().name}`;
+					// We upload these to S3 because Discord killed Franz's proxy	
+					const response = await fetch(attachment.attachment);
+					const buffer = Buffer.from(await response.arrayBuffer());
+					const bucketName = "dalamudlogsbucket-franz";
+					const keyName = `${message.guild?.id ?? "directmessage"}/tspack/${message.author.id}-${attachment.name}`
+
+					const s3Client = new S3Client({
+						region: client.config.AWS_REGION,
+						credentials: {
+						accessKeyId: client.config.AWS_KEY,
+						secretAccessKey: client.config.AWS_KEYSECRET,
+						}
+					});
+
+					await s3Client.send(
+						new PutObjectCommand({
+						Bucket: bucketName,
+						Key: keyName,
+						Body: buffer,
+						})
+					);
+
+					
+					const url = `https://dalamudlogsbucket-franz.s3.us-east-2.amazonaws.com/${keyName}`;
+
 					// console.log(url);
 					const base64url = new Buffer.from(url).toString('base64');
 					const safebase64url = URLSafeBase64.encode(new Buffer.from(url));

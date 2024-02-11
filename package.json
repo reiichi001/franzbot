@@ -4,6 +4,7 @@
   "description": "Franzbot is a Discord bot for zu.",
   "main": "app.js",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.511.0",
     "@discordjs/builders": "^0.9.0",
     "@sapphire/time-utilities": "^1.5.0",
     "better-sqlite3": "^7.4.5",
