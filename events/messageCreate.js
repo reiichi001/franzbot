@@ -4,6 +4,8 @@ const {
 } = require('discord.js');
 const got = require('got');
 
+
+const { createHash } = require('crypto');
 const URLSafeBase64 = require('urlsafe-base64');
 
 const logger = require("../modules/Logger");
@@ -280,8 +282,12 @@ module.exports = async (client, message) => {
 					// We upload these to S3 because Discord killed Franz's proxy	
 					const response = await fetch(attachment.attachment);
 					const buffer = Buffer.from(await response.arrayBuffer());
-					const bucketName = "dalamudlogsbucket-franz";
-					const keyName = `${message.guild?.id ?? "directmessage"}/tspack/${message.author.id}-${attachment.name}`
+					const bucketName = "dalamud-support";
+
+					const origKeyName = `${message.guild?.id ?? "directmessage"}/${message.author.id}-${attachment.name}`
+					let safeKeyName = `${createHash('sha1').update(origKeyName).digest('hex')}`;
+					safeKeyName = URLSafeBase64.encode(new Buffer.from(safeKeyName, 'hex'));
+					const keyName = `tspacks/${safeKeyName}.tspack`;
 
 					const s3Client = new S3Client({
 						region: client.config.AWS_REGION,
@@ -300,10 +306,10 @@ module.exports = async (client, message) => {
 					);
 
 					
-					const url = `https://dalamudlogsbucket-franz.s3.us-east-2.amazonaws.com/${keyName}`;
+					const url = `https://${bucketName}.s3.amazonaws.com/${keyName}`;
 
 					// console.log(url);
-					const base64url = new Buffer.from(url).toString('base64');
+					// const base64url = new Buffer.from(url).toString('base64');
 					const safebase64url = URLSafeBase64.encode(new Buffer.from(url));
 
 					const loggyUrl = `https://loggy.goat.place/?url=${safebase64url}`;
