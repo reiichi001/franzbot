@@ -280,32 +280,34 @@ module.exports = async (client, message) => {
 
 
 					// We upload these to S3 because Discord killed Franz's proxy	
+					const objGuildID = message.guild?.id ?? "directmessage";
 					const response = await fetch(attachment.attachment);
 					const buffer = Buffer.from(await response.arrayBuffer());
 					const bucketName = "dalamud-support";
 
-					const origKeyName = `${message.guild?.id ?? "directmessage"}/${message.author.id}-${attachment.name}`
+					const origKeyName = `${objGuildID}/${message.author.id}-${attachment.name}`
 					let safeKeyName = `${createHash('sha1').update(origKeyName).digest('hex')}`;
 					safeKeyName = URLSafeBase64.encode(new Buffer.from(safeKeyName, 'hex'));
 					const keyName = `tspacks/${safeKeyName}.tspack`;
+					const objectTags = `io.franzbot.tspack/source_user_id=${message.author.id}&io.franzbot.tspack/source_guild_id=${objGuildID}`;
 
 					const s3Client = new S3Client({
 						region: client.config.AWS_REGION,
 						credentials: {
-						accessKeyId: client.config.AWS_KEY,
-						secretAccessKey: client.config.AWS_KEYSECRET,
+							accessKeyId: client.config.AWS_KEY,
+							secretAccessKey: client.config.AWS_KEYSECRET,
 						}
 					});
 
 					await s3Client.send(
 						new PutObjectCommand({
-						Bucket: bucketName,
-						Key: keyName,
-						Body: buffer,
+							Bucket: bucketName,
+							Key: keyName,
+							Body: buffer,
+							Tagging: objectTags
 						})
 					);
 
-					
 					const url = `https://${bucketName}.s3.amazonaws.com/${keyName}`;
 
 					// console.log(url);
@@ -344,7 +346,7 @@ module.exports = async (client, message) => {
 										+ `**NOTE**: Please make sure to provide some context about this if you haven't already.` // ,
 										+ `The original post will be removed.\n\n`
 										+ `Orginal Message:\n`
-									    + `>>> ${message.content}`,
+										+ `>>> ${message.content}`,
 								},
 							],
 							allowedMentions: {
@@ -747,9 +749,9 @@ module.exports = async (client, message) => {
 
 						if (foundCustomRepoPluginInstalled
 							&& anyCustomRepoPluginsLoaded && (
-							message.guildId === client.config.GUILDID_GOAT
-							|| message.guildId === client.config.GUILDID_XIVONMAC
-							|| message.guildId === client.config.GUILDID_TESTING)
+								message.guildId === client.config.GUILDID_GOAT
+								|| message.guildId === client.config.GUILDID_XIVONMAC
+								|| message.guildId === client.config.GUILDID_TESTING)
 						) {
 							const nagMessage = require("../modules/parse/customrepoplugin.js");
 							const nagMessageReply = await nagMessage.replyMessage(client);
