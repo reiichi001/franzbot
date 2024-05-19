@@ -177,7 +177,7 @@ module.exports = async (client, message) => {
 				}
 
 				// relay crash dumps from goatplace (or DMs)
-				if (attachment.name.match(/.*\.(dmp)$/gui)) {
+				if (attachment.name.match(/^dalamud_appcrash_.*|.*\.(dmp)$/gui)) {
 					console.log(`Dalamud crash dump upload: ${attachment.attachment}`);
 					// const response = await got(attachment.attachment);
 					console.log(`Fetched custom channel to relay: ${customChannel.name}`);
@@ -834,7 +834,7 @@ module.exports = async (client, message) => {
 								.setColor(4886754)
 								.setTitle("General Launcher Settings")
 								.addField("Autologin", data.IsAutoLogin ? "enabled" : "disabled", true)
-								.addField("DirectX", data.IsDx11 ? "dx11" : "dx9", true)
+								// .addField("DirectX", data.IsDx11 ? "dx11" : "dx9", true) # XL doesn't supply this anymore because dx9 died.
 								.addField("DPI Aware", data.DpiAwareness ? "no" : "yes", true)
 								.addField("Encrypted Arguments", data.EncryptArguments ? "enabled" : "disabled", true)
 								// .addField("Steam Integration", data.SteamIntegration ? "enabled" : "disabled", true)

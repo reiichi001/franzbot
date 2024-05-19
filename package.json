@@ -32,9 +32,9 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://reiichi001@bitbucket.org/reiichi001/franzbot-reborn.git"
+    "url": "git+https://github.com/reiichi001/franzbot.git"
   },
-  "homepage": "https://bitbucket.org/reiichi001/franzbot-reborn#readme",
+  "homepage": "https://github.com/reiichi001/franzbot#readme",
   "devDependencies": {
     "@types/node": "^16.11.11"
   }

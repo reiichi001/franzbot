@@ -22,5 +22,10 @@ exports.info = {
 		"launcherlog",
 		"launcher.log",
 		"macloga",
+		"maclogxl",
+		"logxl",
+		"xllog",
+		"log",
+		"maclog",
 	],
 };
