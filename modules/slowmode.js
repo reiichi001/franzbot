@@ -4,6 +4,7 @@ const JSONdb = require('simple-json-db');
 const allowedRoles = [
 	"Admin",
 	"Administrator",
+	"intern",
 	"Officer",
 	"Operator",
 	"moderator",

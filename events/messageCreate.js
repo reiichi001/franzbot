@@ -2,10 +2,12 @@
 const {
 	MessageEmbed,
 } = require('discord.js');
-const got = require('got');
+// const got = require('got');
 
 
-const { createHash } = require('crypto');
+const {
+	createHash,
+} = require('crypto');
 const URLSafeBase64 = require('urlsafe-base64');
 
 const logger = require("../modules/Logger");
@@ -18,7 +20,9 @@ const {
 	checkTheMessage,
 } = require("../modules/checkTheMessage");
 
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const {
+	S3Client, PutObjectCommand,
+} = require("@aws-sdk/client-s3");
 
 // The MESSAGE event runs anytime a message is received
 // Note that due to the binding of client to every event, every event
@@ -279,14 +283,15 @@ module.exports = async (client, message) => {
 					});
 
 
-					// We upload these to S3 because Discord killed Franz's proxy	
+					// We upload these to S3 because Discord killed Franz's proxy
 					const objGuildID = message.guild?.id ?? "directmessage";
 					const response = await fetch(attachment.attachment);
 					const buffer = Buffer.from(await response.arrayBuffer());
 					const bucketName = "dalamud-support";
 
-					const origKeyName = `${objGuildID}/${message.author.id}-${attachment.name}`
-					let safeKeyName = `${createHash('sha1').update(origKeyName).digest('hex')}`;
+					const origKeyName = `${objGuildID}/${message.author.id}-${attachment.name}`;
+					let safeKeyName = `${createHash('sha1').update(origKeyName)
+						.digest('hex')}`;
 					safeKeyName = URLSafeBase64.encode(new Buffer.from(safeKeyName, 'hex'));
 					const keyName = `tspacks/${safeKeyName}.tspack`;
 					const objectTags = `io.franzbot.tspack/source_user_id=${message.author.id}&io.franzbot.tspack/source_guild_id=${objGuildID}`;
@@ -296,7 +301,7 @@ module.exports = async (client, message) => {
 						credentials: {
 							accessKeyId: client.config.AWS_KEY,
 							secretAccessKey: client.config.AWS_KEYSECRET,
-						}
+						},
 					});
 
 					await s3Client.send(
@@ -304,7 +309,7 @@ module.exports = async (client, message) => {
 							Bucket: bucketName,
 							Key: keyName,
 							Body: buffer,
-							Tagging: objectTags
+							Tagging: objectTags,
 						})
 					);
 
@@ -377,8 +382,8 @@ module.exports = async (client, message) => {
 					// const dalamudLogParser = require("../modules/parse/dalamudLog");
 
 					try {
-						const response = await got(attachment.attachment);
-
+						const response = await fetch(attachment.attachment);
+						let logdata;
 						// const parseResults = dalamudLogParser.parse(client, response?.body);
 
 						/*
@@ -390,9 +395,12 @@ module.exports = async (client, message) => {
 						*/
 						let foundCustomRepoPluginInstalled = false;
 						let anyCustomRepoPluginsLoaded = false;
+						if (response.ok) {
+							logdata = await response.text();
+							// logger.debug(logdata);
+						}
 
-						const logdata = response?.body;
-						const logdresults = logdata.match(/TROUBLESHOOTING:(.*)/gu);
+						const logdresults = logdata?.match(/TROUBLESHOOTING:(.*)/gu);
 						if (logdresults?.length > 0) {
 							let data = logdresults[logdresults.length - 1];
 							data = data.slice(16);
@@ -874,6 +882,7 @@ module.exports = async (client, message) => {
 								.addField("Stormblood", data.ObservedEx2Version === "2012.01.01.0000.0000" ? "not installed" : data.ObservedEx2Version ?? "error", true)
 								.addField("Shadowbringers", data.ObservedEx3Version === "2012.01.01.0000.0000" ? "not installed" : data.ObservedEx3Version ?? "error", true)
 								.addField("Endwalker", data.ObservedEx4Version === "2012.01.01.0000.0000" ? "not installed" : data.ObservedEx4Version ?? "error", true)
+								.addField("Dawntrail", data.ObservedEx5Version === "2012.01.01.0000.0000" ? "not installed" : data.ObservedEx5Version ?? "error", true)
 								.addField("BCK files match", data.BckMatch ? "yes" : "no", true);
 
 							switch (data.IndexIntegrity) {

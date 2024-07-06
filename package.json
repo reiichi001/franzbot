@@ -4,26 +4,24 @@
   "description": "Franzbot is a Discord bot for zu.",
   "main": "app.js",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.511.0",
+    "@aws-sdk/client-s3": "^3.577.0",
     "@discordjs/builders": "^0.9.0",
-    "@sapphire/time-utilities": "^1.5.0",
-    "better-sqlite3": "^7.4.5",
-    "bufferutil": "^4.0.5",
-    "colorette": "^2.0.16",
+    "@sapphire/time-utilities": "^1.7.12",
+    "bufferutil": "^4.0.8",
+    "colorette": "^2.0.20",
     "discord.js": "^13.3.1",
-    "disrequire": "^1.1.2",
+    "disrequire": "^1.1.4",
     "eightball": "^1.0.1",
-    "enmap": "^5.8.7",
-    "eslint": "^8.3.0",
-    "eslint-plugin-sonarjs": "^0.11.0",
-    "got": "^11.8.3",
-    "libsodium-wrappers": "^0.7.9",
-    "simple-json-db": "^1.2.3",
+    "enmap": "^6.0.2",
+    "eslint": "^9.3.0",
+    "eslint-plugin-sonarjs": "^1.0.3",
+    "got": "^14.3.0",
+    "libsodium-wrappers": "^0.7.13",
+    "simple-json-db": "^2.0.0",
     "spliddit": "^2.1.1",
     "stringz": "^2.1.0",
     "urlsafe-base64": "^1.0.0",
-    "utf-8-validate": "^5.0.7",
-    "zlib-sync": "^0.1.7"
+    "zlib-sync": "^0.1.9"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -36,6 +34,6 @@
   },
   "homepage": "https://github.com/reiichi001/franzbot#readme",
   "devDependencies": {
-    "@types/node": "^16.11.11"
+    "@types/node": "^20.12.12"
   }
 }
