@@ -584,7 +584,7 @@ module.exports = async (client, message) => {
 							replymessage2
 								.addField(
 									"Dalamud Testing",
-									data.BetaKey ?? "null",
+									data.BetaKey?.length > 1 ? data.BetaKey : "null",
 									true
 								)
 								.addField(
