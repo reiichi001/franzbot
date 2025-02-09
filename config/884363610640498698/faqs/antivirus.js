@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Please whitelist or make AV exceptions for XIVLauncher`,
 	description: `Details can be found `

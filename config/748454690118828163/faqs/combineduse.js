@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Combined Usage of Penumbra and Textools is Unsupported`,
 	description: `Usage of Penumbra and Textools to load mods simultaneously is unsupported. `

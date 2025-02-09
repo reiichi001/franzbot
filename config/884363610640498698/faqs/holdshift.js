@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `How to disable autologin`,
 	description: `Keep the shift key held down while you open XIVLauncher. Please keep it held down as the program opens.\n\n`

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const logger = require("../../../modules/Logger");
 const {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,

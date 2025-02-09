@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 const logger = require("../../../modules/Logger");
 const {
@@ -14,9 +15,9 @@ exports.execute = async (client, message) => {
 	if (timeoutEnded(sectionIdentifier, 3 * SECOND)) {
 		const forbidAny = [/\b(bdth|burn[ing]*\s*down\s*the\s*house|xiv\s*alex.*|no\s*clip.*|l\s*meter|cammy|oobplugin|sloth|combo\s*expand.*|splatoon|makeplace|mare|mui|material\s*ui\s*plugin|glamourer)/gui];
 		const forbidCount = [/\b(get|install|help|support|download|update?|use|using|where|find|issue|problem|command|crash|break|know|run+)(s|ed|t?ing)?\b/gui];
-		const negateBadWords = [];
+		const negateBadWords = [/\b(do not|don't)?\b/gui];
 		const forbiddenMinCount = 1;
-		const adjustedMinCount = Number.MIN_SAFE_INTEGER; // disable the "good words offset" feature;
+		const adjustedMinCount = 2;
 
 		const replyMessage = {
 

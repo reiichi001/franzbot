@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Plugin GUI does not load or Dalamud crashes on game start`,
 	description: `Please check if you have other programs modifying FFXIV. More details `

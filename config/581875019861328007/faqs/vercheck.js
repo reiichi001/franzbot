@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `How do I fix a version check error when trying to update FFXIV?`,
 	description: `You'll need to make an edit to your FFXIVBOOT.cfg file.`

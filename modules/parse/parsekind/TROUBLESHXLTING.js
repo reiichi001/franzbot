@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /* eslint-disable sonarjs/no-duplicate-string */
 const {
 	EmbedBuilder,

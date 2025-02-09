@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Please wait for Dalamud and Plugin updates after a patch`,
 	description: `XIVLauncher should work just fine after a patch, as SE does not modify the login progress very often.\n\n`

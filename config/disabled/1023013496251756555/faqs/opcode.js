@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `OpCodes need to be manually updated each patch.`,
 	description: `OpCode information is updated separately from Dalamud. Chances are you just need to relaunch if `

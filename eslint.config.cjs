@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 const sonarjs = require("eslint-plugin-sonarjs");
 const globals = require("globals");
 
@@ -29,13 +30,13 @@ module.exports = [
 			"max-len": [
 				"warn",
 				{
-					code: 125,
+					code: 150,
 					ignoreRegExpLiterals: false,
 					ignoreStrings: false,
 					ignoreUrls: false,
 					ignoreTemplateLiterals: false,
 					ignoreComments: false,
-					comments: 115,
+					comments: 150,
 				},
 			],
 

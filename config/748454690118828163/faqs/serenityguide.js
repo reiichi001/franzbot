@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Please review the guide!`,
 	description: `A good starting place for information is the Guide to Penumbra made by <@858401899439194133>. \n\n`

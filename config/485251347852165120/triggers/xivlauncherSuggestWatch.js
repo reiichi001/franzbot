@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 const logger = require("../../../modules/Logger");
 const {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,

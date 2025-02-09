@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Proper alias for xbox series X controllers`,
 	description: `replace line 89 under \`<GamePad Settings>\` in \`Documents/My Games/Final Fantasy XIV - A Realm Reborn/FFXIV.cfg\` `

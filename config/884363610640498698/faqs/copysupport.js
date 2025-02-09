@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Please give us your Support Info`,
 	description: `In order for us to be able to assist you further, `

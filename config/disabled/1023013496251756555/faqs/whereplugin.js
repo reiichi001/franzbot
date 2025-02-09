@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Why can’t I find a plugin / is there any update?`,
 	description: `Our FAQ lists plugins that are pending updates or have been retired.\n\n`

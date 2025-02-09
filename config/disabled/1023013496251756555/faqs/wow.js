@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Hello [possible] [former] WoW player!`,
 	description: `This is mostly a joke command because users keep typing it.\n\n`

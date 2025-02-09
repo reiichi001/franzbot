@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 const {
 	Events, ChannelType,
@@ -111,10 +112,10 @@ module.exports = async (client, message) => {
 			.then(msg => {
 				setTimeout(() => msg.delete(), 5 * SECOND);
 			})
-			.then(origMsg => {
+			.then(
 				// only works if Franzbot is allowed to manage messages.
-				setTimeout(() => message.delete(), 5 * SECOND);
-			});
+				setTimeout(() => message.delete(), 5 * SECOND)
+			);
 		return;
 	}
 

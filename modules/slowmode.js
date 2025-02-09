@@ -1,5 +1,4 @@
 const logger = require("../modules/Logger");
-const JSONdb = require('simple-json-db');
 
 const allowedRoles = [
 	"Admin",

@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `SSL/TLS issues on wine?`,
 	description: `If you're running into SSL/TLS issues while using Wine/Lutris, this may `

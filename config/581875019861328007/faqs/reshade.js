@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Reshade/Gshade/etc not working or shaders being applied on plugin windows?`,
 	description: `Please check the faq post `
