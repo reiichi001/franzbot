@@ -2,8 +2,8 @@ module.exports = async (client, messageUpdate) => {
 	// Turns out we probably don't need this. But it's here just in case we ever do.
 	/*
 	const GoatTriggers = [
-		client.config.GUILDID_TESTING, // franzbot testing - general
-		client.config.GUILDID_GOAT, // Goatplace - general
+		client.configdb.get("GUILDID_TESTING"), // franzbot testing - general
+		client.configdb.get("GUILDID_GOAT"), // Goatplace - general
 	];
 
 	// Triggers for Goatplace

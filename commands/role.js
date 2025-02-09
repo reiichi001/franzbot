@@ -3,8 +3,8 @@ exports.run = (client, message, args) => {
 	// toggle a role for Zu
 
 	const ZuTriggers = [
-		client.config.GUILDID_TESTING, // franzbot testing - general
-		client.config.GUILDID_ZU, // Zu - general
+		client.configdb.get("GUILDID_TESTING"), // franzbot testing - general
+		client.configdb.get("GUILDID_ZU"), // Zu - general
 	];
 	if (!ZuTriggers.includes(message.guild.id)) {
 		return message.reply("\u200Bthis command doesn't work here.")
@@ -22,9 +22,9 @@ exports.run = (client, message, args) => {
 
 		if (!addThisRole) {
 			message.reply(`\u200BERROR: Cannot find the role "${args[0]}" on this server. `
-			+ `Please check spelling and capitalization, or ask an Officer/Admin to set the role for you.`).then(
-				setTimeout(() => message.delete(), 5000)
-			);
+				+ `Please check spelling and capitalization, or ask an Officer/Admin to set the role for you.`).then(
+					setTimeout(() => message.delete(), 5000)
+				);
 		}
 		else if (message.member.roles.cache.get(addThisRole.id)) {
 			message.member.roles.remove(addThisRole).catch(console.error);

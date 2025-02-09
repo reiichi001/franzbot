@@ -6,14 +6,14 @@ function randomInt(low, high) {
 exports.run = async (client, message, args) => {
 	/*
 	const ZuTriggers = [
-		client.config.GUILDID_TESTING, // franzbot testing - general
-		client.config.GUILDID_ZU, // Zu - general
+		client.configdb.get("GUILDID_TESTING"), // franzbot testing - general
+		client.configdb.get("GUILDID_ZU"), // Zu - general
 	];
 	if (!ZuTriggers.includes(message.guild.id)) {
 		return message.reply("\u200Bthis command doesn't work here.")
 			.then(message.delete({
 				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
+				reason: client.configdb.get("AUDITLOG_COMMON"),
 			}));
 	}
 	*/
@@ -31,8 +31,8 @@ exports.run = async (client, message, args) => {
 		const usernickstring = message.guild.members.cache.get(user.id).nickname || usernamestring;
 
 		console.log(`User: ${user.id}\n`
-            + `Nick: ${usernickstring}\n`
-            + `Name: ${usernamestring}`);
+			+ `Nick: ${usernickstring}\n`
+			+ `Name: ${usernamestring}`);
 
 		joinedargs = joinedargs
 			.replace(useridstring, usernamestring)

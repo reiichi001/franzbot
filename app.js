@@ -1,15 +1,10 @@
 const {
-	Client, Collection, Intents,
+	Client, Collection, GatewayIntentBits, Partials,
 } = require("discord.js");
 const {
 	existsSync,
 	readdirSync,
 } = require("fs");
-
-// set up intents
-const myIntents = new Intents();
-myIntents.add('DIRECT_MESSAGES', 'GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS');
-
 
 const client = new Client(
 	{
@@ -19,12 +14,19 @@ const client = new Client(
 				// 'roles', // we probably don't need this either, but kept for posterity.
 			],
 		},
-		intents: myIntents.bitfield,
+		intents: [
+			GatewayIntentBits.DirectMessages,
+			GatewayIntentBits.Guilds,
+			GatewayIntentBits.GuildMembers,
+			GatewayIntentBits.GuildMessages,
+			GatewayIntentBits.GuildMessageReactions,
+			GatewayIntentBits.MessageContent,
+		],
 		partials: [
-			'GUILD',
-			'MESSAGE',
-			'CHANNEL',
-			'REACTION',
+			Partials.GuildMember,
+			Partials.Message,
+			Partials.Channel,
+			Partials.Reaction,
 		],
 	}
 );
@@ -60,85 +62,6 @@ client.perserveraliases = new Collection();
 client.perservertriggers = new Collection();
 
 const init = async () => {
-	// Now let's load up some per-server config
-	const perserversettings = readdirSync("./config", {
-		withFileTypes: true,
-	})
-		.filter(folder => folder.isDirectory())
-		.map(dir => dir.name);
-	for (const dirname of perserversettings) {
-		// logger.log(`Looking in "${dirname}"`);
-		if (existsSync(`./config/${dirname}/faqs/`)) {
-			logger.log(`Loading FAQs for ${dirname}`);
-			const faqsToLoad = readdirSync(`./config/${dirname}/faqs/`).filter(file => file.endsWith(".js"));
-			const faqentries = new Collection();
-			if (faqsToLoad.length === 0) {
-				logger.log(`No FAQs found for ${dirname}`);
-				continue;
-			}
-			for (const faq of faqsToLoad) {
-				// logger.debug(`./config/${dirname}/faqs/${faq}`);
-				const faqentry = require(`./config/${dirname}/faqs/${faq}`);
-				faqentries.set(faqentry.info.name, faqentry);
-				faqentry.info.aliases.forEach(alias => {
-					client.perserveraliases.set(alias, faqentry.info.name);
-				});
-				logger.debug(`Loaded the ${faqentry.info.name} FAQ`);
-			}
-			client.perserversettings.set(dirname, faqentries);
-			// logger.log(`Finished Loading FAQs for ${dirname}. 👌`, "log");
-		}
-
-		if (existsSync(`./config/${dirname}/triggers/`)) {
-			// logger.log(`Loading Triggers for ${dirname}`);
-			const triggersToLoad = readdirSync(`./config/${dirname}/triggers/`).filter(file => file.endsWith(".js"));
-			const servertriggers = new Collection();
-			if (triggersToLoad.length === 0) {
-				logger.log(`No Triggers found for ${dirname}`);
-				continue;
-			}
-			for (const trigger of triggersToLoad) {
-				// logger.debug(`./config/${dirname}/triggers/${trigger}`);
-				const triggerentry = require(`./config/${dirname}/triggers/${trigger}`);
-				servertriggers.set(triggerentry.info.name, triggerentry);
-				logger.cmd(`Loaded the ${triggerentry.info.name} Trigger`);
-			}
-			client.perserversettings.set(`${dirname}-triggers`, servertriggers);
-		}
-
-		logger.log(`Loading per-server config for ${dirname}`);
-		const serverSettings = new JSONdb(`./config/${dirname}/perserversettings.json`, {
-			syncOnWrite: true,
-			jsonSpaces: 4,
-		});
-
-		logger.log("loading command ignore list");
-		let ignoredUsers = serverSettings.get("ignoredUsers");
-		if (!Array.isArray(ignoredUsers)) {
-			logger.warn(`Could not find ignored users for ${dirname}. Setting empty list.`);
-			ignoredUsers = [];
-			serverSettings.set("ignoredUsers", ignoredUsers);
-		}
-
-		logger.log("loading trigger ignored users list");
-		let ignoredRoles = serverSettings.get("ignoredRoles");
-		if (!Array.isArray(ignoredRoles)) {
-			logger.warn(`Could not find ignored roles for ${dirname}. Setting empty list.`);
-			ignoredRoles = [];
-			serverSettings.set("ignoredRoles", ignoredRoles);
-		}
-
-		logger.log("loading trigger watch channels list");
-		let suggestionWatchChannels = serverSettings.get("suggestionWatchChannels");
-		if (!Array.isArray(suggestionWatchChannels)) {
-			logger.warn(`Could not find watch channels for ${dirname}. Setting empty list.`);
-			suggestionWatchChannels = [];
-			serverSettings.set("suggestionWatchChannels", suggestionWatchChannels);
-		}
-
-
-		client.perserversettings.set(`${dirname}-serversettings`, serverSettings);
-	}
 
 	// Here we load **commands** into memory, as a collection, so they're accessible
 	// here and everywhere else.
@@ -187,6 +110,112 @@ const init = async () => {
 
 	// Here we login the client. And do a little check that the configdb is loaded
 	client.login(configdb.get("token"));
+
+
+	// Now let's load up some per-server config
+	const perserversettings = readdirSync("./config", {
+		withFileTypes: true,
+	})
+		.filter(folder => folder.isDirectory())
+		.map(dir => dir.name);
+	for (const dirname of perserversettings) {
+		// logger.log(`Looking in "${dirname}"`);
+		const DiscordSnowflake = await import("discord-snowflake");
+		let guildName = "unknown";
+
+
+		const serverSettings = new JSONdb(`./config/${dirname}/perserversettings.json`, {
+			syncOnWrite: true,
+			jsonSpaces: 4,
+		});
+
+		if (dirname == "directmessage") {
+			serverSettings.set("guildname", "directmessage");
+		}
+		else if (dirname == "disabled") {
+			// don't load anything here.
+			logger.debug(`Skip loading per-server config for ${dirname} folder contents.`);
+			continue;
+		}
+		else if (DiscordSnowflake.isSnowflake(dirname)) {
+			try {
+				const guild = await client.guilds.fetch(dirname);
+				serverSettings.set("guildname", guild.name);
+				guildName = guild.name;
+			}
+			catch (err) {
+				logger.error(`Couldn't handle ${dirname}`);
+				logger.error(err);
+			}
+		}
+
+		logger.log(`Loading per-server config for ${dirname} (${guildName})`);
+
+		await client.perserversettings.set(`${dirname}-serversettings`, serverSettings);
+
+		if (existsSync(`./config/${dirname}/faqs/`)) {
+			logger.log(`Loading FAQs for ${dirname} (${guildName})`);
+			const faqsToLoad = readdirSync(`./config/${dirname}/faqs/`).filter(file => file.endsWith(".js"));
+			const faqentries = new Collection();
+			if (faqsToLoad.length === 0) {
+				logger.log(`No FAQs found for ${dirname}`);
+				continue;
+			}
+			for (const faq of faqsToLoad) {
+				// logger.debug(`./config/${dirname}/faqs/${faq}`);
+				const faqentry = require(`./config/${dirname}/faqs/${faq}`);
+				faqentries.set(faqentry.info.name, faqentry);
+				faqentry.info.aliases.forEach(alias => {
+					client.perserveraliases.set(alias, faqentry.info.name);
+				});
+				logger.debug(`Loaded the ${faqentry.info.name} FAQ`);
+			}
+			client.perserversettings.set(dirname, faqentries);
+			// logger.log(`Finished Loading FAQs for ${dirname}. 👌`, "log");
+		}
+
+		if (existsSync(`./config/${dirname}/triggers/`)) {
+			// logger.log(`Loading Triggers for ${dirname} (${guildName})`);
+			const triggersToLoad = readdirSync(`./config/${dirname}/triggers/`).filter(file => file.endsWith(".js"));
+			const servertriggers = new Collection();
+			if (triggersToLoad.length === 0) {
+				logger.log(`No Triggers found for ${dirname}`);
+				continue;
+			}
+			for (const trigger of triggersToLoad) {
+				// logger.debug(`./config/${dirname}/triggers/${trigger}`);
+				const triggerentry = require(`./config/${dirname}/triggers/${trigger}`);
+				servertriggers.set(triggerentry.info.name, triggerentry);
+				logger.cmd(`Loaded the ${triggerentry.info.name} Trigger`);
+			}
+			client.perserversettings.set(`${dirname}-triggers`, servertriggers);
+		}
+
+		logger.log("loading command ignore list");
+		let ignoredUsers = serverSettings.get("ignoredUsers");
+		if (!Array.isArray(ignoredUsers)) {
+			logger.warn(`Could not find ignored users for ${dirname}. Setting empty list.`);
+			ignoredUsers = [];
+			serverSettings.set("ignoredUsers", ignoredUsers);
+		}
+
+		logger.log("loading trigger ignored users list");
+		let ignoredRoles = serverSettings.get("ignoredRoles");
+		if (!Array.isArray(ignoredRoles)) {
+			logger.warn(`Could not find ignored roles for ${dirname}. Setting empty list.`);
+			ignoredRoles = [];
+			serverSettings.set("ignoredRoles", ignoredRoles);
+		}
+
+		logger.log("loading trigger watch channels list");
+		let suggestionWatchChannels = serverSettings.get("suggestionWatchChannels");
+		if (!Array.isArray(suggestionWatchChannels)) {
+			logger.warn(`Could not find watch channels for ${dirname}. Setting empty list.`);
+			suggestionWatchChannels = [];
+			serverSettings.set("suggestionWatchChannels", suggestionWatchChannels);
+		}
+	}
+
 
 	// End top-level async/await function.
 };

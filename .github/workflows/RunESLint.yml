@@ -10,12 +10,12 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
       - run: npm ci # or yarn install
-      - uses: sibiraj-s/action-eslint@v2
+      - uses: sibiraj-s/action-eslint@v3
         with:
           eslint-args: '--fix --ignore-path=.gitignore'
           extensions: 'js,jsx,ts,tsx'

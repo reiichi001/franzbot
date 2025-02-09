@@ -1,3 +1,13 @@
+/*
+		const forbidAny = []; // an array of regex, at least one must match to complain
+		const forbidCount = []; // same value type, a minimum number must match
+		const negateBadWords = []; // same type again, these matches count against the bad word matches
+		let forbiddenMinCount; // the number of forbidCount match results to complain
+		let adjustedMinCount; // the number of ADJUSTED bad word match results to complain
+		const ignoredRoles = []; // an array of roles to ignore messages from
+		let replyMessage; // whatever this is, it gets sent via `message.reply()` unless it's falsey
+*/
+
 exports.checkTheMessage = (
 	client,
 	message,
@@ -10,8 +20,12 @@ exports.checkTheMessage = (
 	replyMessage
 ) => {
 	const ignoredRoles = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("ignoredRoles");
-	if (message.member?.roles?.cache.some(r => ignoredRoles.includes(r.name))) {
-		console.log("Ignored role. Skipping this check.");
+	// will keep names for legacy support, but let's not add any new ones, OK? :)
+	if (message.member?.roles?.cache.some(
+		r => Object.values(ignoredRoles).includes(r.id)
+			|| ignoredRoles.includes(r.name))
+	) { // legacy for arrays that aren't converted to dict-like objects yet
+		// console.log("Ignored role. Skipping this check.");
 		return;
 	}
 
@@ -76,11 +90,11 @@ exports.checkTheMessage = (
 
 	const adjustedWordWeight = forbidden.size - offsetWeight;
 	if (replyMessage
-        && hasForbidAny
-        && forbidCountQuantity >= forbiddenMinCount
-        && adjustedWordWeight >= adjustedMinCount
-        // if it's longer than a tweet, it's probably a false positive
-        && (message.content.length <= 220 || ignorelength === true)
+		&& hasForbidAny
+		&& forbidCountQuantity >= forbiddenMinCount
+		&& adjustedWordWeight >= adjustedMinCount
+		// if it's longer than a tweet, it's probably a false positive
+		&& (message.content.length <= 220 || ignorelength === true)
 	) {
 		if (Array.isArray(replyMessage)) {
 			message.reply({

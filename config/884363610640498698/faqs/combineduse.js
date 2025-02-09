@@ -9,12 +9,12 @@ exports.answer = async client => ({
 		+ `we would be unable to assist any further until you repair your game using the XIVLauncher Repair tool, `
 		+ `or download index backups and Start Over in Textools.\n\n`
 		+ `See \`${client.config.prefix}faq repair\` for more info.`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	image: {
 		"url": "https://cdn.discordapp.com/attachments/586272168741044226/948933649296924722/unknown.png",
 	},
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 

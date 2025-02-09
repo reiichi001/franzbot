@@ -5,7 +5,7 @@ exports.answer = async client => ({
 
 	"color": client.config.EMBED_NORMAL_COLOR,
 	"footer": {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 	"image": {
 		"url": "https://i.imgur.com/9qTtqFL.png",

@@ -7,6 +7,7 @@ const allowedRoles = [
 	"intern",
 	"Officer",
 	"Operator",
+	"Moderator",
 	"moderator",
 	"team",
 	"support",

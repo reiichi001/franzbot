@@ -4,7 +4,7 @@ const JSONdb = require('simple-json-db');
 
 
 const {
-	MessageEmbed,
+	EmbedBuilder,
 } = require("discord.js");
 
 /* eslint-disable consistent-return */
@@ -18,7 +18,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 
 		interaction.deferUpdate();
 		logger.cmd(`${interaction.user.username} pushed a button in `
-            + `#${interaction.channel.name} at ${interaction.guild.name}`);
+			+ `#${interaction.channel.name} at ${interaction.guild.name}`);
 
 		if (ticketdb.has("guildticketinfo")) {
 			const guildTicketInfo = ticketdb.get("guildticketinfo");
@@ -34,7 +34,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 		const newname = channel.name.replace("help-", "closed-");
 		await interaction.channel.setName(newname);
 
-		const ticketClosedMessage = new MessageEmbed()
+		const ticketClosedMessage = new EmbedBuilder()
 			.setDescription(`This ticket has been closed by ${interaction.user}`);
 
 		// this needs to be updated to the user who made the ticket.

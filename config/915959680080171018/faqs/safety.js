@@ -12,9 +12,9 @@ exports.answer = async client => ({
 		+ `\n\nPlease note that we cannot vouch for the safety of third party plugins.`
 		+ `\n\nIf you'd like more information, please see the <#916158828670754887> channel and our FAQ post `
 		+ `[HERE](https://discord.com/channels/915959680080171018/916158828670754887/973286339959222312)`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 

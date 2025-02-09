@@ -1,10 +1,10 @@
 exports.answer = async client => ({
 	title: `This plugin needs to be updated for the current client`,
 	description: `You can find a list of popular, but not updated plugins and their status `
-		+ `[HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-outdated-plugins-list)`,
-	color: client.config.EMBED_NORMAL_COLOR,
+		+ `[HERE](https://tommadness.github.io/Plugin-Browser/)`,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 

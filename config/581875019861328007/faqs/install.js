@@ -2,9 +2,9 @@
 exports.answer = async client => ({
 	title: `How to install XIVLauncher, Dalamud, or Plugins?`,
 	description: `For the Most up to date practices, please consult <https://goatcorp.github.io/> or <#866796481754562571>`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 	fields: [
 		{

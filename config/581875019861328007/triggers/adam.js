@@ -24,7 +24,7 @@ exports.execute = async (client, message) => {
 		}
 	}
 	else if (timeoutSet(sectionIdentifier)) {
-		logger.debug(`Timeout for ${sectionIdentifier} not exceeded. Ignoring message`);
+		// logger.debug(`Timeout for ${sectionIdentifier} not exceeded. Ignoring message`);
 	}
 };
 

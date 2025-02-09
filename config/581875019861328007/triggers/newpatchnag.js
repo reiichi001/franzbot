@@ -13,13 +13,13 @@ exports.execute = async (client, message) => {
 	const postnag = false;
 	// const watchNagChannels = client.config.NEWPATCHNAG_WATCH_CHANNELS;
 
-	let  watchNagChannels = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("watchNagChannels");
+	let watchNagChannels = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("watchNagChannels");
 	if (!Array.isArray(watchNagChannels)) {
 		logger.warn(`Could not find newpatch nag watch channels for ${message.guild.id}. Setting empty list.`);
 		watchNagChannels = [];
 		client.perserversettings?.get(`${message.guild.id}-serversettings`)?.set("watchNagChannels", watchNagChannels);
 	}
-	console.log("Running newpatchnag check.");
+	// console.log("Running newpatchnag check.");
 	if (postnag && watchNagChannels.includes(message.channel.id) && timeoutEnded(sectionIdentifier, 15 * MINUTE)) {
 		const ignoredRoles = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("ignoredRoles");
 		if (message.member.roles.cache.some(r => ignoredRoles.includes(r.name))) {
@@ -72,7 +72,7 @@ exports.execute = async (client, message) => {
 			});
 	}
 	else if (timeoutSet(sectionIdentifier)) {
-		logger.debug(`Timeout for ${sectionIdentifier} not exceeded. Ignoring message`);
+		// logger.debug(`Timeout for ${sectionIdentifier} not exceeded. Ignoring message`);
 	}
 };
 

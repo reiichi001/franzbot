@@ -1,14 +1,14 @@
 {
     "ignoredUsers": [],
     "ignoredRoles": [
-	"admin",
-	"intern",
+        "admin",
+        "intern",
         "moderator",
         "support team",
         "community contributor",
-	"xlcore maintainer",
-	"dalamud maintainer",
-	"dalamud-pac",
+        "xlcore maintainer",
+        "dalamud maintainer",
+        "dalamud-pac",
         "test",
         "botters"
     ],
@@ -18,5 +18,7 @@
     ],
     "watchNagChannels": [],
     "watchXLSuggest": [],
-    "newpatchNag": false
+    "newpatchNag": false,
+    "relayChannel": "837808848718004245",
+    "guildname": "XIVLauncher & Dalamud"
 }

@@ -1,10 +1,14 @@
 {
     "ignoredUsers": [],
     "ignoredRoles": [
-        "Developer",
-        "Moderator",
-        "Operator",
-        "test"
+        {
+            "name": "Administrator1",
+            "id": "624645798457638955"
+        },
+        {
+            "name": "test",
+            "id": "492128105193013248"
+        }
     ],
     "suggestionWatchChannels": [
         "687530726756712478"
@@ -12,5 +16,7 @@
     "watchNagChannels": [
         "687530726756712478"
     ],
-    "watchXLSuggest": []
+    "watchXLSuggest": [],
+    "relayChannel": "687530726756712478",
+    "guildname": "franzbot testing"
 }

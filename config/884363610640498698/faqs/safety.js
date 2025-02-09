@@ -12,9 +12,9 @@ exports.answer = async client => ({
 		+ `\n\nPlease note that we cannot vouch for the safety of third party plugins.`
 		+ `\n\nIf you'd like more information, please see the <#585958820061249537> channel and our FAQ post `
 		+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-are-xivlauncher-dalamud-and-dalamud-plugins-safe-to-use)`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 

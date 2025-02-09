@@ -7,12 +7,12 @@ exports.answer = async client => ({
 		+ `This includes things like TexTools' mod db, Reshade files and presets, graphics injectors, etc. You `
 		+ `will probably need to copy/move files back out or reinstall other addons again after repairing. `
 		+ `More Info: [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-can-i-repair-my-ffxiv-installation)`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	image: {
 		"url": "https://media.discordapp.net/attachments/687530726756712478/1196969123616403456/image.png",
 	},
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 
