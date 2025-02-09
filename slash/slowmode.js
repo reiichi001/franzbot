@@ -1,5 +1,5 @@
 /* eslint-disable no-return-await */
-/* eslint-disable consistent-return */
+
 
 const {
 	setSlowmode,
@@ -9,10 +9,14 @@ const {
 	SlashCommandBuilder,
 } = require('@discordjs/builders');
 
-exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+const {
+	MessageFlags,
+} = require('discord.js');
+
+exports.run = async (client, interaction) => {
 	try {
 		await interaction.deferReply({
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 
 		// handle any incoming options
@@ -59,7 +63,7 @@ exports.run = async (client, interaction) => { // eslint-disable-line no-unused-
 
 			return await interaction.editReply({
 				content: replymsg,
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 		}
 

@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Do you have a DDS/PNG, and want to use it with Penumbra?`,
 	description: `You can do that in Penumbra, but it is not an automatic thing. `

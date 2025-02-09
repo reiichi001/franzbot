@@ -9,7 +9,7 @@ const {
 	SlashCommandBuilder,
 } = require('@discordjs/builders');
 
-exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, interaction) => {
 	try {
 		await interaction.deferReply({
 			ephemeral: true,

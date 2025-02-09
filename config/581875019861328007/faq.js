@@ -1,6 +1,6 @@
 // Goatplace //
-/* eslint-disable no-fallthrough */
-/* eslint-disable max-len */
+
+
 exports.run = async (client, message, args) => {
 	console.log(`Unknown FAQ command found in GoatTriggers: ${message.channel.name}`);
 

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-/* eslint-disable consistent-return */
+
 const fs = require('fs');
 const path = require('path');
 const logger = require("../modules/Logger");

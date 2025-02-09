@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Please check if you have the Experimental UID Cache option enabled`,
 	description: `If you're able to launch, but receiving an authentication error in the 5000 range, `

@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Can't save graphic setting changes? Can't alt-tab? Switch to borderless window!`,
 	description: `Fullscreen causes random problems with saving changed graphics settings \n `

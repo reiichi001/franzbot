@@ -11,5 +11,8 @@ exports.answer = async client => ({
 exports.info = {
 	name: "pluginlist",
 	category: "info",
-	aliases: ["plugin list", "plugin browser"],
+	aliases: [
+		"plugin list",
+		"plugin browser",
+	],
 };

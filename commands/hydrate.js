@@ -3,7 +3,6 @@ const {
 } = require("../modules/hydrate.js");
 
 exports.run = async (client, message, args) => {
-	// eslint-disable-line no-unused-vars
 	 await hydrate(client, message.channel);
 };
 

@@ -22,7 +22,5 @@ exports.answer = async client => ({
 exports.info = {
 	name: "tspack",
 	category: "logs",
-	aliases: [
-		"troubleshootingpack"
-	],
+	aliases: ["troubleshootingpack"],
 };
