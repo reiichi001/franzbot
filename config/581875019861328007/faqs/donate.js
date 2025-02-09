@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Are donations accepted?`,
 	description: `Franz still has to write this.`,

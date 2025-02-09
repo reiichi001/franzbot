@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 const {
 	Events, ChannelType,
 } = require('discord.js');

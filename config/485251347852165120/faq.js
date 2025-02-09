@@ -1,6 +1,6 @@
 // Franztest //
-/* eslint-disable no-fallthrough */
-/* eslint-disable max-len */
+
+
 exports.run = async (client, message, args) => {
 	console.log(`Test FAQ command found in TestTriggers: ${message.channel.name}`);
 

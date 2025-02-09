@@ -1,6 +1,6 @@
 /* eslint-disable no-return-await */
 /* eslint-disable consistent-return */
-exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, interaction) => {
 	try {
 		await interaction.deferReply();
 		const reply = await interaction.editReply("Ping?");

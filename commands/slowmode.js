@@ -3,7 +3,6 @@ const {
 } = require("../modules/slowmode.js");
 
 exports.run = async (client, message, args) => {
-	// eslint-disable-line no-unused-vars
 	const selectedChannel = args.shift();
 	const time = args.shift();
 	const reason = args.shift();

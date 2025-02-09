@@ -9,7 +9,7 @@ const {
 	readdirSync,
 } = require("fs");
 
-exports.run = async (client, interaction) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, interaction) => {
 	try {
 		await interaction.deferReply();
 		const reply = await interaction.editReply("Ping?");
@@ -30,14 +30,12 @@ exports.commandData = (client = null, message = null) => {
 	const franzmojiFiles = readdirSync("./assets/franzmoji").filter(file => file.endsWith(".png"));
 	for (const file of franzmojiFiles) {
 		const filename = file.slice(0, -4);
-		commandinfo.addSubcommand(subcommand =>
-			subcommand
-				.setName(filename)
-		);
+		commandinfo.addSubcommand(subcommand => subcommand
+			.setName(filename));
 	}
 
 	return commandinfo;
-}
+};
 
 // Set this to false if you want it to be global.
 exports.guildOnly = true;

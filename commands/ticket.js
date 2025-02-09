@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-/* eslint-disable consistent-return */
+
 
 const {
 	createChannel,

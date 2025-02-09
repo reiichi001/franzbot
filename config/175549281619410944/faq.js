@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 
 // Project Meteor //
 exports.run = async (client, message, args) => {

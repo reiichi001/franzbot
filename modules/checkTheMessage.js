@@ -23,7 +23,8 @@ exports.checkTheMessage = (
 	// will keep names for legacy support, but let's not add any new ones, OK? :)
 	if (message.member?.roles?.cache.some(
 		r => Object.values(ignoredRoles).includes(r.id)
-			|| ignoredRoles.includes(r.name))
+			|| ignoredRoles.includes(r.name)
+	)
 	) { // legacy for arrays that aren't converted to dict-like objects yet
 		// console.log("Ignored role. Skipping this check.");
 		return;

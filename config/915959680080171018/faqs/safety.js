@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.answer = async client => ({
 	title: `Is XIV On Mac, Dalamud, and Dalamud Plugins safe to use?`,
 	description: `For the most part, yes, this should be safe to use. We've taken steps to `

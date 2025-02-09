@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 exports.replyMessage = async client => ({
 	title: `**Having mod issues?**`,
 	description: `_Do **not** include any character names in screenshots._\n\n`
