@@ -2,7 +2,7 @@ const logger = require("../modules/Logger");
 
 exports.hydrate = async (client, channel) => {
 	const API = "https://api.giphy.com/v1/gifs/random";
-	const API_KEY = client.config.GIPHYAPI;
+	const API_KEY = client.configdb.get("GIPHYAPI");
 	const tag = "drink+water";
 	const rating = "g";
 

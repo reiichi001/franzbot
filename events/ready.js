@@ -1,3 +1,7 @@
+const {
+	ActivityType, Events,
+} = require('discord.js');
+
 module.exports = async client => {
 	// Log that the bot is online.
 	const tag = client.user.tag;
@@ -11,10 +15,13 @@ module.exports = async client => {
 	);
 
 	// Make the bot "play the game" which is the help command with default prefix.
-	client.user.setActivity(
-		`Franzbot Reborn`,
-		{
-			type: "PLAYING",
-		}
-	);
+	await client.user.setPresence({
+		activities: [
+			{
+				name: 'Franzbot Reborn',
+				type: ActivityType.Playing,
+			},
+		],
+		status: 'online',
+	});
 };

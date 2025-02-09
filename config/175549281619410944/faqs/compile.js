@@ -2,9 +2,9 @@ exports.answer = async client => ({
 
 	title: "Project Meteor Server Compilation Guides",
 	description: `There are multiple guides on how to compile the Project Meteor source code.`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 	fields: [
 		{

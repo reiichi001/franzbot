@@ -1,7 +1,7 @@
 exports.run = (client, message) => {
 	const ZuTriggers = [
-		client.config.GUILDID_TESTING, // franzbot testing - general
-		client.config.GUILDID_ZU, // Zu - general
+		client.configdb.get("GUILDID_TESTING"), // franzbot testing - general
+		client.configdb.get("GUILDID_ZU"), // Zu - general
 	];
 	if (!ZuTriggers.includes(message.guild.id)) {
 		message
@@ -39,6 +39,6 @@ exports.help = {
 	name: "tosagree",
 	category: "Management",
 	description: `Grants you the guest user so you can see things. `
-	+ `You only need to do this once. Ask an Officer or Admin to switch you to member later.`,
+		+ `You only need to do this once. Ask an Officer or Admin to switch you to member later.`,
 	usage: "tosagree",
 };

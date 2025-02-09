@@ -5,12 +5,12 @@ exports.answer = async client => ({
 		+ `To switch your Dalamud branch, you can use \`/xlbranch\` from in game, or edit your \`dalamudConfig.json\` file. `
 		+ `Expect crashes and failed launches on test builds and for it to ruin your raid night. \nMore Info `
 		+ `[HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-how-do-i-turn-dalamud-staging-on-or-off)`,
-	color: client.config.EMBED_NORMAL_COLOR,
+	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	image: {
 		"url": client.config.DALAMUDBRANCH,
 	},
 	footer: {
-		"text": client.config.FRANZBOT_VERSION,
+		"text": client.configdb.get("FRANZBOT_VERSION"),
 	},
 });
 

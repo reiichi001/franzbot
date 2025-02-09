@@ -19,10 +19,12 @@ exports.execute = async (client, message) => {
 	}
 
 	if (!newpatchNag) {
-		logger.debug(`newpatch nag checking disabled for #${message.channel.name} in ${message.guild.name}`);
+		// logger.debug(`newpatch nag checking disabled for #${message.channel.name} in ${message.guild.name}`);
 		return;
 	}
-	logger.debug(`newpatch nag checking enabled for <${message.channel.id}> in ${message.guild.name}`);
+	else {
+		// logger.debug(`newpatch nag checking enabled for <${message.channel.id}> in ${message.guild.name}`);
+	}
 
 	if (timeoutEnded(sectionIdentifier, 5 * MINUTE)) {
 		resetTimeout(sectionIdentifier);

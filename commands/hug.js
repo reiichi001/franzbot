@@ -1,14 +1,14 @@
 exports.run = async (client, message, args) => { // eslint-disable-line no-unused-vars
 	/*
 	const ZuTriggers = [
-		client.config.GUILDID_TESTING, // franzbot testing - general
-		client.config.GUILDID_ZU, // Zu - general
+		client.configdb.get("GUILDID_TESTING"), // franzbot testing - general
+		client.configdb.get("GUILDID_ZU"), // Zu - general
 	];
 	if (!ZuTriggers.includes(message.guild.id)) {
 		return message.reply("\u200Bthis command doesn't work here.")
 			.then(message.delete({
 				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
+				reason: client.configdb.get("AUDITLOG_COMMON"),
 			}));
 	}
 	*/

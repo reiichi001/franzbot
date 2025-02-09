@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
 			description: `Perhaps you should try the help command.`,
 			color: client.config.EMBED_ERROR_COLOR,
 			footer: {
-				"text": client.config.FRANZBOT_VERSION,
+				"text": client.configdb.get("FRANZBOT_VERSION"),
 			},
 		},
 	];

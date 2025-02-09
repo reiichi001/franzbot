@@ -6,7 +6,7 @@ const logger = require("../modules/Logger");
 const JSONdb = require('simple-json-db');
 
 const {
-	MessageActionRow, MessageButton, Collection,
+	ActionRowBuilder, ButtonBuilder, Collection,
 } = require('discord.js');
 
 exports.createChannel = async (guild, member, reason = null) => {
@@ -16,7 +16,7 @@ exports.createChannel = async (guild, member, reason = null) => {
 
 	// fetch or create a config blob for this guild
 	const ticketdbpath = `${__dirname}/../config/${guild.id}/tickets.json`;
-	let  ticketdb = new JSONdb(ticketdbpath, {
+	let ticketdb = new JSONdb(ticketdbpath, {
 		syncOnWrite: true,
 		jsonSpaces: 4,
 	});
@@ -100,17 +100,17 @@ exports.createChannel = async (guild, member, reason = null) => {
 
 	const embed = {
 		"description": "Please send a message in this channel to describe your problem.\n\n"
-            + "Please make sure to include possible error messages, or screenshots clarifying your description.\n\n"
-            + "To close this channel, please click 🔒",
+			+ "Please make sure to include possible error messages, or screenshots clarifying your description.\n\n"
+			+ "To close this channel, please click 🔒",
 		"color": 2216816,
 		"footer": {
 			"icon_url": "https://raw.githubusercontent.com/goatcorp/FFXIVQuickLauncher/master/src/XIVLauncher/Resources/logo.png",
 			"text": "XIVLauncher",
 		},
 	};
-	const row = new MessageActionRow()
+	const row = new ActionRowBuilder()
 		.addComponents(
-			new MessageButton()
+			new ButtonBuilder()
 				.setCustomId("ticketClose")
 				.setEmoji("🔒")
 				.setLabel('Close')

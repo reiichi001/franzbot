@@ -28,9 +28,9 @@ exports.answer = async (client, guild) => {
 	return {
 		title: "Franzbot FAQ",
 		description: `Supported FAQ commands listed below. Type \`${client.config.prefix}faq <topic>\` to display the content.`,
-		color: client.config.EMBED_NORMAL_COLOR,
+		color: client.configdb.get("EMBED_NORMAL_COLOR"),
 		footer: {
-			"text": client.config.FRANZBOT_VERSION,
+			"text": client.configdb.get("FRANZBOT_VERSION"),
 		},
 		fields: [
 			{

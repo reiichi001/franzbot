@@ -12,21 +12,21 @@ exports.run = (client, message, args) => {
 		return message.reply(`\u200BDid you mean ${client.config.prefix}faq?`)
 			.then(message.delete({
 				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
+				reason: client.configdb.get("AUDITLOG_COMMON"),
 			}));
 	}
 	if (message.guild.id === client.config.GUILDID_METEOR) {
 		return message.reply(`\u200BDid you mean ${client.config.prefix}faq?`)
 			.then(message.delete({
 				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
+				reason: client.configdb.get("AUDITLOG_COMMON"),
 			}));
 	}
 	if (message.guild.id === client.config.GUILDID_XIVONMAC) {
 		return message.reply(`\u200BDid you mean ${client.config.prefix}faq?`)
 			.then(message.delete({
 				timeout: 5000,
-				reason: client.config.AUDITLOG_COMMON,
+				reason: client.configdb.get("AUDITLOG_COMMON"),
 			}));
 	}
 
@@ -67,16 +67,16 @@ exports.run = (client, message, args) => {
 			currentCategory = cat;
 		}
 		output += `${client.config.prefix}${c.help.name}`
-		+ `${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
+			+ `${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
 	});
 	return message.channel.send(
 		output,
 		{
 			code: "asciidoc",
 			split:
-{
-	char: "\u200b",
-},
+			{
+				char: "\u200b",
+			},
 		}
 	);
 };
