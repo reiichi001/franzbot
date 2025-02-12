@@ -28,5 +28,6 @@ exports.info = {
 		"xivlauncherlog",
 		"logs",
 		"xllog",
+		"output.log",
 	],
 };

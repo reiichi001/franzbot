@@ -26,5 +26,6 @@ exports.info = {
 		"dalamudlog",
 		"dlog",
 		"logdl",  // just for Aireil
+		"dalamud.log",
 	],
 };

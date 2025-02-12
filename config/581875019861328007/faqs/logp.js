@@ -27,5 +27,6 @@ exports.info = {
 		"dpatcherlog",
 		"plog",
 		"patcher",
+		"patcher.log",
 	],
 };

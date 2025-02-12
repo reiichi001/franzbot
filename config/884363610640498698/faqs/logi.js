@@ -27,5 +27,7 @@ exports.info = {
 		"loginjector",
 		"logdalamudinjector",
 		"ilog",
+		"dalamud.injector.log",
+
 	],
 };

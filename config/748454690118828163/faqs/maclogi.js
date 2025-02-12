@@ -20,8 +20,6 @@ exports.info = {
 	category: "logs",
 	aliases: [
 		// "logi", // only for XIV on Mac
-		"dalamud.injector.log",
-		"dalamudinjectorlog",
 		"macdalamudinjectorlog",
 		"macilog",
 		"logimac",

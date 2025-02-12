@@ -28,5 +28,6 @@ exports.info = {
 		"logboot",
 		"logdalamudboot",
 		"blog",
+		"dalamud.boot.log",
 	],
 };

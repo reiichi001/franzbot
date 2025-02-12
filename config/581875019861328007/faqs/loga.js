@@ -29,5 +29,6 @@ exports.info = {
 		"logdownload",
 		"downloadlog",
 		"downloaderlog",
+		"aria2.log",
 	],
 };

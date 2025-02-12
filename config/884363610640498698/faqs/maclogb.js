@@ -20,8 +20,6 @@ exports.info = {
 	category: "logs",
 	aliases: [
 		// "logb", // only for XIV on Mac
-		"dalamud.boot.log",
-		"dalamudbootlog",
 		"macdalamudbootlog",
 		"macblog",
 		"logbmac",
