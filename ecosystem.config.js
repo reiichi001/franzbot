@@ -6,7 +6,7 @@ module.exports = {
 			watch: true,
 			ignore_watch: [ // eslint-disable-line camelcase
 				"node_modules",
-				"config.conf",
+				"*.json",
 				"perserversettings.json",
 			],
 			env_development: { // eslint-disable-line camelcase
