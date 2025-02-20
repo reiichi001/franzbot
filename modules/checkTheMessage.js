@@ -59,7 +59,7 @@ exports.checkTheMessage = (
 		if (results) {
 			hasForbidAny = true;
 			const noun = `forbidden word${results.length == 1 ? '' : 's'}`;
-			console.log(`Matched ${results.length} ${noun}: ${results.join(',')}`);
+			// console.log(`Matched ${results.length} ${noun}: ${results.join(',')}`);
 			for (const item of results) {
 				forbidden.add(item);
 			}
@@ -70,7 +70,7 @@ exports.checkTheMessage = (
 		if (results) {
 			forbidCountQuantity += results.length;
 			const noun = `bad word${results.length == 1 ? '' : 's'}`;
-			console.log(`Matched ${results.length} ${noun}: ${results.join(',')}`);
+			// console.log(`Matched ${results.length} ${noun}: ${results.join(',')}`);
 			for (const item of results) {
 				forbidden.add(item);
 			}
@@ -82,7 +82,7 @@ exports.checkTheMessage = (
 		if (results) {
 			offsetWeight = results.length;
 			const noun = `good word${results.length == 1 ? '' : 's'}`;
-			console.log(`Matched ${results.length} ${noun}: ${results.join(',')}`);
+			// console.log(`Matched ${results.length} ${noun}: ${results.join(',')}`);
 		}
 	}
 
