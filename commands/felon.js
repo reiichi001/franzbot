@@ -1,27 +1,29 @@
 const responses = [
-	`$8`,
+	`$8.`,
 	`A small API change had massive ramifications.`,
-	`Absolutely`,
-	`Certainly worth further investigation`,
-	`Concerning`,
-	`Extremely concerning`,
-	`I'm not cis, you are`,
-	`Interesting`,
-	`It's approved, you go ahead`,
-	`Literally roflmao …`,
-	`Looking into it`,
+	`Absolutely.`,
+	`Certainly worth further investigation.`,
+	`Concerning.`,
+	`Extremely concerning.`,
+	`I'm not cis, you are.`,
+	`Interesting.`,
+	`It's approved, you go ahead.`,
+	`Literally roflmao…`,
+	`Looking into it.`,
 	'Please comment on this matter',
-	`Messed up`,
-	`Mostly accurate tbh`,
-	`Not awesome imo`,
-	`Something is wrong`,
-	`That is extremely concerning`,
-	`They're fired`,
-	`Troublesome`,
-	`Vox populi, vox dei`,
+	`Messed up.`,
+	`Mostly accurate tbh.`,
+	`Not awesome imo.`,
+	`Something is wrong.`,
+	`That is extremely concerning.`,
+	`They're fired.`,
+	`Troublesome.`,
+	`USER found at 127.0.0.1\nUSER deleted rm -rf`,
+	`Vox populi, vox dei.`,
 	`What work have you been doing?`,
 	`Will ultimately need a complete rewrite.`,
-	`Works for me`,
+	`Works for me.`,
+	`You have committed a crime.`,
 	`!!`,
 	`🤣🤣🤣`,
 	`🤣`,
@@ -34,7 +36,7 @@ exports.run = async (client, message, args) => {
 		shutupESLint = true;
 	}
 
-	return message.channel.send(`\u200B${responses[Math.floor(responses.length * Math.random())]}`);
+	return message.channel.send(`\u200B${responses[Math.floor(responses.length * Math.random())].replaceAll("USER", message.author.displayName)}`);
 };
 
 
