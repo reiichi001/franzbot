@@ -41,7 +41,7 @@ exports.execute = async (client, message) => {
 		}// );
 
 
-		logger.warn(`needToRemoveAttachments: ${needToRemoveAttachments}`);
+		// logger.warn(`needToRemoveAttachments: ${needToRemoveAttachments}`);
 		if (needToRemoveAttachments) {
 			// TODO: If we have to delete the message, relay any other attachments first
 			message.attachments.forEach(async attachment => {

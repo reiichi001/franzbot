@@ -24,7 +24,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 
 	// let's do some setup
 	if (relayChannel && DiscordSnowflake.isSnowflake(relayChannel)) {
-		logger.debug("Found applicable relay channel.");
+		// logger.debug("Found applicable relay channel.");
 		canRelay = true;
 		relayChannel = await client.channels.fetch(relayChannel);
 	}
@@ -297,6 +297,6 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 		return needToRemoveAttachments;
 	}
 
-	logger.cmd(`We probably didn't relay. Need for ${attachment.name}: ${needToRemoveAttachments}`);
+	// logger.cmd(`We probably didn't relay. Need for ${attachment.name}: ${needToRemoveAttachments}`);
 	return needToRemoveAttachments;
 };
