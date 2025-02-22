@@ -45,6 +45,9 @@ client.configdb = configdb;
 
 // Require our logger
 const logger = require("./modules/Logger");
+const {
+	stringify,
+} = require("querystring");
 client.logger = logger;
 
 // Let's start by getting some useful functions that we'll use throughout
@@ -123,7 +126,7 @@ const init = async () => {
 		let guildName = "unknown";
 
 
-		const serverSettings = new JSONdb(`./config/${dirname}/perserversettings.json`, {
+		const serverSettings = await new JSONdb(`./config/${dirname}/perserversettings.json`, {
 			syncOnWrite: true,
 			jsonSpaces: 4,
 		});
@@ -138,9 +141,14 @@ const init = async () => {
 		}
 		else if (DiscordSnowflake.isSnowflake(dirname)) {
 			try {
-				const guild = await client.guilds.fetch(dirname);
-				serverSettings.set("guildname", guild.name);
-				guildName = guild.name;
+				guildName = await serverSettings.get("guildname");
+				if (!guildName) {
+					const guild = await client.guilds.fetch(dirname);
+					// logger.debug(JSON.stringify(guild));
+					await serverSettings.set("guildname", guild.name);
+					guildName = guild.name;
+				}
+				logger.debug(guildName);
 			}
 			catch (err) {
 				logger.error(`Couldn't handle ${dirname}`);
@@ -167,7 +175,7 @@ const init = async () => {
 				faqentry.info.aliases.forEach(alias => {
 					client.perserveraliases.set(alias, faqentry.info.name);
 				});
-				logger.debug(`Loaded the ${faqentry.info.name} FAQ`);
+				logger.cmd(`Loaded the ${faqentry.info.name} FAQ`);
 			}
 			client.perserversettings.set(dirname, faqentries);
 			// logger.log(`Finished Loading FAQs for ${dirname}. 👌`, "log");
