@@ -19,7 +19,7 @@ exports.answer = async client => ({
 
 exports.info = {
 	name: "assert",
-	category: "info",
+	category: "help",
 	aliases: [
 		"asserts",
 		"imguiassert",
