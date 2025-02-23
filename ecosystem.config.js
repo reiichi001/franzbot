@@ -3,17 +3,17 @@ module.exports = {
 		{
 			name: 'Franzbot Reborn',
 			script: 'app.js',
-			watch: true,
-			ignore_watch: [ // eslint-disable-line camelcase
+			watch: [
+				"*.js",
+			],
+			ignore_watch: [
 				"node_modules",
-				"*.json",
 				"perserversettings.json",
 			],
-			env_development: { // eslint-disable-line camelcase
-				NODE_ENV: 'development',
-			},
-			env_production: { // eslint-disable-line camelcase
-				NODE_ENV: 'production',
+			watch_options: {
+				usePolling: false,
+				alwaysStat: true,
+				useFsEvents: false,
 			},
 		},
 	],
