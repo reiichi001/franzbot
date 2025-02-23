@@ -204,7 +204,7 @@ exports.execute = async (client, message, attachmentName, data) => {
 				inline: true,
 			},
 			{
-				name: "Has third-party repos",
+				name: "Has custom repos",
 				value: data.HasThirdRepo ? "Yes" : "No",
 			},
 			{
@@ -228,7 +228,7 @@ exports.execute = async (client, message, attachmentName, data) => {
 		replymessage2
 			.addFields(
 				{
-					name: "Third-party plugins enabled",
+					name: "Custom repo plugins enabled",
 					value: anyCustomRepoPluginsLoaded ? "Yes" : "No",
 				}
 			);

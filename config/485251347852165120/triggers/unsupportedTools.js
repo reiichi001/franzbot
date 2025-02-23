@@ -21,7 +21,7 @@ exports.execute = async (client, message) => {
 		const replyMessage = {
 
 			title: client.config.TRIGGER_TITLE,
-			description: "We are unable to provide support for plugins that can only be installed via third-party repo or other third party tools. "
+			description: "We are unable to provide support for plugins that can only be installed via custom repo or other third party tools. "
 			+ "Please contact the creator[s] directly, make an issue on their git repo, or ask in their support discords."
 			+ "\n\nPlease do not link or discuss the aforementioned tool/plugin here. Thank you for your understanding!",
 			color: client.config.EMBED_ERROR_COLOR,

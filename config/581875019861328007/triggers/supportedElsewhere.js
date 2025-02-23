@@ -23,7 +23,7 @@ exports.execute = async (client, message) => {
 			title: "Automated Message Response",
 			description: "While this plugin may or may not be on the official Dalamud Plugins repository, support for it is provided elsewhere. "
 				+ "Please contact the creator[s] directly or ask in their support discords.\n\n"
-				+ "If they have a third party repo URL or Discord link, someone may link it is as long as it doesn't provide other unsupport plugins or tools."
+				+ "If they have a custom repo URL or Discord link, someone may link it is as long as it doesn't provide other unsupport plugins or tools."
 				+ "Thank you for your understanding!",
 			color: client.config.EMBED_WARN_COLOR,
 			footer: {

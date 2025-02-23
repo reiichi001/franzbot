@@ -5,7 +5,7 @@ exports.answer = async client => ({
 		+ `2. Go to \`%AppData%\\XIVLauncher\\installedPlugins\`\n`
 		+ `3. Remove the folder[s] for the plugin[s]\n`
 		+ `4. Go to \`%AppData%\\XIVLauncher\\devPlugins\`\n`
-		+ `5. Remove all manually installed plugins. (Check if they have a third party repo or reinstall later)\n`
+		+ `5. Remove all manually installed plugins. (Check if they have a custom repo or reinstall later)\n`
 		+ `6. Start the game now\n`
 		+ `7. Let us know if the issue persists`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),

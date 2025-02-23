@@ -1,10 +1,10 @@
 exports.answer = async client => ({
-	title: `ImGui custom repositoryion failed FAQ`,
-	description: `ImGui custom repositorys should only get enabled if you have loaded a devplugin. `
+	title: `ImGui assertion failed FAQ`,
+	description: `ImGui asserts should only get enabled if you have loaded a devplugin. `
 		+ `(Pointed directly to a DLL file in Dalamud Settings -> Experimental). `
 		+ `This feature is not not intended for users and shouldn't be used outside of plugin development.\n\n`
 		+ ``
-		+ `When custom repositorys are enabled, any plugin that breaks custom repositorys can trigger the window, `
+		+ `When asserts are enabled, any plugin that breaks asserts can trigger the window, `
 		+ `not just the devplugin that enabled the feature.\n\n`
 		+ ``
 		+ `This is a developer-oriented feature.`,
@@ -18,11 +18,11 @@ exports.answer = async client => ({
 });
 
 exports.info = {
-	name: "custom repository",
+	name: "assert",
 	category: "help",
 	aliases: [
-		"custom repositorys",
-		"imguicustom repository",
-		"imguicustom repositorys",
+		"asserts",
+		"imguiassert",
+		"imguiasserts",
 	],
 };

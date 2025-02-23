@@ -23,7 +23,7 @@ exports.answer = async client => ({
 		},
 		{
 			name: "Third Party Plugins",
-			value: "We are unable to provide support for third party plugins or other third party tools here. Please consult the developers of those plugins/tools instead.",
+			value: "We are unable to provide support for custom repository plugins or other third party tools here. Please consult the developers of those plugins/tools instead.",
 		},
 	],
 });

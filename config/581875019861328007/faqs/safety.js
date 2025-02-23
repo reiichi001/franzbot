@@ -9,7 +9,7 @@ exports.answer = async client => ({
 		+ `for game exploitation, automation, or botting.`
 		+ `\n\nTo the best of our knowledge, SE does not check for or prevent the usage of `
 		+ `third party tools, but they are against the terms of service.`
-		+ `\n\nPlease note that we cannot vouch for the safety of third party plugins.`
+		+ `\n\nPlease note that we cannot vouch for the safety of plugins from custom repositories.`
 		+ `\n\nIf you'd like more information, please see the <#585958820061249537> channel and our FAQ post `
 		+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-are-xivlauncher-dalamud-and-dalamud-plugins-safe-to-use)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),

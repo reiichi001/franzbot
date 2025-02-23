@@ -22,8 +22,8 @@ exports.answer = async client => ({
 				+ "You can also type `/xlplugins` as a chat command too.",
 		},
 		{
-			name: "Third Party Plugins",
-			value: "We are unable to provide support for third party plugins or other third party tools here. Please consult the developers of those plugins/tools instead.",
+			name: "Custom Repository Plugins",
+			value: "We are unable to provide support for custom repository plugins or other third party tools here. Please consult the developers of those plugins/tools instead.",
 		},
 	],
 });
