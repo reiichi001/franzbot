@@ -18,3 +18,4 @@ jobs:
           host: 35.212.198.25
           user: reiichi001
           key: ${{ secrets.PRIVATE_KEY}}
+          args: -"tt"
