@@ -11,8 +11,9 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
-            cd ~/franzbot-reborn
-            git pull
+            cd ~/franzbot-reborn;
+            git pull;
+            pm2 restart "Franzbot Reborn";
           host: 35.212.198.25
           user: reiichi001
           key: ${{ secrets.PRIVATE_KEY}}
