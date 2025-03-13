@@ -1,4 +1,4 @@
-name: Push to GCP
+name: Restart Franzbot
 on: [workflow_dispatch]
 jobs:
   build:
