@@ -3,7 +3,7 @@ exports.answer = async client => ({
 	description: `FFXIV Error 16a means that the game config files are not readable. `
 		+ `There are multple causes for this issue.\n\n`
 		+ ``
-		+ `### File Permission Issues`
+		+ `### File Permission Issues\n`
 		+ `**If you've been running FFXIV as admin, DON'T!\n\n`
 		+ ``
 		+ `Running FFXIV as admin can result in broken file permissions due to `
