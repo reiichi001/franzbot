@@ -4,7 +4,7 @@ exports.answer = async client => ({
 	description: `For the most part, yes, this should be safe to use. We've taken steps to `
 		+ `ensure that using XIVLauncher, Dalamud, and **officially supported** `
 		+ `Dalamud Plugins should not result in invalid or unexpected behavior.`
-		+ `\n\nLike other game modifictions, you shouldn't talk about using it in-game and should exercise `
+		+ `\n\nLike other game modifications, you shouldn't talk about using it in-game and should exercise `
 		+ `caution over which plugins you use. XIVLauncher and Dalamud are not designed `
 		+ `for game exploitation, automation, or botting.`
 		+ `\n\nTo the best of our knowledge, SE does not check for or prevent the usage of `
