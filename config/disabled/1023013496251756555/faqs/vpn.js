@@ -13,5 +13,8 @@ exports.answer = async client => ({
 exports.info = {
 	name: "vpn",
 	category: "info",
-	aliases: ["dns"],
+	aliases: [
+		"dns",
+		"networking",
+	],
 };
