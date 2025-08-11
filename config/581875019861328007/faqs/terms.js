@@ -17,7 +17,7 @@ exports.answer = async client => ({
 		+ `**PLUGIN**\n`
 		+ `-  A mini-program loaded through Dalamud that changes or augments how the game behaves.\n`
 		+ `- Plugins interface with the game directly, whether only to draw a custom overlay or to change how the game works in some manner.\n`
-		+ `  - Plugins from the [Main Dalamud Plugin Repository](<https://tommadness.github.io/Plugin-Browser/>) (aka "main repo") plugins `
+		+ `  - Plugins from the [Main Dalamud Plugin Repository](<https://tommadness.github.io/Plugin-Browser/>) (aka "main repo plugins")  `
 		+ `will have a <:main_repo:1309368942925578372> icon by their names in the plugin installer.\n`
 		+ `  - Plugins that are added from Custom Plugin Repositories (aka "custom repo plugins") `
 		+ `will have a <:custom_repo:1309368924063924285> icon by their names in the plugin installer.\n`
