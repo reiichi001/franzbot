@@ -181,7 +181,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 
 	// process other attachments for relays
 
-	if (isDirectMessage && attachment.name.match(/(aria|output|dalamud|message|dalamudConfig|launcher|dxdiag|event|SquirrelSetup|patcher).*\.(log|txt|json|evtx|dmp)$/gui)) {
+	if (isDirectMessage && attachment.name.match(/(aria|dxdiag|event|dalamud|dalamudConfig|launcher|message|output|patcher|SquirrelSetup|velopack).*\.(log|txt|json|evtx|dmp)$/gui)) {
 		needToRemoveAttachments = false;
 		// sane filesizes only
 		if (attachment.size > (6 * 1024 * 1024)) {
