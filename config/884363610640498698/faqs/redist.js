@@ -1,7 +1,8 @@
 exports.answer = async client => ({
-	title: `XL Requires these redistributables`,
-	description: `Please make sure you've installed DirectX, .Net 4.8, and VS2015-2022 packages. More info `
-		+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-can-i-fix-crashes-on-startup)`,
+	title: `Dalamud requires these redistributables`,
+	description: `Please make sure you've installed or updated VS2015-2022 packages from May 2024 or later.\n\n`
+		+ `You can get the latest one here: <https://aka.ms/vc14/vc_redist.x64.exe>\n\n`
+		+ `More info [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-can-i-fix-crashes-on-startup)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
 		"text": client.configdb.get("FRANZBOT_VERSION"),
@@ -18,11 +19,6 @@ exports.info = {
 		"redistributable",
 		"redistributables",
 		"vcredist",
-		"dotnet",
-		"dotnet48",
-		"net48",
-		"net4.8",
-		".net4.8",
 		"vcrun",
 		"vcrun2015",
 		"vcrun2017",
