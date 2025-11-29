@@ -12,7 +12,7 @@ exports.answer = async client => ({
 		+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	image: {
-		"url": client.config.WINDOWSEXPLORERSCREENSHOT,
+		"url": client.config.WINDOWSEXPLORERLOCALAPPDATASCREENSHOT,
 	},
 	footer: {
 		"text": client.configdb.get("FRANZBOT_VERSION"),
