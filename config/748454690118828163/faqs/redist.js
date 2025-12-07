@@ -1,6 +1,6 @@
 exports.answer = async client => ({
 	title: `Dalamud requires these redistributables`,
-	description: `Please make sure you've installed or updated VS2015-2022 packages from May 2024 or later.\n\n`
+	description: `Please make sure you've installed or updated VS2015-2022 packages from May 2024 (14.40) or later.\n\n`
 		+ `You can get the latest one here: <https://aka.ms/vc14/vc_redist.x64.exe>\n\n`
 		+ `More info [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-can-i-fix-crashes-on-startup)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
