@@ -10,7 +10,7 @@ exports.answer = async client => ({
         + 'You can also upload and analyze the tspack yourself [HERE](https://loggy.goat.place/).',
     color: client.configdb.get("EMBED_WARN_COLOR"),
     image: {
-        "url": "https://media.discordapp.net/attachments/687530726756712478/1196967126230118430/image.png",
+        "url": "https://cdn.discordapp.com/attachments/1084906540592549958/1456784123027783801/launchwithoutcustomrepoplugins.jpg",
     },
     footer: {
         "text": client.configdb.get("FRANZBOT_VERSION"),
