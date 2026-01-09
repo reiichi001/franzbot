@@ -28,5 +28,9 @@ exports.info = {
 	aliases: [
 		"sac",
 		"smartapp",
+		"appcontrol",
+		"dumbappcontrol",
+		"0x800711c7",
+		"800711c7",
 	],
 };
