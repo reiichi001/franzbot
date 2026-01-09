@@ -28,5 +28,6 @@ exports.info = {
 		"deleteassets",
 		"reinstallassets",
 		"uninstallassets",
+		"assets",
 	],
 };
