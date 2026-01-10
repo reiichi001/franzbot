@@ -22,7 +22,7 @@ exports.info = {
 		"hookfail",
 		"specialk",
 		"ghub",
-		"obs",
+		"obscapture",
 		"fraps",
 	],
 };
