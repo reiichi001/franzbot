@@ -7,7 +7,7 @@ exports.answer = async client => ({
 		+ `Put shortly? Yes\n\n`
 		+ `These features rely on caputuring from directx render layers using educated guesses about which layer is "before" game ui and other overlays. When you add additional layers on top of the game, like Dalamud, Reshade, etc, you introduce unexpected layers and it becoems more or less a gamble of whether it will work reliably or not.\n\n`
 		+ `You might be able to minimize your risks if you're going to stream anyways.\n`
-		+ `1. How are you recording? Are you capturing the entire screen or using a program that can capture only gameplay?`
+		+ `1. How are you recording? Are you capturing the entire screen or using a program that can capture only gameplay?\n`
 		+ `2. If using OBS and similar, have you enabled "Hide Game UI" or related settings? (These may not work reliably, as noted)\n`
 		+ `3. Other graphics injectors like Reshade, GShade, RivaTuner, SpecialK, or DLSSTweaks may conflict.\n`
 		+ `\n`
