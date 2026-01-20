@@ -7,7 +7,7 @@ exports.answer = async client => ({
 		+ `Restart your network equipment \n`
 		+ `Change your DNS settings \n`
 		+ `**Using a VPN to help you bypass the issue.** \n\n`
-		+ `More specific info can be found [Here](https://goatcorp.github.io/faq/xl_troubleshooting#q-the-official-launcher-isnt-working--xivlauncher-failed-to-check-for-updates--patch-files-could-not-be-verified), `
+		+ `More specific info can be found [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-the-official-launcher-isnt-working--xivlauncher-failed-to-check-for-updates--patch-files-could-not-be-verified), `
 		+ `including free VPN recommendations.`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
