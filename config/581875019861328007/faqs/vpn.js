@@ -3,7 +3,7 @@ exports.answer = async client => ({
 	title: `Network Connectivity Issues?`,
 	description: `Are you getting consistent login or patch download failures on both XL and the official launcher? `
 		+ `Or issues updating XIVLauncher, Dalamud, Dalamud Assets, and/or plugins?\n\n`
-		+ `It's likely a bad route from your connection. We have no control over your routes, but please try the following:\n
+		+ `It's likely a bad route from your connection. We have no control over your routes, but please try the following:\n'
 		+ 'Restart your network equipment \n'
 		+ 'Change your DNS settings \n`
 		+ `**Using a VPN to help you bypass the issue.** \n\n`
