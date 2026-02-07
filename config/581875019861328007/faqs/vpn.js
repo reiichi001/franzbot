@@ -1,11 +1,14 @@
 /* eslint-disable max-len */
 exports.answer = async client => ({
-	title: `Assorted network troubleshooting fixes`,
+	title: `Network Connectivity Issues?`,
 	description: `Are you getting consistent login or patch download failures on both XL and the official launcher? `
 		+ `Or issues updating XIVLauncher, Dalamud, Dalamud Assets, and/or plugins?\n\n`
-		+ `It's likely a bad route from your connection. Please try restarting your network equipment, adjusting DNS, `
-		+ `or using a VPN to help you bypass the issue. \n`
-		+ `More info [Here](https://goatcorp.github.io/faq/xl_troubleshooting#q-the-official-launcher-isnt-working--xivlauncher-failed-to-check-for-updates--patch-files-could-not-be-verified)`,
+		+ `It's likely a bad route from your connection. We have no control over your routes, but please try the following:\n`
+		+ `Restart your network equipment \n`
+		+ `Change your DNS settings \n`
+		+ `**Using a VPN to help you bypass the issue.** \n\n`
+		+ `More specific info can be found [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-the-official-launcher-isnt-working--xivlauncher-failed-to-check-for-updates--patch-files-could-not-be-verified), `
+		+ `including free VPN recommendations.`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
 		"text": client.configdb.get("FRANZBOT_VERSION"),
