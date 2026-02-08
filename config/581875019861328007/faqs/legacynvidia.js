@@ -9,7 +9,7 @@ exports.answer = async client => ({
 		+ `Release 580 versions.\n`
 		+ `\n`
 		+ ``
-		+ `**GeForce Security Update Driver 582.28** has known issues that can game crashes.\n`
+		+ `**GeForce Security Update Driver 582.28** has known issues that can cause game crashes.\n`
 		+ `\n`
 		+ `It is recommended to roll back to a prior version, such as [**Game Ready Driver 581.80**]`
 		+ `(https://www.nvidia.com/en-us/geforce/drivers/results/257496/).\n`
