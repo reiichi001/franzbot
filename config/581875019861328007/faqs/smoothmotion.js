@@ -3,7 +3,7 @@ exports.answer = async client => ({
 	title: `Modern Nvidia GPU Troubleshooting`,
 	description: ``
 		+ `### Nvidia RTX 40/50-series Cards\n`
-		+ `Recent RTX GPUs have a feature called "Smooth Motion" that cause cause assorted issues.\n`
+		+ `Recent RTX GPUs have a feature called "Smooth Motion" that can cause assorted issues.\n`
 		+ `- Crashing the game on launch\n`
 		+ `- Hanging on a black screen when the game launches\n`
 		+ `- Distorted or Flickering Dalamud/Plugin UI Windows\n`
