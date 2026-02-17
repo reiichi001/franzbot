@@ -70,7 +70,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 				{
 					"description": `${author.username} (${author}) uploaded a troubleshooting pack in `
                         + `${isDirectMessage ? "DMs" : `${sourceChannel} from **${sourceChannel.guild.name}**`}.\n\n`
-                        + `Orginal Message:\n`
+                        + `Original Message:\n`
                         + `>>> ${message.content}`,
 				},
 			],
@@ -144,7 +144,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
                             + `**${relayChannel.guild.name}** for analysis by select members of the support team.\n\n`
                             + `Support staff can find it [here](${relayedMessage.url})\n\n`
                             + `**NOTE**: Please make sure to provide some context about this if you haven't already.\n\n`
-                            + `Orginal Message:\n`
+                            + `Original Message:\n`
                             + `>>> ${message.content}`
 						,
 					},
@@ -231,7 +231,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
                             + `**${relayChannel.guild.name}** for analysis.\n\n`
                             + `Support staff can find it [here](${relayedMessage.url})\n\n`
                             + `The attachment will be removed.\n\n`
-                            + `Orginal Message:\n`
+                            + `Original Message:\n`
                             + `>>> ${message.content}`
 						,
 					},
@@ -280,7 +280,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 						"description": `${author}, Franzbot has relayed this log to a private channel in `
                             + `**${relayChannel.guild.name}** for analysis.\n\n`
                             + `Support staff can find it [here](${relayedMessage.url})\n\n`
-                            + `Orginal Message:\n`
+                            + `Original Message:\n`
                             + `>>> ${message.content}`
 						,
 					},
