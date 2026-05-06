@@ -12,7 +12,7 @@ exports.answer = async client => ({
 		+ `**GeForce Security Update Driver 582.28** has known issues that can cause game crashes.\n`
 		+ `\n`
 		+ `It is recommended to roll back to a prior version, such as [**Game Ready Driver 581.80**]`
-		+ `(https://www.nvidia.com/en-us/geforce/drivers/results/257496/).\n`
+		+ `(https://www.nvidia.com/en-us/geforce/drivers/details/257496/).\n`
 		+ `\n`
 		+ `[Display Driver Uninstaller (DDU)](https://www.wagnardsoft.com/display-driver-uninstaller-ddu) `
 		+ `can be used to remove the current driver if you are having trouble rolling back.\n`
