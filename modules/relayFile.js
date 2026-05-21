@@ -227,7 +227,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 			});
 			*/
 			await sourceChannel.send({
-				content: `Franzbot no longer handles relaying DMP files as these can contain private data. Please reach out to a Dalamud support team member or Dalamud Maintainer member directly if you need one analyzed.`,
+				content: `Franzbot no longer handles relaying DMP files as these can contain private data. Please reach out to a Dalamud Support Team member or Dalamud Maintainer member directly if you need one analyzed.`,
 			});
 		}
 		else {
@@ -262,7 +262,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 					{
 						"description": `${author}, it can be dangerous to upload a DMP file.\n\n`
 							+ `Please do not upload those in public channels.\n\n`
-							+ `The attachment will be removed. Please reach out to a Dalamud support team member or Dalamud Maintainer member directly if you need one analyzed.\n\n`
+							+ `The attachment will be removed. Please reach out to a Dalamud Support Team member or Dalamud Maintainer member directly if you need one analyzed.\n\n`
 							+ `Original Message:\n`
 							+ `>>> ${message.content}`
 						,
