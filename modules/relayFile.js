@@ -208,6 +208,8 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 		needToRemoveAttachments = true;
 		console.log(`Dalamud crash dump upload: ${attachment.attachment}`);
 		// const response = await got(attachment.attachment);
+
+		/* Per Goat, we should not relay DMP files anymore
 		console.log(`Fetched custom channel to relay: ${relayChannel.name}`);
 		const relayedMessage = await relayChannel.send({
 			embeds: [
@@ -217,13 +219,19 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 			],
 			files: [attachment],
 		});
-
+		*/
 		if (isDirectMessage) {
+			/* Per Goat, we should not relay DMP files anymore
 			await sourceChannel.send({
 				content: `Franzbot has relayed ${attachment.name} to a private channel in **${relayChannel.guild.name}** for analysis.`,
 			});
+			*/
+			await sourceChannel.send({
+				content: `Franzbot no longer handles relaying DMP files as these can contain private data. Please reach out to a Dalamud support team member or Dalamud Maintainer member directly if you need one analyzed.`,
+			});
 		}
 		else {
+			/* Per Goat, we should not relay DMP files anymore
 			const replymsg = await message.reply({
 				embeds: [
 					{
@@ -247,6 +255,22 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 						"description": `Original post: ${replymsg.url}`,
 					},
 				],
+			});
+			*/
+			const replymsg = await message.reply({
+				embeds: [
+					{
+						"description": `${author}, it can be dangerous to upload a DMP file.\n\n`
+							+ `Please do not upload those in public channels.\n\n`
+							+ `The attachment will be removed. Please reach out to a Dalamud support team member or Dalamud Maintainer member directly if you need one analyzed.\n\n`
+							+ `Original Message:\n`
+							+ `>>> ${message.content}`
+						,
+					},
+				],
+				allowedMentions: {
+					repliedUser: false,
+				},
 			});
 		}
 		return needToRemoveAttachments;
