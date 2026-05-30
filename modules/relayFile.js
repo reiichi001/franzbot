@@ -204,12 +204,10 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 	}
 
 	// relay crash dumps from goatplace (or DMs)
-	if (attachment.name.match(/^dalamud_appcrash_.*|.*\.(dmp)$/gui)) {
+	if (attachment.name.match(/^dalamud_appcrash_.*\.(log)$/gui)) {
 		needToRemoveAttachments = true;
 		console.log(`Dalamud crash dump upload: ${attachment.attachment}`);
 		// const response = await got(attachment.attachment);
-
-		/* Per Goat, we should not relay DMP files anymore
 		console.log(`Fetched custom channel to relay: ${relayChannel.name}`);
 		const relayedMessage = await relayChannel.send({
 			embeds: [
@@ -219,19 +217,13 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 			],
 			files: [attachment],
 		});
-		*/
+
 		if (isDirectMessage) {
-			/* Per Goat, we should not relay DMP files anymore
 			await sourceChannel.send({
 				content: `Franzbot has relayed ${attachment.name} to a private channel in **${relayChannel.guild.name}** for analysis.`,
 			});
-			*/
-			await sourceChannel.send({
-				content: `Franzbot no longer handles relaying DMP files as these can contain private data. Please reach out to a Dalamud Support Team member or Dalamud Maintainer member directly if you need one analyzed.`,
-			});
 		}
 		else {
-			/* Per Goat, we should not relay DMP files anymore
 			const replymsg = await message.reply({
 				embeds: [
 					{
@@ -256,7 +248,23 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 					},
 				],
 			});
-			*/
+		}
+		return needToRemoveAttachments;
+	}
+
+	// don't relay crash dumps from goatplace (or DMs)
+	if (attachment.name.match(/.*\.(dmp)$/gui)) {
+		needToRemoveAttachments = true;
+		console.log(`Dalamud crash dump upload: ${attachment.attachment}`);
+		// Per Goat, we should not relay DMP files anymore
+		if (isDirectMessage) {
+			// Per Goat, we should not relay DMP files anymore
+			await sourceChannel.send({
+				content: `Franzbot no longer handles relaying DMP files as these can contain private data. Please reach out to a Dalamud Support Team member or Dalamud Maintainer member directly if you need one analyzed.`,
+			});
+		}
+		else {
+			// Per Goat, we should not relay DMP files anymore
 			const replymsg = await message.reply({
 				embeds: [
 					{
