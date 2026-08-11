@@ -101,13 +101,16 @@ const init = async () => {
 	// Then we load events, which will include our message and ready event.
 	const eventFiles = readdirSync("./events/").filter(file => file.endsWith(".js"));
 	for (const file of eventFiles) {
-		const eventName = file.split(".")[0];
-		logger.cmd(`Loading Event: ${eventName}. 👌`);
 		const event = require(`./events/${file}`);
-		// Bind the client to any event, before the existing arguments
-		// provided by the discord.js event.
-		// This line is awesome by the way. Just sayin'.
-		client.on(eventName, event.bind(null, client));
+		logger.cmd(`Loading Event: ${event.name}. 👌`);
+		// Events export { name, once?, execute }. We pass client through as the
+		// first argument so handlers can reach globals off it (configdb, logger,
+		// perserversettings, etc.), then forward the rest of discord.js's args.
+		// Fires once for one-time events like ready; otherwise on every emit.
+		const register = event.once
+			? client.once.bind(client)
+			: client.on.bind(client);
+		register(event.name, (...args) => event.execute(client, ...args));
 	}
 
 	// Here we login the client. And do a little check that the configdb is loaded
