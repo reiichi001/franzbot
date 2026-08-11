@@ -10,3 +10,7 @@ commands/copyrolemembers.js
 commands/franzadminonce.js
 
 CLAUDE.md
+
+text_commands/franzadminonce.js
+
+text_commands/copyrolemembers.js
