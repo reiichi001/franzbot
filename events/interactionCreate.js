@@ -38,10 +38,29 @@ module.exports = async (client, interaction) => {
 		}
 	}
 
+	// Handle autocomplete interactions
+	if (interaction.isAutocomplete()) {
+		const cmd = client.slashcmds.get(interaction.commandName);
+		if (!cmd || !cmd.handleAutocomplete) {
+			return;
+		}
+		try {
+			await cmd.handleAutocomplete(client, interaction);
+		}
+		catch (e) {
+			console.error('Autocomplete error:', e);
+		}
+		return;
+	}
+
 	// Handle buttonm interactions here
 	if (interaction.isButton()) {
-		// Grab the command data from the client.slashcmds Collection
-		const cmd = client.buttoncmds.get(interaction.customId);
+		// Grab the command data from the client.slashcmds Collection.
+		// Split on ':' so dynamic `dmrelay:<token>:<server>` buttons resolve to
+		// the one registered dmRelay button, while static ids like ticketClose
+		// (no ':') are unchanged.
+		const key = interaction.customId.split(':')[0];
+		const cmd = client.buttoncmds.get(key);
 		// If that command doesn't exist, silently exit and do nothing
 		if (!cmd) {
 			return;

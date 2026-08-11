@@ -8,3 +8,5 @@ config/*/tickets.json
 commands/copyrolemembers.js
 
 commands/franzadminonce.js
+
+CLAUDE.md

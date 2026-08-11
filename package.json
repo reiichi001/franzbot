@@ -9,7 +9,7 @@
     "bufferutil": "^4.0.8",
     "colorette": "^2.0.20",
     "discord-snowflake": "^2.0.0",
-    "discord.js": "^14.16.0",
+    "discord.js": "^14.27.0",
     "disrequire": "^1.1.4",
     "eightball": "^1.0.1",
     "enmap": "^6.0.2",

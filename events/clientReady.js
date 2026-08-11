@@ -24,4 +24,11 @@ module.exports = async client => {
 		],
 		status: 'online',
 	});
+
+	// Deploy global slash commands
+	const globalCmds = client.slashcmds.filter(c => !c.guildOnly).map(c => c.commandData());
+	if (globalCmds.length > 0) {
+		client.application?.commands.set(globalCmds).catch(err => client.logger.error(`Failed to deploy global slash commands: ${err}`));
+	}
 };
+

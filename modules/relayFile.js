@@ -11,8 +11,11 @@ const {
 	S3Client, PutObjectCommand,
 } = require("@aws-sdk/client-s3");
 const logger = require('./Logger.js');
+const {
+	replyToSource,
+} = require('./processAttachment');
 
-exports.relayFile = async (client, message, attachment, author, sourceChannel, force) => {
+exports.relayFile = async (client, source, attachment, author, sourceChannel, force) => {
 	const DiscordSnowflake = await import("discord-snowflake");
 	const isDirectMessage = sourceChannel.type == ChannelType.DM || sourceChannel.type == ChannelType.GroupDM;
 	let canRelay = false;
@@ -29,27 +32,27 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 		relayChannel = await client.channels.fetch(relayChannel);
 	}
 	else {
-		logger.warn(`Could not find a relay channel defined for ${message.guild.id}. Setting from legacy fallback, else empty string.`);
+		logger.warn(`Could not find a relay channel defined for ${source.guild?.id}. Setting from legacy fallback, else empty string.`);
 
 		// some fallbacks for legacy config
-		if (message.guild?.id === client.configdb.get("GUILDID_GOAT")) {
+		if (source.guild?.id === client.configdb.get("GUILDID_GOAT")) {
 			canRelay = true;
 			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_GOAT"));
 		}
-		if (message.guild?.id === client.configdb.get("GUILDID_HELIOSPHERE")) {
+		if (source.guild?.id === client.configdb.get("GUILDID_HELIOSPHERE")) {
 			canRelay = true;
 			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_HELIOSPHERE"));
 		}
-		if (message.guild?.id === client.configdb.get("GUILDID_XIVONMAC")) {
+		if (source.guild?.id === client.configdb.get("GUILDID_XIVONMAC")) {
 			canRelay = true;
 			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_XIVONMAC"));
 		}
-		if (message.guild?.id === client.configdb.get("GUILDID_TESTING") || client.configdb.get("DEBUGMODE")) {
+		if (source.guild?.id === client.configdb.get("GUILDID_TESTING") || client.configdb.get("DEBUGMODE")) {
 			canRelay = true;
 			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_TEST"));
 		}
 
-		client.perserversettings?.get(`${message.guild.id}-serversettings`)?.set("relayChannel", relayChannel?.id ?? "");
+		client.perserversettings?.get(`${source.guild?.id}-serversettings`)?.set("relayChannel", relayChannel?.id ?? "");
 	}
 
 	if (!canRelay) {
@@ -71,7 +74,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 					"description": `${author.username} (${author}) uploaded a troubleshooting pack in `
                         + `${isDirectMessage ? "DMs" : `${sourceChannel} from **${sourceChannel.guild.name}**`}.\n\n`
                         + `Original Message:\n`
-                        + `>>> ${message.content}`,
+                        + `>>> ${source.content ?? ''}`,
 				},
 			],
 			files: [attachment],
@@ -79,17 +82,17 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 
 
 		// We upload these to S3 because Discord killed Franz's proxy
-		const objGuildID = message.guild?.id ?? "directmessage";
+		const objGuildID = source.guild?.id ?? "directmessage";
 		const response = await fetch(attachment.attachment);
 		const buffer = Buffer.from(await response.arrayBuffer());
 		const bucketName = "dalamud-support";
 
-		const origKeyName = `${objGuildID}/${message.author.id}-${attachment.name}`;
+		const origKeyName = `${objGuildID}/${author.id}-${attachment.name}`;
 		let safeKeyName = `${createHash('sha1').update(origKeyName)
 			.digest('hex')}`;
 		safeKeyName = URLSafeBase64.encode(new Buffer.from(safeKeyName, 'hex'));
 		const keyName = `tspacks/${safeKeyName}.tspack`;
-		const objectTags = `io.franzbot.tspack/source_user_id=${message.author.id}&io.franzbot.tspack/source_guild_id=${objGuildID}`;
+		const objectTags = `io.franzbot.tspack/source_user_id=${author.id}&io.franzbot.tspack/source_guild_id=${objGuildID}`;
 
 		const s3Client = new S3Client({
 			region: client.config.AWS_REGION,
@@ -117,7 +120,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 		const loggyUrl = `https://loggy.goat.place/?url=${safebase64url}`;
 
 		if (isDirectMessage) {
-			await message.reply({
+			await replyToSource(source, {
 				embeds: [
 					{
 						"description": `${author}, Franzbot has relayed this tspack to a private channel in **${relayChannel.guild.name}** for analysis by select members of the XIVLauncher/Dalamud support team.\n\nDon't want to wait? You can use [Loggy](<https://loggy.goat.place/>) to parse it for you.`,
@@ -137,7 +140,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 		}
 
 		if (!isDirectMessage && TSPACK_RELAY_ENABLE && !force) {
-			const replymsg = await message.reply({
+			const replymsg = await replyToSource(source, {
 				embeds: [
 					{
 						"description": `${author}, Franzbot has relayed this tspack to a private channel in `
@@ -145,7 +148,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
                             + `Support staff can find it [here](${relayedMessage.url})\n\n`
                             + `**NOTE**: Please make sure to provide some context about this if you haven't already.\n\n`
                             + `Original Message:\n`
-                            + `>>> ${message.content}`
+                            + `>>> ${source.content ?? ''}`
 						,
 					},
 				],
@@ -161,7 +164,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 				{
 					"description": `Read provided logs on [Loggy](${loggyUrl})\n\n`
                         // + `Original post: ${replymsg.url}`,
-                        + `Original post: ${message.url}`,
+                        + `Original post: ${source.url ?? ''}`,
 				},
 			],
 		});
@@ -224,7 +227,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 			});
 		}
 		else {
-			const replymsg = await message.reply({
+			const replymsg = await replyToSource(source, {
 				embeds: [
 					{
 						"description": `${author}, Franzbot has relayed ${attachment.name} to a private channel in `
@@ -232,7 +235,7 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
                             + `Support staff can find it [here](${relayedMessage.url})\n\n`
                             + `The attachment will be removed.\n\n`
                             + `Original Message:\n`
-                            + `>>> ${message.content}`
+                            + `>>> ${source.content ?? ''}`
 						,
 					},
 				],
@@ -265,14 +268,14 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 		}
 		else {
 			// Per Goat, we should not relay DMP files anymore
-			const replymsg = await message.reply({
+			const replymsg = await replyToSource(source, {
 				embeds: [
 					{
 						"description": `${author}, it can be dangerous to upload a DMP file.\n\n`
 							+ `Please do not upload those in public channels.\n\n`
 							+ `The attachment will be removed. Please reach out to a Dalamud Support Team member or Dalamud Maintainer member directly if you need one analyzed.\n\n`
 							+ `Original Message:\n`
-							+ `>>> ${message.content}`
+							+ `>>> ${source.content ?? ''}`
 						,
 					},
 				],
@@ -306,14 +309,14 @@ exports.relayFile = async (client, message, attachment, author, sourceChannel, f
 			});
 		}
 		else {
-			const replymsg = await message.reply({
+			const replymsg = await replyToSource(source, {
 				embeds: [
 					{
 						"description": `${author}, Franzbot has relayed this log to a private channel in `
                             + `**${relayChannel.guild.name}** for analysis.\n\n`
                             + `Support staff can find it [here](${relayedMessage.url})\n\n`
                             + `Original Message:\n`
-                            + `>>> ${message.content}`
+                            + `>>> ${source.content ?? ''}`
 						,
 					},
 				],

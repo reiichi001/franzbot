@@ -1,150 +1,114 @@
-
-
-const {
-	ChannelType,
-} = require('discord.js');
-
 const parseLastException = require('../modules/parse/parsekind/LASTEXCEPTION.js');
 const parseDalamudTroubleshooting = require('../modules/parse/parsekind/TROUBLESHOOTING.js');
 const parseXlTroubleshooting = require('../modules/parse/parsekind/TROUBLESHXLTING.js');
 
-exports.parseLog = async (client, message, attachment) => {
-	const DiscordSnowflake = await import("discord-snowflake");
-	// check if it's a dalamud log
+const {
+	replyToSource,
+} = require('./processAttachment');
 
-	// handle the dalamud.txt file
-	if (attachment.name.match(/(dalamud|output|launcher|message).*\.(log|txt)$/gui)) {
-		// read the data
-		console.log(`Processing Dalamud or XIVLauncher log called ${attachment.name} `
-            + `in ${message.guild.name} #${message.channel.name}`);
+/**
+ * Fetch the attachment content as text.
+ */
+async function fetchAttachmentData(attachment) {
+	const response = await fetch(attachment.attachment);
+	if (!response.ok) {
+		throw new Error(`Failed to fetch attachment ${attachment.attachment}`);
+	}
+	return response.text();
+}
 
-		const isDirectMessage = message.channel.type == ChannelType.DM || message.channel.type == ChannelType.GroupDM;
-		let canRelay = false;
-		let relayChannel = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("relayChannel");
-		if (relayChannel && DiscordSnowflake.isSnowflake(relayChannel)) {
-			canRelay = true;
-			relayChannel = await client.channels.fetch(relayChannel);
-		}
+/**
+ * Decode a base64-encoded string to UTF‑8.
+ */
+async function decodeBase64(data) {
+	const buffer = new Buffer.from(data, 'base64');
+	return buffer.toString('utf8');
+}
 
-		try {
-			const response = await fetch(attachment.attachment);
-			let logdata;
-			// const parseResults = dalamudLogParser.parse(client, response?.body);
+/**
+ * Parse the given base64 payload using the appropriate parser,
+ * then reply to the source (a message or an interaction) with the embeds.
+ * Returns the embeds so the DM relay chooser can repost them on a button click.
+ */
+async function parseAndRespond(type, client, source, filename, jsonData) {
+	// Choose the correct parser based on type
+	let parser;
+	switch (type) {
+		case 'TROUBLESHOOTING':
+			parser = parseDalamudTroubleshooting;
+			break;
+		case 'TROUBLESHXLTING':
+			parser = parseXlTroubleshooting;
+			break;
+		case 'LASTEXCEPTION':
+			parser = parseLastException;
+			break;
+		default:
+			return [];
+	}
 
-			/*
-            if (message.channel.isThread()) {
-                client.logger.debug("THIS IS A THREAD");
-                console.log(response?.body);
-                client.logger.debug("END OF THREAD");
-            }
-            */
-			const foundCustomRepoPluginInstalled = false;
-			const anyCustomRepoPluginsLoaded = false;
-			if (response.ok) {
-				logdata = await response.text();
-				// client.logger.debug(logdata);
-			}
+	// Execute the parser to get embeds
+	const embeds = await parser.execute(client, filename, jsonData);
 
-			const logdresults = logdata.match(/TROUBLESHOOTING:(.*)/gu);
-			if (logdresults?.length > 0) {
-				let data = logdresults[logdresults.length - 1];
-				data = data.slice(16);
-				// console.log(`TROUBLESHOOTING:\n${data}`);
+	// Reply with the embed(s) to the original source. In DMs this is the
+	// "parse as normal" step; nothing relays until a chooser button is clicked.
+	await replyToSource(source, {
+		embeds,
+		allowedMentions: {
+			repliedUser: false,
+		},
+	});
+	return embeds;
+}
 
-				// decrypt from base64
-				const buffer = new Buffer.from(data, 'base64');
-				data = buffer.toString('utf8');
-				// console.log(`TROUBLESHOOTING decoded:\n${data}`);
-				data = JSON.parse(data);
+/**
+ * Main entry point for processing a log attachment.
+ * `source` is either a Discord Message or an Interaction.
+ * Returns the collected embeds (across all matched prefixes) so the DM relay
+ * chooser can repost them on a button click. Message-driven callers ignore it.
+ */
+exports.parseLog = async (client, source, attachment) => {
+	// Only process files that look like Dalamud or XIVLauncher logs
+	if (!attachment.name.match(/(dalamud|output|launcher|message).*\.(log|txt)$/gui)) {
+		return;
+	}
 
-				// get an array of embeds containing our parse results
-				const dalamudTroubleshootingResponse = await parseDalamudTroubleshooting.execute(client, message, attachment.name, data);
+	try {
+		const logData = await fetchAttachmentData(attachment);
 
-				if (isDirectMessage && canRelay) {
-					relayChannel.send({
-						embeds: dalamudTroubleshootingResponse,
-						allowedMentions: {
-							repliedUser: false,
-						},
-					});
-				}
-				message.reply({
-					embeds: dalamudTroubleshootingResponse,
-					allowedMentions: {
-						repliedUser: false,
-					},
-				}).catch(console.error);
-			}
+		const prefixes = [
+			'TROUBLESHOOTING:',
+			'TROUBLESHXLTING:',
+			'LASTEXCEPTION:',
+		];
 
-			const logxlresults = logdata.match(/TROUBLESHXLTING:(.*)/gu);
-			if (logxlresults?.length > 0) {
-				let data = logxlresults[logxlresults.length - 1];
-				data = data.slice(16);
-				// client.logger.debug(`TROUBLESHXLTING:\n${data}`);
-
-				// decrypt from base64
-				const buffer = new Buffer.from(data, 'base64');
-				data = buffer.toString('utf8');
-				// console.log(`TROUBLESHXLTING decoded:\n${data}`);
-				data = JSON.parse(data);
-
-				// get an array of embeds containing our parse results
-				const xltroubleshootingResponse = await parseXlTroubleshooting.execute(client, attachment.name, data);
-
-				if (isDirectMessage && canRelay) {
-					relayChannel.send({
-						embeds: xltroubleshootingResponse,
-						allowedMentions: {
-							repliedUser: false,
-						},
-					});
-				}
-				message.reply({
-					embeds: xltroubleshootingResponse,
-					allowedMentions: {
-						repliedUser: false,
-					},
-				});
-			}
-
-			const lastexpresults = logdata.match(/LASTEXCEPTION:(.*)/gu);
-			if (lastexpresults?.length > 0) {
-				let data = lastexpresults[lastexpresults.length - 1];
-				data = data.slice(14);
-				// console.log(`LASTEXCEPTION:\n${data}`);
-
-				// decrypt from base64
-				const buffer = new Buffer.from(data, 'base64');
-				data = buffer.toString('utf8');
-				// console.log(`LASTEXCEPTION decoded:\n${data}`);
-				data = JSON.parse(data);
-
-				// get an array of embeds containing our parse results
-				const lastExceptionResponse = await parseLastException.execute(client, attachment.name, data);
-
-				if (isDirectMessage && canRelay) {
-					relayChannel.send({
-						embeds: lastExceptionResponse,
-						allowedMentions: {
-							repliedUser: false,
-						},
-					});
-				}
-				message.reply({
-					embeds: lastExceptionResponse,
-					allowedMentions: {
-						repliedUser: false,
-					},
-				}).catch(console.error);
+		// Collect every prefix's embeds; the relay chooser needs the full set.
+		const all = [];
+		for (const prefix of prefixes) {
+			const regex = new RegExp(`${prefix.replace(/:/gu, '\\:')}(.*)`, 'gu');
+			const matches = [...logData.match(regex)];
+			if (matches?.length) {
+				// Take the last match, slice off the prefix length
+				const fullMatch = matches[matches.length - 1];
+				const base64Payload = fullMatch.slice(prefix.length);
+				const type = prefix.slice(0, -1); // Remove trailing colon for type key
+				// Resolve the payload here in parseLog, so parseAndRespond only
+				// handles data after the attachment has been read. This keeps the
+				// attachment handling reusable from a messageCreate or an interaction.
+				const decoded = await decodeBase64(base64Payload);
+				const jsonData = JSON.parse(decoded);
+				const embeds = await parseAndRespond(type, client, source, attachment.name, jsonData);
+				all.push(...embeds);
 			}
 		}
-		catch (error) {
-			if (error?.response?.body) {
-				console.error(error.response.body);
-			}
-			else {
-				console.error(error);
-			}
+		return all;
+	}
+	catch (error) {
+		if (error?.response?.body) {
+			console.error(error.response.body);
+		}
+		else {
+			console.error(error);
 		}
 	}
 };
