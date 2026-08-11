@@ -1,25 +1,36 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-return-await */
-/* eslint-disable consistent-return */
 const {
 	SlashCommandBuilder,
+	AttachmentBuilder,
 } = require('discord.js');
 
 const {
 	existsSync,
 	readdirSync,
 } = require("fs");
+const {
+	join,
+} = require("path");
 
 exports.run = async (client, interaction) => {
 	try {
-		await interaction.deferReply();
-		const reply = await interaction.editReply("Ping?");
-		await interaction.editReply(`Pong! Latency is ${reply.createdTimestamp - interaction.createdTimestamp}ms.`
-			+ ` API Latency is ${Math.round(client.ws.ping)}ms.`);
+		// The chosen option value matches a file in assets/franzmoji.
+		const filename = `${interaction.options.getString("franzmoji")}.png`;
+		const filePath = join(__dirname, '..', 'assets', 'franzmoji', filename);
+
+		if (!existsSync(filePath)) {
+			return await interaction.reply(`Sorry, I couldn't find that franzmoji.`);
+		}
+
+		// Attach the image rather than pinging back.
+		return await interaction.reply({
+			files: [new AttachmentBuilder(filePath)],
+		});
 	}
 	catch (e) {
 		console.log(e);
-		return await interaction.editReply(`There was a problem with your request.\n\`\`\`${e.message}\`\`\``);
+		return await interaction.reply(`There was a problem with your request.\n\`\`\`${e.message}\`\`\``);
 	}
 };
 
@@ -28,12 +39,24 @@ exports.commandData = (client = null, message = null) => {
 		.setName('franzmoji')
 		.setDescription('Posts a franzmoji into the current channel');
 
+	// One string option listing every asset as a choice; Discord shows the
+	// names as a dropdown so a single /franzmoji works.
 	const franzmojiFiles = readdirSync("./assets/franzmoji").filter(file => file.endsWith(".png"));
-	for (const file of franzmojiFiles) {
-		const filename = file.slice(0, -4);
-		commandinfo.addSubcommand(subcommand => subcommand
-			.setName(filename));
-	}
+	commandinfo.addStringOption(option => {
+		option.setName("franzmoji")
+			.setDescription("Which franzmoji to post")
+			.setRequired(true);
+		for (const file of franzmojiFiles) {
+			const filename = file.slice(0, -4);
+			option.addChoices(
+				{
+					name: filename,
+					value: filename,
+				}
+			);
+		}
+		return option;
+	});
 
-	return commandinfo;
+	return commandinfo.toJSON();
 };
