@@ -116,7 +116,7 @@ module.exports = client => {
 	client.loadCommand = commandName => {
 		try {
 			client.logger.log(`Loading Command: ${commandName}`);
-			const props = require(`../commands/${commandName}`);
+			const props = require(`../text_commands/${commandName}`);
 			if (props.init) {
 				props.init(client);
 			}
@@ -146,8 +146,8 @@ module.exports = client => {
 		if (command.shutdown) {
 			await command.shutdown(client);
 		}
-		const mod = require.cache[require.resolve(`../commands/${command.help.name}`)];
-		delete require.cache[require.resolve(`../commands/${command.help.name}.js`)];
+		const mod = require.cache[require.resolve(`../text_commands/${command.help.name}`)];
+		delete require.cache[require.resolve(`../text_commands/${command.help.name}.js`)];
 		for (let i = 0; i < mod.parent.children.length; i++) {
 			if (mod.parent.children[i] === mod) {
 				mod.parent.children.splice(i, 1);

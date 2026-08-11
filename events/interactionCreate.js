@@ -14,8 +14,11 @@ module.exports = {
 		*/
 		// Handle Application Commands (aka slash commands)
 		if (interaction.isCommand()) {
-			// Grab the command data from the client.slashcmds Collection
-			const cmd = client.slashcmds.get(interaction.commandName);
+			// Grab the command data from the slash command collections.
+			// Check global first, then the whitelisted-guild set (shadowed in
+			// whitelisted guilds, DMs never see guild commands).
+			const cmd = client.slashcmds.get(interaction.commandName)
+				|| client.guildSlashcmds.get(interaction.commandName);
 			// If that command doesn't exist, silently exit and do nothing
 			if (!cmd) {
 				return;
@@ -46,7 +49,8 @@ module.exports = {
 
 		// Handle autocomplete interactions
 		if (interaction.isAutocomplete()) {
-			const cmd = client.slashcmds.get(interaction.commandName);
+			const cmd = client.slashcmds.get(interaction.commandName)
+				|| client.guildSlashcmds.get(interaction.commandName);
 			if (!cmd || !cmd.handleAutocomplete) {
 				return;
 			}

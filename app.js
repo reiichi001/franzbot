@@ -59,32 +59,46 @@ require("./modules/functions.js")(client);
 client.commands = new Collection();
 client.aliases = new Collection();
 client.slashcmds = new Collection();
+client.guildSlashcmds = new Collection();
 client.buttoncmds = new Collection();
 client.perserversettings = new Collection();
 client.perserveraliases = new Collection();
 client.perservertriggers = new Collection();
 
 const init = async () => {
-	// Here we load **commands** into memory, as a collection, so they're accessible
-	// here and everywhere else.
-	const commands = readdirSync("./commands/").filter(file => file.endsWith(".js"));
+	// Here we load **text commands** into memory, as a collection, so they're
+	// accessible here and everywhere else.
+	const commands = readdirSync("./text_commands/").filter(file => file.endsWith(".js"));
 	for (const file of commands) {
-		const props = require(`./commands/${file}`);
+		const props = require(`./text_commands/${file}`);
 		logger.cmd(`Loading Command: ${props.help.name}. 👌`);
 		client.commands.set(props.help.name, props);
 		props.conf.aliases.forEach(alias => {
 			client.aliases.set(alias, props.help.name);
 		});
 	}
-	// Now we load any **slash** commands you may have in the ./slash directory.
-	const slashFiles = readdirSync("./slash").filter(file => file.endsWith(".js"));
+	// Now we load any **slash** commands. Global commands work everywhere +
+	// DMs; guild commands deploy only to whitelisted guilds. `faq` exists in
+	// both folders under the same name — they live in separate collections so
+	// the name collision is fine.
+	const slashFiles = readdirSync("./global_slash/").filter(file => file.endsWith(".js"));
 	for (const file of slashFiles) {
-		const command = require(`./slash/${file}`);
+		const command = require(`./global_slash/${file}`);
 		const commandName = file.split(".")[0];
 		logger.cmd(`Loading Slash command: ${commandName}. 👌`);
 
 		// Now set the name of the command with it's properties.
 		client.slashcmds.set(command.commandData().name, command);
+	}
+
+	const guildSlashFiles = readdirSync("./guild_slash/").filter(file => file.endsWith(".js"));
+	for (const file of guildSlashFiles) {
+		const command = require(`./guild_slash/${file}`);
+		const commandName = file.split(".")[0];
+		logger.cmd(`Loading Guild Slash command: ${commandName}. 👌`);
+
+		// Now set the name of the command with it's properties.
+		client.guildSlashcmds.set(command.commandData().name, command);
 	}
 
 	// Now we load any **button** interactions you may have in the ./buttons directory.

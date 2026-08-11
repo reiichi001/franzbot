@@ -27,19 +27,23 @@ function getAvailableServers(client) {
 			const faqFiles = readdirSync(faqDir).filter(file => file.endsWith(".js"));
 			let name = key; // default to server ID
 
-			// Try to get a human-readable name from settings if available
-			const settings = client.perserversettings?.get(key);
-			if (settings && key !== "directmessage") {
-				// Use guildname from perserversettings if it exists
-				const storedName = settings.get("guildname");
-				if (storedName) {
-					name = storedName;
-				}
-			}
-
-			// For directmessage, set a display name
+			// Guild names live on the `${key}-serversettings` JSONdb (app.js:178),
+			// NOT the bare dirname key, which holds the FAQ Collection. Reading the
+			// bare key made settings.get("guildname") always undefined → snowflake fallback.
+			const settings = client.perserversettings?.get(`${key}-serversettings`);
+			const storedName = settings?.get("guildname");
 			if (key === "directmessage") {
 				name = "Direct Messages";
+			}
+			else if (storedName) {
+				name = storedName;
+			}
+			else {
+				// Config folder added after boot, or guild renamed. Fetch + backfill
+				// so the real name shows from now on. Fire-and-forget — stays sync.
+				client.guilds.fetch(key)
+					.then(guild => settings?.set("guildname", guild.name))
+					.catch(err => client.logger.debug(`Couldn't fetch guild name for ${key}: ${err}`));
 			}
 
 			return {
