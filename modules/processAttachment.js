@@ -24,8 +24,7 @@ function isSupportedAttachment(name) {
  * Human-readable rejection message for an out-of-bounds file name.
  */
 function rejectionMessage(name) {
-	return `${name} is not a supported log file. Supported: .log/.txt with a known `
-		+ `prefix (aria, dxdiag, event, dalamud, launcher, message, output, patcher, ...), .tspack, or .dmp.`;
+	return `${name} is not a supported log file. Supported: any .log/.txt plain text file, .tspack, or .dmp.`;
 }
 
 /**

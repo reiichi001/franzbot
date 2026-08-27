@@ -2,6 +2,27 @@ const {
 	getAvailableServers, getTopicsForServer, resolveTopic,
 } = require('./faqHelpers');
 
+// Topics promoted to the TOP of the autocomplete list for servers that have
+// them (by name or alias). Priority: server's faqSuggestions per-server key,
+// then the global FAQ_SUGGESTIONS in config.json, then the defaults.
+const DEFAULT_SUGGESTED_TOPICS = [
+	'logxl',
+	'logd',
+	'tspack',
+	'antivirus',
+];
+
+function suggestedTopics(client, serverKey) {
+	const perServer = client.perserversettings?.get(`${serverKey}-serversettings`)?.get('faqSuggestions');
+	if (Array.isArray(perServer) && perServer.length > 0) {
+		return perServer;
+	}
+	const fromConfig = client.configdb?.get('FAQ_SUGGESTIONS');
+	return Array.isArray(fromConfig) && fromConfig.length > 0
+		? fromConfig
+		: DEFAULT_SUGGESTED_TOPICS;
+}
+
 /**
  * Handle autocomplete interactions.
  */
@@ -33,9 +54,21 @@ exports.handleAutocomplete = async (client, interaction) => {
 			serverKey = interaction.guild.id;
 		}
 
-		choices = getTopicsForServer(client, serverKey)
-			.filter(c => c.name.toLowerCase().includes(focusedValue))
-			.slice(0, 25);
+		const allTopics = getTopicsForServer(client, serverKey);
+		// Promote configured suggestions the server actually has (by name or
+		// alias), so logxl/logd/tspack/... lead the list on servers that carry them.
+		const suggested = suggestedTopics(client, serverKey)
+			.map(s => allTopics.find(t => t.value === s))
+			.filter(Boolean)
+			.filter(c => c.name.toLowerCase().includes(focusedValue));
+		const suggestedValues = new Set(suggested.map(c => c.value));
+
+		choices = [
+			...suggested,
+			...allTopics
+				.filter(c => !suggestedValues.has(c.value))
+				.filter(c => c.name.toLowerCase().includes(focusedValue)),
+		].slice(0, 25);
 	}
 
 	await interaction.respond(choices).catch(err => {
@@ -47,50 +80,42 @@ exports.handleAutocomplete = async (client, interaction) => {
  * Handle the slash command execution.
  */
 exports.run = async (client, interaction) => {
-	try {
-		await interaction.deferReply({
-			ephemeral: true,
-		});
+	const topicInput = interaction.options.getString('topic');
+	let serverKey = interaction.options.getString('server');
 
-		const topicInput = interaction.options.getString('topic');
-		let serverKey = interaction.options.getString('server');
-
-		// Determine server context
-		if (!serverKey) {
-			if (interaction.guild) {
-				serverKey = interaction.guild.id;
-			}
-			else {
-				// DMs with no server selected — show available servers list
-				const servers = getAvailableServers(client);
-				const names = servers.map(s => `\`${s.name}\``).join(', ');
-				await interaction.editReply({
-					content: `No server selected. Available FAQ sources:\n\`${names}\``,
-					ephemeral: true,
-				});
-				return;
-			}
-		}
-
-		// Resolve the topic
-		let resolvedName = 'help'; // default to help when no topic specified
-		if (!topicInput) {
-			resolvedName = 'help';
+	// Determine server context
+	if (!serverKey) {
+		if (interaction.guild) {
+			serverKey = interaction.guild.id;
 		}
 		else {
-			resolvedName = topicInput;
-		}
-
-		const result = resolveTopic(client, serverKey, resolvedName);
-
-		if (!result) {
-			await interaction.editReply({
-				content: `No FAQ found for "${resolvedName}" in this source.`,
+			// DMs with no server selected — error ephemerally BEFORE deferring.
+			const servers = getAvailableServers(client);
+			const names = servers.map(s => `\`${s.name}\``).join(', ');
+			await interaction.reply({
+				content: `No server selected. Available FAQ sources:\n\`${names}\``,
 				ephemeral: true,
 			});
 			return;
 		}
+	}
 
+	// Resolve the topic against the chosen server.
+	const result = resolveTopic(client, serverKey, topicInput);
+
+	if (!result) {
+		// Nonexistent FAQ: reply ephemerally, no public message left behind.
+		await interaction.reply({
+			content: `No FAQ found for "${topicInput}" in this source.`,
+			ephemeral: true,
+		});
+		return;
+	}
+
+	// Topic is valid — defer PUBLICLY so the answer is visible to everyone.
+	await interaction.deferReply();
+
+	try {
 		const {
 			faq, resolvedName: finalName,
 		} = result;
@@ -104,7 +129,8 @@ exports.run = async (client, interaction) => {
 		}
 
 		if (!response) {
-			await interaction.editReply({
+			await interaction.deleteReply();
+			await interaction.followUp({
 				content: `FAQ returned no response.`,
 				ephemeral: true,
 			});
@@ -126,6 +152,8 @@ exports.run = async (client, interaction) => {
 			color: response.color || client.configdb.get('EMBED_NORMAL_COLOR'),
 			fields: response.fields || undefined,
 			footer: response.footer || undefined,
+			image: response.image || undefined,
+			thumbnail: response.thumbnail || undefined,
 		};
 
 		await interaction.editReply({
@@ -137,17 +165,11 @@ exports.run = async (client, interaction) => {
 	catch (e) {
 		console.error(e);
 		const errorMsg = `There was a problem with your request.\n\`\`\`${e.message}\`\`\``;
-		if (interaction.replied) {
-			await interaction.followUp({
-				content: errorMsg,
-				ephemeral: true,
-			});
-		}
-		else {
-			await interaction.editReply({
-				content: errorMsg,
-				ephemeral: true,
-			});
-		}
+		// Delete the public "thinking" message and surface the error ephemerally.
+		await interaction.deleteReply().catch(err => console.error('Failed to delete reply:', err));
+		await interaction.followUp({
+			content: errorMsg,
+			ephemeral: true,
+		});
 	}
 };

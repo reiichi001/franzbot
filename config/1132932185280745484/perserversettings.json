@@ -3,5 +3,9 @@
     "ignoredUsers": [],
     "ignoredRoles": [],
     "suggestionWatchChannels": [],
-    "guildname": "Franz-Testing-2"
+    "guildname": "Franz-Testing-2",
+    "watchNagChannels": [],
+    "watchXLSuggest": [],
+    "newpatchNag": false,
+    "faqSuggestions": []
 }

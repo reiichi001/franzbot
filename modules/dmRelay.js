@@ -149,7 +149,7 @@ setInterval(() => {
  * dedicated auto-relay; generic parseable logs are parsed first, then offered a
  * relay chooser. Returns the offer token, or undefined.
  */
-async function handleLog(client, source, attachment, author) {
+async function handleLog(client, source, attachment, author, opts = {}) {
 	if (isSpecialRelayAttachment(attachment.name)) {
 		// Keep dedicated flow: S3 upload (tspack), no-relay warning (dmp),
 		// crash/injector -> Goat. No chooser.
@@ -157,8 +157,20 @@ async function handleLog(client, source, attachment, author) {
 	}
 
 	// Parse as normal; parseLog posts the parsed embed back to the source.
-	const embeds = await parseLog(client, source, attachment);
+	const embeds = await parseLog(client, source, attachment, opts);
 	if (!embeds || embeds.length === 0) {
+		// Interactions (/logxl, /logd from DMs) are deferred and must be resolved
+		// even when nothing is parseable; message sources silently drop instead.
+		// Hide the public "thinking" message and surface the error ephemerally.
+		if (typeof source.editReply === 'function') {
+			await source.deleteReply();
+			await source.followUp({
+				content: `I couldn't find any parseable troubleshooting data in \`${attachment.name}\`. `
+					+ `Franzbot looks for embedded log blocks (TROUBLESHOOTING/TROUBLESHXLTING/LASTEXCEPTION) `
+					+ `inside the file — if this log doesn't contain one, there's nothing to auto-analyse.`,
+				ephemeral: true,
+			});
+		}
 		return undefined; // Not troubleshoot-bearing: just the parse reply, no chooser.
 	}
 	return offerRelay(client, source, attachment, author, embeds);

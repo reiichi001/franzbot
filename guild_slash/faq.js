@@ -18,8 +18,8 @@ exports.commandData = () => {
 
 	cmd.addStringOption(option => option
 		.setName('topic')
-		.setDescription('The FAQ topic to look up, or leave blank for help.')
-		.setRequired(false)
+		.setDescription('The FAQ topic to look up')
+		.setRequired(true)
 		.setAutocomplete(true));
 
 	return cmd.toJSON();

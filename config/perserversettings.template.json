@@ -1,0 +1,11 @@
+{
+    "guildname": "",
+    "relayChannel": "",
+    "ignoredUsers": [],
+    "ignoredRoles": [],
+    "suggestionWatchChannels": [],
+    "watchNagChannels": [],
+    "watchXLSuggest": [],
+    "newpatchNag": false,
+    "faqSuggestions": []
+}
