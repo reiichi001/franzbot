@@ -74,9 +74,9 @@ exports.run = async (client, interaction) => {
 			// Error: drop the public "thinking" message and reply ephemerally.
 			await interaction.deleteReply();
 			await interaction.followUp({
-				content: `I couldn't find any parseable troubleshooting data in \`${attachment.name}\`. `
-					+ `Franzbot looks for embedded log blocks (TROUBLESHOOTING/TROUBLESHXLTING/LASTEXCEPTION) `
-					+ `inside the file — if this log doesn't contain one, there's nothing to auto-analyse.`,
+				content: `No troubleshooting data in \`${attachment.name}\`. `
+					+ `Franzbot looks for troubleshooting blobs (TROUBLESHOOTING/TROUBLESHXLTING/LASTEXCEPTION) `
+					+ `in your logs. None were found.`,
 				ephemeral: true,
 			});
 		}

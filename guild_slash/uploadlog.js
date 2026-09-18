@@ -11,8 +11,8 @@ const {
  * OS file picker on the client.
  */
 exports.commandData = () => new SlashCommandBuilder()
-	.setName('logd')
-	.setDescription('Parse a Dalamud log file.')
+	.setName('uploadlog')
+	.setDescription('Upload and parse a Dalamud or XIVLauncher log file.')
 	.addAttachmentOption(o => o.setName('file').setDescription('The log file to parse')
 		.setRequired(true))
 	.toJSON();

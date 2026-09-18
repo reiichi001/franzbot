@@ -4,7 +4,7 @@
 
 const {
 	createChannel,
-} = require("../modules/createTicketChannel");
+} = require("../../modules/createTicketChannel");
 
 const {
 	SlashCommandBuilder,
