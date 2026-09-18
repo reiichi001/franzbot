@@ -1,9 +1,14 @@
 const {
 	getAvailableServers, getTopicsForServer, resolveTopic,
 } = require('./faqHelpers');
+// The Upload Log button owns its own row + opt-in gate; FAQ delivery only
+// renders it. See buttons/uploadLog.js.
 const {
 	getFaqComponents,
-} = require('./faqUploadButton');
+} = require('../buttons/uploadLog');
+const {
+	failAfterDefer,
+} = require('./respond');
 
 // Topics promoted to the TOP of the autocomplete list for servers that have
 // them (by name or alias). Priority: server's faqSuggestions per-server key,
@@ -167,13 +172,7 @@ exports.run = async (client, interaction) => {
 		});
 	}
 	catch (e) {
-		console.error(e);
-		const errorMsg = `There was a problem with your request.\n\`\`\`${e.message}\`\`\``;
 		// Delete the public "thinking" message and surface the error ephemerally.
-		await interaction.deleteReply().catch(err => console.error('Failed to delete reply:', err));
-		await interaction.followUp({
-			content: errorMsg,
-			ephemeral: true,
-		});
+		await failAfterDefer(interaction, e);
 	}
 };

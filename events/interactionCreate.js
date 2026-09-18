@@ -63,6 +63,40 @@ module.exports = {
 			return;
 		}
 
+		// Handle modal submit interactions here
+		if (interaction.isModalSubmit()) {
+			// Same dispatch rule as buttons: split on ':' so a dynamic
+			// `name:<token>` modal resolves to its one registered handler.
+			const key = interaction.customId.split(':')[0];
+			const cmd = client.modalcmds?.get(key);
+			// If that modal handler doesn't exist, silently exit and do nothing
+			if (!cmd) {
+				return;
+			}
+			// Run the handler
+			try {
+				await cmd.run(client, interaction);
+			}
+			catch (e) {
+				console.error(e);
+				if (interaction.replied) {
+					interaction.followUp({
+						content: `There was a problem with your request.\n\`\`\`${e.message}\`\`\``,
+						ephemeral: true,
+					})
+						.catch(err => console.error("An error occurred following up on an error", err));
+				}
+				else {
+					interaction.reply({
+						content: `There was a problem with your request.\n\`\`\`${e.message}\`\`\``,
+						ephemeral: true,
+					})
+						.catch(err => console.error("An error occurred replying on an error", err));
+				}
+			}
+			return;
+		}
+
 		// Handle buttonm interactions here
 		if (interaction.isButton()) {
 			// Grab the command data from the client.slashcmds Collection.

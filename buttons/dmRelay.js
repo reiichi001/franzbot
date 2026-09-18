@@ -1,8 +1,37 @@
 // Relay button for the DM chooser. Clicking one of the dmrelay:<token>:<server>
 // buttons posts the uploaded file + the parsed embed to that server's relay
 // channel, then consumes the offer so the same token can't post twice.
+//
+// This folder owns the customId format on both sides: buildRelayRows() writes
+// it, run() parses it. Same reasoning that put buildUploadLogActionRow in
+// buttons/uploadLog.js.
 
-const dmRelay = require('../modules/dmRelay');
+const {
+	ActionRowBuilder, ButtonBuilder, ButtonStyle,
+} = require('discord.js');
+const dmRelayStore = require('../modules/dmRelayStore');
+
+/**
+ * Build the ActionRow builders for the server chooser, chunked 5 buttons/row
+ * (Discord allows at most 5 buttons per row). Each button carries
+ * `dmrelay:<token>:<serverKey>`.
+ */
+function buildRelayRows(servers, token) {
+	const rows = [];
+	for (let i = 0; i < servers.length; i += 5) {
+		const row = new ActionRowBuilder();
+		for (const server of servers.slice(i, i + 5)) {
+			row.addComponents(
+				new ButtonBuilder()
+					.setCustomId(`dmrelay:${token}:${server.key}`)
+					.setLabel(server.label)
+					.setStyle(ButtonStyle.Secondary)
+			);
+		}
+		rows.push(row);
+	}
+	return rows;
+}
 
 exports.buttonData = () => ({
 	name: 'dmRelay',
@@ -22,8 +51,8 @@ exports.run = async (client, interaction) => {
 		, token,
 		serverKey,
 	] = interaction.customId.split(':');
-	const record = dmRelay.resolve(token);
-	const server = dmRelay.getRelayableServers(client)
+	const record = dmRelayStore.resolve(token);
+	const server = dmRelayStore.getRelayableServers(client)
 		.find(s => s.key === serverKey);
 	if (!record || !server) {
 		return;
@@ -46,5 +75,7 @@ exports.run = async (client, interaction) => {
 			repliedUser: false,
 		},
 	});
-	dmRelay.deletePending(token);
+	dmRelayStore.deletePending(token);
 };
+
+exports.buildRelayRows = buildRelayRows;

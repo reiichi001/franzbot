@@ -2,10 +2,6 @@ const parseLastException = require('../modules/parse/parsekind/LASTEXCEPTION.js'
 const parseDalamudTroubleshooting = require('../modules/parse/parsekind/TROUBLESHOOTING.js');
 const parseXlTroubleshooting = require('../modules/parse/parsekind/TROUBLESHXLTING.js');
 
-const {
-	replyToSource,
-} = require('./processAttachment');
-
 /**
  * Fetch the attachment content as text.
  */
@@ -28,15 +24,15 @@ async function decodeBase64(data) {
 /**
  * Parse the given base64 payload using the appropriate parser.
  * Returns the embeds (no reply) so parseLog can combine every parse kind into
- * a single reply.
- * Each parser has its own signature — TROUBLESHOOTING also takes the source
+ * a single result set.
+ * Each parser has its own signature — TROUBLESHOOTING also takes a guild id
  * (for the custom-repo nag's guild check), the others just filename + data.
  */
-async function parseForType(type, client, source, filename, jsonData) {
+async function parseForType(type, client, guildId, filename, jsonData) {
 	// Choose the correct parser based on type
 	switch (type) {
 		case 'TROUBLESHOOTING':
-			return parseDalamudTroubleshooting.execute(client, source, filename, jsonData);
+			return parseDalamudTroubleshooting.execute(client, guildId, filename, jsonData);
 		case 'TROUBLESHXLTING':
 			return parseXlTroubleshooting.execute(client, filename, jsonData);
 		case 'LASTEXCEPTION':
@@ -47,16 +43,24 @@ async function parseForType(type, client, source, filename, jsonData) {
 }
 
 /**
- * Main entry point for processing a log attachment.
- * `source` is either a Discord Message or an Interaction.
- * Returns the collected embeds (across all matched prefixes) so the DM relay
- * chooser can repost them on a button click. Message-driven callers ignore it.
+ * Main entry point for processing a log attachment. Parses and returns; it does
+ * NOT reply. Every caller decides where the results go and whether there is
+ * anything to say — the message triggers post them in place, the upload modal
+ * posts them to a caller-chosen destination.
+ *
+ * opts:
+ *   anyTextFile - accept ANY .log/.txt and let the parsers inspect content.
+ *     Set by the explicit-upload callers (/uploadlog, the upload modal);
+ *     message-driven flows keep the strict filename gate.
+ *   guildId - the guild the upload came from, for parsers that vary their
+ *     output by guild. A DM has none — pass undefined and they fall back.
+ * @returns {Promise<object[]>} The collected embeds, or undefined on failure.
  */
-exports.parseLog = async (client, source, attachment, opts = {}) => {
+exports.parseLog = async (client, attachment, opts = {}) => {
 	// Message-driven flows keep the strict filename guard so arbitrary text
 	// files attached in a normal message aren't treated as troubleshooting logs.
-	// Slash commands (/logxl, /logd) pass { anyTextFile: true } to accept ANY
-	// plain .log/.txt and let the parsers inspect content instead.
+	// Explicit uploads pass { anyTextFile: true } to accept ANY plain .log/.txt
+	// and let the parsers inspect content instead.
 	if (opts.anyTextFile) {
 		if (!(/.*\.(log|txt)$/iu).test(attachment.name)) {
 			return;
@@ -95,23 +99,15 @@ exports.parseLog = async (client, source, attachment, opts = {}) => {
 				// attachment handling reusable from a messageCreate or an interaction.
 				const decoded = await decodeBase64(base64Payload);
 				const jsonData = JSON.parse(decoded);
-				const embeds = await parseForType(type, client, source, attachment.name, jsonData);
+				const embeds = await parseForType(type, client, opts.guildId, attachment.name, jsonData);
 				all.push(...embeds);
 			}
 		}
 
-		// Reply ONCE with the full set. Replying per-prefix used editReply, which
-		// REPLACES the previous reply — so a slash command only ever showed the
-		// LAST parse kind (LASTEXCEPTION). One message with all embeds matches the
-		// message path, which surfaces every valid parse.
-		if (all.length > 0) {
-			await replyToSource(source, {
-				embeds: all,
-				allowedMentions: {
-					repliedUser: false,
-				},
-			});
-		}
+		// Every matched prefix's embeds are returned together. Replying per-prefix
+		// would use editReply, which REPLACES the previous reply — so a caller that
+		// replied inside the loop would only ever show the LAST parse kind
+		// (LASTEXCEPTION). Callers post the whole set as one message.
 		return all;
 	}
 	catch (error) {

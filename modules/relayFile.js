@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 const {
-	ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType,
+	ChannelType,
 } = require('discord.js');
 const URLSafeBase64 = require('urlsafe-base64');
 const {
@@ -13,49 +12,23 @@ const {
 const logger = require('./Logger.js');
 const {
 	replyToSource,
+} = require('./respond');
+const {
+	MAX_UPLOAD_BYTES,
 } = require('./processAttachment');
+const {
+	resolveRelayChannel,
+} = require('./resolveRelayChannel');
 
 exports.relayFile = async (client, source, attachment, author, sourceChannel, force) => {
-	const DiscordSnowflake = await import("discord-snowflake");
 	const isDirectMessage = sourceChannel.type == ChannelType.DM || sourceChannel.type == ChannelType.GroupDM;
-	let canRelay = false;
-	let relayChannel = isDirectMessage
-		? client.configdb.get("CHANNELID_RELAY_GOAT") // hardcode for now
-		: client.perserversettings?.get(`${sourceChannel?.guild?.id}-serversettings`)?.get("relayChannel");
 	let needToRemoveAttachments = false;
 
-
-	// let's do some setup
-	if (relayChannel && DiscordSnowflake.isSnowflake(relayChannel)) {
-		// logger.debug("Found applicable relay channel.");
-		canRelay = true;
-		relayChannel = await client.channels.fetch(relayChannel);
-	}
-	else {
-		logger.warn(`Could not find a relay channel defined for ${source.guild?.id}. Setting from legacy fallback, else empty string.`);
-
-		// some fallbacks for legacy config
-		if (source.guild?.id === client.configdb.get("GUILDID_GOAT")) {
-			canRelay = true;
-			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_GOAT"));
-		}
-		if (source.guild?.id === client.configdb.get("GUILDID_HELIOSPHERE")) {
-			canRelay = true;
-			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_HELIOSPHERE"));
-		}
-		if (source.guild?.id === client.configdb.get("GUILDID_XIVONMAC")) {
-			canRelay = true;
-			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_XIVONMAC"));
-		}
-		if (source.guild?.id === client.configdb.get("GUILDID_TESTING") || client.configdb.get("DEBUGMODE")) {
-			canRelay = true;
-			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_TEST"));
-		}
-
-		client.perserversettings?.get(`${source.guild?.id}-serversettings`)?.set("relayChannel", relayChannel?.id ?? "");
-	}
-
-	if (!canRelay) {
+	// Configured channel first, then the legacy hardcoded fallbacks for known
+	// guilds. See modules/resolveRelayChannel.js — the FAQ modal's private relay
+	// deliberately skips those fallbacks.
+	const relayChannel = await resolveRelayChannel(client, sourceChannel);
+	if (!relayChannel) {
 		logger.error("No relay channel set.");
 		return false;
 	}
@@ -140,7 +113,9 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 		}
 
 		if (!isDirectMessage && TSPACK_RELAY_ENABLE && !force) {
-			const replymsg = await replyToSource(source, {
+			// Binding not kept: the receipt is sent for its side effect, and the
+			// relay-channel follow-up links the ORIGINAL post instead (below).
+			await replyToSource(source, {
 				embeds: [
 					{
 						"description": `${author}, Franzbot has relayed this tspack to a private channel in `
@@ -175,7 +150,7 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 	// if we've already made a relay post, just relay the the rest of the attachments
 	if (force) {
 		logger.debug(`Forced relaying ${attachment.name}`);
-		const relayedMessage = await relayChannel.send({
+		await relayChannel.send({
 			content: `${author.username} (${author}) also uploaded a file in ${isDirectMessage ? "DMs" : `${sourceChannel} from **${sourceChannel.guild.name}**`} that has been removed as part of the original post.`,
 			files: [attachment],
 		});
@@ -186,8 +161,16 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 
 	if (isDirectMessage && attachment.name.match(/(aria|dxdiag|event|dalamud|dalamudConfig|launcher|message|output|patcher|SquirrelSetup|velopack).*\.(log|txt|json|evtx|dmp)$/gui)) {
 		needToRemoveAttachments = false;
-		// sane filesizes only
-		if (attachment.size > (6 * 1024 * 1024)) {
+		// Sane filesizes only, using the same ceiling every other upload path
+		// applies (modules/processAttachment.js). The extension set here is
+		// deliberately wider than checkUpload's (.json/.evtx also relay from DMs),
+		// so only the bound is shared.
+		//
+		// NOTE: this branch warns and then relays anyway — the copy says "has not
+		// be relayed" but there is no return. Left as-is because changing it would
+		// stop relaying oversized DM logs, which is a behaviour change, not a
+		// cleanup.
+		if (attachment.size > MAX_UPLOAD_BYTES) {
 			console.log("Big chonker file. That's a lot of text...");
 			sourceChannel.send("This file is pretty big and has not be relayed.\n"
                 + "Perhaps you'd like to generate a fresh log that's smaller?\n\n"
@@ -268,7 +251,7 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 		}
 		else {
 			// Per Goat, we should not relay DMP files anymore
-			const replymsg = await replyToSource(source, {
+			await replyToSource(source, {
 				embeds: [
 					{
 						"description": `${author}, it can be dangerous to upload a DMP file.\n\n`
@@ -309,7 +292,10 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 			});
 		}
 		else {
-			const replymsg = await replyToSource(source, {
+			// Binding not kept: the receipt is sent for its side effect. The old
+			// "Original post: <replymsg.url>" follow-up to the relay channel was
+			// already commented out below.
+			await replyToSource(source, {
 				embeds: [
 					{
 						"description": `${author}, Franzbot has relayed this log to a private channel in `

@@ -61,6 +61,7 @@ client.aliases = new Collection();
 client.slashcmds = new Collection();
 client.guildSlashcmds = new Collection();
 client.buttoncmds = new Collection();
+client.modalcmds = new Collection();
 client.perserversettings = new Collection();
 client.perserveraliases = new Collection();
 client.perservertriggers = new Collection();
@@ -110,6 +111,19 @@ const init = async () => {
 
 		// Now set the name of the command with it's properties.
 		client.buttoncmds.set(button.buttonData().name, button);
+	}
+
+	// Now we load any **modal submit** interactions from the ./modals directory.
+	// These need no registration with Discord either — like buttons, they are
+	// dispatched by the customId of the modal that was submitted.
+	const modalFiles = readdirSync("./modals").filter(file => file.endsWith(".js"));
+	for (const file of modalFiles) {
+		const modal = require(`./modals/${file}`);
+		const modalName = file.split(".")[0];
+		logger.log(`Loading Modal interactions: ${modalName}. 👌`);
+
+		// Now set the name of the command with it's properties.
+		client.modalcmds.set(modal.modalData().name, modal);
 	}
 
 	// Then we load events, which will include our message and ready event.

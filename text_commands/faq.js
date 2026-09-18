@@ -1,8 +1,10 @@
 /* eslint-disable consistent-return */
 const disrequire = require('disrequire');
+// The Upload Log button owns its own row + opt-in gate; FAQ delivery only
+// renders it. See buttons/uploadLog.js.
 const {
 	getFaqComponents,
-} = require('../modules/faqUploadButton');
+} = require('../buttons/uploadLog');
 
 
 exports.run = async (client, message, args) => {

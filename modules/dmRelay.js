@@ -2,14 +2,12 @@
 // which configured server should get the file + parsed embed. Nothing relays
 // until a button is clicked, EXCEPT file types that keep their dedicated flow
 // (tspack / dmp / crash / injector, see isSpecialRelayAttachment).
+//
+// Why this is still a module: it is invoked by more than one kind of handler —
+// the DM message trigger and /uploadlog — not by a single one. The offer's
+// button rows and the pending-offer state live elsewhere (buttons/dmRelay.js
+// and modules/dmRelayStore.js) so neither has to depend on the other.
 
-const {
-	readdirSync,
-} = require('fs');
-const {
-	ActionRowBuilder, ButtonBuilder, ButtonStyle,
-} = require('discord.js');
-const DiscordSnowflake = require('discord-snowflake');
 const crypto = require('crypto');
 const {
 	isSpecialRelayAttachment,
@@ -20,63 +18,13 @@ const {
 const {
 	relayFile,
 } = require('./relayFile');
-
-// token -> { attachment, author, embeds, createdAt } awaiting a relay choice.
-// In-memory only; DM CDN attachment URLs live >= 24h, so a 15-min TTL sweep
-// keeps this bounded well inside the safe window.
-const pending = new Map();
-
-// ~15 min TTL for a pending relay offer before it is dropped.
-const OFFER_TTL_MS = 15 * 60 * 1000;
-
-/**
- * Servers whose per-server config has a valid relayChannel snowflake, as
- * { key, label } pairs. `disabled` and `directmessage` are never offered.
- */
-function getRelayableServers(client) {
-	return readdirSync("./config", {
-		withFileTypes: true,
-	})
-		.filter(f => f.isDirectory())
-		.map(d => d.name)
-		.filter(name => {
-			if (name === "disabled" || name === "directmessage") {
-				return false;
-			}
-			const relayChannelId = client.perserversettings
-				?.get(`${name}-serversettings`)
-				?.get('relayChannel');
-			return relayChannelId && DiscordSnowflake.isSnowflake(relayChannelId);
-		})
-		.map(name => ({
-			key: name,
-			label: client.perserversettings
-				?.get(`${name}-serversettings`)
-				?.get('guildname') || name,
-		}));
-}
-
-/**
- * Build the ActionRow builders for the server chooser, chunked 5 buttons/row
- * (Discord allows at most 5 buttons per row). Each button carries
- * `dmrelay:<token>:<serverKey>` and dispatches to the single dmRelay button.
- */
-function buildRows(servers, token) {
-	const rows = [];
-	for (let i = 0; i < servers.length; i += 5) {
-		const row = new ActionRowBuilder();
-		for (const server of servers.slice(i, i + 5)) {
-			row.addComponents(
-				new ButtonBuilder()
-					.setCustomId(`dmrelay:${token}:${server.key}`)
-					.setLabel(server.label)
-					.setStyle(ButtonStyle.Secondary)
-			);
-		}
-		rows.push(row);
-	}
-	return rows;
-}
+const dmRelayStore = require('./dmRelayStore');
+const {
+	buildRelayRows,
+} = require('../buttons/dmRelay');
+const {
+	postParsedEmbeds, noParseableData,
+} = require('./respond');
 
 /**
  * Parse `source` (message or interaction) as normal, then offer a relay chooser.
@@ -84,13 +32,13 @@ function buildRows(servers, token) {
  * channel.send. Returns the token, or undefined if no server is relayable.
  */
 function offerRelay(client, source, attachment, author, embeds) {
-	const servers = getRelayableServers(client);
+	const servers = dmRelayStore.getRelayableServers(client);
 	if (!servers.length) {
 		return undefined;
 	}
 
 	const token = crypto.randomBytes(8).toString('hex');
-	pending.set(token, {
+	dmRelayStore.createPending(token, {
 		attachment,
 		author,
 		embeds,
@@ -98,7 +46,7 @@ function offerRelay(client, source, attachment, author, embeds) {
 	});
 
 	const content = 'A support server? Relay this parsed log to one of these?';
-	const components = buildRows(servers, token);
+	const components = buildRelayRows(servers, token);
 
 	if (typeof source.followUp === 'function') {
 		source.followUp({
@@ -117,37 +65,13 @@ function offerRelay(client, source, attachment, author, embeds) {
 }
 
 /**
- * Peek the pending record for a token (does not consume it).
- */
-function resolve(token) {
-	return pending.get(token);
-}
-
-/**
- * Consume a pending record once a relay lands (or on TTL expiry).
- */
-function deletePending(token) {
-	pending.delete(token);
-}
-
-// Periodic sweep drops stale offers so the Map never grows unbounded.
-setInterval(() => {
-	const cutoff = Date.now() - OFFER_TTL_MS;
-	for (const [
-		token,
-		record,
-	] of pending) {
-		if (record.createdAt < cutoff) {
-			pending.delete(token);
-		}
-	}
-}, OFFER_TTL_MS);
-
-/**
- * Single entry point for BOTH the DM message-create trigger and the /logxl,
- * /logd slash runner. Special file types (tspack/dmp/crash/injector) keep their
- * dedicated auto-relay; generic parseable logs are parsed first, then offered a
- * relay chooser. Returns the offer token, or undefined.
+ * Single entry point for BOTH the DM message-create trigger and /uploadlog's DM
+ * branch. Special file types (tspack/dmp/crash/injector) keep their dedicated
+ * auto-relay; generic parseable logs are parsed first, then offered a relay
+ * chooser. Returns the offer token, or undefined.
+ *
+ * Delivery of the parsed embeds is this module's job because both callers are
+ * message-or-interaction sources that post in place; parseLog only returns them.
  */
 async function handleLog(client, source, attachment, author, opts = {}) {
 	if (isSpecialRelayAttachment(attachment.name)) {
@@ -156,30 +80,27 @@ async function handleLog(client, source, attachment, author, opts = {}) {
 		return relayFile(client, source, attachment, author, source.channel, false);
 	}
 
-	// Parse as normal; parseLog posts the parsed embed back to the source.
-	const embeds = await parseLog(client, source, attachment, opts);
+	const embeds = await parseLog(client, attachment, {
+		...opts,
+		guildId: source.guildId,
+	});
 	if (!embeds || embeds.length === 0) {
-		// Interactions (/logxl, /logd from DMs) are deferred and must be resolved
+		// Interactions (/uploadlog run from DMs) are deferred and must be resolved
 		// even when nothing is parseable; message sources silently drop instead.
-		// Hide the public "thinking" message and surface the error ephemerally.
 		if (typeof source.editReply === 'function') {
-			await source.deleteReply();
-			await source.followUp({
-				content: `I couldn't find any parseable troubleshooting data in \`${attachment.name}\`. `
-					+ `Franzbot looks for embedded log blocks (TROUBLESHOOTING/TROUBLESHXLTING/LASTEXCEPTION) `
-					+ `inside the file — if this log doesn't contain one, there's nothing to auto-analyse.`,
-				ephemeral: true,
-			});
+			await noParseableData(source, attachment.name);
 		}
-		return undefined; // Not troubleshoot-bearing: just the parse reply, no chooser.
+		return undefined; // Not troubleshoot-bearing: nothing to relay.
 	}
+
+	// replyToSource covers both: an already-deferred interaction gets editReply,
+	// a Message gets reply.
+	await postParsedEmbeds(source, embeds);
+
 	return offerRelay(client, source, attachment, author, embeds);
 }
 
 module.exports = {
-	getRelayableServers,
 	offerRelay,
-	resolve,
-	deletePending,
 	handleLog,
 };
