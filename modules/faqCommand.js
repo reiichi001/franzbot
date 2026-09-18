@@ -1,6 +1,9 @@
 const {
 	getAvailableServers, getTopicsForServer, resolveTopic,
 } = require('./faqHelpers');
+const {
+	getFaqComponents,
+} = require('./faqUploadButton');
 
 // Topics promoted to the TOP of the autocomplete list for servers that have
 // them (by name or alias). Priority: server's faqSuggestions per-server key,
@@ -160,6 +163,7 @@ exports.run = async (client, interaction) => {
 			content: response.content || null,
 			embeds: [embedData],
 			files: response.files || undefined,
+			components: getFaqComponents(faq, response.components),
 		});
 	}
 	catch (e) {

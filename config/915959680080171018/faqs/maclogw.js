@@ -17,6 +17,7 @@ exports.answer = async client => ({
 exports.info = {
 	name: "maclogw",
 	category: "logs",
+	uploadButton: true, // renders the "Upload Log" action row
 	aliases: [
 		"wine.log", // only uncomment this for the xivonmac server
 		"wine",

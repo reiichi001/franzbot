@@ -22,6 +22,7 @@ exports.answer = async client => ({
 exports.info = {
 	name: "logb",
 	category: "logs",
+	uploadButton: true, // renders the "Upload Log" action row
 	aliases: [
 		"bootlog",
 		"dalamudbootlog",

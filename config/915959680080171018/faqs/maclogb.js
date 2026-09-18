@@ -18,6 +18,7 @@ exports.answer = async client => ({
 exports.info = {
 	name: "maclogb",
 	category: "logs",
+	uploadButton: true, // renders the "Upload Log" action row
 	aliases: [
 		"logb", // only for XIV on Mac
 		"dalamud.boot.log",

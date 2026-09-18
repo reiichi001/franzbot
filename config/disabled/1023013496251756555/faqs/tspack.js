@@ -22,5 +22,6 @@ exports.answer = async client => ({
 exports.info = {
 	name: "tspack",
 	category: "logs",
+	uploadButton: true, // renders the "Upload Log" action row
 	aliases: ["troubleshootingpack"],
 };

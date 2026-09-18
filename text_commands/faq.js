@@ -1,5 +1,8 @@
 /* eslint-disable consistent-return */
 const disrequire = require('disrequire');
+const {
+	getFaqComponents,
+} = require('../modules/faqUploadButton');
 
 
 exports.run = async (client, message, args) => {
@@ -30,6 +33,7 @@ exports.run = async (client, message, args) => {
 				content: response.content ?? null,
 				embeds: [response.embed] ?? null,
 				files: response.files ?? [],
+				components: getFaqComponents(faq, response.components),
 			});
 		}
 		/*
@@ -47,6 +51,7 @@ exports.run = async (client, message, args) => {
 
 		return message.channel.send({
 			embeds: [response],
+			components: getFaqComponents(faq, response.components),
 		});
 	}
 

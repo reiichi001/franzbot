@@ -21,6 +21,7 @@ exports.answer = async client => ({
 exports.info = {
 	name: "logp",
 	category: "logs",
+	uploadButton: true, // renders the "Upload Log" action row
 	aliases: [
 		"logpatcher",
 		"dpatcherlog",

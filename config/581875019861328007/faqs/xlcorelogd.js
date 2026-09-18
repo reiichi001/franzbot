@@ -24,6 +24,7 @@ exports.answer = async client => ({
 exports.info = {
 	name: "xlcorelogd",
 	category: "logs",
+	uploadButton: true, // renders the "Upload Log" action row
 	aliases: [
 		"logddeck",
 		"logdflatpak",

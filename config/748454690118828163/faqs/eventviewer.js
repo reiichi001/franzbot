@@ -20,5 +20,6 @@ exports.answer = async client => ({
 exports.info = {
 	name: "eventviewer",
 	category: "logs",
+	uploadButton: true, // renders the "Upload Log" action row
 	aliases: ["eventlog"],
 };

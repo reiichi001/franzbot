@@ -17,5 +17,6 @@ exports.answer = async client => ({
 exports.info = {
 	name: "integrity",
 	category: "info",
+	uploadButton: true, // renders the "Upload Log" action row
 	aliases: ["integritycheck"],
 };
