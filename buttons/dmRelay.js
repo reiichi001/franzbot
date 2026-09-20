@@ -1,81 +1,77 @@
-// Relay button for the DM chooser. Clicking one of the dmrelay:<token>:<server>
-// buttons posts the uploaded file + the parsed embed to that server's relay
-// channel, then consumes the offer so the same token can't post twice.
+// The DM flow's single relay button. Clicking it opens the server-selector
+// modal (modals/dmRelay.js) that relays the pending record the customId's token
+// stands for.
 //
-// This folder owns the customId format on both sides: buildRelayRows() writes
-// it, run() parses it. Same reasoning that put buildUploadLogActionRow in
-// buttons/uploadLog.js.
+// This folder owns the customId format on both sides: buildRelayButtonRow()
+// writes it, run() parses it, and modals/dmRelay.js carries the token onward in
+// its own customId. The button and the modal deliberately share the `dmRelay`
+// dispatch key — they land in different collections (buttoncmds vs modalcmds)
+// and are never confused by interactionCreate's split-on-':' dispatch.
 
 const {
 	ActionRowBuilder, ButtonBuilder, ButtonStyle,
 } = require('discord.js');
 const dmRelayStore = require('../modules/dmRelayStore');
+const {
+	buildDmRelayServerModal,
+} = require('../modals/dmRelay');
+
+const DM_RELAY_BUTTON_ID = 'dmRelay';
 
 /**
- * Build the ActionRow builders for the server chooser, chunked 5 buttons/row
- * (Discord allows at most 5 buttons per row). Each button carries
- * `dmrelay:<token>:<serverKey>`.
+ * The one-button action row for a relay offer. One offer, one button — the
+ * server choice happens inside the modal it opens. The label names the file
+ * so its button stays identifiable when a DM carries several uploads at once.
+ * (buttonLabel, shared with the disabled "Relayed" button, lives in the
+ * cycle-free dmRelayStore.)
  */
-function buildRelayRows(servers, token) {
-	const rows = [];
-	for (let i = 0; i < servers.length; i += 5) {
-		const row = new ActionRowBuilder();
-		for (const server of servers.slice(i, i + 5)) {
-			row.addComponents(
-				new ButtonBuilder()
-					.setCustomId(`dmrelay:${token}:${server.key}`)
-					.setLabel(server.label)
-					.setStyle(ButtonStyle.Secondary)
-			);
-		}
-		rows.push(row);
-	}
-	return rows;
+function buildRelayButtonRow(token, attachmentName) {
+	return [
+		new ActionRowBuilder().addComponents(
+			new ButtonBuilder()
+				.setCustomId(`${DM_RELAY_BUTTON_ID}:${token}`)
+				.setLabel(dmRelayStore.buttonLabel('Relay ', attachmentName, ' to a plugin support server?'))
+				.setStyle(ButtonStyle.Primary)
+		),
+	];
 }
 
 exports.buttonData = () => ({
 	name: 'dmRelay',
-	description: 'Relay a DM-parsed log to a chosen server.',
+	description: 'Open the server selector for relaying a DM upload.',
 	options: [],
 	defaultPermission: true,
 });
 
-/**
- * serverKey is validated against the live relayable set so a stale or tampered
- * token silently acks (deferUpdate) without posting anywhere.
- */
 exports.run = async (client, interaction) => {
-	await interaction.deferUpdate();
-
 	const [
 		, token,
-		serverKey,
 	] = interaction.customId.split(':');
-	const record = dmRelayStore.resolve(token);
-	const server = dmRelayStore.getRelayableServers(client)
-		.find(s => s.key === serverKey);
-	if (!record || !server) {
+	// showModal must be the interaction's first and only response and cannot
+	// follow a defer, so the token check is deliberately the synchronous Map
+	// peek from the store: an expired click gets an ephemeral answer instead of
+	// a modal that can only dead-end.
+	if (!dmRelayStore.resolve(token)) {
+		await interaction.reply({
+			content: dmRelayStore.relayFailureNotice('expired'),
+			ephemeral: true,
+		});
 		return;
 	}
-
-	const relayChannelId = client.perserversettings
-		?.get(`${serverKey}-serversettings`)
-		?.get('relayChannel');
-	// Channels may become unavailable; fail closed rather than erroring a click.
-	if (!relayChannelId) {
+	// The offer was only made when a server was relayable, but the list is read
+	// live here — if the last one became unreachable in between, a select with
+	// zero options is an invalid modal, so answer instead of throwing.
+	const servers = await dmRelayStore.getRelayableServers(client);
+	if (servers.length === 0) {
+		await interaction.reply({
+			content: dmRelayStore.relayFailureNotice('no-server'),
+			ephemeral: true,
+		});
 		return;
 	}
-
-	const relayChannel = await client.channels.fetch(relayChannelId);
-	await relayChannel.send({
-		content: `${record.author?.username ?? 'Unknown'} (${record.author?.id ?? '?'}) relayed a log from DMs`,
-		embeds: record.embeds,
-		files: [record.attachment],
-		allowedMentions: {
-			repliedUser: false,
-		},
-	});
-	dmRelayStore.deletePending(token);
+	// The list read above is all cache lookups, so this await stays inside the
+	// interaction's 3-second window and showModal remains the first response.
+	await interaction.showModal(buildDmRelayServerModal(token, servers));
 };
 
-exports.buildRelayRows = buildRelayRows;
+exports.buildRelayButtonRow = buildRelayButtonRow;

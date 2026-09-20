@@ -21,6 +21,21 @@ function replyToSource(source, payload) {
 }
 
 /**
+ * The attribution prefix every relay-channel post leads with: a working
+ * `<@user_id>` ping, plus the username and numeric id in plain text, so staff
+ * reading the relay channel know who uploaded the file and can page them later.
+ * The ping only stays non-notifying where the caller sets
+ * `allowedMentions: { parse: [] }` — posts made from embeds never notify
+ * regardless.
+ */
+function mentionTag(author) {
+	if (!author?.id) {
+		return 'Unknown';
+	}
+	return `<@${author.id}> (**${author.username ?? 'Unknown'}** (${author.id}))`;
+}
+
+/**
  * Post parsed embeds back to the source. Used by the message-driven paths
  * (the per-guild processAttachment triggers and the DM relay) which deliver the
  * parse results in place; the explicit-upload paths build their own reply.
@@ -35,6 +50,16 @@ function postParsedEmbeds(source, embeds) {
 }
 
 /**
+ * Drop the deferred "thinking" reply, so whatever we say next leaves nothing
+ * public behind. It may already be gone (expired token, deleted channel) and
+ * that must not mask the original error.
+ */
+function dropReply(interaction) {
+	return interaction.deleteReply()
+		.catch(err => console.error('Failed to delete reply:', err));
+}
+
+/**
  * Fail an interaction that has already been deferred, without leaving anything
  * public behind: drop the "thinking" reply, then report privately.
  *
@@ -43,12 +68,26 @@ function postParsedEmbeds(source, embeds) {
  */
 async function failAfterDefer(interaction, error, heading = 'There was a problem with your request.') {
 	console.error(error);
-	// The interaction may already be gone (expired token, deleted channel);
-	// neither cleanup step should mask the original error.
-	await interaction.deleteReply()
-		.catch(err => console.error('Failed to delete reply:', err));
+	await dropReply(interaction);
 	await interaction.followUp({
 		content: `${heading}\n\`\`\`${error.message}\`\`\``,
+		ephemeral: true,
+	});
+}
+
+/**
+ * Answer a deferred interaction privately, leaving nothing public behind: drop
+ * the "thinking" reply, then explain in an ephemeral follow-up.
+ *
+ * For a dead end or a refusal rather than a failure, so there is no error text
+ * and nothing is logged. The caller may have deferred publicly and cannot change
+ * that afterwards — removing the reply and answering privately is what makes
+ * "nothing was relayed" leave no trace.
+ */
+async function noticeAfterDefer(interaction, content) {
+	await dropReply(interaction);
+	await interaction.followUp({
+		content,
 		ephemeral: true,
 	});
 }
@@ -58,8 +97,7 @@ async function failAfterDefer(interaction, error, heading = 'There was a problem
  * failure: hide the public reply, answer ephemerally.
  */
 async function noParseableData(interaction, name) {
-	await interaction.deleteReply()
-		.catch(err => console.error('Failed to delete reply:', err));
+	await dropReply(interaction);
 	await interaction.followUp({
 		content: `No troubleshooting data in \`${name}\`. Franzbot looks for embedded log blocks `
 			+ `(TROUBLESHOOTING / TROUBLESHXLTING / LASTEXCEPTION) inside the file — if this log doesn't `
@@ -70,7 +108,9 @@ async function noParseableData(interaction, name) {
 
 module.exports = {
 	replyToSource,
+	mentionTag,
 	postParsedEmbeds,
 	failAfterDefer,
+	noticeAfterDefer,
 	noParseableData,
 };

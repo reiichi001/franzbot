@@ -15,13 +15,16 @@ const {
 	ChannelType, PermissionFlagsBits,
 } = require('discord.js');
 const {
-	checkUpload,
+	checkUpload, isSpecialRelayAttachment,
 } = require('../modules/processAttachment');
+const {
+	relayFile,
+} = require('../modules/relayFile');
 const {
 	parseLog,
 } = require('../modules/parseLog');
 const {
-	failAfterDefer,
+	failAfterDefer, mentionTag,
 } = require('../modules/respond');
 
 // Component ids. The modal shares the button's id so modal submits dispatch to
@@ -93,7 +96,7 @@ function buildUploadLogModal(inGuild) {
 	modal.addLabelComponents(
 		new LabelBuilder()
 			.setLabel('Log file')
-			.setDescription('Accepted: .log, .txt, .tspack or .dmp — up to 10 MB')
+			.setDescription('Accepted: .log, .txt, .tspack or .evtx — up to 10 MB')
 			.setFileUploadComponent(
 				new FileUploadBuilder()
 					.setCustomId(FILE_FIELD_ID)
@@ -344,6 +347,30 @@ async function handleUpload(client, interaction) {
 		return;
 	}
 
+	// --- Special files ------------------------------------------------------
+	// tspack / appcrash / dalamud.injector logs have dedicated relay handling in
+	// modules/relayFile.js (a tspack additionally gets its Loggy link) and can
+	// never produce parse results, so every mode except "Post privately" diverts
+	// to it BEFORE destination resolution — relayFile resolves the server's own
+	// relay channel and answers this same deferred reply itself, so we must
+	// return immediately after calling it. (.dmp never reaches this point:
+	// checkUpload refused it above, and "Post privately" keeps its ordinary
+	// parse attempt, which for these file types just reports no parseable data
+	// and hands the file back ephemerally.)
+	if (mode !== MODE_PRIVATE && isSpecialRelayAttachment(attachment.name)) {
+		await interaction.deferReply();
+		try {
+			await relayFile(client, interaction, attachment, interaction.user, interaction.channel, false);
+		}
+		catch (e) {
+			// relayFile answers its own failures; this catch only covers anything
+			// thrown before its first reply lands, leaving the deferred reply to
+			// drop cleanly and report privately.
+			await failAfterDefer(interaction, e, 'There was a problem with your upload.');
+		}
+		return;
+	}
+
 	// --- Destination --------------------------------------------------------
 	const target = await resolveDestination(client, interaction, mode);
 	if (!target) {
@@ -396,7 +423,7 @@ async function handleUpload(client, interaction) {
 				// "no-mention" tag — copyable for a ping later without notifying the
 				// uploader now. `parse: []` also keeps a mention that happens to
 				// appear inside the file's name from firing.
-				content: `<@${interaction.user.id}> (**${interaction.user.username}**) uploaded `
+				content: `${mentionTag(interaction.user)} uploaded `
 					+ `\`${attachment.name}\` from ${sourceRef} with Franzbot.`,
 				embeds,
 				files: [attachment],

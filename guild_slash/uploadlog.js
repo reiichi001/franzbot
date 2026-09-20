@@ -1,8 +1,9 @@
 // /uploadlog — two ways in:
 //   * With a file, it is an explicit upload: the log is parsed publicly in the
 //     channel it was run in, UNLESS it is a type that always relays (tspack /
-//     dmp / appcrash / dalamud.injector), which go to the server's designated
-//     private relay channel via modules/relayFile.js.
+//     appcrash / dalamud.injector), which go to the server's designated private
+//     relay channel via modules/relayFile.js. (.dmp is refused by checkUpload
+//     before any of this — it is never relayed.)
 //   * With no file, it opens the same dialog the FAQ's Upload Log button does
 //     (modals/uploadLog.js), where the file, the handling mode and the relay
 //     destination are all chosen. This is what lets an always-present upload
