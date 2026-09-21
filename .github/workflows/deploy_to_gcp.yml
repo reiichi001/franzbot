@@ -14,6 +14,7 @@ jobs:
             source ~/.bashrc
             cd ~/franzbot-reborn;
             git pull;
+            bash scripts/rotate-franzbot-logs.sh;
             pm2 restart "Franzbot Reborn";
           host: 35.212.198.25
           user: reiichi001
