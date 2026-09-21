@@ -489,7 +489,8 @@ module.exports = [
 			"sonarjs/no-extra-arguments": "error",
 			"sonarjs/no-identical-conditions": "error",
 			"sonarjs/no-identical-expressions": "error",
-			"sonarjs/no-one-iteration-loop": "error",
+			// no-one-iteration-loop was removed from eslint-plugin-sonarjs v3+ with no
+			// replacement, so it no longer appears here.
 			"sonarjs/no-use-of-empty-return-value": "error",
 			"sonarjs/no-collapsible-if": "error",
 			"sonarjs/no-collection-size-mischeck": "error",
