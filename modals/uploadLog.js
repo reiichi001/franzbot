@@ -15,7 +15,7 @@ const {
 	ChannelType, PermissionFlagsBits,
 } = require('discord.js');
 const {
-	checkUpload, isSpecialRelayAttachment,
+	checkUpload, isSpecialRelayAttachment, maxUploadBytesForTier,
 } = require('../modules/processAttachment');
 const {
 	relayFile,
@@ -330,9 +330,18 @@ async function handleUpload(client, interaction) {
 		await reject(interaction, 'No file was uploaded. Click "Upload Log" again and attach a log file.');
 		return;
 	}
-	// Same accepted set and size ceiling as /uploadlog (see checkUpload): the
-	// user has declared this is a log, so content decides what gets parsed.
-	const rejection = checkUpload(attachment.name, attachment.size);
+	// Same accepted set as /uploadlog (see checkUpload): the user has declared
+	// this is a log, so content decides what gets parsed. The size ceiling is
+	// quietly this server's own upload limit rather than the advertised default:
+	// every handling mode posts the file back inside THIS guild, so its boost
+	// tier is exactly what the bot's re-upload is allowed to carry. Warnings
+	// still quote the default — a boosted server just doesn't refuse what it
+	// could legally accept.
+	const rejection = checkUpload(
+		attachment.name,
+		attachment.size,
+		maxUploadBytesForTier(interaction.guild?.premiumTier)
+	);
 	if (rejection) {
 		await reject(interaction, rejection);
 		return;
@@ -401,7 +410,7 @@ async function handleUpload(client, interaction) {
 		const summary = parsed
 			? `Parsed results for \`${attachment.name}\`:`
 			: `No troubleshooting data (TROUBLESHOOTING / TROUBLESHXLTING / LASTEXCEPTION) was found in `
-				+ `\`${attachment.name}\`, so there is nothing to analyse. The file itself is attached.`;
+				+ `\`${attachment.name}\`, so there is nothing to analyze. The file itself is attached.`;
 
 		// Relay: the file and any results are posted to the destination as their
 		// own message and the uploader gets a receipt linking to it. This also

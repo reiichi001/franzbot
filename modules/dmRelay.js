@@ -138,7 +138,7 @@ async function handleLog(client, source, attachment, author, opts = {}) {
 	if (isRelayOnlyAttachment(attachment.name)) {
 		if (typeof source.editReply === 'function') {
 			await source.editReply({
-				content: `\`${attachment.name}\` isn't a parseable log type, so there is nothing to analyse here — `
+				content: `\`${attachment.name}\` isn't a parseable log type, so there is nothing to analyze here — `
 					+ 'but it can be relayed to a support server for manual review.',
 			});
 		}

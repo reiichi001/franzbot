@@ -4,6 +4,9 @@ const {
 	replyToSource, noticeAfterDefer, mentionTag,
 } = require('./respond');
 const {
+	maxUploadBytesForTier,
+} = require('./processAttachment');
+const {
 	uploadTspackToS3,
 } = require('./tspackLoggy');
 const {
@@ -55,6 +58,33 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 		// point at.
 		if (typeof source.deleteReply === 'function') {
 			await noticeAfterDefer(source, `Franzbot did not relay \`${attachment.name}\`: this server has no private relay channel set up. Please let a server admin know to contact Franz.`);
+		}
+		return false;
+	}
+
+	// The relay channel's server has its own upload limit (its boost tier), and
+	// that is the hard bound on the relay: Franzbot re-uploads the file INTO
+	// that server, so a file bigger than its tier allows cannot land there no
+	// matter what intake accepted — the legacy fallback can even point at a
+	// DIFFERENT server than the one the upload happened in. Interactions are
+	// answered privately (they are already deferred); a Message source gets a
+	// public reply, since there is no ephemeral channel to a message.
+	if (attachment.size > maxUploadBytesForTier(relayChannel.guild?.premiumTier)) {
+		const tooLargeNotice = `Franzbot did not relay \`${attachment.name}\`: it is too large for the relay channel's upload limit.`;
+		if (typeof source.deleteReply === 'function') {
+			await noticeAfterDefer(source, tooLargeNotice);
+		}
+		else {
+			await replyToSource(source, {
+				embeds: [
+					{
+						"description": `${author}, \`${attachment.name}\` is too large for the relay channel's upload limit, so it was not relayed. Please reach out to the support team directly if you need it analyzed.${originalMessageBlock(source)}`,
+					},
+				],
+				allowedMentions: {
+					repliedUser: false,
+				},
+			});
 		}
 		return false;
 	}

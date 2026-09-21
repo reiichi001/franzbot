@@ -21,6 +21,9 @@ const {
 const {
 	mentionTag,
 } = require('./respond');
+const {
+	maxUploadBytesForTier,
+} = require('./processAttachment');
 const DiscordSnowflake = require('discord-snowflake');
 
 // token -> { attachment, author, embeds, createdAt, loggyUrl, offerMessageId }
@@ -88,6 +91,9 @@ async function getRelayableServers(client) {
 			label: client.perserversettings
 				?.get(`${name}-serversettings`)
 				?.get('guildname') || guild.name || name,
+			// The guild's boost tier, for size-ceiling decisions: how large a
+			// file this server's relay channel can legally accept.
+			tier: guild.premiumTier,
 		});
 	}
 	return results;
@@ -140,6 +146,7 @@ function deletePending(token) {
  *   expired    - the offer TTL passed, or the customId is not one this bot sent
  *   no-server  - the chosen server is no longer in the relayable set
  *   no-channel - the chosen server's relayChannel is unset or unreachable
+ *   too-large  - the file exceeds the chosen server's own upload limit
  */
 function relayFailureNotice(reason, serverLabel) {
 	switch (reason) {
@@ -149,6 +156,9 @@ function relayFailureNotice(reason, serverLabel) {
 		case 'no-channel':
 			return `${serverLabel} has no relay channel set up, so nothing was relayed. `
 				+ 'Please let a server admin know to contact Franz.';
+		case 'too-large':
+			return 'That server can\'t accept files as large as this one, so nothing was relayed. '
+				+ 'Please try to reproduce your issue with a fresh launch, for a smaller file.';
 		default:
 			return 'That relay offer has expired, so nothing was relayed. '
 				+ 'Send the log again and Franzbot will offer the server list in a fresh message.';
@@ -186,6 +196,20 @@ async function sendRelayPayload(client, serverKey, payload) {
 		return {
 			ok: false,
 			reason: 'no-channel',
+			serverLabel: server.label,
+		};
+	}
+
+	// The chosen server's own upload limit is the hard bound on the relay: the
+	// bot re-uploads the file INTO its boost tier, so a file bigger than the
+	// tier allows cannot land here no matter what intake allowed. Relayed DM
+	// files are exactly what the uploader once delivered, but a Nitro account
+	// can deliver far more than a lower-tier server accepts.
+	const maxBytes = maxUploadBytesForTier(relayChannel.guild?.premiumTier);
+	if ((payload.attachment?.size ?? 0) > maxBytes) {
+		return {
+			ok: false,
+			reason: 'too-large',
 			serverLabel: server.label,
 		};
 	}

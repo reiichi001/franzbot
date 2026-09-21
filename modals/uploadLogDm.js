@@ -17,7 +17,7 @@ const {
 	RadioGroupBuilder, RadioGroupOptionBuilder, StringSelectMenuBuilder,
 } = require('@discordjs/builders');
 const {
-	checkUpload, isRelayOnlyAttachment,
+	checkUpload, isRelayOnlyAttachment, maxUploadBytesForTier, MAX_UPLOAD_BYTES,
 } = require('../modules/processAttachment');
 const {
 	parseLog,
@@ -82,7 +82,7 @@ async function buildUploadLogDmModal(client) {
 	modal.addLabelComponents(
 		new LabelBuilder()
 			.setLabel('Log file')
-			.setDescription('Accepted: .log, .txt, .tspack or .evtx — up to 10 MB')
+			.setDescription('Accepted: .log, .txt, .tspack or .evtx - up to 10 MB')
 			.setFileUploadComponent(
 				new FileUploadBuilder()
 					.setCustomId(FILE_FIELD_ID)
@@ -173,18 +173,10 @@ async function handleUploadDm(client, interaction) {
 		await reject(interaction, 'No file was uploaded. Run "/uploadlog" again and attach a log file.');
 		return;
 	}
-	// Same accepted set and size ceiling as every other upload path
-	// (see checkUpload) — validated before the defer, so this rejection is a
-	// cheap ephemeral reply.
-	const rejection = checkUpload(attachment.name, attachment.size);
-	if (rejection) {
-		await reject(interaction, rejection);
-		return;
-	}
-
 	// --- Handling mode ------------------------------------------------------
 	// The radio group is required in the modal, but fall back to the documented
 	// default (parse-only) rather than failing if the value ever comes back empty.
+	// Read BEFORE the size check: the ceiling depends on the chosen destination.
 	const mode = interaction.fields.getRadioGroup(MODE_FIELD_ID, false) ?? MODE_PARSE_ONLY;
 	if (!VALID_MODES.has(mode)) {
 		await reject(interaction, 'Unrecognised handling option. Please reopen the upload dialog and choose again.');
@@ -193,11 +185,12 @@ async function handleUploadDm(client, interaction) {
 
 	// --- Destination (relay modes only) --------------------------------------
 	let serverKey = null;
+	let relayServer = null;
 	if (mode !== MODE_PARSE_ONLY) {
 		const servers = await dmRelayStore.getRelayableServers(client);
 		const selected = interaction.fields.getStringSelectValues(SERVER_FIELD_ID)[0];
-		const server = servers.find(s => s.key === selected);
-		if (!server) {
+		relayServer = servers.find(s => s.key === selected);
+		if (!relayServer) {
 			// Three ways to get here: no server picked, a picked server that has
 			// since been unset, or the select never existed because no server is
 			// relayable (the modal could not drop the relay modes — a radio
@@ -210,6 +203,22 @@ async function handleUploadDm(client, interaction) {
 			return;
 		}
 		serverKey = selected;
+	}
+
+	// --- File bounds ----------------------------------------------------------
+	// Same accepted set as every other upload path (see checkUpload). The size
+	// ceiling is the DESTINATION's, resolved above and validated before the
+	// defer so a rejection is a cheap ephemeral reply: the bot re-uploads the
+	// file into the chosen server, whose boost tier decides what it can accept —
+	// a Nitro user may deliver far more than the advertised default. Parse-only
+	// never re-uploads the file anywhere, so the advertised default applies.
+	const maxBytes = relayServer
+		? maxUploadBytesForTier(relayServer.tier)
+		: MAX_UPLOAD_BYTES;
+	const rejection = checkUpload(attachment.name, attachment.size, maxBytes);
+	if (rejection) {
+		await reject(interaction, rejection);
+		return;
 	}
 
 	// Past this point every path answers the interaction. DM receipts are
@@ -258,8 +267,8 @@ async function handleUploadDm(client, interaction) {
 				// "no troubleshooting data found" copy would be a lie — say
 				// what is actually true and point at the relay option.
 				await interaction.editReply({
-					content: `\`${attachment.name}\` isn't a parseable log type, so there is nothing to analyse here — `
-						+ 'but it can be relayed to a support server for manual review (run "/uploadlog" again and choose a relay option).',
+					content: `\`${attachment.name}\` isn't a parseable log type, so there is nothing to analyze here.\n\n`
+						+ 'It can be relayed to a support server for manual review (run "/uploadlog" again and choose a relay option).',
 				});
 			}
 			else {

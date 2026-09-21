@@ -22,7 +22,7 @@ const {
 } = require('../modals/uploadLog');
 
 const {
-	checkUpload, isSpecialRelayAttachment,
+	checkUpload, isSpecialRelayAttachment, maxUploadBytesForTier,
 } = require('../modules/processAttachment');
 const {
 	relayFile,
@@ -63,9 +63,15 @@ exports.run = async (client, interaction) => {
 	// leaving a public "thinking" message behind. Accept ANY plain-text .log/.txt,
 	// plus the special binary types: the parsers inspect CONTENT to decide what
 	// (if anything) is parseable, so a filename prefix allowlist would wrongly
-	// reject e.g. "client.log" or "log.txt". Same accepted set and size ceiling as
-	// the FAQ upload modal.
-	const rejection = checkUpload(attachment.name, attachment.size);
+	// reject e.g. "client.log" or "log.txt". Same accepted set as the FAQ upload
+	// modal. The size ceiling is quietly this server's own upload limit (its
+	// boost tier) — everything from here posts the file inside this guild —
+	// while the warnings keep quoting Discord's default.
+	const rejection = checkUpload(
+		attachment.name,
+		attachment.size,
+		maxUploadBytesForTier(interaction.guild?.premiumTier)
+	);
 	if (rejection) {
 		await interaction.reply({
 			content: rejection,
@@ -109,7 +115,7 @@ exports.run = async (client, interaction) => {
 			guildId: interaction.guildId,
 		});
 		if (!embeds || embeds.length === 0) {
-			// Valid log, nothing to analyse: drop the public "thinking" message and
+			// Valid log, nothing to analyze: drop the public "thinking" message and
 			// answer ephemerally so the interaction is never left unresolved.
 			await noParseableData(interaction, attachment.name);
 			return;

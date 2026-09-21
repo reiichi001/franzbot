@@ -100,8 +100,8 @@ async function noParseableData(interaction, name) {
 	await dropReply(interaction);
 	await interaction.followUp({
 		content: `No troubleshooting data in \`${name}\`. Franzbot looks for embedded log blocks `
-			+ `(TROUBLESHOOTING / TROUBLESHXLTING / LASTEXCEPTION) inside the file — if this log doesn't `
-			+ `contain one, there's nothing to auto-analyse.`,
+			+ `(TROUBLESHOOTING / TROUBLESHXLTING / LASTEXCEPTION) inside the file. If it doesn't `
+			+ `contain one, there's nothing to parse.`,
 		ephemeral: true,
 	});
 }

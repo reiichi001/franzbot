@@ -23,7 +23,7 @@ const {
 	buildUploadLogDmModal,
 } = require('../modals/uploadLogDm');
 const {
-	checkUpload,
+	checkUpload, MAX_RELAY_UPLOAD_BYTES,
 } = require('../modules/processAttachment');
 const {
 	failAfterDefer,
@@ -59,9 +59,13 @@ exports.run = async (client, interaction) => {
 	}
 
 	// Validate BEFORE deferring so these errors can be ephemeral replies without
-	// leaving anything behind. Same accepted set and size ceiling as the DM
-	// upload modal and the guild command.
-	const rejection = checkUpload(attachment.name, attachment.size);
+	// leaving anything behind. Same accepted set as the DM upload modal and the
+	// guild command. The size ceiling is Discord's largest server limit rather
+	// than the advertised default: the relay destination is only chosen after
+	// this intake (parse offer → relay button), so anything that could reach
+	// SOME boosted server passes here — sendRelayPayload then enforces the
+	// chosen server's actual limit with a clean "too large" notice.
+	const rejection = checkUpload(attachment.name, attachment.size, MAX_RELAY_UPLOAD_BYTES);
 	if (rejection) {
 		await interaction.reply({
 			content: rejection,

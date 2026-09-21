@@ -57,15 +57,48 @@ function dmpRefusal() {
 
 /**
  * Discord's baseline per-file upload limit: what every user gets in an
- * unboosted server, on a non-Nitro account.
+ * unboosted server, on a non-Nitro account. This is the ADVERTISED limit —
+ * the size warnings quote it and it is the default acceptance ceiling.
  *
- * Deliberately FLAT. Franzbot re-uploads the file on the uploader's behalf, so
- * this is the bound on how much Franzbot can be made to carry — and a boost
- * level or a Nitro subscription is something a user can buy for themselves.
- * Deriving the limit from the guild's premium tier or the uploader's
- * premiumType would hand that decision to whoever is uploading.
+ * It is deliberately the only advertised bound, but no longer the only bound:
+ * Franzbot re-uploads the file on the uploader's behalf, and the bot's own
+ * upload into the destination server is governed by THAT server's boost tier,
+ * not the uploader's account — so a relay destination can secretly accept more
+ * than the warnings say (maxUploadBytesForTier). Nothing advertises that, but
+ * nothing refuses a file the destination could legally accept either.
  */
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+
+/**
+ * Discord's server-wide upload perks by guild.premiumTier: the increase starts
+ * at Level 2 (50 MB) and Level 3 (100 MB); every other tier sits at the flat
+ * default. Anything a user delivers was already bounded by their own account
+ * when Discord accepted it — this maps how large a file Franzbot may itself
+ * re-upload into a given server. Takes the raw PremiumTier number so this file
+ * stays discord.js-agnostic.
+ */
+const UPLOAD_LIMIT_BYTES_BY_TIER = {
+	0: MAX_UPLOAD_BYTES,
+	1: MAX_UPLOAD_BYTES,
+	2: 50 * 1024 * 1024,
+	3: 100 * 1024 * 1024,
+};
+
+/**
+ * The acceptance ceiling for a server on boost tier `tier` (an undefined tier
+ * — a partial guild object, a DM — falls back to the default).
+ */
+function maxUploadBytesForTier(tier) {
+	return UPLOAD_LIMIT_BYTES_BY_TIER[tier] ?? MAX_UPLOAD_BYTES;
+}
+
+/**
+ * The intake ceiling for DM flows, where the relay destination is chosen AFTER
+ * the upload. Discord's absolute largest server limit, so any file that could
+ * reach SOME relay destination passes intake; sendRelayPayload then enforces
+ * the chosen server's actual limit with a clean "too large" notice.
+ */
+const MAX_RELAY_UPLOAD_BYTES = UPLOAD_LIMIT_BYTES_BY_TIER[3];
 
 /**
  * The single acceptance check for a file the user explicitly chose to upload
@@ -74,9 +107,12 @@ const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
  * the size ceiling cannot drift apart between handlers.
  * @param {string} name - The attachment's filename
  * @param {number} size - The attachment's size in bytes
+ * @param {number} [maxBytes] - The size ceiling to enforce; defaults to the
+ *   advertised 10 MB. Callers whose destination can legally accept more (a
+ *   boosted server's own tier) pass maxUploadBytesForTier(tier) instead.
  * @returns {string|null} The message to show the uploader, or null if accepted
  */
-function checkUpload(name, size) {
+function checkUpload(name, size, maxBytes = MAX_UPLOAD_BYTES) {
 	// DMP is checked before the accepted set so an explicit upload of one gets
 	// the informative refusal, not the generic "not a supported log file".
 	if ((/.*\.(dmp)$/iu).test(name)) {
@@ -87,7 +123,7 @@ function checkUpload(name, size) {
 		return rejectionMessage(name);
 	}
 
-	if (size > MAX_UPLOAD_BYTES) {
+	if (size > maxBytes) {
 		const sizeMb = (size / (1024 * 1024)).toFixed(1);
 		return `\`${name}\` is ${sizeMb} MB, which is too large to handle.\n`
 			+ 'Perhaps you\'d like to generate a fresh log that\'s smaller? To do that, just delete your '
@@ -163,6 +199,8 @@ function isRelayOnlyAttachment(name) {
 
 module.exports = {
 	MAX_UPLOAD_BYTES,
+	MAX_RELAY_UPLOAD_BYTES,
+	maxUploadBytesForTier,
 	isSupportedAttachment,
 	isUploadableAttachment,
 	rejectionMessage,

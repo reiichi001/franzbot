@@ -9,7 +9,7 @@ exports.answer = async client => ({
 		+ `3. Go to the "About" tab\n`
 		+ `4. Click the XIVLauncher logo`
 		+ `\n\n**NOTE**: If you have file extensions hidden, this file will just look like \`trouble-(some number)\` on your screen.`
-		+ `\n__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+		+ `\n__Please upload the file directly. Even if you have Nitro, please make sure it's under 10.0 MB.__`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	image: {
 		"url": client.config.WINDOWSEXPLORERSCREENSHOT,
