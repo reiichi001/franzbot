@@ -1,0 +1,16 @@
+{
+    "ignoredUsers": [],
+    "ignoredRoles": [
+        {
+            "name": "Moderators",
+            "id": "1004374611288404018"
+        }
+    ],
+    "suggestionWatchChannels": [],
+    "relayChannel": "1553706955770695700",
+    "guildname": "Ktisis Tools",
+    "watchNagChannels": [],
+    "watchXLSuggest": [],
+    "newpatchNag": false,
+    "faqSuggestions": []
+}
