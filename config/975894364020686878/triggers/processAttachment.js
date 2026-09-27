@@ -8,9 +8,6 @@ const {
 	parseLog,
 } = require("../../../modules/parseLog.js");
 const {
-	postParsedEmbeds,
-} = require("../../../modules/respond.js");
-const {
 	relayFile,
 } = require("../../../modules/relayFile.js");
 const {
@@ -40,15 +37,7 @@ exports.execute = async (client, message) => {
 				relayedFiles.push(attachment.name);
 			}
 
-			// parseLog only parses and returns; posting the results is this
-			// trigger's job. No anyTextFile here — a message attachment keeps the
-			// strict filename gate so arbitrary text files aren't parsed.
-			const embeds = await parseLog(client, attachment, {
-				guildId: message.guild?.id,
-			});
-			if (embeds?.length) {
-				await postParsedEmbeds(message, embeds);
-			}
+			await parseLog(client, message, attachment);
 		}// );
 
 
