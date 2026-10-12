@@ -15,9 +15,15 @@ module.exports = {
 		// Handle Application Commands (aka slash commands)
 		if (interaction.isCommand()) {
 			// Grab the command data from the slash command collections.
-			// Check global first, then the whitelisted-guild set (shadowed in
-			// whitelisted guilds, DMs never see guild commands).
-			const cmd = client.slashcmds.get(interaction.commandName)
+			// A guild-scoped command shadows the global one of the same name inside
+			// the guild it was deployed to, and it is the ONLY copy the client can
+			// invoke there — the global declarations are context-scoped out of
+			// servers. So the guild set is consulted first when the interaction is
+			// in a guild, and the global set first in DMs, where no guild command
+			// exists. Both then fall through to the other set, which keeps any
+			// non-whitelisted guild on the global copy.
+			const cmd = (interaction.inGuild() ? client.guildSlashcmds.get(interaction.commandName) : null)
+				|| client.slashcmds.get(interaction.commandName)
 				|| client.guildSlashcmds.get(interaction.commandName);
 			// If that command doesn't exist, silently exit and do nothing
 			if (!cmd) {
@@ -49,7 +55,10 @@ module.exports = {
 
 		// Handle autocomplete interactions
 		if (interaction.isAutocomplete()) {
-			const cmd = client.slashcmds.get(interaction.commandName)
+			// Same dispatch rule as commands: the guild copy wins in a guild, since
+			// that is the declaration the options being completed came from.
+			const cmd = (interaction.inGuild() ? client.guildSlashcmds.get(interaction.commandName) : null)
+				|| client.slashcmds.get(interaction.commandName)
 				|| client.guildSlashcmds.get(interaction.commandName);
 			if (!cmd || !cmd.handleAutocomplete) {
 				return;
