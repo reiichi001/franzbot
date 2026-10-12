@@ -21,6 +21,3 @@ exports.commandData = () => ({
 	options: [],
 	defaultPermission: true,
 });
-
-// Set this to false if you want it to be global.
-exports.guildOnly = true;

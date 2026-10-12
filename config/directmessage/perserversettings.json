@@ -2,5 +2,10 @@
     "ignoredUsers": [],
     "ignoredRoles": [],
     "suggestionWatchChannels": [],
-    "guildname": "directmessage"
+    "guildname": "directmessage",
+    "relayChannel": "",
+    "watchNagChannels": [],
+    "watchXLSuggest": [],
+    "newpatchNag": false,
+    "faqSuggestions": []
 }

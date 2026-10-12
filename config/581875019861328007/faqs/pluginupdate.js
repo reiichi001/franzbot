@@ -14,7 +14,5 @@ exports.answer = async client => ({
 exports.info = {
 	name: "pluginupdate",
 	category: "info",
-	aliases: [
-		"plugineta",
-	],
+	aliases: ["plugineta"],
 };

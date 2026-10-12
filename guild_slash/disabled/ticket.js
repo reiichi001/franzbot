@@ -4,7 +4,7 @@
 
 const {
 	createChannel,
-} = require("../modules/createTicketChannel");
+} = require("../../modules/createTicketChannel");
 
 const {
 	SlashCommandBuilder,
@@ -107,6 +107,3 @@ exports.commandData = (client, message) => {
 			.setRequired(false));
 	return commandinfo.toJSON();
 };
-
-// Set this to false if you want it to be global.
-exports.guildOnly = false;

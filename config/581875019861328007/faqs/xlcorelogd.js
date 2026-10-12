@@ -11,7 +11,7 @@ exports.answer = async client => ({
 		+ `If you're not comfortable posting that here, you can `
 		+ `open the file in a text editor to redact that information first or `
 		+ `you can send it to Franzbot to relay to a private admin channel for processing.\n`
-		+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 5.0 MB.__`,
+		+ `__Please upload the file directly. Even if you have Nitro, please make sure it's under 10.0 MB.__`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	image: {
 		"url": client.config.LINUXFILEBROWSERSCREENSHOT,
@@ -24,6 +24,7 @@ exports.answer = async client => ({
 exports.info = {
 	name: "xlcorelogd",
 	category: "logs",
+	uploadButton: true, // renders the "Upload Log" action row
 	aliases: [
 		"logddeck",
 		"logdflatpak",

@@ -4,12 +4,7 @@ const {
 } = require('discord.js');
 const URLSafeBase64 = require('urlsafe-base64');
 const logger = require('../../../modules/Logger.js');
-const {
-	parseLog,
-} = require("../../../modules/parseLog.js");
-const {
-	relayFile,
-} = require("../../../modules/relayFile.js");
+const dmRelay = require("../../../modules/dmRelay.js");
 const {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
 } = require('../../../modules/triggerTimeoutManager.js');
@@ -26,10 +21,10 @@ exports.execute = async (client, message) => {
 		message.attachments.forEach(async attachment => {
 			console.log(attachment.name);
 
-			// Returns true if attachments need to be removed.
-			relayFile(client, message, attachment, message.author, message.channel);
-
-			parseLog(client, message, attachment);
+			// Route through the DM relay chooser: special file types (tspack/dmp/
+			// crash/injector) keep their dedicated path; generic parseable logs are
+			// parsed, then offered a button to pick which server relays them.
+			await dmRelay.handleLog(client, message, attachment, message.author);
 		});
 	}
 };

@@ -1,5 +1,10 @@
 /* eslint-disable consistent-return */
 const disrequire = require('disrequire');
+// The Upload Log button owns its own row + opt-in gate; FAQ delivery only
+// renders it. See buttons/uploadLog.js.
+const {
+	getFaqComponents,
+} = require('../buttons/uploadLog');
 
 
 exports.run = async (client, message, args) => {
@@ -30,6 +35,7 @@ exports.run = async (client, message, args) => {
 				content: response.content ?? null,
 				embeds: [response.embed] ?? null,
 				files: response.files ?? [],
+				components: getFaqComponents(faq, response.components),
 			});
 		}
 		/*
@@ -47,6 +53,7 @@ exports.run = async (client, message, args) => {
 
 		return message.channel.send({
 			embeds: [response],
+			components: getFaqComponents(faq, response.components),
 		});
 	}
 

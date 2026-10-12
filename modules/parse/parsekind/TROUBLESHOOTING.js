@@ -5,7 +5,10 @@ const {
 } = require('discord.js');
 const nagMessage = require('../customrepoplugin.js');
 
-exports.execute = async (client, message, attachmentName, data) => {
+// Takes a guild id rather than a Message: the only thing this parser needed
+// from the message was its guild (see the custom-repo nag below), and taking the
+// id keeps the parser usable from a DM or a modal where there is no Message.
+exports.execute = async (client, guildId, attachmentName, data) => {
 	let foundCustomRepoPluginInstalled = false;
 	let anyCustomRepoPluginsLoaded = false;
 	const replyEmbeds = [];
@@ -247,9 +250,9 @@ exports.execute = async (client, message, attachmentName, data) => {
 
 	if (foundCustomRepoPluginInstalled
         && anyCustomRepoPluginsLoaded
-        && (message.guildId === client.configdb.get("GUILDID_GOAT")
-            || message.guildId === client.configdb.get("GUILDID_XIVONMAC")
-            || message.guildId === client.configdb.get("GUILDID_TESTING"))
+        && (guildId === client.configdb.get("GUILDID_GOAT")
+            || guildId === client.configdb.get("GUILDID_XIVONMAC")
+            || guildId === client.configdb.get("GUILDID_TESTING"))
 	) {
 		replyEmbeds.push(nagMessage.replyMessage(client));
 	}

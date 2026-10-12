@@ -2,5 +2,10 @@
     "ignoredUsers": [],
     "ignoredRoles": [],
     "suggestionWatchChannels": [],
-    "guildname": "Project Meteor Server"
+    "guildname": "Project Meteor Server",
+    "relayChannel": "",
+    "watchNagChannels": [],
+    "watchXLSuggest": [],
+    "newpatchNag": false,
+    "faqSuggestions": []
 }

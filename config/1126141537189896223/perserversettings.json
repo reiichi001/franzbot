@@ -2,5 +2,10 @@
     "guildname": "random",
     "ignoredUsers": [],
     "ignoredRoles": [],
-    "suggestionWatchChannels": []
+    "suggestionWatchChannels": [],
+    "relayChannel": "",
+    "watchNagChannels": [],
+    "watchXLSuggest": [],
+    "newpatchNag": false,
+    "faqSuggestions": []
 }

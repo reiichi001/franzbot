@@ -147,6 +147,3 @@ exports.commandData = (client, message) => {
 
 	return commandinfo;
 };
-
-// Set this to false if you want it to be global.
-exports.guildOnly = true;

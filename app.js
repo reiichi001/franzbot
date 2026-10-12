@@ -59,32 +59,47 @@ require("./modules/functions.js")(client);
 client.commands = new Collection();
 client.aliases = new Collection();
 client.slashcmds = new Collection();
+client.guildSlashcmds = new Collection();
 client.buttoncmds = new Collection();
+client.modalcmds = new Collection();
 client.perserversettings = new Collection();
 client.perserveraliases = new Collection();
 client.perservertriggers = new Collection();
 
 const init = async () => {
-	// Here we load **commands** into memory, as a collection, so they're accessible
-	// here and everywhere else.
-	const commands = readdirSync("./commands/").filter(file => file.endsWith(".js"));
+	// Here we load **text commands** into memory, as a collection, so they're
+	// accessible here and everywhere else.
+	const commands = readdirSync("./text_commands/").filter(file => file.endsWith(".js"));
 	for (const file of commands) {
-		const props = require(`./commands/${file}`);
+		const props = require(`./text_commands/${file}`);
 		logger.cmd(`Loading Command: ${props.help.name}. 👌`);
 		client.commands.set(props.help.name, props);
 		props.conf.aliases.forEach(alias => {
 			client.aliases.set(alias, props.help.name);
 		});
 	}
-	// Now we load any **slash** commands you may have in the ./slash directory.
-	const slashFiles = readdirSync("./slash").filter(file => file.endsWith(".js"));
+	// Now we load any **slash** commands. Global commands work everywhere +
+	// DMs; guild commands deploy only to whitelisted guilds. `faq` exists in
+	// both folders under the same name — they live in separate collections so
+	// the name collision is fine.
+	const slashFiles = readdirSync("./global_slash/").filter(file => file.endsWith(".js"));
 	for (const file of slashFiles) {
-		const command = require(`./slash/${file}`);
+		const command = require(`./global_slash/${file}`);
 		const commandName = file.split(".")[0];
 		logger.cmd(`Loading Slash command: ${commandName}. 👌`);
 
 		// Now set the name of the command with it's properties.
 		client.slashcmds.set(command.commandData().name, command);
+	}
+
+	const guildSlashFiles = readdirSync("./guild_slash/").filter(file => file.endsWith(".js"));
+	for (const file of guildSlashFiles) {
+		const command = require(`./guild_slash/${file}`);
+		const commandName = file.split(".")[0];
+		logger.cmd(`Loading Guild Slash command: ${commandName}. 👌`);
+
+		// Now set the name of the command with it's properties.
+		client.guildSlashcmds.set(command.commandData().name, command);
 	}
 
 	// Now we load any **button** interactions you may have in the ./buttons directory.
@@ -98,16 +113,32 @@ const init = async () => {
 		client.buttoncmds.set(button.buttonData().name, button);
 	}
 
+	// Now we load any **modal submit** interactions from the ./modals directory.
+	// These need no registration with Discord either — like buttons, they are
+	// dispatched by the customId of the modal that was submitted.
+	const modalFiles = readdirSync("./modals").filter(file => file.endsWith(".js"));
+	for (const file of modalFiles) {
+		const modal = require(`./modals/${file}`);
+		const modalName = file.split(".")[0];
+		logger.log(`Loading Modal interactions: ${modalName}. 👌`);
+
+		// Now set the name of the command with it's properties.
+		client.modalcmds.set(modal.modalData().name, modal);
+	}
+
 	// Then we load events, which will include our message and ready event.
 	const eventFiles = readdirSync("./events/").filter(file => file.endsWith(".js"));
 	for (const file of eventFiles) {
-		const eventName = file.split(".")[0];
-		logger.cmd(`Loading Event: ${eventName}. 👌`);
 		const event = require(`./events/${file}`);
-		// Bind the client to any event, before the existing arguments
-		// provided by the discord.js event.
-		// This line is awesome by the way. Just sayin'.
-		client.on(eventName, event.bind(null, client));
+		logger.cmd(`Loading Event: ${event.name}. 👌`);
+		// Events export { name, once?, execute }. We pass client through as the
+		// first argument so handlers can reach globals off it (configdb, logger,
+		// perserversettings, etc.), then forward the rest of discord.js's args.
+		// Fires once for one-time events like ready; otherwise on every emit.
+		const register = event.once
+			? client.once.bind(client)
+			: client.on.bind(client);
+		register(event.name, (...args) => event.execute(client, ...args));
 	}
 
 	// Here we login the client. And do a little check that the configdb is loaded

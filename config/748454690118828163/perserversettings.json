@@ -6,5 +6,9 @@
     ],
     "suggestionWatchChannels": [],
     "relayChannel": "1337851763889405952",
-    "guildname": "Aetherworks"
+    "guildname": "Aetherworks",
+    "watchNagChannels": [],
+    "watchXLSuggest": [],
+    "newpatchNag": false,
+    "faqSuggestions": []
 }

@@ -1,7 +1,7 @@
 {
   "name": "franbot-reborn",
   "version": "0.0.2",
-  "description": "Franzbot is a Discord bot for zu.",
+  "description": "Franzbot is a Discord bot",
   "main": "app.js",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.577.0",
@@ -9,11 +9,10 @@
     "bufferutil": "^4.0.8",
     "colorette": "^2.0.20",
     "discord-snowflake": "^2.0.0",
-    "discord.js": "^14.16.0",
+    "discord.js": "^14.27.0",
     "disrequire": "^1.1.4",
     "eightball": "^1.0.1",
     "enmap": "^6.0.2",
-    "eslint-plugin-sonarjs": "^1.0.3",
     "got": "^14.3.0",
     "libsodium-wrappers": "^0.7.13",
     "simple-json-db": "^2.0.0",
@@ -23,7 +22,8 @@
     "zlib-sync": "^0.1.9"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "restart": "bash scripts/rotate-franzbot-logs.sh && pm2 restart \"Franzbot Reborn\""
   },
   "author": "",
   "license": "ISC",
@@ -33,9 +33,10 @@
   },
   "homepage": "https://github.com/reiichi001/franzbot#readme",
   "devDependencies": {
-    "@eslint/js": "^9.20.0",
+    "@eslint/js": "^10.0.1",
     "@types/node": "^20.12.12",
-    "eslint": "^9.20.0",
-    "globals": "^15.14.0"
+    "eslint": "^10.11.0",
+    "eslint-plugin-sonarjs": "^4.2.1",
+    "globals": "^17.12.0"
   }
 }
