@@ -21,5 +21,5 @@
     "newpatchNag": false,
     "relayChannel": "837808848718004245",
     "guildname": "XIVLauncher & Dalamud",
-    "faqSuggestions": []
+    "faqSuggestions": ["antivirus", "customrepo", "logxl", "logd", "migrate", "repair", "tspack", "vpn"]
 }
