@@ -1,7 +1,9 @@
+/* eslint-disable max-len */
 exports.answer = async client => ({
 	title: `Dalamud requires these redistributables`,
-	description: `Please make sure you've installed or updated VS2017-2026 packages from May 2024 (14.40) or later.\n\n`
-		+ `You can get the latest one here: <https://aka.ms/vc14/vc_redist.x64.exe>\n\n`
+	description: `Please make sure you've installed or updated VS2017-2026 x64 packages from May 2026 (14.51.36247.0) or later.\n\n`
+		+ `[Microsoft's page for all VC runtimes](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version)\n\n`
+		+ `Microsoft's link to the newest installer: <https://aka.ms/vc14/vc_redist.x64.exe>\n\n`
 		+ `More info [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-can-i-fix-crashes-on-startup)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
