@@ -45,6 +45,31 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 	// modal's special-file divert.
 	let needToRemoveAttachments = false;
 
+	// don't relay crash dumps from goatplace
+	// Checked FIRST, ahead of destination resolution and the size gate: a .dmp is
+	// refused rather than relayed, so it needs no relay channel and must never be
+	// measured against one's upload limit — a crash dump is routinely larger than
+	// the limit, and answering it with "too large for the relay channel" would
+	// bury the refusal (and skip the removal it asks for). Kept as a check rather
+	// than deleted outright in case the handling of these changes one day.
+	if (attachment.name.match(/.*\.(dmp)$/gui)) {
+		needToRemoveAttachments = true;
+		console.log(`Dalamud crash dump upload: ${attachment.attachment}`);
+		// Per Goat, we should not relay DMP files anymore
+		await replyToSource(source, {
+			embeds: [
+				{
+					"description": `${author}, it can be dangerous to upload a DMP file.\n\nPlease do not upload those in public channels.\n\nThe attachment will be removed. Please reach out to a Dalamud Support Team member or Dalamud Maintainer member directly if you need one analyzed.${originalMessageBlock(source)}`
+					,
+				},
+			],
+			allowedMentions: {
+				repliedUser: false,
+			},
+		});
+		return needToRemoveAttachments;
+	}
+
 	// Configured channel first, then the legacy hardcoded fallbacks for known
 	// guilds. See modules/resolveRelayChannel.js — the FAQ modal's private relay
 	// deliberately skips those fallbacks.
@@ -187,25 +212,6 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 					"description": `Original post: ${replymsg.url}`,
 				},
 			],
-		});
-		return needToRemoveAttachments;
-	}
-
-	// don't relay crash dumps from goatplace
-	if (attachment.name.match(/.*\.(dmp)$/gui)) {
-		needToRemoveAttachments = true;
-		console.log(`Dalamud crash dump upload: ${attachment.attachment}`);
-		// Per Goat, we should not relay DMP files anymore
-		await replyToSource(source, {
-			embeds: [
-				{
-					"description": `${author}, it can be dangerous to upload a DMP file.\n\nPlease do not upload those in public channels.\n\nThe attachment will be removed. Please reach out to a Dalamud Support Team member or Dalamud Maintainer member directly if you need one analyzed.${originalMessageBlock(source)}`
-					,
-				},
-			],
-			allowedMentions: {
-				repliedUser: false,
-			},
 		});
 		return needToRemoveAttachments;
 	}

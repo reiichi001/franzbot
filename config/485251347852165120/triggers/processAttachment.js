@@ -14,6 +14,9 @@ const {
 	relayFile,
 } = require("../../../modules/relayFile.js");
 const {
+	isSpecialRelayAttachment,
+} = require("../../../modules/processAttachment.js");
+const {
 	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
 } = require('../../../modules/triggerTimeoutManager.js');
 
@@ -61,8 +64,15 @@ exports.execute = async (client, message) => {
 
 			// const loggyUrl = `https://loggy.goat.place/?url=${safebase64url}`;
 
+			// Only files with dedicated relay handling (tspack, crash /
+			// dalamud.injector logs, .dmp) are handed to relayFile at all — the same
+			// guard the interaction paths use. Passing every attachment meant an
+			// ordinary file (a screenshot, a video) drew a relay-limit complaint
+			// about a relay it was never a candidate for.
+			//
 			// Returns true if attachments need to be removed.
-			if (await relayFile(client, message, attachment, message.author, message.channel)) {
+			if (isSpecialRelayAttachment(attachment.name)
+				&& await relayFile(client, message, attachment, message.author, message.channel)) {
 				needToRemoveAttachments = true;
 				relayedFiles.push(attachment.name);
 			}
