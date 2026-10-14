@@ -1,7 +1,7 @@
 exports.answer = async client => ({
 
 	title: "Franzbot FAQ",
-	description: `Supported FAQ commands listed below. Type \`${client.config.prefix}faq <topic>\` to display the content.`,
+	description: `Supported FAQ commands listed below. Type \`/faq\` and select one to display its content.`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
 		"text": client.configdb.get("FRANZBOT_VERSION"),

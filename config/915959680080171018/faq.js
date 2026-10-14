@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
 	return [
 		{
 			title: `Faq not found for '${args[0]}'`,
-			description: `Please check your spelling or use \`f!faq help\`.\n\n`
+			description: `Please check your spelling or use \`/faq\`.\n\n`
 				+ `Franzbot does not contain FAQs for plugins. Please poke the plugin maintainer in `
 				+ `the \`goat place\` discord, or `
 				+ `make an issue on their github repo if you have a question about a specific plugin. `,
