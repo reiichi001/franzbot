@@ -1,7 +1,7 @@
 exports.answer = async client => ({
 	title: `How do I reset dalamud/plugin window locations?`,
 	description: `1. Completely close and exit FFXIV.\n`
-		+ `2. Browse to \`%AppData%\\XIVLauncher\\\` in Windows, \`~/.local/share/dev.goats.xivlauncher/\` in Linux\n`
+		+ `2. Browse to \`%AppData%\\XIVLauncher\\\` in Windows, \`~/.xlcore\` in Linux\n`
 		+ `3. Open dalamudUI.ini in a text editor of your choice.\n`
 		+ `4. Locate the line pertaining to the plugin in question. For example, [Window][ChillFrames Settings] for Chill Frames.\n`
 		+ `5. You will see a line below it containing the text \`Pos=#,#\`. If it's invalid, you may see negative numbers and/or ones larger than your monitor's resolution dimensions (X,Y)`
