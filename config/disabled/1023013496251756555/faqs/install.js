@@ -4,7 +4,7 @@ exports.answer = async client => ({
 	description: `For the Most up to date practices, please consult <https://goatcorp.github.io/> or <#866796481754562571>`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq install\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 	fields: [
 		{

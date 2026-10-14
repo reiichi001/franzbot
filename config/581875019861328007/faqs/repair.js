@@ -12,7 +12,7 @@ exports.answer = async client => ({
 		"url": "https://media.discordapp.net/attachments/687530726756712478/1196969123616403456/image.png",
 	},
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq repair\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

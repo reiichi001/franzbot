@@ -4,7 +4,7 @@ exports.answer = async client => ({
 		+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-xl-environment-variables)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq env\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

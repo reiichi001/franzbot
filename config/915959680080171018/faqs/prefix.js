@@ -13,7 +13,7 @@ exports.answer = async client => ({
 		"url": 'https://i.imgur.com/mpJItNN.png',
 	},
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq prefix\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

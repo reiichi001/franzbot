@@ -5,7 +5,7 @@ exports.answer = async client => ({
 		+ "There are multiple guides on how to set up the Seventh Umbral (7U) Launcher.",
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq client\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 	fields: [
 		{

@@ -8,7 +8,7 @@ exports.answer = async client => ({
 		+ `we can better track repeat questions/issues/requests.`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq ask\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

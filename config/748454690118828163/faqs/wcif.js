@@ -16,7 +16,7 @@ exports.answer = async client => ({
 		"url": "https://cdn.discordapp.com/attachments/984798693096046642/1289552815999418401/image.png",
 	},
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq wcif\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

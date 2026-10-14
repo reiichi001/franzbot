@@ -1,5 +1,5 @@
 
-exports.replyMessage = async client => ({
+exports.replyMessage = async (client, faqName) => ({
 	title: `**Having mod issues?**`,
 	description: `_Do **not** include any character names in screenshots._\n\n`
 		+ `*Please provide the following:*\n`
@@ -39,6 +39,10 @@ exports.replyMessage = async client => ({
 	},
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		// faqName names the /faq entry this embed is posted as; non-FAQ callers
+		// omit it and keep the bare version footer.
+		"text": faqName
+			? `\`/faq ${faqName}\` · ${client.configdb.get("FRANZBOT_VERSION")}`
+			: client.configdb.get("FRANZBOT_VERSION"),
 	},
 });

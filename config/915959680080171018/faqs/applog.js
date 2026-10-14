@@ -10,7 +10,7 @@ exports.answer = async client => ({
 		"url": client.config.FINDERGOTOSCREENSHOT,
 	},
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq applog\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

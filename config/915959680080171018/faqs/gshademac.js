@@ -6,7 +6,7 @@ exports.answer = async client => ({
 		+ `[HERE](https://www.xivmac.com/gshade)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq gshademac\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

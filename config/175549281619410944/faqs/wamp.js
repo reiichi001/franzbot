@@ -4,7 +4,7 @@ exports.answer = async client => ({
 	description: "Here are some tools you may find useful.",
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq wamp\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 	fields: [
 		{

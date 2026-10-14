@@ -5,7 +5,7 @@ exports.answer = async client => ({
 		+ `__You should have also gotten a popup telling you this when you first enabled it.__`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq holdshift\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

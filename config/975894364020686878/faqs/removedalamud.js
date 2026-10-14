@@ -11,7 +11,7 @@ exports.answer = async client => ({
 		"url": client.config.WINDOWSEXPLORERSCREENSHOT,
 	},
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq removedalamud\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

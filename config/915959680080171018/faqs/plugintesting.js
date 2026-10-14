@@ -13,7 +13,7 @@ exports.answer = async client => ({
 		+ `More info [HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-how-do-i-enable-plugin-test-builds)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq plugintesting\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

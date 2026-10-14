@@ -13,7 +13,7 @@ exports.answer = async client => ({
 		"url": "https://cdn.discordapp.com/attachments/1084906540592549958/1456784123027783801/launchwithoutcustomrepoplugins.jpg",
 	},
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq customrepo\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

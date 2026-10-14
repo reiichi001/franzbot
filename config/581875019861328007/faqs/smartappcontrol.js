@@ -18,7 +18,7 @@ exports.answer = async client => ({
 		"url": "https://cdn.discordapp.com/attachments/687530726756712478/1343066496712183860/e0dCR.png",
 	},
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq smartappcontrol\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

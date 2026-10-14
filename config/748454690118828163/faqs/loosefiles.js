@@ -11,7 +11,7 @@ exports.answer = async client => ({
 		+ `that have a complete texture. For further assistance, please ask us and we will be here to assist. `,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq loosefiles\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

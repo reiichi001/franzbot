@@ -4,7 +4,7 @@ exports.answer = async client => ({
 	description: `Franz still has to write this.`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq donate\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

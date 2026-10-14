@@ -5,7 +5,7 @@ exports.answer = async client => ({
 		+ `Otherwise, see [HERE](https://goatcorp.github.io/faq/dalamud_troubleshooting#q-i-get-an-error-message-when-trying-to-installupdatedisable-a-plugin)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq plugins\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

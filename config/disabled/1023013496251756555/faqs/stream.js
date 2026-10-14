@@ -15,7 +15,7 @@ exports.answer = async client => ({
 		+ `that you have nothing that modifies in-game elements as they will always show up on your stream.__`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq stream\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

@@ -7,7 +7,7 @@ exports.answer = async client => ({
 		+ `If a plugin does not get updated, other developers can [adopt it](https://dalamud.dev/faq/adoption) after a certain period of time.`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq pluginupdate\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

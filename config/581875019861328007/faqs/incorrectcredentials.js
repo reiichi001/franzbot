@@ -4,7 +4,7 @@ exports.answer = async client => ({
 	description: "This error comes from Square Enix directly. XIVLauncher uses the same login flow as the official launcher. If it says that your username/password is incorrect then it is incorrect.\n\nPlease disable auto-login by holding shift while opening the launcher and double check the following:",
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq incorrectcredentials\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 	fields: [
 		{

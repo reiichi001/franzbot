@@ -4,7 +4,7 @@ exports.answer = async client => ({
 	description: "You can download the latest version of Visual Studio or just the build tools here: <https://visualstudio.microsoft.com/downloads/>",
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq vs\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

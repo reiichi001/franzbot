@@ -5,7 +5,7 @@ exports.answer = async client => ({
 		+ `More info [HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-how-can-i-fix-crashes-on-startup)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq redist\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

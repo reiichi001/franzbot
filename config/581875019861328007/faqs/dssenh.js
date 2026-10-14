@@ -7,7 +7,7 @@ exports.answer = async client => ({
 		+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-im-on-linux-and-i-keep-getting-xivlauncher-failed-to-update-errors)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq test\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

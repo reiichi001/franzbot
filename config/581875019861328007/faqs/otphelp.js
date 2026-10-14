@@ -17,7 +17,7 @@ exports.answer = async client => ({
 		+ `net start winnat\n\`\`\``,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq otphelp\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

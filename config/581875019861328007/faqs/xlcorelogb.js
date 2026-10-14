@@ -17,7 +17,7 @@ exports.answer = async client => ({
 		"url": client.config.LINUXFILEBROWSERSCREENSHOT,
 	},
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq xlcorelogb\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

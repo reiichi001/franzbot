@@ -13,7 +13,7 @@ exports.answer = async client => ({
 		"url": client.config.FINDERGOTOSCREENSHOT,
 	},
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq removeruntime\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 exports.info = {

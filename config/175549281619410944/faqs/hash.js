@@ -4,7 +4,7 @@ exports.answer = async client => ({
 	description: "Here is some information about the official 1.0 install disc if you'd like to verify that yours is not damaged or tampered with.",
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq hash\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 	fields: [
 		{

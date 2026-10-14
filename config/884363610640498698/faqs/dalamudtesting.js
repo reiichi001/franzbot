@@ -10,7 +10,7 @@ exports.answer = async client => ({
 		"url": client.config.DALAMUDBRANCH,
 	},
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq dalamudtesting\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

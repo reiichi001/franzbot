@@ -5,7 +5,7 @@ exports.answer = async client => ({
 		+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-do-not-expect-dalamud-andor-plugins-to-work-on-updatespatch-day-releases)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq update\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

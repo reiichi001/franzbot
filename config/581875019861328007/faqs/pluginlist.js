@@ -4,7 +4,7 @@ exports.answer = async client => ({
 	description: `You can find a list of all plugins available on Dalamud's main and testing repos [HERE](https://tommadness.github.io/Plugin-Browser/)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq pluginlist\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

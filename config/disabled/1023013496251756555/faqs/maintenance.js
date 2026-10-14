@@ -3,7 +3,7 @@ exports.answer = async client => ({
 	description: ``,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq maintenance\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

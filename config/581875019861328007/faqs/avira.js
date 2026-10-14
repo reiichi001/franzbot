@@ -8,7 +8,7 @@ exports.answer = async client => ({
 		+ `. You can safely use the "Keep My Files" setting. **This will uninstall all programs on your computer. Please make note of any programs you need before performing these steps.**`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq avira\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

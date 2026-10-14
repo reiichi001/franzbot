@@ -6,7 +6,7 @@ exports.answer = async client => ({
 		+ `[HERE](https://www.xivmac.com/recommended-settings)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq settings\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

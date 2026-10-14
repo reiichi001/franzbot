@@ -4,7 +4,7 @@ exports.answer = async client => ({
 		+ `Credentials are saved in macOS's keychain application (keychain-access in /Applications/Utilities)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq savedcredentials\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

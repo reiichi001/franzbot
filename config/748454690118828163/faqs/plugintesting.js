@@ -12,7 +12,7 @@ exports.answer = async client => ({
 		+ `For troubleshooting, please keep questions/comments/issues in their respective channels/categories.`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq plugintesting\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

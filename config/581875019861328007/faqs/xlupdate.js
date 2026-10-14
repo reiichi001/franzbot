@@ -4,7 +4,7 @@ exports.answer = async client => ({
 		+ `You can get the latest installer from <#866796481754562571>.`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq xlupdate\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

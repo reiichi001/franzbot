@@ -2,7 +2,7 @@
 const {
 	EmbedBuilder,
 } = require('discord.js');
-exports.replyMessage = client => new EmbedBuilder()
+exports.replyMessage = (client, faqName) => new EmbedBuilder()
 	.setTitle(`Please disable plugins from custom repositories`)
 	.setDescription(`Support for plugins from external sources is not provided here. `
 		+ `In order for us to help you, please disable or remove any plugins that have come from a `
@@ -13,5 +13,9 @@ exports.replyMessage = client => new EmbedBuilder()
 	.setColor(client.configdb.get("EMBED_NORMAL_COLOR"))
 	.setThumbnail("https://cdn.discordapp.com/attachments/687530726756712478/968717497610149908/unknown.png")
 	.setFooter({
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		// faqName names the /faq entry this embed is posted as; non-FAQ callers
+		// (e.g. the troubleshooting nag) omit it and keep the bare version.
+		"text": faqName
+			? `\`/faq ${faqName}\` · ${client.configdb.get("FRANZBOT_VERSION")}`
+			: client.configdb.get("FRANZBOT_VERSION"),
 	});

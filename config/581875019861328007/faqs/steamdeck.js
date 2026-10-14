@@ -4,7 +4,7 @@ exports.answer = async client => ({
 	description: `A basic guide for installing XIVLauncher on Steam Deck can be found [HERE](https://goatcorp.github.io/faq/steamdeck)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq steamdeck\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

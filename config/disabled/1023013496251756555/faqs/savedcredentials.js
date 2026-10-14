@@ -4,7 +4,7 @@ exports.answer = async client => ({
 		+ `[HERE](https://goatcorp.github.io/faq/xl_troubleshooting#q-xiv-isnt-saving-my-new-password--how-do-i-clear-my-saved-password)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq savedcredentials\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

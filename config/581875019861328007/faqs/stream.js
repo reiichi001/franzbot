@@ -17,7 +17,7 @@ exports.answer = async client => ({
 		+ `__You probably still don't want to stream with plugins enabled.__`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq stream\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

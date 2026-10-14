@@ -11,7 +11,7 @@ exports.answer = async client => ({
 		+ `including free VPN recommendations.`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq vpn\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

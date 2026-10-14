@@ -24,7 +24,7 @@ exports.answer = async client => ({
 		+ `<https://weblog.lkiesow.de/20220311-make-linux-prefer-ipv4.html>`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq preferipv4\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

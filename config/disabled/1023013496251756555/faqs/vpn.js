@@ -6,7 +6,7 @@ exports.answer = async client => ({
 		+ `More info [Here](https://goatcorp.github.io/faq/xl_troubleshooting#q-the-official-launcher-isnt-working--xivlauncher-failed-to-check-for-updates--patch-files-could-not-be-verified)`,
 	color: client.configdb.get("EMBED_NORMAL_COLOR"),
 	footer: {
-		"text": client.configdb.get("FRANZBOT_VERSION"),
+		"text": `\`/faq vpn\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 	},
 });
 

@@ -1,5 +1,5 @@
 const customRepoPluginAnswer = require("../../../modules/parse/customrepoplugin");
-exports.answer = async client => customRepoPluginAnswer.replyMessage(client);
+exports.answer = async client => customRepoPluginAnswer.replyMessage(client, "thirdparty");
 
 exports.info = {
 	name: "thirdparty",

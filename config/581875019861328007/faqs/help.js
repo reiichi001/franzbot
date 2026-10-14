@@ -30,7 +30,7 @@ exports.answer = async (client, guild) => {
 		description: `Supported FAQ commands listed below. Type \`/faq\` and select one to display its content.`,
 		color: client.configdb.get("EMBED_NORMAL_COLOR"),
 		footer: {
-			"text": client.configdb.get("FRANZBOT_VERSION"),
+			"text": `\`/faq help\` · ${client.configdb.get("FRANZBOT_VERSION")}`,
 		},
 		fields: [
 			{
