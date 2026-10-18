@@ -18,6 +18,9 @@ const {
 	GatewayIntentBits,
 	Events,
 } = require('discord.js');
+const {
+	configuredGuildIds,
+} = require('../modules/configuredGuildIds');
 
 const config = require('../config.json');
 
@@ -26,7 +29,7 @@ const HELP = [
 	'',
 	'  --global               Remove ALL global commands (covers DMs)',
 	'  --guild <id|NAME>      Remove one guild\'s commands (repeatable)',
-	'  --all                  Remove globals + every whitelisted guild',
+	'  --all                  Remove globals + every configured guild the bot is in',
 	'  --dry-run              Print what would be removed, change nothing',
 	'  --help                 Show this help',
 ].join('\n');
@@ -97,18 +100,13 @@ async function main() {
 		return;
 	}
 
-	// Resolve targets.
-	const targets = [];
+	// Resolve targets. `--all` covers every configured guild the running token
+	// is in (narrowed at READY, since membership is only known then); explicit
+	// --guild arguments are attempted as given.
+	const allTargets = flags.all ? configuredGuildIds() : [];
+	const explicitTargets = [];
 	if (flags.all) {
 		flags.global = true;
-		for (const key of [
-			'GUILDID_TESTING',
-			'GUILDID_GOAT',
-		]) {
-			if (config[key]) {
-				targets.push(config[key]);
-			}
-		}
 	}
 	for (const raw of flags.guilds) {
 		const id = resolveGuild(raw);
@@ -117,12 +115,10 @@ async function main() {
 			process.exit(1);
 			return;
 		}
-		targets.push(id);
+		explicitTargets.push(id);
 	}
-	// Deduplicate.
-	const uniqueTargets = [...new Set(targets)];
 
-	if (!flags.global && uniqueTargets.length === 0) {
+	if (!flags.global && allTargets.length === 0 && explicitTargets.length === 0) {
 		console.error('Nothing to do. Pass --global, --all, or at least one --guild <id>.');
 		console.error(HELP);
 		process.exit(1);
@@ -137,6 +133,19 @@ async function main() {
 	const ok = await new Promise(resolve => {
 		client.once(Events.ClientReady, async () => {
 			try {
+				// Only the configured guilds this token is actually in: fetching a
+				// guild it is not in throws and would abort the rest of the run.
+				const notJoined = allTargets.filter(id => !client.guilds.cache.has(id));
+				if (notJoined.length > 0) {
+					console.log(`Skipping configured guilds this token is not in: ${notJoined.join(', ')}`);
+				}
+				const uniqueTargets = [
+					...new Set([
+						...allTargets.filter(id => client.guilds.cache.has(id)),
+						...explicitTargets,
+					]),
+				];
+
 				if (flags.global) {
 					console.log('Global (DMs) scope:');
 					const globals = await client.application.commands.fetch();

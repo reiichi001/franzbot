@@ -1,6 +1,9 @@
 const {
 	ActivityType, Events,
 } = require('discord.js');
+const {
+	configuredGuildIds,
+} = require('../modules/configuredGuildIds');
 
 module.exports = {
 	name: Events.ClientReady,
@@ -34,19 +37,32 @@ module.exports = {
 			client.application?.commands.set(globalCmds).catch(err => client.logger.error(`Failed to deploy global slash commands: ${err}`));
 		}
 
-		// Deploy guild slash commands ONLY to the whitelist. guild.commands.set()
-		// REPLACES the guild's command list, so push the FULL guild_slash set
-		// (faq override, logd, logxl, ticket, slowmode) or the others are wiped.
+		// Deploy guild slash commands to every configured server the running
+		// token has joined. guild.commands.set() REPLACES the guild's command
+		// list, so push the FULL guild_slash set (faq override, uploadlog,
+		// attachmentnotice, slowmode) or the others are wiped.
 		const guildCmds = [...client.guildSlashcmds.values()].map(c => c.commandData(client));
-		const guildIds = [
-			client.configdb.get("GUILDID_TESTING"),
-			client.configdb.get("GUILDID_GOAT"),
-		];
-		for (const id of guildIds) {
+		const configured = configuredGuildIds();
+		// Cross-check the config folders against the guilds this token is in.
+		// Membership arrives in the READY payload, so this needs no REST call;
+		// targeting only the intersection keeps a token from pushing commands at
+		// servers it cannot see (404 Unknown Guild).
+		const joined = configured.filter(id => client.guilds.cache.has(id));
+		const configuredNotJoined = configured.filter(id => !client.guilds.cache.has(id));
+		const joinedNotConfigured = [...client.guilds.cache.keys()].filter(id => !configured.includes(id));
+
+		if (configuredNotJoined.length > 0) {
+			client.logger.warn(`Configured but not joined by this token, skipping: ${configuredNotJoined.join(', ')}`);
+		}
+		if (joinedNotConfigured.length > 0) {
+			client.logger.debug(`Joined but not configured, no commands deployed: ${joinedNotConfigured.join(', ')}`);
+		}
+
+		for (const id of joined) {
 			const guild = client.guilds.cache.get(id);
-			if (guild) {
-				guild.commands.set(guildCmds).catch(err => client.logger.error(`Failed to deploy guild commands to ${guild.name}: ${err}`));
-			}
+			guild.commands.set(guildCmds)
+				.then(() => client.logger.log(`Deployed guild slash commands to ${guild.name}`, "cmd"))
+				.catch(err => client.logger.error(`Failed to deploy guild commands to ${guild.name}: ${err}`));
 		}
 	},
 };
