@@ -1,3 +1,13 @@
+/*
+ * DISABLED — kept for reference, not loaded.
+ *
+ * The event loader (app.js) only reads top-level files in events/, so anything
+ * in this folder is skipped. This handler fires on GUILD_MEMBER_ADD, which is
+ * gated behind the privileged GUILD_MEMBERS intent; Franzbot no longer
+ * requests that intent, so it can never run. Zu should use Discord's
+ * community/onboarding features for welcomes instead. Restore this file to
+ * events/ only if the intent is granted again.
+ */
 const {
 	Events,
 } = require('discord.js');

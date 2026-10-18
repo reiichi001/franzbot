@@ -17,14 +17,18 @@ exports.run = async (client, message, args) => {
 	let output = "\u200B(╯°□°）╯︵ ";
 	let joinedargs = args.join(" ");
 	console.log(`Starting with: ${joinedargs}\n`);
-	message.mentions.users.forEach(user => {
+	for (const user of message.mentions.users.values()) {
 		// make a text replacement for mention -> username string
 
 		const useridstring = `<@${user.id}>`;
 		const usernickidstring = `<@!${user.id}>`;
 
 		const usernamestring = user.username;
-		const usernickstring = message.guild.members.cache.get(user.id).nickname || usernamestring;
+		// A single-member fetch is intent-free (GUILD_MEMBERS gates only the full
+		// list). It can still fail — the user left, or this is a DM with no guild —
+		// so fall back to the plain username.
+		const member = await message.guild?.members.fetch(user.id).catch(() => null);
+		const usernickstring = member?.nickname || usernamestring;
 
 		console.log(`User: ${user.id}\n`
 			+ `Nick: ${usernickstring}\n`
@@ -33,7 +37,7 @@ exports.run = async (client, message, args) => {
 		joinedargs = joinedargs
 			.replace(useridstring, usernamestring)
 			.replace(usernickidstring, usernickstring);
-	});
+	}
 
 	const runifiedoutput = runes.toArray(joinedargs);
 	const chars = require('../modules/flip.js');

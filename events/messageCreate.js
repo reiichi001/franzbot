@@ -99,9 +99,12 @@ module.exports = {
 			.split(/\s+/gu);
 		const command = args.shift().toLowerCase();
 
-		// If the member on a guild is invisible or not cached, fetch them.
+		// If the member on a guild is invisible or not cached, fetch them. The v12
+		// Guild#fetchMember this replaced no longer exists in v14; fetching one
+		// member by ID needs no privileged intent (only the full list does), and a
+		// failure (e.g. they left) just leaves message.member unset.
 		if (message.guild && !message.member) {
-			message.guild.fetchMember(message.author);
+			await message.guild.members.fetch(message.author).catch(() => null);
 		}
 
 		// If the member was added to a server's ignorelist, don't process the command
