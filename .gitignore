@@ -5,6 +5,9 @@ config/*/tickets.json
 .DS_Store
 .idea
 
+# Scratch folder GitKraken drops in the repo root; not part of the project.
+archive-*/
+
 commands/copyrolemembers.js
 
 commands/franzadminonce.js
