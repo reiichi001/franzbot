@@ -8,4 +8,8 @@ Discord no longer delivers without the privileged `MESSAGE_CONTENT` intent
 (guild content now only arrives on mentions, replies, and context menus), so
 they had stopped matching anything.
 
-Move a file back to `triggers/` only if the intent is enabled again.
+`suggestionWatchChannels.js` is the exception: it reacts to chat activity
+rather than reading the text, but it checks `message.member.roles`, which is
+not reliably populated without the privileged `GUILD_MEMBERS` intent.
+
+Move a file back to `triggers/` only if the relevant intent is enabled again.
