@@ -16,5 +16,5 @@ exports.commandData = () => new SlashCommandBuilder()
 	.setDescription('Sends virtual hugs. Can hug many people.')
 	.addStringOption(option => option
 		.setName('text')
-		.setDescription('Mention the people to hug.')
+		.setDescription('Mention the people to hug, or type anything else to hug.')
 		.setRequired(false));

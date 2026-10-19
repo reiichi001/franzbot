@@ -90,9 +90,16 @@ module.exports = {
 			.split(/\s+/u)
 			.filter(Boolean);
 
-		// A bare mention gets a hint instead of an empty command.
+		// A bare mention gets a hint instead of an empty command. Skip the hint
+		// when an attachment came along: the triggers above already handled it.
 		if (args.length === 0) {
-			message.channel.send(`Mention me with a command, e.g. \`@${client.user.username} help\`.`);
+			if (message.attachments.size === 0) {
+				message.channel.send(
+					`You can use legacy text commands like \`@${client.user.username} help\`.\n`
+					+ `To parse a log file the old way, mention \`@${client.user.username}\` `
+					+ `and attach the file. But you should use \`/uploadlog\` instead.`
+				);
+			}
 			return;
 		}
 

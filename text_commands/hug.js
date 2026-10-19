@@ -13,5 +13,5 @@ exports.help = {
 	name: "hug",
 	category: "Fun",
 	description: "Sends virtual hug. Can send many hugs.",
-	usage: "hug @usermention",
+	usage: "hug [@usermention | text]",
 };

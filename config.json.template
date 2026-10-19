@@ -1,7 +1,5 @@
 {
     "token": "discord bot token here",
-    "prefix": "t!",
-    "prefix_old": "!",
     "AUDITLOG_COMMON": "Cleaning up uneeded message",
     "GIPHYAPI": "",
     "GUILDID_TESTING": "",

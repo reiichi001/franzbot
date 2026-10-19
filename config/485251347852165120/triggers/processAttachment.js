@@ -26,7 +26,8 @@ exports.execute = async (client, message) => {
 	const DiscordSnowflake = await import("discord-snowflake");
 	let relayChannel = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("relayChannel");
 	if (relayChannel && DiscordSnowflake.isSnowflake(relayChannel)) {
-		logger.debug("Found applicable relay channel.");
+		// logger.debug("Found applicable relay channel.");
+		// we don't really need to log that every message.
 	}
 	else {
 		logger.warn(`Could not find a relay channel defined for ${message.guild.id}. Setting from legacy fallback, else empty string.`);

@@ -194,39 +194,43 @@ const init = async () => {
 		if (existsSync(`./config/${dirname}/faqs/`)) {
 			logger.log(`Loading FAQs for ${dirname} (${guildName})`);
 			const faqsToLoad = readdirSync(`./config/${dirname}/faqs/`).filter(file => file.endsWith(".js"));
-			const faqentries = new Collection();
 			if (faqsToLoad.length === 0) {
+				// Skip only this section; the server may still have triggers or
+				// other settings worth loading.
 				logger.log(`No FAQs found for ${dirname}`);
-				continue;
 			}
-			for (const faq of faqsToLoad) {
-				// logger.debug(`./config/${dirname}/faqs/${faq}`);
-				const faqentry = require(`./config/${dirname}/faqs/${faq}`);
-				faqentries.set(faqentry.info.name, faqentry);
-				faqentry.info.aliases.forEach(alias => {
-					client.perserveraliases.set(alias, faqentry.info.name);
-				});
-				logger.cmd(`Loaded the ${faqentry.info.name} FAQ`);
+			else {
+				const faqentries = new Collection();
+				for (const faq of faqsToLoad) {
+					// logger.debug(`./config/${dirname}/faqs/${faq}`);
+					const faqentry = require(`./config/${dirname}/faqs/${faq}`);
+					faqentries.set(faqentry.info.name, faqentry);
+					faqentry.info.aliases.forEach(alias => {
+						client.perserveraliases.set(alias, faqentry.info.name);
+					});
+					logger.cmd(`Loaded the ${faqentry.info.name} FAQ`);
+				}
+				client.perserversettings.set(dirname, faqentries);
+				// logger.log(`Finished Loading FAQs for ${dirname}. 👌`, "log");
 			}
-			client.perserversettings.set(dirname, faqentries);
-			// logger.log(`Finished Loading FAQs for ${dirname}. 👌`, "log");
 		}
 
 		if (existsSync(`./config/${dirname}/triggers/`)) {
 			// logger.log(`Loading Triggers for ${dirname} (${guildName})`);
 			const triggersToLoad = readdirSync(`./config/${dirname}/triggers/`).filter(file => file.endsWith(".js"));
-			const servertriggers = new Collection();
 			if (triggersToLoad.length === 0) {
 				logger.log(`No Triggers found for ${dirname}`);
-				continue;
 			}
-			for (const trigger of triggersToLoad) {
-				// logger.debug(`./config/${dirname}/triggers/${trigger}`);
-				const triggerentry = require(`./config/${dirname}/triggers/${trigger}`);
-				servertriggers.set(triggerentry.info.name, triggerentry);
-				logger.cmd(`Loaded the ${triggerentry.info.name} Trigger`);
+			else {
+				const servertriggers = new Collection();
+				for (const trigger of triggersToLoad) {
+					// logger.debug(`./config/${dirname}/triggers/${trigger}`);
+					const triggerentry = require(`./config/${dirname}/triggers/${trigger}`);
+					servertriggers.set(triggerentry.info.name, triggerentry);
+					logger.cmd(`Loaded the ${triggerentry.info.name} Trigger`);
+				}
+				client.perserversettings.set(`${dirname}-triggers`, servertriggers);
 			}
-			client.perserversettings.set(`${dirname}-triggers`, servertriggers);
 		}
 
 		logger.log("loading command ignore list");
