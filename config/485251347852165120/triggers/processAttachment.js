@@ -1,8 +1,4 @@
 
-const {
-	ChannelType,
-} = require('discord.js');
-const URLSafeBase64 = require('urlsafe-base64');
 const logger = require('../../../modules/Logger.js');
 const {
 	parseLog,
@@ -16,54 +12,19 @@ const {
 const {
 	isSpecialRelayAttachment,
 } = require("../../../modules/processAttachment.js");
-const {
-	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
-} = require('../../../modules/triggerTimeoutManager.js');
 
 
 exports.execute = async (client, message) => {
-	// let's do some setup
-	const DiscordSnowflake = await import("discord-snowflake");
-	let relayChannel = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("relayChannel");
-	if (relayChannel && DiscordSnowflake.isSnowflake(relayChannel)) {
-		// logger.debug("Found applicable relay channel.");
-		// we don't really need to log that every message.
-	}
-	else {
-		logger.warn(`Could not find a relay channel defined for ${message.guild.id}. Setting from legacy fallback, else empty string.`);
-
-		// some fallbacks for legacy config
-		if (message.guild?.id === client.configdb.get("GUILDID_GOAT")) {
-			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_GOAT"));
-		}
-		if (message.guild?.id === client.configdb.get("GUILDID_HELIOSPHERE")) {
-			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_HELIOSPHERE"));
-		}
-		if (message.guild?.id === client.configdb.get("GUILDID_XIVONMAC")) {
-			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_XIVONMAC"));
-		}
-		if (message.guild?.id === client.configdb.get("GUILDID_TESTING") || client.configdb.get("DEBUGMODE")) {
-			relayChannel = await client.channels.fetch(client.configdb.get("CHANNELID_RELAY_TEST"));
-		}
-
-		client.perserversettings?.get(`${message.guild.id}-serversettings`)?.set("relayChannel", relayChannel?.id ?? "");
-	}
-
 	if (message.attachments.size > 0) {
 		console.log("Found an attachment in this message");
 
 		let needToRemoveAttachments = false;
 		const relayedFiles = [];
 
-		message.attachments.forEach(async attachment => {
+		// Sequential on purpose: relayFile and parseLog are async, and the removal
+		// decision below has to be settled before anything acts on it.
+		for (const attachment of message.attachments.values()) {
 			console.log(attachment.name);
-
-			// const url = `https://wiki.ffxivrp.org/${message.channelId}/${attachment.id}/${attachment.name}`;
-			// console.log(url);
-			// const base64url = new Buffer.from(url).toString('base64');
-			// const safebase64url = URLSafeBase64.encode(new Buffer.from(url));
-
-			// const loggyUrl = `https://loggy.goat.place/?url=${safebase64url}`;
 
 			// Only files with dedicated relay handling (tspack, crash /
 			// dalamud.injector logs, .dmp) are handed to relayFile at all — the same
@@ -71,9 +32,15 @@ exports.execute = async (client, message) => {
 			// ordinary file (a screenshot, a video) drew a relay-limit complaint
 			// about a relay it was never a candidate for.
 			//
+			// The `needToRemoveAttachments` argument is relayFile's `force`: once one
+			// file has been relayed, another relayable file joins that post instead of
+			// producing a second receipt.
+			//
 			// Returns true if attachments need to be removed.
 			if (isSpecialRelayAttachment(attachment.name)
-				&& await relayFile(client, message, attachment, message.author, message.channel)) {
+				&& await relayFile(client, message, attachment, message.author, message.channel, needToRemoveAttachments)) {
+				logger.debug(`We need to remove the message containing ${attachment.name}`);
+
 				needToRemoveAttachments = true;
 				relayedFiles.push(attachment.name);
 			}
@@ -87,21 +54,24 @@ exports.execute = async (client, message) => {
 			if (embeds?.length) {
 				await postParsedEmbeds(message, embeds);
 			}
-		});
+		}
 
 		if (needToRemoveAttachments) {
 			logger.debug("We need to remove the message containing this attachment.");
 
-			// TODO: If we have to delete the message, relay any other attachments first
-			message.attachments.forEach(async attachment => {
-				if (!relayedFiles.includes(attachment.name)) {
-					await relayFile(client, message, attachment, message.author, message.channel, true);
+			// Relay anything that has not been relayed yet BEFORE deleting the
+			// message: relayFile downloads from the message's CDN copy. This pass is
+			// forced, so every leftover rides along on the existing relay post.
+			for (const attachment of message.attachments.values()) {
+				if (relayedFiles.includes(attachment.name)) {
+					continue;
 				}
-			});
+				logger.debug(`We need to upload ${attachment.name} since it hasn't been relayed yet.`);
+				await relayFile(client, message, attachment, message.author, message.channel, true);
+			}
 
 			// it sure would be nice if Discord let us delete only the attachment instead of the entire message
-			// setTimeout(() => message.removeAttachments().catch(console.error), 5 * SECOND);
-			setTimeout(() => message.delete().catch(console.error), 5 * SECOND);
+			await message.delete().catch(console.error);
 		}
 	}
 };

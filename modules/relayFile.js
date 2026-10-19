@@ -119,7 +119,6 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 	if (attachment.name.match(/.*\.(tspack)$/gui)) {
 		needToRemoveAttachments = true;
 		console.log(`Troubleshooting pack upload: ${attachment.attachment}`);
-		// const response = await got(attachment.attachment);
 		console.log(`Fetched custom channel to relay: ${relayChannel.name}`);
 		const relayedMessage = await relayChannel.send({
 			embeds: [
@@ -183,7 +182,6 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 	if (attachment.name.match(/^dalamud_appcrash_.*\.(log)$/gui)) {
 		needToRemoveAttachments = true;
 		console.log(`Dalamud crash dump upload: ${attachment.attachment}`);
-		// const response = await got(attachment.attachment);
 		console.log(`Fetched custom channel to relay: ${relayChannel.name}`);
 		const relayedMessage = await relayChannel.send({
 			embeds: [
@@ -221,7 +219,6 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 	if (DALAMUD_INJECTOR_RELAY_ENABLE && attachment.name.match(/dalamud\.injector.*\.(log)$/gui)) {
 		needToRemoveAttachments = true;
 		console.log(`Dalamud injector log upload: ${attachment.attachment}`);
-		// const response = await got(attachment.attachment);
 		console.log(`Fetched custom channel to relay: ${relayChannel.name}`);
 		const relayedMessage = await relayChannel.send({
 			embeds: [
@@ -246,12 +243,11 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 			},
 		});
 
-		// injector log no longer has the thing unless it's debug.
-		// TODO: parse injector log and verbose xlcore logs and strip that out.
-		// await message.removeAttachments().catch(console.error);
+		// Injector and verbose XLCore logs can include a debug-only session
+		// identifier. TODO: parse those log types and strip the identifier before
+		// relaying the file instead of forwarding it whole.
 		return needToRemoveAttachments;
 	}
 
-	// logger.cmd(`We probably didn't relay. Need for ${attachment.name}: ${needToRemoveAttachments}`);
 	return needToRemoveAttachments;
 };

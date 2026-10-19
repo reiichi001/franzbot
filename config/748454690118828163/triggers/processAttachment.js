@@ -1,8 +1,4 @@
 
-const {
-	ChannelType,
-} = require('discord.js');
-const URLSafeBase64 = require('urlsafe-base64');
 const logger = require('../../../modules/Logger.js');
 const {
 	parseLog,
@@ -16,9 +12,7 @@ const {
 const {
 	isSpecialRelayAttachment,
 } = require("../../../modules/processAttachment.js");
-const {
-	SECOND, MINUTE, timeoutSet, timeoutEnded, resetTimeout,
-} = require('../../../modules/triggerTimeoutManager.js');
+
 
 exports.execute = async (client, message) => {
 	if (message.attachments.size > 0) {
@@ -27,19 +21,20 @@ exports.execute = async (client, message) => {
 		let needToRemoveAttachments = false;
 		const relayedFiles = [];
 
-		const numAttachments = await message.attachments.size;
-		for (let i = 0; i < numAttachments; i++) {
-			const attachment = await message.attachments.at(i);
-			// }
-			// await message.attachments.forEach(async attachment => {
+		// Sequential on purpose: relayFile and parseLog are async, and the removal
+		// decision below has to be settled before anything acts on it.
+		for (const attachment of message.attachments.values()) {
 			console.log(attachment.name);
-
 
 			// Only files with dedicated relay handling (tspack, crash /
 			// dalamud.injector logs, .dmp) are handed to relayFile at all — the same
 			// guard the interaction paths use. Passing every attachment meant an
 			// ordinary file (a screenshot, a video) drew a relay-limit complaint
 			// about a relay it was never a candidate for.
+			//
+			// The `needToRemoveAttachments` argument is relayFile's `force`: once one
+			// file has been relayed, another relayable file joins that post instead of
+			// producing a second receipt.
 			//
 			// Returns true if attachments need to be removed.
 			if (isSpecialRelayAttachment(attachment.name)
@@ -59,24 +54,24 @@ exports.execute = async (client, message) => {
 			if (embeds?.length) {
 				await postParsedEmbeds(message, embeds);
 			}
-		}// );
+		}
 
-
-		// logger.warn(`needToRemoveAttachments: ${needToRemoveAttachments}`);
 		if (needToRemoveAttachments) {
-			// TODO: If we have to delete the message, relay any other attachments first
-			message.attachments.forEach(async attachment => {
-				logger.debug(`Rechecking if ${attachment.name} has been relayed`);
-				if (!relayedFiles.includes(attachment.name)) {
-					logger.debug(`We need to upload ${attachment.name} since it hasn't been relayed yet.`);
-					await relayFile(client, message, attachment, message.author, message.channel, true);
+			logger.debug("We need to remove the message containing this attachment.");
+
+			// Relay anything that has not been relayed yet BEFORE deleting the
+			// message: relayFile downloads from the message's CDN copy. This pass is
+			// forced, so every leftover rides along on the existing relay post.
+			for (const attachment of message.attachments.values()) {
+				if (relayedFiles.includes(attachment.name)) {
+					continue;
 				}
-			});
+				logger.debug(`We need to upload ${attachment.name} since it hasn't been relayed yet.`);
+				await relayFile(client, message, attachment, message.author, message.channel, true);
+			}
 
 			// it sure would be nice if Discord let us delete only the attachment instead of the entire message
-			// setTimeout(() => message.removeAttachments().catch(console.error), 5 * SECOND);
-			// setTimeout(() => message.delete().catch(console.error), 5 * SECOND);
-			await message.delete();
+			await message.delete().catch(console.error);
 		}
 	}
 };
