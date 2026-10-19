@@ -1,29 +1,8 @@
-exports.run = async (client, message, args) => { // eslint-disable-line no-unused-vars
-	/*
-	const ZuTriggers = [
-		client.configdb.get("GUILDID_TESTING"), // franzbot testing - general
-		client.configdb.get("GUILDID_ZU"), // Zu - general
-	];
-	if (!ZuTriggers.includes(message.guild.id)) {
-		return message.reply("\u200Bthis command doesn't work here.")
-			.then(message.delete({
-				timeout: 5000,
-				reason: client.configdb.get("AUDITLOG_COMMON"),
-			}));
-	}
-	*/
+const {
+	hug,
+} = require('../modules/fun/hug');
 
-	// make sure ESLint doesn't try to optimize something if I want to change this later.
-	let shutupESLint = false;
-	if (shutupESLint) {
-		shutupESLint = true;
-	}
-
-	return message.channel.send(message.mentions.users.first()
-		? `\u200B(っ´▽｀)っ${message.mentions.users.reduce((prev, curr) => `${prev} ${curr}`)}`
-		: "\u200BI don't know who to hug. >_>");
-};
-
+exports.run = async (client, message, args) => message.channel.send(hug(args.join(" ")));
 exports.conf = {
 	enabled: true,
 	guildOnly: false,

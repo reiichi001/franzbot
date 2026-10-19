@@ -44,13 +44,6 @@ module.exports = {
 
 		const isDirectMessage = message.channel.type == ChannelType.DM || message.channel.type == ChannelType.GroupDM;
 
-		// Checks if the bot was mentioned, with no message after it, returns the prefix.
-		const prefixMention = new RegExp(`^\\s*<@!?${client.user.id}>\\s*$`, 'u');
-		if (message.content.match(prefixMention)) {
-			message.channel.send(`My prefix on this guild is \`${client.configdb.get("prefix")}\``);
-			return;
-		}
-
 		// execute server-specific triggers
 		if (isDirectMessage) {
 			console.log(`Received a DM from ${message.author.username}.`);
@@ -77,26 +70,32 @@ module.exports = {
 			return;
 		}
 
-		// Also good practice to ignore any message that does not start with our prefix,
-		// which is set in the configuration file.
-		if (message.content[0] == client.configdb.get("prefix_old")
-			&& message.guild.id == client.configdb.get("GUILDID_METEOR")
-		) {
-			message.reply(`Franzbot now uses ${client.configdb.get("prefix")} as a prefix.`);
-		}
-		if (message.content.indexOf(client.configdb.get("prefix")) !== 0) {
+		// Without MESSAGE_CONTENT, guild content only arrives when the bot is
+		// mentioned (or replied to). Treat a leading mention as the command prefix.
+		// Anything that does not start with the mention is not a command.
+		const mentionPrefix = new RegExp(`^\\s*<@!?${client.user.id}>\\s*`, 'u');
+		const mentionMatch = message.content.match(mentionPrefix);
+		if (!mentionMatch) {
 			return;
 		}
 
 		// Here we separate our "command" name, and our "arguments" for the command.
-		// e.g. if we have the message "+say Is this the real life?" , we'll get the following:
+		// e.g. if we have the message "@Franzbot say Is this the real life?" , we'll get the following:
 		// command = say
 		// args = ["Is", "this", "the", "real", "life?"]
 		const args = message
 			.content
-			.slice(client.configdb.get("prefix").length)
+			.slice(mentionMatch[0].length)
 			.trim()
-			.split(/\s+/gu);
+			.split(/\s+/u)
+			.filter(Boolean);
+
+		// A bare mention gets a hint instead of an empty command.
+		if (args.length === 0) {
+			message.channel.send(`Mention me with a command, e.g. \`@${client.user.username} help\`.`);
+			return;
+		}
+
 		const command = args.shift().toLowerCase();
 
 		// If the member on a guild is invisible or not cached, fetch them. The v12

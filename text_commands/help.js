@@ -8,22 +8,25 @@ help command, its extended help is shown.
 PRTFM NOTE - the level parameter was never actually used. Don't trust the docs, kids.
 */
 exports.run = (client, message, args) => {
+	// Commands are invoked by mentioning the bot; there is no text prefix.
+	const prefix = `@${client.user.username}`;
+
 	if (message.guild.id === client.config.GUILDID_GOAT) {
-		return message.reply(`\u200BDid you mean ${client.config.prefix}faq?`)
+		return message.reply(`\u200BDid you mean ${prefix} faq?`)
 			.then(message.delete({
 				timeout: 5000,
 				reason: client.configdb.get("AUDITLOG_COMMON"),
 			}));
 	}
 	if (message.guild.id === client.config.GUILDID_METEOR) {
-		return message.reply(`\u200BDid you mean ${client.config.prefix}faq?`)
+		return message.reply(`\u200BDid you mean ${prefix} faq?`)
 			.then(message.delete({
 				timeout: 5000,
 				reason: client.configdb.get("AUDITLOG_COMMON"),
 			}));
 	}
 	if (message.guild.id === client.config.GUILDID_XIVONMAC) {
-		return message.reply(`\u200BDid you mean ${client.config.prefix}faq?`)
+		return message.reply(`\u200BDid you mean ${prefix} faq?`)
 			.then(message.delete({
 				timeout: 5000,
 				reason: client.configdb.get("AUDITLOG_COMMON"),
@@ -53,20 +56,20 @@ exports.run = (client, message, args) => {
 
 	// Here we have to get the command names only, and we use that array to get the longest name.
 	// This make the help commands "aligned" in the output.
-	const commandNames = myCommands.keyArray();
+	const commandNames = [...myCommands.keys()];
 	const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
 
 	let currentCategory = "";
-	let output = `\u200B= Command List =\n\n[Use ${client.config.prefix}help <commandname> for details]\n`;
+	let output = `\u200B= Command List =\n\n[Use ${prefix} help <commandname> for details]\n`;
 	// eslint-disable-next-line max-len
-	const sorted = myCommands.array().sort((p, c) => (p.help.category > c.help.category ? 1 : p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1));
+	const sorted = [...myCommands.values()].sort((p, c) => (p.help.category > c.help.category ? 1 : p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1));
 	sorted.forEach(c => {
 		const cat = c.help.category.toProperCase();
 		if (currentCategory !== cat) {
 			output += `\u200b\n== ${cat} ==\n`;
 			currentCategory = cat;
 		}
-		output += `${client.config.prefix}${c.help.name}`
+		output += `${prefix} ${c.help.name}`
 			+ `${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
 	});
 	return message.channel.send(

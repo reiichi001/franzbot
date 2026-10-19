@@ -1,12 +1,8 @@
-exports.run = async (client, message, args) => { // eslint-disable-line no-unused-vars
-	// make sure ESLint doesn't try to optimize something if I want to change this later.
-	let shutupESLint = false;
-	if (shutupESLint) {
-		shutupESLint = true;
-	}
+const {
+	bump,
+} = require('../modules/fun/fistbump');
 
-	return message.reply(`\u200B<@485139646213521418>🤜🤛${message.author}`);
-};
+exports.run = async (client, message) => message.reply(bump(message.author.id));
 
 exports.conf = {
 	enabled: true,
