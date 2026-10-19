@@ -2,8 +2,8 @@ const {
 	hydrate,
 } = require("../modules/hydrate.js");
 
-exports.run = async (client, message, args) => {
-	 await hydrate(client, message.channel);
+exports.run = async (client, message) => {
+	await hydrate(client, message.channel);
 };
 
 exports.conf = {

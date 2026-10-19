@@ -45,9 +45,6 @@ client.configdb = configdb;
 
 // Require our logger
 const logger = require("./modules/Logger");
-const {
-	stringify,
-} = require("querystring");
 client.logger = logger;
 
 // Let's start by getting some useful functions that we'll use throughout

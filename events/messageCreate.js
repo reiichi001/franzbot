@@ -3,7 +3,6 @@
 const {
 	Events, ChannelType,
 } = require('discord.js');
-// const got = require('got');
 
 const logger = require("../modules/Logger");
 
@@ -28,11 +27,6 @@ module.exports = {
 				});
 		}
 
-		// client.debug(`Message type: ${message.channel.type}`);
-
-		// I swear to god if the channel type enum changes again, I'll scream. This should work. For now.
-		// (message.channel.type === 'GUILD_NEWS' || message.channel.type.match(/news/gui))
-
 		if (message.channel.type !== ChannelType.GuildAnnouncement && message.author.bot) {
 			return;
 		}
@@ -53,10 +47,7 @@ module.exports = {
 			});
 		}
 		else {
-			// console.log(`GUILD: ${message.guild.name} ${message.guild?.id ?? "Not a guild"}`);
-			// console.log(`CHANNEL: ${message.channel.name} ${message.channel?.id ?? "Not a channel"}`);
 			client.perserversettings?.get(`${message.guild.id}-triggers`)?.forEach(async trigger => {
-				// logger.debug(`Processing trigger: ${trigger.info.name}`);
 				if (trigger.info.name !== "announcement publisher" && (message.author.bot || message.webhookID)) {
 					// don't run triggers on bots or webhooks, unless it's to publish
 					return;
@@ -116,7 +107,6 @@ module.exports = {
 		// If the member was added to a server's ignorelist, don't process the command
 		logger.debug(`loading ${message.guild.id}-ignoredUsers`);
 		const ignoredUsers = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("ignoredUsers");
-		// const ignoredUsers = client.perserversettings.get(`${message.guild.id}-ignoredUsers`);
 		logger.debug(`checking ignored users: ${ignoredUsers}`);
 		if (ignoredUsers?.includes(message.author.id)) {
 			message.reply("You can't use that command.")

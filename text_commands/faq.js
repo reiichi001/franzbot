@@ -68,10 +68,7 @@ exports.run = async (client, message, args) => {
 		// The check succeeded
 		const goatresponses = await goattriggers.run(client, message, args);
 
-		// for (const response of goatresponses) {
 		if (goatresponses?.length > 0) {
-			// console.log(goatresponses);
-			// console.log();
 			await message.channel.send({
 				embeds: goatresponses,
 			});
@@ -80,7 +77,6 @@ exports.run = async (client, message, args) => {
 			console.log("Responses = 0; No FAQs found.");
 		}
 
-		// }
 		disrequire(require.resolve(configpath));
 	}
 	catch (error) {
