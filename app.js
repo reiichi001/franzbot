@@ -17,16 +17,16 @@ const client = new Client(
 		intents: [
 			GatewayIntentBits.DirectMessages,
 			GatewayIntentBits.Guilds,
-			GatewayIntentBits.GuildMembers,
+			// GatewayIntentBits.GuildMembers,
 			GatewayIntentBits.GuildMessages,
-			GatewayIntentBits.GuildMessageReactions,
-			GatewayIntentBits.MessageContent,
+			// GatewayIntentBits.GuildMessageReactions, // no reaction handlers remain
+			// GatewayIntentBits.MessageContent,
 		],
 		partials: [
-			Partials.GuildMember,
+			// Partials.GuildMember,
 			Partials.Message,
-			Partials.Channel,
-			Partials.Reaction,
+			Partials.Channel, // required for DM messages in v14
+			// Partials.Reaction, // only needed for reactions on uncached messages
 		],
 	}
 );
