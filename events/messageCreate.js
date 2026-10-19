@@ -41,19 +41,38 @@ module.exports = {
 		// execute server-specific triggers
 		if (isDirectMessage) {
 			console.log(`Received a DM from ${message.author.username}.`);
-			client.perserversettings?.get(`directmessage-triggers`)?.forEach(trigger => {
+			const triggers = client.perserversettings?.get(`directmessage-triggers`) ?? [];
+			// Sequential: a DM normally dispatches a single trigger, and awaiting
+			// keeps their order deterministic. A failing trigger is logged rather
+			// than allowed to abort the ones after it (or escape as an unhandled
+			// rejection from an async forEach callback).
+			for (const trigger of triggers) {
 				logger.debug(`Processing trigger: ${trigger.info.name}`);
-				trigger.execute(client, message);
-			});
+				try {
+					await trigger.execute(client, message);
+				}
+				catch (error) {
+					logger.error(`Trigger ${trigger.info.name} failed: ${error}`);
+				}
+			}
 		}
 		else {
-			client.perserversettings?.get(`${message.guild.id}-triggers`)?.forEach(async trigger => {
+			const triggers = client.perserversettings?.get(`${message.guild.id}-triggers`) ?? [];
+			// Guild triggers are independent, so start them together (as the old
+			// forEach did) but settle every one: allSettled keeps a rejection from
+			// becoming an unhandled rejection now that the handler awaits them.
+			await Promise.allSettled([...triggers].map(async trigger => {
 				if (trigger.info.name !== "announcement publisher" && (message.author.bot || message.webhookID)) {
 					// don't run triggers on bots or webhooks, unless it's to publish
 					return;
 				}
-				await trigger.execute(client, message);
-			});
+				try {
+					await trigger.execute(client, message);
+				}
+				catch (error) {
+					logger.error(`Trigger ${trigger.info.name} failed: ${error}`);
+				}
+			}));
 		}
 
 		// we don't want to deal with any other DMs.
@@ -109,14 +128,11 @@ module.exports = {
 		const ignoredUsers = client.perserversettings?.get(`${message.guild.id}-serversettings`)?.get("ignoredUsers");
 		logger.debug(`checking ignored users: ${ignoredUsers}`);
 		if (ignoredUsers?.includes(message.author.id)) {
-			message.reply("You can't use that command.")
-				.then(msg => {
-					setTimeout(() => msg.delete(), 5 * SECOND);
-				})
-				.then(
-					// only works if Franzbot is allowed to manage messages.
-					setTimeout(() => message.delete(), 5 * SECOND)
-				);
+			const notice = await message.reply("You can't use that command.");
+			// Both deletions only work if Franzbot can manage messages. The catch
+			// keeps a missing permission from surfacing as an unhandled rejection.
+			setTimeout(() => notice.delete().catch(console.error), 5 * SECOND);
+			setTimeout(() => message.delete().catch(console.error), 5 * SECOND);
 			return;
 		}
 

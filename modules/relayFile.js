@@ -229,9 +229,7 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 			files: [attachment],
 		});
 
-		// Binding not kept: the receipt is sent for its side effect. The old
-		// "Original post: <replymsg.url>" follow-up to the relay channel was
-		// already commented out below.
+		// Binding not kept: the receipt is sent for its side effect only.
 		await replyToSource(source, {
 			embeds: [
 				{

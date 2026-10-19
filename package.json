@@ -12,11 +12,8 @@
     "discord.js": "^14.27.0",
     "disrequire": "^1.1.4",
     "eightball": "^1.0.1",
-    "enmap": "^6.0.2",
-    "got": "^14.3.0",
     "libsodium-wrappers": "^0.7.13",
     "simple-json-db": "^2.0.0",
-    "spliddit": "^2.1.1",
     "stringz": "^2.1.0",
     "urlsafe-base64": "^1.0.0",
     "zlib-sync": "^0.1.9"

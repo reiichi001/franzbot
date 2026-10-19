@@ -17,7 +17,7 @@ async function fetchAttachmentData(attachment) {
  * Decode a base64-encoded string to UTF‑8.
  */
 async function decodeBase64(data) {
-	const buffer = new Buffer.from(data, 'base64');
+	const buffer = Buffer.from(data, 'base64');
 	return buffer.toString('utf8');
 }
 

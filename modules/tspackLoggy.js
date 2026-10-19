@@ -29,7 +29,7 @@ exports.uploadTspackToS3 = async (client, attachment, author, guildId) => {
 	const origKeyName = `${guildId}/${author.id}-${attachment.name}`;
 	let safeKeyName = `${createHash('sha1').update(origKeyName)
 		.digest('hex')}`;
-	safeKeyName = URLSafeBase64.encode(new Buffer.from(safeKeyName, 'hex'));
+	safeKeyName = URLSafeBase64.encode(Buffer.from(safeKeyName, 'hex'));
 	const keyName = `tspacks/${safeKeyName}.tspack`;
 	const objectTags = `io.franzbot.tspack/source_user_id=${author.id}&io.franzbot.tspack/source_guild_id=${guildId}`;
 
@@ -51,7 +51,7 @@ exports.uploadTspackToS3 = async (client, attachment, author, guildId) => {
 	);
 
 	const s3Url = `https://${bucketName}.s3.amazonaws.com/${keyName}`;
-	const safebase64url = URLSafeBase64.encode(new Buffer.from(s3Url));
+	const safebase64url = URLSafeBase64.encode(Buffer.from(s3Url));
 	const loggyUrl = `https://loggy.goat.place/?url=${safebase64url}`;
 
 	return {
