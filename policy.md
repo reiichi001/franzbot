@@ -1,5 +1,5 @@
 # Franzbot privacy policy
-Last updated: 2026-09-21
+Last updated: 2026-10-18
 
 ## The short version
 
@@ -11,10 +11,18 @@ Franzbot is free and open source. The entire codebase is available for audit.
 
 Franzbot is designed to be as stateless as possible. Storage is the exception, not the rule: anything persistent exists only where it is absolutely required for the bot to function (config), and steps have been taken both to limit what reaches disk and to reduce the state kept in live memory. It does have some console logging for debug purposes, which is wiped and rotated when the bot is restarted.
 
+## What Franzbot can and cannot see
+
+Franzbot does **not** request either of Discord's privileged gateway intents (Message Content and Server Members). That limits what Discord sends it:
+
+- **In servers**, Discord only delivers message text and attachments when a message mentions the bot or replies to it. Franzbot therefore cannot read ordinary conversations, and features that used to scan every message are disabled.
+- **The member list is not available.** Franzbot can fetch an individual member only when a command or response actually needs that person, and it does not keep a roster.
+- **Direct messages are exempt** from those restrictions, so Franzbot receives the DMs users send it. That is what makes the DM upload flow work.
+
 ## What Franzbot does **not** do
 
 - It does **not** run analytics or telemetry, and there are no third-party trackers anywhere in it.
-- It does **not** store, index, or archive the messages in the servers it operates in. Message content is only ever examined transiently to decide how to respond (triggers, FAQ replies, log parsing), then discarded.
+- It does **not** store, index, or archive the messages in the servers it operates in. The messages it does receive (mentions, replies, DMs) are examined transiently to decide how to respond (triggers, FAQ replies, log parsing), then discarded.
 - It does **not** keep a database of members, roles, or activity history.
 - It does **not** sell, share, or use for any purpose other than operating the bot any data described below.
 

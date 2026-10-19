@@ -110,8 +110,8 @@ module.exports = {
 		if (interaction.isButton()) {
 			// Grab the command data from the client.slashcmds Collection.
 			// Split on ':' so dynamic `dmrelay:<token>:<server>` buttons resolve to
-			// the one registered dmRelay button, while static ids like ticketClose
-			// (no ':') are unchanged.
+			// the one registered dmRelay button, while static ids (no ':') are
+			// unchanged.
 			const key = interaction.customId.split(':')[0];
 			const cmd = client.buttoncmds.get(key);
 			// If that command doesn't exist, silently exit and do nothing

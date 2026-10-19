@@ -18,7 +18,6 @@ module.exports = {
 			ignore_watch: [
 				"node_modules",
 				"**/perserversettings.json",
-				"**/tickets.json",
 			],
 			watch_options: {
 				usePolling: false,
