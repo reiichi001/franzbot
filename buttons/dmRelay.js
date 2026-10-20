@@ -9,7 +9,7 @@
 // and are never confused by interactionCreate's split-on-':' dispatch.
 
 const {
-	ActionRowBuilder, ButtonBuilder, ButtonStyle,
+	ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags,
 } = require('discord.js');
 const dmRelayStore = require('../modules/dmRelayStore');
 const {
@@ -54,7 +54,7 @@ exports.run = async (client, interaction) => {
 	if (!dmRelayStore.resolve(token)) {
 		await interaction.reply({
 			content: dmRelayStore.relayFailureNotice('expired'),
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 		return;
 	}
@@ -65,7 +65,7 @@ exports.run = async (client, interaction) => {
 	if (servers.length === 0) {
 		await interaction.reply({
 			content: dmRelayStore.relayFailureNotice('no-server'),
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 		return;
 	}

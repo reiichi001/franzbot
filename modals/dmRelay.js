@@ -11,7 +11,7 @@ const {
 	ModalBuilder, LabelBuilder, StringSelectMenuBuilder,
 } = require('@discordjs/builders');
 const {
-	ActionRowBuilder, ButtonBuilder, ButtonStyle,
+	ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags,
 } = require('discord.js');
 const dmRelayStore = require('../modules/dmRelayStore');
 const {
@@ -93,13 +93,13 @@ async function handleRelaySubmit(client, interaction) {
 	if (selected.length === 0) {
 		await interaction.reply({
 			content: 'No server was selected. Click the relay button again and choose one from the list.',
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 		return;
 	}
 
 	await interaction.deferReply({
-		ephemeral: true,
+		flags: MessageFlags.Ephemeral,
 	});
 
 	try {

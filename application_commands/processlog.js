@@ -13,7 +13,7 @@
 // check below covers the administrators who always see it.
 
 const {
-	ContextMenuCommandBuilder, ApplicationCommandType, PermissionFlagsBits,
+	ContextMenuCommandBuilder, ApplicationCommandType, PermissionFlagsBits, MessageFlags,
 } = require('discord.js');
 const {
 	randomUUID,
@@ -40,7 +40,7 @@ exports.run = async (client, interaction) => {
 	if (!interaction.memberPermissions?.has(PermissionFlagsBits.ManageMessages)) {
 		await interaction.reply({
 			content: 'Processing attachments is limited to moderators (Manage Messages).',
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 		return;
 	}
@@ -57,7 +57,7 @@ exports.run = async (client, interaction) => {
 	if (candidates.length === 0) {
 		await interaction.reply({
 			content: 'That message has no supported log files. Supported: any .log/.txt plain text file, .tspack, or .evtx.',
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 		return;
 	}
@@ -72,7 +72,7 @@ exports.run = async (client, interaction) => {
 		if (rejection) {
 			await interaction.reply({
 				content: rejection,
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 			return;
 		}

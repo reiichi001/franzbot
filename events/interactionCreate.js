@@ -1,5 +1,5 @@
 const {
-	Events,
+	Events, MessageFlags,
 } = require('discord.js');
 const logger = require("../modules/Logger.js");
 
@@ -45,14 +45,14 @@ module.exports = {
 				if (interaction.replied) {
 					interaction.followUp({
 						content: `There was a problem with your request.\n\`\`\`${e.message}\`\`\``,
-						ephemeral: true,
+						flags: MessageFlags.Ephemeral,
 					})
 						.catch(err => console.error("An error occurred following up on an error", err));
 				}
 				else {
 					interaction.reply({
 						content: `There was a problem with your request.\n\`\`\`${e.message}\`\`\``,
-						ephemeral: true,
+						flags: MessageFlags.Ephemeral,
 					})
 						.catch(err => console.error("An error occurred replying on an error", err));
 				}
@@ -97,14 +97,14 @@ module.exports = {
 				if (interaction.replied) {
 					interaction.followUp({
 						content: `There was a problem with your request.\n\`\`\`${e.message}\`\`\``,
-						ephemeral: true,
+						flags: MessageFlags.Ephemeral,
 					})
 						.catch(err => console.error("An error occurred following up on an error", err));
 				}
 				else {
 					interaction.reply({
 						content: `There was a problem with your request.\n\`\`\`${e.message}\`\`\``,
-						ephemeral: true,
+						flags: MessageFlags.Ephemeral,
 					})
 						.catch(err => console.error("An error occurred replying on an error", err));
 				}
@@ -133,14 +133,14 @@ module.exports = {
 				if (interaction.replied) {
 					interaction.followUp({
 						content: `There was a problem with your request.\n\`\`\`${e.message}\`\`\``,
-						ephemeral: true,
+						flags: MessageFlags.Ephemeral,
 					})
 						.catch(err => console.error("An error occurred following up on an error", err));
 				}
 				else {
 					interaction.reply({
 						content: `There was a problem with your request.\n\`\`\`${e.message}\`\`\``,
-						ephemeral: true,
+						flags: MessageFlags.Ephemeral,
 					})
 						.catch(err => console.error("An error occurred replying on an error", err));
 				}

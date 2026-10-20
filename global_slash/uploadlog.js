@@ -17,7 +17,7 @@
 // the defer is ephemeral — DM receipts are private by nature.
 
 const {
-	SlashCommandBuilder, InteractionContextType,
+	SlashCommandBuilder, InteractionContextType, MessageFlags,
 } = require('discord.js');
 const {
 	buildUploadLogDmModal,
@@ -69,7 +69,7 @@ exports.run = async (client, interaction) => {
 	if (rejection) {
 		await interaction.reply({
 			content: rejection,
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 		return;
 	}
@@ -77,7 +77,7 @@ exports.run = async (client, interaction) => {
 	// The DM flow answers through this ephemeral deferred reply (editReply) and
 	// its relay offer is an ephemeral follow-up.
 	await interaction.deferReply({
-		ephemeral: true,
+		flags: MessageFlags.Ephemeral,
 	});
 
 	try {

@@ -8,6 +8,10 @@
 // avoid it. It earns its place by being shared across every handler kind in the
 // repo, so the reply/editReply/followUp decisions are made in exactly one file.
 
+const {
+	MessageFlags,
+} = require('discord.js');
+
 /**
  * Reply to a source that is either a Discord Message or an Interaction.
  * Both paths return the resulting message object, so callers can read `.url`.
@@ -71,7 +75,7 @@ async function failAfterDefer(interaction, error, heading = 'There was a problem
 	await dropReply(interaction);
 	await interaction.followUp({
 		content: `${heading}\n\`\`\`${error.message}\`\`\``,
-		ephemeral: true,
+		flags: MessageFlags.Ephemeral,
 	});
 }
 
@@ -88,7 +92,7 @@ async function noticeAfterDefer(interaction, content) {
 	await dropReply(interaction);
 	await interaction.followUp({
 		content,
-		ephemeral: true,
+		flags: MessageFlags.Ephemeral,
 	});
 }
 
@@ -102,7 +106,7 @@ async function noParseableData(interaction, name) {
 		content: `No troubleshooting data in \`${name}\`. Franzbot looks for embedded log blocks `
 			+ `(TROUBLESHOOTING / TROUBLESHXLTING / LASTEXCEPTION) inside the file. If it doesn't `
 			+ `contain one, there's nothing to parse.`,
-		ephemeral: true,
+		flags: MessageFlags.Ephemeral,
 	});
 }
 

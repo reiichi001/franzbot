@@ -17,6 +17,9 @@ const {
 	RadioGroupBuilder, RadioGroupOptionBuilder, StringSelectMenuBuilder,
 } = require('@discordjs/builders');
 const {
+	MessageFlags,
+} = require('discord.js');
+const {
 	checkUpload, isRelayOnlyAttachment, maxUploadBytesForTier, MAX_UPLOAD_BYTES,
 } = require('../modules/processAttachment');
 const {
@@ -146,7 +149,7 @@ async function buildUploadLogDmModal(client) {
 function reject(interaction, content) {
 	return interaction.reply({
 		content,
-		ephemeral: true,
+		flags: MessageFlags.Ephemeral,
 	});
 }
 
@@ -224,7 +227,7 @@ async function handleUploadDm(client, interaction) {
 	// Past this point every path answers the interaction. DM receipts are
 	// ephemeral by nature — there is no channel to be public in.
 	await interaction.deferReply({
-		ephemeral: true,
+		flags: MessageFlags.Ephemeral,
 	});
 
 	try {

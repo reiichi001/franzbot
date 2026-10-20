@@ -15,7 +15,7 @@
 // handlers.
 
 const {
-	SlashCommandBuilder,
+	SlashCommandBuilder, MessageFlags,
 } = require('discord.js');
 const {
 	buildUploadLogModal,
@@ -75,7 +75,7 @@ exports.run = async (client, interaction) => {
 	if (rejection) {
 		await interaction.reply({
 			content: rejection,
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 		return;
 	}

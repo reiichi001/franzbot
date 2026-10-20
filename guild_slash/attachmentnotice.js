@@ -129,7 +129,7 @@ exports.run = async (client, interaction) => {
 		if (platforms.length === 0) {
 			await interaction.reply({
 				content: 'Pick at least one platform (windows / linux / mac) for the notice to include.',
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 			return;
 		}
@@ -150,7 +150,7 @@ exports.run = async (client, interaction) => {
 		console.error(e);
 		await interaction.reply({
 			content: 'There was a problem posting the upload notice. Please try again in a moment.',
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		}).catch(() => null);
 	}
 };

@@ -16,6 +16,9 @@
 
 const crypto = require('crypto');
 const {
+	MessageFlags,
+} = require('discord.js');
+const {
 	parseLog,
 } = require('./parseLog');
 const {
@@ -65,7 +68,7 @@ async function offerRelay(client, source, attachment, author, embeds, loggyUrl =
 	if (typeof source.followUp === 'function') {
 		source.followUp({
 			components,
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 	}
 	else {

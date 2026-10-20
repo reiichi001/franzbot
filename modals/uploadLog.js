@@ -12,7 +12,7 @@ const {
 // @discordjs/builders doesn't re-export ChannelType, so the enum comes from
 // discord.js (same values — both trace back to discord-api-types).
 const {
-	ChannelType, PermissionFlagsBits,
+	ChannelType, PermissionFlagsBits, MessageFlags,
 } = require('discord.js');
 const {
 	checkUpload, isSpecialRelayAttachment, maxUploadBytesForTier,
@@ -154,7 +154,7 @@ function buildUploadLogModal(inGuild) {
 function reject(interaction, content) {
 	return interaction.reply({
 		content,
-		ephemeral: true,
+		flags: MessageFlags.Ephemeral,
 	});
 }
 
@@ -398,7 +398,7 @@ async function handleUpload(client, interaction) {
 	// "thinking" message of a public upload (or an ephemeral one) is safe.
 	await interaction.deferReply(privateResponse
 		? {
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		}
 		: {});
 

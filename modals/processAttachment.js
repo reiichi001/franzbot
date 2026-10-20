@@ -17,7 +17,7 @@ const {
 // @discordjs/builders doesn't re-export ChannelType, so the enum comes from
 // discord.js (same values — both trace back to discord-api-types).
 const {
-	ChannelType, PermissionFlagsBits,
+	ChannelType, PermissionFlagsBits, MessageFlags,
 } = require('discord.js');
 const {
 	isSpecialRelayAttachment,
@@ -152,7 +152,7 @@ function buildProcessAttachmentModal(token, attachments) {
 function reject(interaction, content) {
 	return interaction.reply({
 		content,
-		ephemeral: true,
+		flags: MessageFlags.Ephemeral,
 	});
 }
 
@@ -384,7 +384,7 @@ async function handleSubmission(client, interaction) {
 
 	await interaction.deferReply(privateResponse
 		? {
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		}
 		: {});
 

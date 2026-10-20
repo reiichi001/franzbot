@@ -9,6 +9,9 @@ const {
 const {
 	failAfterDefer,
 } = require('./respond');
+const {
+	MessageFlags,
+} = require('discord.js');
 
 // Topics promoted to the TOP of the autocomplete list for servers that have
 // them (by name or alias). Priority: server's faqSuggestions per-server key,
@@ -102,7 +105,7 @@ exports.run = async (client, interaction) => {
 			const names = servers.map(s => `\`${s.name}\``).join(', ');
 			await interaction.reply({
 				content: `No server selected. Available FAQ sources:\n\`${names}\``,
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 			return;
 		}
@@ -115,7 +118,7 @@ exports.run = async (client, interaction) => {
 		// Nonexistent FAQ: reply ephemerally, no public message left behind.
 		await interaction.reply({
 			content: `No FAQ found for "${topicInput}" in this source.`,
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 		return;
 	}
@@ -140,7 +143,7 @@ exports.run = async (client, interaction) => {
 			await interaction.deleteReply();
 			await interaction.followUp({
 				content: `FAQ returned no response.`,
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 			return;
 		}
