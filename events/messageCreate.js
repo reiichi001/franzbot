@@ -46,7 +46,10 @@ module.exports = {
 			// keeps their order deterministic. A failing trigger is logged rather
 			// than allowed to abort the ones after it (or escape as an unhandled
 			// rejection from an async forEach callback).
-			for (const trigger of triggers) {
+			// .values(): triggers is a discord.js Collection, whose default
+			// iterator yields [key, value] pairs. Iterating it directly would hand
+			// us the pair instead of the trigger module.
+			for (const trigger of triggers.values()) {
 				logger.debug(`Processing trigger: ${trigger.info.name}`);
 				try {
 					await trigger.execute(client, message);
@@ -61,7 +64,7 @@ module.exports = {
 			// Guild triggers are independent, so start them together (as the old
 			// forEach did) but settle every one: allSettled keeps a rejection from
 			// becoming an unhandled rejection now that the handler awaits them.
-			await Promise.allSettled([...triggers].map(async trigger => {
+			await Promise.allSettled([...triggers.values()].map(async trigger => {
 				if (trigger.info.name !== "announcement publisher" && (message.author.bot || message.webhookID)) {
 					// don't run triggers on bots or webhooks, unless it's to publish
 					return;
