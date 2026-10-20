@@ -132,7 +132,7 @@ function buildUploadLogModal(inGuild) {
 		modal.addLabelComponents(
 			new LabelBuilder()
 				.setLabel('Relay destination')
-				.setDescription('Only used by "Relay to a channel". Channels you can post in.')
+				.setDescription('Only used by "Relay to a channel". Channels you can post and attach files in.')
 				.setChannelSelectMenuComponent(
 					new ChannelSelectMenuBuilder()
 						.setCustomId(CHANNEL_FIELD_ID)
@@ -199,13 +199,17 @@ async function resolveConfiguredRelayChannel(client, guildId) {
 }
 
 /**
- * Whether `member` can see and post in `channel`.
+ * Whether `member` can relay a log into `channel`: they must be able to post
+ * there AND attach the file themselves. Discord's modal channel select cannot
+ * filter beyond View Channel, so it can still list channels where one of these
+ * is missing; this check is what actually refuses them on submit.
  */
-function memberCanPost(member, channel) {
+function memberCanRelayInto(member, channel) {
 	const perms = channel.permissionsFor?.(member);
 	return Boolean(perms?.has([
 		PermissionFlagsBits.ViewChannel,
 		PermissionFlagsBits.SendMessages,
+		PermissionFlagsBits.AttachFiles,
 	]));
 }
 
@@ -286,9 +290,9 @@ async function resolveDestination(client, interaction, mode) {
 		}
 		// Only channels the uploader can already post in are acceptable, so the
 		// relay can never be used to carry a log into a channel they can't read.
-		if (!memberCanPost(interaction.member, destination)) {
-			await reject(interaction, `You do not have permission to post in ${destination}. `
-				+ 'Choose a channel you can send messages in.');
+		if (!memberCanRelayInto(interaction.member, destination)) {
+			await reject(interaction, `You do not have permission to post and attach files in ${destination}. `
+				+ 'Choose a channel where you can send messages and attach files.');
 			return undefined;
 		}
 	}
