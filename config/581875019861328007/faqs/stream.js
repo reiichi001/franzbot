@@ -9,7 +9,7 @@ exports.answer = async client => ({
 		+ `2. If using OBS and similar, have you tried enabling "Hide Game UI" or related settings?\n`
 		+ `3. Are you using other graphics injectors like Reshade, GShade, RivaTuner, SpecialK, or DLSSTweaks? They may cause conflicts if present.\n`
 		+ `\n`
-		+ `**We have no control over whether or not they will appear, even if it worked in a prior versions/updates.**\n`
+		+ `**We have no control over whether or not they will appear, even if it worked in a prior version/update.**\n`
 		+ `\n`
 		+ `Additionally, there are several plugins that modify the native game interface, or are designed to mimic the look and feel of the native game UI, and cannot be hidden. `
 		+ `You may not even realize a feature is not actually part of the game because of this.\n`
