@@ -57,6 +57,7 @@ client.commands = new Collection();
 client.aliases = new Collection();
 client.slashcmds = new Collection();
 client.guildSlashcmds = new Collection();
+client.applicationcmds = new Collection();
 client.buttoncmds = new Collection();
 client.modalcmds = new Collection();
 client.perserversettings = new Collection();
@@ -97,6 +98,21 @@ const init = async () => {
 
 		// Now set the name of the command with it's properties.
 		client.guildSlashcmds.set(command.commandData().name, command);
+	}
+
+	// Context-menu (message/user) application commands live in their own folder
+	// because they are not chat-input slash commands: their handlers read
+	// `interaction.targetMessage` instead of `interaction.options`, and Discord
+	// shows them only in a right-click menu. They are dispatched like any other
+	// application command and deployed alongside the guild slash set.
+	const applicationCommandFiles = readdirSync("./application_commands/").filter(file => file.endsWith(".js"));
+	for (const file of applicationCommandFiles) {
+		const command = require(`./application_commands/${file}`);
+		const commandName = file.split(".")[0];
+		logger.cmd(`Loading Application command: ${commandName}. 👌`);
+
+		// Now set the name of the command with it's properties.
+		client.applicationcmds.set(command.commandData().name, command);
 	}
 
 	// Now we load any **button** interactions you may have in the ./buttons directory.

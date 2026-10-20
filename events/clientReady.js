@@ -45,9 +45,13 @@ module.exports = {
 
 		// Deploy guild slash commands to every configured server the running
 		// token has joined. guild.commands.set() REPLACES the guild's command
-		// list, so push the FULL guild_slash set (faq override, uploadlog,
-		// attachmentnotice, slowmode) or the others are wiped.
-		const guildCmds = [...client.guildSlashcmds.values()].map(c => c.commandData(client));
+		// list, so push the FULL guild command set — guild_slash (faq override,
+		// uploadlog, attachmentnotice, slowmode, ...) plus the context-menu
+		// commands in application_commands — or the others are wiped.
+		const guildCmds = [
+			...client.guildSlashcmds.values(),
+			...client.applicationcmds.values(),
+		].map(c => c.commandData(client));
 		const configured = configuredGuildIds();
 		// Cross-check the config folders against the guilds this token is in.
 		// Membership arrives in the READY payload, so this needs no REST call;

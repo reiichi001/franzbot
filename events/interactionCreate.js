@@ -22,7 +22,13 @@ module.exports = {
 			// in a guild, and the global set first in DMs, where no guild command
 			// exists. Both then fall through to the other set, which keeps any
 			// non-whitelisted guild on the global copy.
+			// Context-menu commands are application commands too, but live in their
+			// own collection (application_commands/) since they read a target message
+			// rather than chat-input options. They are guild-deployed, so they are
+			// consulted alongside the guild set; the global chat-input commands still
+			// fall through last.
 			const cmd = (interaction.inGuild() ? client.guildSlashcmds.get(interaction.commandName) : null)
+				|| client.applicationcmds?.get(interaction.commandName)
 				|| client.slashcmds.get(interaction.commandName)
 				|| client.guildSlashcmds.get(interaction.commandName);
 			// If that command doesn't exist, silently exit and do nothing
