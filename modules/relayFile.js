@@ -38,6 +38,31 @@ function originalPostBlock(source) {
 	return `\n\nOriginal post: ${source.url}`;
 }
 
+/**
+ * Who is acting on the file: an interaction's invoker (slash command, upload
+ * modal, context menu) or a message's author. Only the moderator context-menu
+ * flow acts on someone else's files — there `author` is the original message's
+ * author while `actor` is the invoking moderator — so everywhere else the two
+ * are the same person and the wording below keeps its original form.
+ */
+function actorOf(source) {
+	return source.user ?? source.author ?? null;
+}
+
+/**
+ * The attribution line for a relay-channel post. When the person acting is the
+ * uploader, it is the long-standing "<uploader> uploaded <kind>" form; when
+ * someone else relayed it (the moderator context menu), it names both: who
+ * relayed and whose file it is, with the file's own name for precision.
+ */
+function relayAttribution(source, author, attachment, kind) {
+	const actor = actorOf(source);
+	if (actor?.id && author?.id && actor.id !== author.id) {
+		return `${mentionTag(actor)} has relayed ${mentionTag(author)}'s \`${attachment.name}\``;
+	}
+	return `${mentionTag(author)} uploaded ${kind}`;
+}
+
 exports.relayFile = async (client, source, attachment, author, sourceChannel, force) => {
 	// NOTE: DM sources stopped routing here when the DM upload flow moved to
 	// modules/dmRelay.js (parse/Loggy + a single relay button). Everything below
@@ -123,7 +148,7 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 		const relayedMessage = await relayChannel.send({
 			embeds: [
 				{
-					"description": `${mentionTag(author)} uploaded a troubleshooting pack in ${sourceChannel} from **${sourceChannel.guild.name}**.${originalMessageBlock(source)}`,
+					"description": `${relayAttribution(source, author, attachment, 'a troubleshooting pack')} in ${sourceChannel} from **${sourceChannel.guild.name}**.${originalMessageBlock(source)}`,
 				},
 			],
 			files: [attachment],
@@ -186,7 +211,7 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 		const relayedMessage = await relayChannel.send({
 			embeds: [
 				{
-					"description": `${mentionTag(author)} uploaded a crash log in ${sourceChannel} from **${sourceChannel.guild.name}**.`,
+					"description": `${relayAttribution(source, author, attachment, 'a crash log')} in ${sourceChannel} from **${sourceChannel.guild.name}**.`,
 				},
 			],
 			files: [attachment],
@@ -223,7 +248,7 @@ exports.relayFile = async (client, source, attachment, author, sourceChannel, fo
 		const relayedMessage = await relayChannel.send({
 			embeds: [
 				{
-					"description": `${mentionTag(author)} uploaded a dalamud.injector log in ${sourceChannel} from **${sourceChannel.guild.name}**.`,
+					"description": `${relayAttribution(source, author, attachment, 'a dalamud.injector log')} in ${sourceChannel} from **${sourceChannel.guild.name}**.`,
 				},
 			],
 			files: [attachment],

@@ -6,7 +6,9 @@
 // showModal / modal-submit boundary. The record's token is the suffix of the
 // modal's customId, so the submit handler can look the files back up.
 //
-// Token -> { attachments, guildId, channelId, messageUrl, createdAt }.
+// Token -> { attachments, authorId, guildId, channelId, messageUrl, createdAt }.
+// authorId is the target message's author — the person who uploaded the files —
+// so relay posts and Loggy attribution name them rather than the moderator.
 // In-memory only; Discord CDN attachment URLs live at least 24h, so a 15-minute
 // TTL sweep keeps this bounded well inside the safe window.
 

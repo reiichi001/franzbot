@@ -5,9 +5,10 @@
 //     relay channel via modules/relayFile.js. (.dmp is refused by checkUpload
 //     before any of this — it is never relayed.)
 //   * With no file, it opens the same dialog the FAQ's Upload Log button does
-//     (modals/uploadLog.js), where the file, the handling mode and the relay
-//     destination are all chosen. This is what lets an always-present upload
-//     button work in a channel where no FAQ has just been read.
+//     (modals/uploadLog.js), where the file and the handling mode — parse in
+//     place or relay privately — are chosen. This is what lets an
+//     always-present upload button work in a channel where no FAQ has just
+//     been read.
 //
 // This command owns its whole Discord conversation: the option read, the
 // ephemeral rejections, the defer, and every reply. Nothing about it lives in

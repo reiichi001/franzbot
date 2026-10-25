@@ -7,12 +7,10 @@
 
 const {
 	ModalBuilder, LabelBuilder, FileUploadBuilder,
-	RadioGroupBuilder, RadioGroupOptionBuilder, ChannelSelectMenuBuilder,
+	RadioGroupBuilder, RadioGroupOptionBuilder,
 } = require('@discordjs/builders');
-// @discordjs/builders doesn't re-export ChannelType, so the enum comes from
-// discord.js (same values — both trace back to discord-api-types).
 const {
-	ChannelType, PermissionFlagsBits, MessageFlags,
+	PermissionFlagsBits, MessageFlags,
 } = require('discord.js');
 const {
 	checkUpload, isSpecialRelayAttachment, maxUploadBytesForTier,
@@ -32,16 +30,29 @@ const {
 const UPLOAD_LOG_MODAL_ID = 'uploadLog';
 const FILE_FIELD_ID = 'log_file';
 const MODE_FIELD_ID = 'log_mode';
-const CHANNEL_FIELD_ID = 'log_channel';
 
 // Handling modes, in display order. The FIRST option is what Discord's radio
 // group shows preselected, so `public` leads — it is the default behavior.
+// "Post privately" is only for DMs: in a guild it was dropped as unused, and a
+// radio group cannot offer fewer than two options anyway.
 const MODE_PUBLIC = 'public';
 const MODE_PRIVATE = 'private';
-const MODE_RELAY = 'relay';
 const MODE_PRIVATE_RELAY = 'private_relay';
 
-const MODE_OPTIONS = [
+const GUILD_MODE_OPTIONS = [
+	{
+		label: 'Post publicly (default)',
+		value: MODE_PUBLIC,
+		description: 'Parse the log and post the results in this channel.',
+	},
+	{
+		label: 'Relay privately',
+		value: MODE_PRIVATE_RELAY,
+		description: "Send the log and results to this server's relay channel.",
+	},
+];
+
+const DM_MODE_OPTIONS = [
 	{
 		label: 'Post publicly (default)',
 		value: MODE_PUBLIC,
@@ -52,35 +63,14 @@ const MODE_OPTIONS = [
 		value: MODE_PRIVATE,
 		description: 'Parse the log; only you can see the results.',
 	},
-	{
-		label: 'Relay to a channel',
-		value: MODE_RELAY,
-		description: 'Send the log and results to a channel you choose.',
-	},
-	{
-		label: 'Relay privately',
-		value: MODE_PRIVATE_RELAY,
-		description: "Send the log and results to this server's relay channel.",
-	},
 ];
-
-// Modes that post somewhere other than the channel the button was used in.
-const RELAY_MODES = [
-	MODE_RELAY,
-	MODE_PRIVATE_RELAY,
-];
-
-const VALID_MODES = new Set(MODE_OPTIONS.map(o => o.value));
 
 /**
  * Modes offered in the current context. In a DM there is no guild to relay
  * into and no per-server config, so only the two in-place modes apply.
  */
 function availableModes(inGuild) {
-	if (!inGuild) {
-		return MODE_OPTIONS.filter(o => !RELAY_MODES.includes(o.value));
-	}
-	return MODE_OPTIONS;
+	return inGuild ? GUILD_MODE_OPTIONS : DM_MODE_OPTIONS;
 }
 
 /**
@@ -124,26 +114,6 @@ function buildUploadLogModal(inGuild) {
 			.setLabel('How should Franzbot handle it?')
 			.setRadioGroupComponent(radio)
 	);
-
-	// Only meaningful for "Relay to a channel", and only inside a guild. Kept
-	// optional because the other three modes ignore it. Threads are left out on
-	// purpose: permission checks on threads are subtler than on plain channels.
-	if (inGuild) {
-		modal.addLabelComponents(
-			new LabelBuilder()
-				.setLabel('Relay destination')
-				.setDescription('Only used by "Relay to a channel". Channels you can post and attach files in.')
-				.setChannelSelectMenuComponent(
-					new ChannelSelectMenuBuilder()
-						.setCustomId(CHANNEL_FIELD_ID)
-						.setChannelTypes(
-							ChannelType.GuildText,
-							ChannelType.GuildAnnouncement
-						)
-						.setRequired(false)
-				)
-		);
-	}
 
 	return modal;
 }
@@ -199,21 +169,6 @@ async function resolveConfiguredRelayChannel(client, guildId) {
 }
 
 /**
- * Whether `member` can relay a log into `channel`: they must be able to post
- * there AND attach the file themselves. Discord's modal channel select cannot
- * filter beyond View Channel, so it can still list channels where one of these
- * is missing; this check is what actually refuses them on submit.
- */
-function memberCanRelayInto(member, channel) {
-	const perms = channel.permissionsFor?.(member);
-	return Boolean(perms?.has([
-		PermissionFlagsBits.ViewChannel,
-		PermissionFlagsBits.SendMessages,
-		PermissionFlagsBits.AttachFiles,
-	]));
-}
-
-/**
  * Whether Franzbot can post the log (message + attachment + embed) in `channel`.
  */
 function botCanPost(channel) {
@@ -261,49 +216,21 @@ async function resolveDestination(client, interaction, mode) {
 		};
 	}
 
-	// Both relay modes post somewhere other than the channel the button was used
-	// in, so the uploader gets a receipt back rather than the log itself.
+	// The private relay posts somewhere other than the channel the button was
+	// used in, so the uploader gets a receipt back rather than the log itself.
+	// Kept as a guard even though validation refuses a DM submit carrying this
+	// value: a stale client could still send one.
 	if (!inGuild) {
 		await reject(interaction, 'Relaying is only available inside a server. Choose "Post publicly" or "Post privately" instead.');
 		return undefined;
 	}
 
-	let destination;
-
-	if (mode === MODE_RELAY) {
-		const selected = interaction.fields.getSelectedChannels(CHANNEL_FIELD_ID, false, [
-			ChannelType.GuildText,
-			ChannelType.GuildAnnouncement,
-		]);
-		const chosen = selected?.first();
-		if (!chosen) {
-			await reject(interaction, 'No relay destination was selected. Pick a channel in the '
-				+ '"Relay destination" field, or choose a different handling option.');
-			return undefined;
-		}
-		// Re-fetch so we hold a full channel object (permission helpers need it)
-		// rather than the partial one resolved from the modal's payload.
-		destination = await client.channels.fetch(chosen.id).catch(() => null);
-		if (!destination) {
-			await reject(interaction, 'That relay destination is no longer available. Please pick another channel.');
-			return undefined;
-		}
-		// Only channels the uploader can already post in are acceptable, so the
-		// relay can never be used to carry a log into a channel they can't read.
-		if (!memberCanRelayInto(interaction.member, destination)) {
-			await reject(interaction, `You do not have permission to post and attach files in ${destination}. `
-				+ 'Choose a channel where you can send messages and attach files.');
-			return undefined;
-		}
-	}
-	else {
-		// MODE_PRIVATE_RELAY — the server's configured relay channel, and nothing else.
-		destination = await resolveConfiguredRelayChannel(client, interaction.guildId);
-		if (!destination) {
-			await reject(interaction, 'This server has no relay channel configured, so the private relay option is unavailable. '
-				+ 'Choose "Post publicly", "Post privately", or "Relay to a channel".');
-			return undefined;
-		}
+	// MODE_PRIVATE_RELAY — the server's configured relay channel, and nothing else.
+	const destination = await resolveConfiguredRelayChannel(client, interaction.guildId);
+	if (!destination) {
+		await reject(interaction, 'This server has no relay channel configured, so the private relay option is unavailable. '
+			+ 'Choose "Post publicly" or "Relay privately".');
+		return undefined;
 	}
 
 	if (!botCanPost(destination)) {
@@ -322,8 +249,8 @@ async function resolveDestination(client, interaction, mode) {
 }
 
 /**
- * Handle a submission. `interaction.fields` carries the file, the handling
- * mode, and (for relay) the chosen destination.
+ * Handle a submission. `interaction.fields` carries the file and the handling
+ * mode; the destination is resolved from the mode alone.
  */
 async function handleUpload(client, interaction) {
 	// --- File ---------------------------------------------------------------
@@ -354,8 +281,12 @@ async function handleUpload(client, interaction) {
 	// --- Handling mode ------------------------------------------------------
 	// The radio group is required in the modal, but fall back to the documented
 	// default (public) rather than failing if the value ever comes back empty.
+	// Validated against THIS context's list: a guild submit carrying `private`
+	// (dropped there) or a stale client submitting the removed `relay` value is
+	// refused here instead of falling through to destination resolution.
+	const inGuild = interaction.inGuild();
 	const mode = interaction.fields.getRadioGroup(MODE_FIELD_ID, false) ?? MODE_PUBLIC;
-	if (!VALID_MODES.has(mode)) {
+	if (!availableModes(inGuild).some(option => option.value === mode)) {
 		await reject(interaction, 'Unrecognised handling option. Please reopen the upload dialog and choose again.');
 		return;
 	}
@@ -450,18 +381,14 @@ async function handleUpload(client, interaction) {
 					.catch(() => null);
 				return;
 			}
-			// Public receipt. "Relay to a channel" names the destination and links
-			// straight to it, since that channel is one the uploader picked and can
-			// normally reach. "Relay privately" only says it went to a staff-only
-			// channel: where it is would be a misdirection when they may not be able
-			// to read it, but staff still get the link.
+			// Public receipt. Relaying means a staff-only channel the uploader may not be
+			// able to read, so the receipt says where it went in kind, not in place —
+			// naming the channel would be a misdirection — while staff still get the
+			// link.
 			const relayedSummary = `${parsed ? 'The log and its parsed results have' : 'The log has'} been relayed`;
 			await interaction.editReply({
-				content: mode === MODE_PRIVATE_RELAY
-					? `${relayedSummary} to this server's relay channel. It is private and only visible to the support team.\n`
-						+ `Staff can find it [here](${posted.url})`
-					: `${relayedSummary} to ${destination}.\n`
-						+ `The relayed message is [here](${posted.url})`,
+				content: `${relayedSummary} to this server's relay channel. It is private and only visible to the support team.\n`
+					+ `Staff can find it [here](${posted.url})`,
 			});
 			return;
 		}
@@ -483,10 +410,8 @@ module.exports = {
 	UPLOAD_LOG_MODAL_ID,
 	FILE_FIELD_ID,
 	MODE_FIELD_ID,
-	CHANNEL_FIELD_ID,
 	MODE_PUBLIC,
 	MODE_PRIVATE,
-	MODE_RELAY,
 	MODE_PRIVATE_RELAY,
 	buildUploadLogModal,
 	handleUpload,

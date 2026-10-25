@@ -7,17 +7,20 @@
 // customId. Every parked file is processed with the one handling mode chosen
 // here.
 //
+// Attribution: the invoking moderator is not the person who uploaded anything —
+// they are only asking Franzbot to process (or relay) someone else's logs. Relay
+// posts and special-file receipts therefore name the original message's author
+// (the pending record's authorId), not the moderator.
+//
 // Everything is validated BEFORE the interaction is deferred, so rejections can
 // be ephemeral and leave nothing public behind.
 
 const {
 	ModalBuilder, LabelBuilder, TextDisplayBuilder,
-	RadioGroupBuilder, RadioGroupOptionBuilder, ChannelSelectMenuBuilder,
+	RadioGroupBuilder, RadioGroupOptionBuilder,
 } = require('@discordjs/builders');
-// @discordjs/builders doesn't re-export ChannelType, so the enum comes from
-// discord.js (same values — both trace back to discord-api-types).
 const {
-	ChannelType, PermissionFlagsBits, MessageFlags,
+	PermissionFlagsBits, MessageFlags,
 } = require('discord.js');
 const {
 	isSpecialRelayAttachment,
@@ -42,13 +45,13 @@ const {
 // and dispatches to this file's one handler.
 const MODAL_PREFIX = 'processAttachment';
 const MODE_FIELD_ID = 'log_mode';
-const CHANNEL_FIELD_ID = 'log_channel';
 
 // Handling modes, in display order. The FIRST option is what Discord's radio
 // group shows preselected, so `public` leads — it is the default behavior.
+// "Post privately" exists only in this moderator flow: regular users' guild
+// uploads (modals/uploadLog.js) no longer offer it.
 const MODE_PUBLIC = 'public';
 const MODE_PRIVATE = 'private';
-const MODE_RELAY = 'relay';
 const MODE_PRIVATE_RELAY = 'private_relay';
 
 const MODE_OPTIONS = [
@@ -61,11 +64,6 @@ const MODE_OPTIONS = [
 		label: 'Post privately',
 		value: MODE_PRIVATE,
 		description: 'Parse the logs; only you can see the results.',
-	},
-	{
-		label: 'Relay to a channel',
-		value: MODE_RELAY,
-		description: 'Send the logs and results to a channel you choose.',
 	},
 	{
 		label: 'Relay privately',
@@ -125,24 +123,6 @@ function buildProcessAttachmentModal(token, attachments) {
 			.setRadioGroupComponent(radio)
 	);
 
-	// Only meaningful for "Relay to a channel". Kept optional because the other
-	// three modes ignore it. Threads are left out on purpose: permission checks
-	// on threads are subtler than on plain channels.
-	modal.addLabelComponents(
-		new LabelBuilder()
-			.setLabel('Relay destination')
-			.setDescription('Only used by "Relay to a channel". Channels you can post and attach files in.')
-			.setChannelSelectMenuComponent(
-				new ChannelSelectMenuBuilder()
-					.setCustomId(CHANNEL_FIELD_ID)
-					.setChannelTypes(
-						ChannelType.GuildText,
-						ChannelType.GuildAnnouncement
-					)
-					.setRequired(false)
-			)
-	);
-
 	return modal;
 }
 
@@ -176,6 +156,24 @@ function canUserTypeInSource(interaction) {
 }
 
 /**
+ * The person relay posts and receipts should name: the original message's
+ * author, not the moderator who invoked the command — the moderator uploaded
+ * nothing. Falls back to a bare id stub when the fetch fails (mentionTag
+ * renders `<@id> (**Unknown** (id))`, and relayFile interpolates `${author}`
+ * inside embed descriptions, which never notify), and to the invoking moderator
+ * only when the record carries no author id at all.
+ */
+async function resolveAttachmentOwner(client, record, interaction) {
+	if (!record.authorId) {
+		return interaction.user;
+	}
+	return client.users.fetch(record.authorId)
+		.catch(() => ({
+			id: record.authorId,
+		}));
+}
+
+/**
  * The per-server configured relay channel for a guild, or null when the guild
  * has no configuration. Deliberately does NOT fall back to the legacy
  * CHANNELID_RELAY_* config keys used by relayFile.js — private relay is
@@ -191,21 +189,6 @@ async function resolveConfiguredRelayChannel(client, guildId) {
 	}
 	return client.channels.fetch(relayChannelId)
 		.catch(() => null);
-}
-
-/**
- * Whether `member` can relay a log into `channel`: they must be able to post
- * there AND attach the file themselves. Discord's modal channel select cannot
- * filter beyond View Channel, so it can still list channels where one of these
- * is missing; this check is what actually refuses them on submit.
- */
-function memberCanRelayInto(member, channel) {
-	const perms = channel.permissionsFor?.(member);
-	return Boolean(perms?.has([
-		PermissionFlagsBits.ViewChannel,
-		PermissionFlagsBits.SendMessages,
-		PermissionFlagsBits.AttachFiles,
-	]));
 }
 
 /**
@@ -246,44 +229,14 @@ async function resolveDestination(client, interaction, mode) {
 		};
 	}
 
-	// Both relay modes post somewhere other than the channel the command was used
-	// in, so the moderator gets a receipt back rather than the logs themselves.
-	let destination;
-
-	if (mode === MODE_RELAY) {
-		const selected = interaction.fields.getSelectedChannels(CHANNEL_FIELD_ID, false, [
-			ChannelType.GuildText,
-			ChannelType.GuildAnnouncement,
-		]);
-		const chosen = selected?.first();
-		if (!chosen) {
-			await reject(interaction, 'No relay destination was selected. Pick a channel in the '
-				+ '"Relay destination" field, or choose a different handling option.');
-			return undefined;
-		}
-		// Re-fetch so we hold a full channel object (permission helpers need it)
-		// rather than the partial one resolved from the modal's payload.
-		destination = await client.channels.fetch(chosen.id).catch(() => null);
-		if (!destination) {
-			await reject(interaction, 'That relay destination is no longer available. Please pick another channel.');
-			return undefined;
-		}
-		// Only channels the moderator can already post in are acceptable, so the
-		// relay can never be used to carry a log into a channel they can't read.
-		if (!memberCanRelayInto(interaction.member, destination)) {
-			await reject(interaction, `You do not have permission to post and attach files in ${destination}. `
-				+ 'Choose a channel where you can send messages and attach files.');
-			return undefined;
-		}
-	}
-	else {
-		// MODE_PRIVATE_RELAY — the server's configured relay channel, and nothing else.
-		destination = await resolveConfiguredRelayChannel(client, interaction.guildId);
-		if (!destination) {
-			await reject(interaction, 'This server has no relay channel configured, so the private relay option is unavailable. '
-				+ 'Choose "Post publicly", "Post privately", or "Relay to a channel".');
-			return undefined;
-		}
+	// MODE_PRIVATE_RELAY — the server's configured relay channel, and nothing
+	// else. It posts somewhere other than the channel the command was used in,
+	// so the moderator gets a receipt back rather than the logs themselves.
+	const destination = await resolveConfiguredRelayChannel(client, interaction.guildId);
+	if (!destination) {
+		await reject(interaction, 'This server has no relay channel configured, so the private relay option is unavailable. '
+			+ 'Choose "Post publicly", "Post privately", or "Relay privately".');
+		return undefined;
 	}
 
 	if (!botCanPost(destination)) {
@@ -303,7 +256,7 @@ async function resolveDestination(client, interaction, mode) {
 
 /**
  * Handle a submission. The files come from the pending record; `interaction.fields`
- * carries only the handling mode and (for relay) the chosen destination.
+ * carries only the handling mode.
  */
 async function handleSubmission(client, interaction) {
 	// Same permission gate as the command: permissions can change between the
@@ -334,13 +287,13 @@ async function handleSubmission(client, interaction) {
 
 	// --- Special files ------------------------------------------------------
 	// tspack / appcrash / dalamud.injector logs have dedicated relay handling in
-	// modules/relayFile.js and can never produce troubleshooting embeds. The two
-	// relay modes send all of them there. In the parse modes, appcrash and
+	// modules/relayFile.js and can never produce troubleshooting embeds. The
+	// private relay mode sends all of them there. In the parse modes, appcrash and
 	// injector logs keep that relay (except under "Post privately", where they
 	// are answered with the file itself), while a tspack is processed below into
 	// a Loggy link instead. (checkUpload already refused .dmp before the modal
 	// opened.)
-	const isRelayMode = mode === MODE_RELAY || mode === MODE_PRIVATE_RELAY;
+	const isRelayMode = mode === MODE_PRIVATE_RELAY;
 	const relaySpecials = attachments.filter(attachment => {
 		if (!isSpecialRelayAttachment(attachment.name)) {
 			return false;
@@ -356,13 +309,23 @@ async function handleSubmission(client, interaction) {
 	});
 	const parseable = attachments.filter(attachment => !relaySpecials.includes(attachment));
 
+	// Resolve who the relay posts and receipts name BEFORE deferring — the owner
+	// is needed wherever relayFile runs (any special file) and for the relay
+	// post's attribution. A plain public/private parse of ordinary logs never
+	// touches it, so no fetch is spent on that path; the single users.fetch sits
+	// comfortably inside the modal submit's 3-second window.
+	const needsOwner = relaySpecials.length > 0 || mode === MODE_PRIVATE_RELAY;
+	const owner = needsOwner
+		? await resolveAttachmentOwner(client, record, interaction)
+		: null;
+
 	// Nothing but special files: relayFile resolves the server's own relay
 	// channel and answers this interaction itself.
 	if (parseable.length === 0) {
 		await interaction.deferReply();
 		try {
 			for (const attachment of relaySpecials) {
-				await relayFile(client, interaction, attachment, interaction.user, interaction.channel, false);
+				await relayFile(client, interaction, attachment, owner, interaction.channel, false);
 			}
 		}
 		catch (e) {
@@ -393,7 +356,7 @@ async function handleSubmission(client, interaction) {
 		// editReply, so anything posted for the parseable files below uses a
 		// follow-up to avoid overwriting the relay receipt.
 		for (const attachment of relaySpecials) {
-			await relayFile(client, interaction, attachment, interaction.user, interaction.channel, false);
+			await relayFile(client, interaction, attachment, owner, interaction.channel, false);
 		}
 		const answer = relaySpecials.length > 0
 			? payload => interaction.followUp(payload)
@@ -441,7 +404,9 @@ async function handleSubmission(client, interaction) {
 				+ `${names}, so there is nothing to analyze. The file${parseable.length === 1 ? ' is' : 's are'} attached.`;
 
 		// Relay: the files and any results are posted to the destination as their
-		// own message and the moderator gets a receipt linking to it.
+		// own message and the moderator gets a receipt linking to it. The relay
+		// post names the OWNER of the files (see resolveAttachmentOwner); the
+		// receipt below stays the moderator's interaction reply and names nobody.
 		if (relay) {
 			const sourceRef = describeSource(interaction);
 			// Relaying is only offered inside a server, so a moderator who cannot
@@ -449,10 +414,16 @@ async function handleSubmission(client, interaction) {
 			// context menu rather than the conversation. The receipt below would
 			// then be the only public thing they put in that channel, so it is
 			// skipped, and the tag becomes a real mention instead: staff learn
-			// about the upload in the relay channel, where they can page the user.
+			// about the upload in the relay channel, where they can page the
+			// person who actually posted the logs.
 			const canReplyHere = canUserTypeInSource(interaction);
 			const posted = await destination.send({
-				content: `${mentionTag(interaction.user)} processed ${names} from ${sourceRef} with Franzbot.`,
+				// Two attributions: when the moderator relays their own message's
+				// files, the simple form stands; when they relay someone else's
+				// (the usual case), name both who relayed and who uploaded.
+				content: owner?.id === interaction.user.id
+					? `${mentionTag(owner)} uploaded ${names} in ${sourceRef}, processed with Franzbot.`
+					: `${mentionTag(interaction.user)} has relayed ${mentionTag(owner)}'s ${names} from ${sourceRef}.`,
 				embeds,
 				files: parseable,
 				allowedMentions: {
@@ -467,11 +438,8 @@ async function handleSubmission(client, interaction) {
 			}
 			const relayedSummary = `${parsed ? 'The logs and their parsed results have' : 'The logs have'} been relayed`;
 			await answer({
-				content: mode === MODE_PRIVATE_RELAY
-					? `${relayedSummary} to this server's relay channel. It is private and only visible to the support team.\n`
-						+ `Staff can find it [here](${posted.url})`
-					: `${relayedSummary} to ${destination}.\n`
-						+ `The relayed message is [here](${posted.url})`,
+				content: `${relayedSummary} to this server's relay channel. It is private and only visible to the support team.\n`
+					+ `Staff can find it [here](${posted.url})`,
 			});
 			return;
 		}
