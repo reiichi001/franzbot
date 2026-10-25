@@ -174,6 +174,48 @@ async function resolveAttachmentOwner(client, record, interaction) {
 }
 
 /**
+ * Reproduce the old message-trigger processor's cleanup (the per-guild
+ * triggers named processAttachment): a post carrying any special relay file
+ * type never keeps sitting in a public channel. Once processing has succeeded,
+ * the target message's text content is reposted here — so the conversation
+ * context is not lost with the message — and the original is then deleted,
+ * whatever handling mode was chosen. A post holding only ordinary log files is
+ * left untouched, and a message that has already disappeared short-circuits
+ * everything.
+ */
+async function repostAndRemoveOriginal(client, interaction, record, owner) {
+	// The cleanup decision is type-based and re-checked here, so a call site can
+	// run it unconditionally after a successful reply without reposting an
+	// ordinary-log post by mistake.
+	if (!record.attachments.some(attachment => isSpecialRelayAttachment(attachment.name))) {
+		return;
+	}
+	const channel = interaction.channel
+		?? await client.channels.fetch(record.channelId).catch(() => null);
+	if (!channel) {
+		return;
+	}
+	const original = await channel.messages.fetch(record.messageId).catch(() => null);
+	if (!original) {
+		// Already gone: nothing to preserve and nothing to remove.
+		return;
+	}
+	const content = original.content?.trim();
+	if (content) {
+		// Capped to a normal message's length minus the preamble; the private
+		// relay receipts already quote the full text for the support team.
+		const preamble = `${mentionTag(owner)} posted:\n>>> `;
+		await channel.send({
+			content: `${preamble}${content.slice(0, 2000 - preamble.length - 4)}`,
+			allowedMentions: {
+				parse: [],
+			},
+		});
+	}
+	await original.delete().catch(console.error);
+}
+
+/**
  * The per-server configured relay channel for a guild, or null when the guild
  * has no configuration. Deliberately does NOT fall back to the legacy
  * CHANNELID_RELAY_* config keys used by relayFile.js — private relay is
@@ -309,12 +351,20 @@ async function handleSubmission(client, interaction) {
 	});
 	const parseable = attachments.filter(attachment => !relaySpecials.includes(attachment));
 
-	// Resolve who the relay posts and receipts name BEFORE deferring — the owner
-	// is needed wherever relayFile runs (any special file) and for the relay
-	// post's attribution. A plain public/private parse of ordinary logs never
-	// touches it, so no fetch is spent on that path; the single users.fetch sits
-	// comfortably inside the modal submit's 3-second window.
-	const needsOwner = relaySpecials.length > 0 || mode === MODE_PRIVATE_RELAY;
+	// Whether the original post carries any file type the old message-trigger
+	// processor always relayed and removed (tspack, dalamud appcrash,
+	// dalamud.injector — .dmp is refused before the modal ever opens). When it
+	// does, the submit handler reposts the message's text and deletes it once
+	// processing has succeeded, whatever handling mode was chosen.
+	const hasRemoveType = attachments.some(attachment => isSpecialRelayAttachment(attachment.name));
+
+	// Resolve who the relay posts, receipts, and the cleanup repost name BEFORE
+	// deferring — the owner is needed wherever relayFile runs (any special
+	// file), for the relay post's attribution, and to credit the reposted text.
+	// A plain public/private parse of ordinary logs never touches it, so no
+	// fetch is spent on that path; the single users.fetch sits comfortably
+	// inside the modal submit's 3-second window.
+	const needsOwner = relaySpecials.length > 0 || mode === MODE_PRIVATE_RELAY || hasRemoveType;
 	const owner = needsOwner
 		? await resolveAttachmentOwner(client, record, interaction)
 		: null;
@@ -327,6 +377,9 @@ async function handleSubmission(client, interaction) {
 			for (const attachment of relaySpecials) {
 				await relayFile(client, interaction, attachment, owner, interaction.channel, false);
 			}
+			// Cleanup only after every relay succeeded: a failure above leaves the
+			// original (and its context) right where it was.
+			await repostAndRemoveOriginal(client, interaction, record, owner);
 		}
 		catch (e) {
 			await failAfterDefer(interaction, e, 'There was a problem processing those attachments.');
@@ -434,6 +487,9 @@ async function handleSubmission(client, interaction) {
 				// Leave nothing public behind in a channel they can't write in.
 				await interaction.deleteReply()
 					.catch(() => null);
+				// The relay post is already up, so the cleanup still happens.
+				await repostAndRemoveOriginal(client, interaction, record, owner)
+					.catch(console.error);
 				return;
 			}
 			const relayedSummary = `${parsed ? 'The logs and their parsed results have' : 'The logs have'} been relayed`;
@@ -441,6 +497,8 @@ async function handleSubmission(client, interaction) {
 				content: `${relayedSummary} to this server's relay channel. It is private and only visible to the support team.\n`
 					+ `Staff can find it [here](${posted.url})`,
 			});
+			await repostAndRemoveOriginal(client, interaction, record, owner)
+				.catch(console.error);
 			return;
 		}
 
@@ -449,6 +507,11 @@ async function handleSubmission(client, interaction) {
 			embeds,
 			files: parseable,
 		});
+		// Cleanup runs only after the reply landed; anything relayed above has
+		// long since been posted. A repost/delete failure is logged, not raised:
+		// the interaction is already answered and the results are delivered.
+		await repostAndRemoveOriginal(client, interaction, record, owner)
+			.catch(console.error);
 	}
 	catch (e) {
 		// Nothing public should be left behind by a failure: drop the reply and

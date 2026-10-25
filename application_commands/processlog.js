@@ -88,6 +88,10 @@ exports.run = async (client, interaction) => {
 		authorId: target.author?.id,
 		guildId: interaction.guildId,
 		channelId: interaction.channelId,
+		// The original message itself: the submit handler fetches it to repost
+		// the text and delete the message when it carried relay-and-remove
+		// file types (see modals/processAttachment.js).
+		messageId: target.id,
 		messageUrl: target.url,
 		createdAt: Date.now(),
 	});
