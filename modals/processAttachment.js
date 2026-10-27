@@ -329,24 +329,19 @@ async function handleSubmission(client, interaction) {
 
 	// --- Special files ------------------------------------------------------
 	// tspack / appcrash / dalamud.injector logs have dedicated relay handling in
-	// modules/relayFile.js and can never produce troubleshooting embeds. The
-	// private relay mode sends all of them there. In the parse modes, appcrash and
-	// injector logs keep that relay (except under "Post privately", where they
-	// are answered with the file itself), while a tspack is processed below into
-	// a Loggy link instead. (checkUpload already refused .dmp before the modal
-	// opened.)
-	const isRelayMode = mode === MODE_PRIVATE_RELAY;
+	// modules/relayFile.js and can never produce troubleshooting embeds. A
+	// tspack must never produce a public Loggy link, so it force-relays in every
+	// mode except "Post privately" — the same behavior as the guild upload
+	// modal's "Post publicly (still force a relay if it's a tspack)" — and the
+	// public reply is that relay's receipt. (checkUpload already refused .dmp
+	// before the modal opened.)
 	const relaySpecials = attachments.filter(attachment => {
 		if (!isSpecialRelayAttachment(attachment.name)) {
 			return false;
 		}
-		// tspack relays only when relaying was asked for; in a parse mode it
-		// stays below and gets the Loggy link instead.
-		if (isTspackAttachment(attachment.name)) {
-			return isRelayMode;
-		}
-		// The other dedicated types (appcrash, injector) cannot produce anything,
-		// so outside "Post privately" they keep their relay handling.
+		// Every special type relays except under "Post privately" — where a
+		// tspack's Loggy link is the one thing only the moderator sees, and
+		// appcrash/injector are answered with the file itself.
 		return mode !== MODE_PRIVATE;
 	});
 	const parseable = attachments.filter(attachment => !relaySpecials.includes(attachment));
